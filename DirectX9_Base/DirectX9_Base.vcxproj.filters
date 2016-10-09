@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{23bae97f-414d-4b86-bbc5-f2e9af2fb9f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Application">
+      <UniqueIdentifier>{c2435964-2557-4682-a53b-67fffee1e2c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Template">
+      <UniqueIdentifier>{e99c0cfc-8959-4b31-8c93-c95753deaa30}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Application\Application.cpp">
+      <Filter>Source\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\winmain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Template\Singleton.cpp">
+      <Filter>Source\Template</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Application\Application.h">
+      <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Template\Singleton.h">
+      <Filter>Source\Template</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
