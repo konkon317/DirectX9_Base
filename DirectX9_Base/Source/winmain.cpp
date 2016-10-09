@@ -10,7 +10,11 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 {
 	Application& App = Application::GetInstance();
 	
-	
+	App.RegistBasicWindowClass();
+
+	App.CreateWind(_T("ウィンドウタイトル"), 1024, 780);
+
+	App.MessageLoop();
 
 	SingletonFinalizer::Finalize();
 }
