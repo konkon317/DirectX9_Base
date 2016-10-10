@@ -35,6 +35,7 @@ public:
 	bool TryCreate(HWND hWmd);
 
 	static void Render();
+	static void SetRenderState(RENDERSTATE RenderrState);
 
 
 private:
@@ -50,4 +51,6 @@ private:
 	//コンストラクタ　デストラクタ
 	Direct3D();
 	~Direct3D();
+
+	void ReleaseDevice();
 };

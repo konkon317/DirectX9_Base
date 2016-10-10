@@ -8,11 +8,24 @@ Direct3D::Direct3D()
 	isDeviceCreated = false;
 }
 
+void Direct3D::ReleaseDevice()
+{
+	if (isDeviceCreated)
+	{
+		pDevice3D->Release();
+		pD3D9->Release();
+
+		pDevice3D = NULL;
+		pD3D9 = NULL;
+
+		isDeviceCreated = false;
+	}
+}
+
 //デストラクタ
 Direct3D::~Direct3D()
 {
-	pDevice3D->Release();
-	pD3D9->Release();
+	ReleaseDevice();	
 }
 
 bool Direct3D::TryCreate(HWND hWnd)
@@ -103,4 +116,77 @@ void Direct3D::Render()
 	{
 		MessageBox(NULL, "インスタンスが作成されていないので実行できません", TEXT("Direct3D Render"), MB_OK);
 	}
+}
+
+//ブレンドモードの変更
+void Direct3D::SetRenderState(RENDERSTATE RenderState)
+{
+	if (Singleton<Direct3D>::IsInstatnceCreated())
+	{
+		Direct3D & d3d = Direct3D::GetInstance();
+
+		if (d3d.IsDeviceCreated())
+		{
+			switch (RenderState)
+			{
+			case RENDER_DEFAULT:
+			{
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHABLENDENABLE, false);	//αブレンドの無効化
+			}
+			break;
+
+			case RENDER_ALPHATEST:
+			{
+				//αテストによる透明領域の切り抜き
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);			//αテストの有効化
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHAREF, 0x80);					// アルファ参照値
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);	//αテスト合格基準
+
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);			//αブレンドの無効化
+			}
+			break;
+
+			case RENDER_HALFADD:
+			{
+				//半加算
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);	//αテストの無効化
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);	//αブレンディングの有効化
+				d3d.pDevice3D->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);		//Zバッファを行わない
+
+				//pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);			//zテストを行わない
+				//pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);		//ライティングを行わない
+
+				d3d.pDevice3D->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);		//ブレンディングオプション加算
+				d3d.pDevice3D->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);	//SRCの設定
+				d3d.pDevice3D->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);		//DESTの設定
+
+			}
+			break;
+
+			case RENDER_ADD:
+			{
+				//全加算合成
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);	//αブレンディングの有効化
+				d3d.pDevice3D->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);	//ブレンディングオプション加算
+				d3d.pDevice3D->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);	//SRCの設定
+				d3d.pDevice3D->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);	//DESTの設定
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);	//αテストの無効化
+
+			}
+			break;
+
+			}
+		}
+		else
+		{
+			MessageBox(NULL, "デバイスが作成されていないので実行できません", TEXT("Direct3D SetRenderState"), MB_OK);
+		}
+	}
+	else
+	{
+		MessageBox(NULL, "インスタンスが作成されていないので実行できません", TEXT("Direct3D SetRenderState"), MB_OK);
+	}
+
+	
 }
