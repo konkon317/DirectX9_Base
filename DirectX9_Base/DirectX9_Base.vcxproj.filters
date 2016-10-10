@@ -10,6 +10,9 @@
     <Filter Include="Source\Template">
       <UniqueIdentifier>{e99c0cfc-8959-4b31-8c93-c95753deaa30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Direct3D">
+      <UniqueIdentifier>{847435bb-efd9-4654-b152-cd922d1e0b20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
@@ -21,6 +24,9 @@
     <ClCompile Include="Source\Template\Singleton.cpp">
       <Filter>Source\Template</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\Direct3D.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -28,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="Source\Template\Singleton.h">
       <Filter>Source\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Direct3D.h">
+      <Filter>Source\Direct3D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

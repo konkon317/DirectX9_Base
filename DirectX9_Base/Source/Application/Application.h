@@ -32,7 +32,7 @@ private:
 //関数
 public :
 
-	static bool RegistBasicWindowClass();//ウィンドウクラスの定義と作成
+	static bool RegistBasicWindowClass();		//ウィンドウクラスの定義と作成
 
 	bool CreateWind(							//　戻り値　true 成功   false 作成失敗
 		const TCHAR	*Title,						//　タイトル
@@ -51,6 +51,8 @@ public :
 
 	void MessageLoop();
 	bool Wait(DWORD wait_time);
+
+
 	
 protected:
 

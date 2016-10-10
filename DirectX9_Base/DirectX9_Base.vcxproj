@@ -81,11 +81,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
+    <ClCompile Include="Source\Direct3D\Direct3D.cpp" />
     <ClCompile Include="Source\Template\Singleton.cpp" />
     <ClCompile Include="Source\winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h" />
+    <ClInclude Include="Source\Direct3D\Direct3D.h" />
     <ClInclude Include="Source\Template\Singleton.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

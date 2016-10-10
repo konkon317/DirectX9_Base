@@ -23,7 +23,6 @@ public  :
 };
 
 
-
 //Singletonクラスのテンプレート
 //インスタンスが二つ以上作られないことを保証
 
@@ -46,7 +45,7 @@ protected:
 	Singleton()
 	{
 		char szBuff[256];
-		wsprintf(szBuff, "SINGLETON template");
+		wsprintf(szBuff, "SINGLETON template %s",typeid(*this).name());
 		std::string st = szBuff;
 		MessageBox(NULL, st.c_str(), TEXT("作成"), MB_OK);
 	}
@@ -54,11 +53,13 @@ protected:
 	virtual ~Singleton()
 	{
 		char szBuff[256];
-		wsprintf(szBuff, "SINGLETON template");
+		wsprintf(szBuff, "SINGLETON template %s", typeid(*this).name());
 		std::string st = szBuff;
 		MessageBox(NULL, st.c_str(), TEXT("開放"), MB_OK);
 	}//デストラクタ
 
+	//
+	static bool IsInstatnceCreated(){ return (pInstance != nullptr); }
 
 private:
 	//インスタンスを指すポインタ

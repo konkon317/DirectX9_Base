@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include "../Direct3D/Direct3D.h"
+
 
 //ウィンドウプロシージャ
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -29,22 +31,12 @@ bool   Application::pathed = false;
 
 Application::Application()
 {
-	//コンストラクタ
-
-	char szBuff[256];
-	wsprintf(szBuff, "Application");
-	std::string st = szBuff;
-	MessageBox(NULL, st.c_str(), TEXT("作成"), MB_OK);
+	
 }
 
 Application::~Application()
 {
-	//デストラクタ //overload
-
-	char szBuff[256];
-	wsprintf(szBuff, "開放Application");
-	std::string st = szBuff;
-	MessageBox(NULL, st.c_str(), TEXT("開放"), MB_OK);
+	
 };
 
 
@@ -58,34 +50,54 @@ bool Application::RegistBasicWindowClass()
 	hInstance = GetModuleHandle(NULL);
 
 	//シンプルウィンドウクラス設定
-	WNDCLASSEX wcex =
-	{
-		sizeof(WNDCLASSEX),						// cbSize : 構造体のサイズ
-		CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS,	// style : ウィンドウスタイル
-		(WNDPROC)WndProc,							// ipfnWndProc : ウィンドウプロシージャのアドレス
-		0,										// cbClsExtra : 0固定
-		0,										// cbWndExtra : 0固定
-		hInstance,								// hInstance : WinMainのインスタンスハンドル
-		
-		(HICON)LoadImage(NULL,					// hIcon : 使用するアイコン
-		MAKEINTRESOURCE(IDI_APPLICATION),
-		IMAGE_ICON,
-		0,
-		0,
-		LR_DEFAULTSIZE | LR_SHARED),
+	//WNDCLASSEX wcex =
+	//{
+	//	sizeof(WNDCLASSEX),						// cbSize : 構造体のサイズ
+	//	CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS,	// style : ウィンドウスタイル
+	//	(WNDPROC)WndProc,							// ipfnWndProc : ウィンドウプロシージャのアドレス
+	//	0,										// cbClsExtra : 0固定
+	//	0,										// cbWndExtra : 0固定
+	//	hInstance,								// hInstance : WinMainのインスタンスハンドル
+	//	
+	//	(HICON)LoadImage(NULL,					// hIcon : 使用するアイコン
+	//	MAKEINTRESOURCE(IDI_APPLICATION),
+	//	IMAGE_ICON,
+	//	0,
+	//	0,
+	//	LR_DEFAULTSIZE | LR_SHARED),
 
-		(HCURSOR)LoadImage(NULL,				// hCursor :  マウスカーソル
-		MAKEINTRESOURCE(IDC_ARROW),
-		IMAGE_CURSOR,
-		0,
-		0,
-		LR_DEFAULTSIZE | LR_SHARED),
-		(HBRUSH)(COLOR_WINDOW + 1)
-		/*(HBRUSH)GetStockObject(WHITE_BRUSH)*/,	// hbrBackground : ウィンドウクライアント領域の背景色
-		NULL,										// lpszMeueName : メニュー
-		WC_BASIC,									// lpszClassName : ウィンドウクラスの名前 CreateWindow()の第一引数と同じ
-		NULL										// hIconSm : 使用するアイコン(小)
-	};
+	//	(HCURSOR)LoadImage(NULL,					// hCursor :  マウスカーソル
+	//	MAKEINTRESOURCE(IDC_ARROW),
+	//	IMAGE_CURSOR,
+	//	0,
+	//	0,
+	//	LR_DEFAULTSIZE | LR_SHARED),
+	//	(HBRUSH)(COLOR_WINDOW + 1)
+	//	/*(HBRUSH)GetStockObject(WHITE_BRUSH)*/,	// hbrBackground : ウィンドウクライアント領域の背景色
+	//	NULL,										// lpszMeueName : メニュー
+	//	WC_BASIC,									// lpszClassName : ウィンドウクラスの名前 CreateWindow()の第一引数と同じ
+	//	NULL										// hIconSm : 使用するアイコン(小)
+	//};
+
+	//上のコメントアウトの部分をわかりやすいように整理
+	WNDCLASSEX wcex;
+	memset(&wcex, 0, sizeof(WNDCLASSEX));						//メモリの確保
+
+	wcex.cbSize			=sizeof(WNDCLASSEX);					// cbSize : 構造体のサイズ
+	wcex.cbClsExtra		= 0;									// cbClsExtra : 0固定
+	wcex.cbWndExtra		= 0;									// cbWndExtra : 0固定
+	wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;	// style : ウィンドウスタイル
+	wcex.hInstance		= hInstance;							// hInstance : WinMainのインスタンスハンドル
+	wcex.lpfnWndProc	= (WNDPROC)WndProc;						// ipfnWndProc : ウィンドウプロシージャのアドレス
+	wcex.hbrBackground	= (HBRUSH)GetStockObject(BLACK_BRUSH);	// hbrBackground : ウィンドウクライアント領域の背景色
+	wcex.lpszMenuName	= NULL;									// lpszMeueName : メニュー
+	wcex.lpszClassName  = WC_BASIC;								// lpszClassName : ウィンドウクラスの名前
+	
+	//アイコン
+	wcex.hIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(IDI_APPLICATION), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED);
+	wcex.hIconSm =NULL;
+	//カーソル
+	wcex.hCursor = (HCURSOR)LoadImage(NULL, MAKEINTRESOURCE(IDC_ARROW), IMAGE_CURSOR, 0, 0, LR_DEFAULTSIZE | LR_SHARED);
 
 	//シンプルウィンドウクラス作成
 	if (!RegisterClassEx(&wcex))
@@ -105,17 +117,14 @@ bool Application::CreateWind(
 	int		Y,
 	HWND	hParentWnd,
 	HMENU	hMenu,
-	const	TCHAR* ClassName,
+	const	TCHAR* ClassName,//デフォルトで 変数 WC_BASIC
 	DWORD	Style,
 	DWORD	ExStyle
 	)
 {
-
-
-	//--
-	//ウィンドウの作成
-	//--
-
+	//ヘッダーファイルのデフォルト引数をチェック
+	
+	//クライアント領域サイズを基にしてウィンドウの大きさを決める
 	RECT rect;
 	rect.top = 0;
 	rect.left = 0;
@@ -123,6 +132,7 @@ bool Application::CreateWind(
 	rect.bottom = Height;
 	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, TRUE);
 
+	//ウィンドウの作成
 	hWnd = CreateWindowEx(
 		ExStyle,
 		ClassName,
@@ -146,8 +156,8 @@ bool Application::CreateWind(
 
 
 	//// ウインドウ表示 //0623追加
-	//ShowWindow(hWnd, SW_SHOWNORMAL);
-	//UpdateWindow(hWnd);
+	ShowWindow(hWnd, SW_SHOWNORMAL);
+	UpdateWindow(hWnd);
 
 	return true;
 }
@@ -164,7 +174,6 @@ void Application::MessageLoop()
 			//メッセージ処理
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-
 		}
 		else
 		{
@@ -172,11 +181,15 @@ void Application::MessageLoop()
 
 			startTime = timeGetTime();//フレームの実行時間計測用	
 
-
 			//ここに処理を書く
+			
 
 
+			if (ExcessTime == 0)
+			{
 
+				Direct3D::Render();
+			}
 
 			//フレームレート固定化処理
 			endTime = timeGetTime();
@@ -184,8 +197,9 @@ void Application::MessageLoop()
 
 			if (miriSecondPerFrame >= (passTime + ExcessTime))
 			{
+				//wait関数内のメッセージループで　WM_QUITを受け取った場合　こちらのメッセージループからも抜ける
 				bool continueMessaggeLoop =
-					Wait(miriSecondPerFrame - (passTime + ExcessTime));
+					Wait(miriSecondPerFrame - (passTime + ExcessTime));//処理を1/60秒に一回行うことを保つために待つ
 
 				if (continueMessaggeLoop == false)
 				{
@@ -196,8 +210,8 @@ void Application::MessageLoop()
 			}
 			else
 			{
-				//miriSeconndPerFrameを超えてしまった時間
-				//次はコマ落ち
+				//miriSeconndPerFrameを超えてしまった時間　待たずに次の処理へ　
+				//ただし次はコマ落ち（描画処理を行わない）
 				ExcessTime = (passTime + ExcessTime) - miriSecondPerFrame;
 			}
 		}
