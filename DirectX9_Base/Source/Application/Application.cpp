@@ -6,14 +6,31 @@
 //ウィンドウプロシージャ
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	
+	//メッセージ処理のための関数
+	//DispatchMessage によって呼び出される
+
+	//ウィンドウクラス登録時に各ウィンドウに設定される
+	//アプリケーションがメッセージを取得したら呼び出されるようにする
+
+	//メッセージの例
+	//ウィンドウの右上の×が押された WM_DESTROY
+	//ウィンドウの移動 WM_MOVE
+	//ウィンドウサイズの変更 WM_SIZE
+	//等
+
+
+	//特別な処理を必要とするメッセージは　とりあえず終了処理だけ書いておく
 	switch (msg)
 	{
-	case WM_DESTROY:
-		PostQuitMessage(0);
+	case WM_DESTROY: //右上のバツが押された、AltF4が押された時などに受信するメッセージ
+		PostQuitMessage(0);//メッセージキューにWM_QUITメッセージを送る
 		break;
 
 	}
-	return DefWindowProc(hWnd, msg, wParam, lParam);
+
+	//特別な処理を要さないメッセージはデフォルトのウィンドウプロシージャが処理する
+	return DefWindowProc(hWnd, msg, wParam, lParam);//移動とかサイズ変更とか
 }
 
 
@@ -88,7 +105,7 @@ bool Application::RegistBasicWindowClass()
 	wcex.cbWndExtra		= 0;									// cbWndExtra : 0固定
 	wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;	// style : ウィンドウスタイル
 	wcex.hInstance		= hInstance;							// hInstance : WinMainのインスタンスハンドル
-	wcex.lpfnWndProc	= (WNDPROC)WndProc;						// ipfnWndProc : ウィンドウプロシージャのアドレス
+	wcex.lpfnWndProc	= (WNDPROC)WndProc;						// ipfnWndProc : ウィンドウプロシージャのアドレス　関数ポインタ
 	wcex.hbrBackground	= (HBRUSH)GetStockObject(BLACK_BRUSH);	// hbrBackground : ウィンドウクライアント領域の背景色
 	wcex.lpszMenuName	= NULL;									// lpszMeueName : メニュー
 	wcex.lpszClassName  = WC_BASIC;								// lpszClassName : ウィンドウクラスの名前
@@ -107,6 +124,16 @@ bool Application::RegistBasicWindowClass()
 
 	return true;
 
+
+	//ウィンドウクラススタイル http://www-higashi.ist.osaka-u.ac.jp/~k-maeda/vcpp/sec1-3wnddetail.html
+	/*　CS_HREDRAW	：	横サイズが変わったとき，ウインドウ全体を再描画する
+		CS_VREDRAW	：	縦サイズが変わったとき，ウインドウ全体を再描画する
+		CS_DBLCLKS	：	ダブルクリックが発生したことをウインドウに通知する
+		CS_NOCLOSE	：	システムメニューの［閉じる］コマンドを使用不可にする
+		CS_CLASSDC	：	このクラスのウインドウ同士で１つのデバイスコンテキストを共有する
+		CS_OWNDC	：	ウインドウ毎にデバイスコンテキストを１つづつ持つ
+		CS_PARENTDC	：	親ウインドウのデバイスコンテキストを使用する
+		CS_GLOBALCLASS	：	このクラスを作成したアプリケーションが実行されていれば， 他のアプリケーションからでもこのクラスを利用できるようになる． 一般的にDLLでカスタムコントロールを作成するときに使うらしい．*/
 }
 
 bool Application::CreateWind(
@@ -130,7 +157,9 @@ bool Application::CreateWind(
 	rect.left = 0;
 	rect.right = Width;
 	rect.bottom = Height;
-	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, TRUE);
+
+	//指定したクライアント領域を保持する大きさのウィンドウサイズを計算
+	AdjustWindowRect(&rect, Style, TRUE);
 
 	//ウィンドウの作成
 	hWnd = CreateWindowEx(
@@ -148,6 +177,8 @@ bool Application::CreateWind(
 		NULL
 		);
 
+	//hWnd　ウィンドウハンドル　複数のウィンドウを区別するためのもの
+
 	//ウィンドウ作成失敗
 	if (hWnd == NULL)
 	{
@@ -156,10 +187,36 @@ bool Application::CreateWind(
 
 
 	//// ウインドウ表示 //0623追加
-	ShowWindow(hWnd, SW_SHOWNORMAL);
-	UpdateWindow(hWnd);
+	ShowWindow(hWnd, SW_SHOWNORMAL);//ウィンドウをアクティブにして表示
+	UpdateWindow(hWnd);				//クライアント領域の更新
 
 	return true;
+
+	//CreateWindowExの　スタイル詳細 http://www-higashi.ist.osaka-u.ac.jp/~k-maeda/vcpp/sec1-3wnddetail.html
+	/*　
+	WS_OVERLAPPED	：	タイトルバー，境界線つきオーバーラップウインドウ
+	WS_OVERLAPPEDWINDOW = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIMZEBOX
+	WS_CHILD	：	子ウインドウ．WS_POPUPとは併用できない
+	WS_POPUP	：	ポップアップウインドウ．WS_CHILDとは併用できない
+	WS_POPUPWINDOW = WS_BORDER | WS_POPUP | WS_SYSMENU
+	WS_CLIPCHILDREN	：	親の描画で子ウインドウの部分をクリッピング
+	WS_CLIPSIBLINGS	：	子の描画で兄弟ウインドウの部分をクリッピング
+	WS_CAPTION	：	タイトルバー(WS_DLGFRAMEも一緒についてくる)
+	WS_SYSMENU	：	タイトルバーにシステムメニュー(閉じるボタンとアイコン)つける
+	WS_MINIMIZEBOX	：	システムメニューに最小化ボタン加える
+	WS_MAXIMIZEBOX	：	システムメニューに最大化ボタン加える
+	WS_BORDER	：	細い境界線
+	WS_DLGFRAME	：	サイズ変更できない境界線
+	WS_THICKFRAME	：	サイズ変更できる境界線
+	WS_HSCROLL	：	horizon scroll，つまり水平方向スクロール
+	WS_VSCROLL	：	vertical scroll，つまり垂直方向スクロール
+	WS_VISIBLE	：	初期状態で表示される
+	WS_DISABLED	：	初期状態が使用不可
+	WS_MAXIMIZE	：	初期状態で最大化
+	WS_MINIMIZE	：	初期状態で最小化
+	WS_TABSTOP	：	ダイアログのコントロールにつかう．Tabでフォーカスを当てられるようにする．
+	WS_GROUP	：	主にダイアログのラジオボタンのグループ設定に使う．
+	*/
 }
 
 void Application::MessageLoop()
@@ -169,19 +226,20 @@ void Application::MessageLoop()
 
 	while (msg.message != WM_QUIT)
 	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))//プログラムにmessageが送られているか調べる 
+													 //messageキューからmsgにメッセージを書き込み
+													 //メッセージキューからメッセージを削除する(PM_REMOVEが設定されているとき)
 		{
 			//メッセージ処理
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+			TranslateMessage(&msg); //仮想キーメッセージを文字メッセージに変換し、それをメッセージキューにポストする
+			DispatchMessage(&msg);	//メッセージの割り当て　ウィンドウプロシージャでメッセージを処理する
 		}
 		else
 		{
-			//メッセージ処理をしていないときにする処理
+			//メッセージ処理をしていないときにする処理 (メッセージキューに何も入っていないとき)
 
 			startTime = timeGetTime();//フレームの実行時間計測用	
 
-			//ここに処理を書く
 			
 			if (updateFunc != NULL)
 			{
