@@ -32,6 +32,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	GameState& GameState = GameState::GetInstance();
 
+	App.SetUpdateFuncPointer(GameState::Update_Static);
 	D3d.SetDrawFunc(GameState::Draw_Static);
 
 	App.MessageLoop();//メッセージループ

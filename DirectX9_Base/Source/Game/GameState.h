@@ -9,15 +9,21 @@
 class GameState :public Singleton<GameState>
 {
 	friend class Singleton<GameState>;
+private:
+	Texture tex;
+	Sprite sp;
+
+	float spriteRotate;
+
+
 public :
 	static void Draw_Static();
+	static void Update_Static();
 
 private:
 	GameState();
 	~GameState();
 
-	Texture tex;
-	Sprite sp;
-
+	void Update();
 	void Draw();
 };

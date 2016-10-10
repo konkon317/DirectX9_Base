@@ -18,6 +18,9 @@ class Application :public Singleton<Application>
 {
 	friend class Singleton<Application>;
 
+public:
+	typedef void(*FuncPointer)();//関数ポインタの型定義
+
 //変数
 private:
 	static HINSTANCE hInstance;	//インスタンスハンドル
@@ -28,6 +31,7 @@ private:
 	static DWORD ExcessTime;
 	static bool pathed;
 
+	FuncPointer updateFunc;
 
 //関数
 public :
@@ -52,7 +56,7 @@ public :
 	void MessageLoop();
 	bool Wait(DWORD wait_time);
 
-
+	void SetUpdateFuncPointer(FuncPointer fp){ updateFunc = fp; };
 	
 protected:
 

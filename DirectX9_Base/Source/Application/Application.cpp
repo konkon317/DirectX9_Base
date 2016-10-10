@@ -31,7 +31,7 @@ bool   Application::pathed = false;
 
 Application::Application()
 {
-	
+	updateFunc = NULL;
 }
 
 Application::~Application()
@@ -183,12 +183,15 @@ void Application::MessageLoop()
 
 			//ここに処理を書く
 			
-
+			if (updateFunc != NULL)
+			{
+				updateFunc();//アップデートの実行
+			}
 
 			if (ExcessTime == 0)
 			{
 
-				Direct3D::Render();
+				Direct3D::Render();//描画の実行
 			}
 
 			//フレームレート固定化処理
