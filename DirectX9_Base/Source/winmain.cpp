@@ -6,6 +6,7 @@
 #include "Template/Singleton.h"
 #include "Application/Application.h"
 #include "Direct3D/Direct3D.h"
+#include "Game/GameState.h"
 
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -29,6 +30,9 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		MessageBox(NULL, "3Dデバイス作成失敗", TEXT("WinMain"), MB_OK);
 	}
 
+	GameState& GameState = GameState::GetInstance();
+
+	D3d.SetDrawFunc(GameState::Draw_Static);
 
 	App.MessageLoop();//メッセージループ
 

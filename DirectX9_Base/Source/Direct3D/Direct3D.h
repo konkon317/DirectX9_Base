@@ -8,6 +8,8 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "winmm.lib")
 
+#include <memory>
+
 #include <comdef.h>
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -25,10 +27,17 @@ enum RENDERSTATE
 	RENDER_MESH
 };
 
+class Texture;
+class Sprite;
+
 //-------------------------------
 class Direct3D : public Singleton<Direct3D>
 {
 	friend class Singleton<Direct3D>;
+
+public :
+	typedef void(*FuncPointer)();//関数ポインタの型定義
+
 public:	
 
 	//デバイス作成を試みる
@@ -37,6 +46,12 @@ public:
 	static void Render();
 	static void SetRenderState(RENDERSTATE RenderrState);
 
+	bool LoadTexture(Texture& texture, TCHAR* FileName);
+
+	//スプライトの表示
+	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);
+	static void DrawSprite(Sprite& sprite, bool isTurn = false);
+	void SetDrawFunc(FuncPointer pointer);
 
 private:
 	IDirect3D9*	pD3D9 = NULL;				//Direct3Dデバイス生成用オブジェクト
@@ -51,6 +66,10 @@ private:
 	//コンストラクタ　デストラクタ
 	Direct3D();
 	~Direct3D();
+
+	FuncPointer DrawFunc;//関数ポインタ
+	void TryCallDrawFunc();
+	
 
 	void ReleaseDevice();
 };

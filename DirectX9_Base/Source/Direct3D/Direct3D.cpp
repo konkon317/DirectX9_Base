@@ -1,4 +1,6 @@
 #include "direct3d.h"
+#include "texture.h"
+#include "sprite.h"
 
 //コンストラクタ
 Direct3D::Direct3D()
@@ -6,6 +8,7 @@ Direct3D::Direct3D()
 	pD3D9 = NULL;
 	pDevice3D = NULL;
 	isDeviceCreated = false;
+	DrawFunc = NULL;
 }
 
 void Direct3D::ReleaseDevice()
@@ -94,18 +97,20 @@ void Direct3D::Render()
 
 		if (d3d.IsDeviceCreated())
 		{
-			DWORD ClearColor =/* (pathed) ? 0x11111111 :*/ 0xFFFF0000;//背景クリア色
+			if (SUCCEEDED(d3d.pDevice3D->BeginScene()))
+			{
+				DWORD ClearColor =/* (pathed) ? 0x11111111 :*/ 0xFFFF0000;//背景クリア色
 
-			//背景クリア
-			d3d.pDevice3D->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER, ClearColor, 1.0f, 0);
+				//背景クリア
+				d3d.pDevice3D->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER, ClearColor, 1.0f, 0);
 
-			//ここに関数ポインタで描画処理を行う様にする
+				//ここに関数ポインタで描画処理を行う様にする
+				d3d.TryCallDrawFunc();
 
+				d3d.pDevice3D->EndScene();
 
-
-			d3d.pDevice3D->EndScene();
-		
-			d3d.pDevice3D->Present(NULL, NULL, NULL, NULL);
+				d3d.pDevice3D->Present(NULL, NULL, NULL, NULL);
+			}
 		}
 		else
 		{
@@ -187,6 +192,107 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 	{
 		MessageBox(NULL, "インスタンスが作成されていないので実行できません", TEXT("Direct3D SetRenderState"), MB_OK);
 	}
+}
 
+bool Direct3D::LoadTexture(Texture& texture,TCHAR* FileName)
+{
+	//画像読み込み
+	//DirectXやWindowsAPIの関数はHRESULTを結果に返す関数が多い
+	//FAILEDマクロで失敗したかの判断
+	//SUCEEDEDマクロで関数が成功したかの判断
+	if (IsDeviceCreated())
+	{
+		if (FAILED(D3DXCreateTextureFromFile(pDevice3D, FileName, &texture.pTexture)))
+		{
+			//読み込み失敗（ファイルが無い可能性が高い）
+			return false;
+		}
+
+		//読み込み成功
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+//スプライトの表示
+void Direct3D::DrawSprite(Sprite& sprite, Texture& texture, bool isTurn)
+{
+	Direct3D& d3d = Direct3D::GetInstance();
+
+	//頂点の位置
+	SpriteVertex vtx[4]
+	{
+		//{x,y,z, 2D変換済みフラグ , u,v}
+		//uv座標はテクスチャのどの角を表示するか (0,0)左上	(1,0)右上	(0,1)左下	(1,1)右下	(0.5,0.5 )テクスチャの中心
+		//その角にテクスチャの何パーセントの位置が来るかを指定
+
+		//
+		//右上
+		{ (float)sprite.width / 2, -(float)sprite.height / 2, 0.0f, 1.0f,
+			(isTurn ? static_cast<float>(texture.numU) / texture.divU : static_cast<float>(texture.numU + 1) / texture.divU), static_cast<float>(texture.numV) / texture.divV
+		},
+		//右下
+		{ (float)sprite.width / 2, (float)sprite.height / 2, 0.0f, 1.0f,
+		(isTurn ? static_cast<float>(texture.numU) / texture.divU : static_cast<float>(texture.numU + 1) / texture.divU), static_cast<float>(texture.numV + 1) / texture.divV
+		},
+		//左上
+		{ -(float)sprite.width / 2, -(float)sprite.height / 2, 0.0f, 1.0f,
+		(isTurn ? static_cast<float>(texture.numU + 1) / texture.divU : static_cast<float>(texture.numU) / texture.divU), static_cast<float>(texture.numV) / texture.divV
+		},
+		//左下
+		{ -(float)sprite.width / 2, (float)sprite.height / 2, 0.0f, 1.0f,
+		(isTurn ? static_cast<float>(texture.numU + 1) / texture.divU : static_cast<float>(texture.numU) / texture.divU), static_cast<float>(texture.numV + 1) / texture.divV
+		},
+
+	};
+
+	for (int i = 0; i < 4; i++)
+	{
+		//回転
+		float x = vtx[i].x*cosf(sprite.rotate) - vtx[i].y*sinf(sprite.rotate);
+		float y = vtx[i].x*sinf(sprite.rotate) + vtx[i].y*cosf(sprite.rotate);
+
+		//平行移動
+		vtx[i].x = x + sprite.pos.x;
+		vtx[i].y = y + sprite.pos.y;
+
+	}
+
+	//テクスチャのセット
+	d3d.pDevice3D->SetTexture(0, texture.pTexture);
+	//頂点構造体宣言をセット
+	d3d.pDevice3D->SetFVF(Sprite::SPRITE_FVF);
+	//スプライト描画
+	if (SUCCEEDED(d3d.pDevice3D->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vtx, sizeof(SpriteVertex))))
+	{
+		int a = 0;
+	}
+	else
+
+	{
+		int a = 0;
+	}
+}
+
+void Direct3D::SetDrawFunc(FuncPointer pointer)
+{
+	DrawFunc = pointer;
+}
+
+void Direct3D::TryCallDrawFunc()
+{
+	if (DrawFunc != NULL)
+	{	
+		
+		DrawFunc();
+		
 	
+	}
+	else
+	{
+		int a = 0;
+	}
 }

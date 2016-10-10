@@ -13,6 +13,9 @@
     <Filter Include="Source\Direct3D">
       <UniqueIdentifier>{847435bb-efd9-4654-b152-cd922d1e0b20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Game">
+      <UniqueIdentifier>{0a908619-b29f-4208-848a-1a990ea8d773}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
@@ -27,6 +30,15 @@
     <ClCompile Include="Source\Direct3D\Direct3D.cpp">
       <Filter>Source\Direct3D</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\sprite.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\texture.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameState.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -37,6 +49,15 @@
     </ClInclude>
     <ClInclude Include="Source\Direct3D\Direct3D.h">
       <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\sprite.h">
+      <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\texture.h">
+      <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameState.h">
+      <Filter>Source\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
