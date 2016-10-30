@@ -16,6 +16,9 @@
     <Filter Include="Source\Game">
       <UniqueIdentifier>{0a908619-b29f-4208-848a-1a990ea8d773}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\DirectSound">
+      <UniqueIdentifier>{dba80fc4-6ee7-4b64-8edd-316b8186557b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
@@ -39,6 +42,15 @@
     <ClCompile Include="Source\Game\GameState.cpp">
       <Filter>Source\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DirectSound\DirectSound.cpp">
+      <Filter>Source\DirectSound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectSound\WaveFile.cpp">
+      <Filter>Source\DirectSound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectSound\SoundBuffer.cpp">
+      <Filter>Source\DirectSound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -58,6 +70,15 @@
     </ClInclude>
     <ClInclude Include="Source\Game\GameState.h">
       <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectSound\DirectSound.h">
+      <Filter>Source\DirectSound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectSound\WaveFile.h">
+      <Filter>Source\DirectSound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectSound\SoundBuffer.h">
+      <Filter>Source\DirectSound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

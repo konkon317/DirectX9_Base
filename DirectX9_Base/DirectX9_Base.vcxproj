@@ -84,6 +84,9 @@
     <ClCompile Include="Source\Direct3D\Direct3D.cpp" />
     <ClCompile Include="Source\Direct3D\sprite.cpp" />
     <ClCompile Include="Source\Direct3D\texture.cpp" />
+    <ClCompile Include="Source\DirectSound\DirectSound.cpp" />
+    <ClCompile Include="Source\DirectSound\SoundBuffer.cpp" />
+    <ClCompile Include="Source\DirectSound\WaveFile.cpp" />
     <ClCompile Include="Source\Game\GameState.cpp" />
     <ClCompile Include="Source\Template\Singleton.cpp" />
     <ClCompile Include="Source\winmain.cpp" />
@@ -93,6 +96,9 @@
     <ClInclude Include="Source\Direct3D\Direct3D.h" />
     <ClInclude Include="Source\Direct3D\sprite.h" />
     <ClInclude Include="Source\Direct3D\texture.h" />
+    <ClInclude Include="Source\DirectSound\DirectSound.h" />
+    <ClInclude Include="Source\DirectSound\SoundBuffer.h" />
+    <ClInclude Include="Source\DirectSound\WaveFile.h" />
     <ClInclude Include="Source\Game\GameState.h" />
     <ClInclude Include="Source\Template\Singleton.h" />
   </ItemGroup>

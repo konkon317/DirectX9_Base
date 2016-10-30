@@ -6,6 +6,7 @@
 #include "Template/Singleton.h"
 #include "Application/Application.h"
 #include "Direct3D/Direct3D.h"
+#include "DirectSound/DirectSound.h"
 #include "Game/GameState.h"
 
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -30,10 +31,16 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		MessageBox(NULL, "3Dデバイス作成失敗", TEXT("WinMain"), MB_OK);
 	}
 
+	DirectSound& DSound = DirectSound::GetInstance();
+	DSound.Create(App.GetWindowHandle());
+
+
 	GameState& GameState = GameState::GetInstance();
 
 	App.SetUpdateFuncPointer(GameState::Update_Static);
 	D3d.SetDrawFunc(GameState::Draw_Static);
+
+	GameState.Init();
 
 	App.MessageLoop();//メッセージループ
 

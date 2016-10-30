@@ -36,9 +36,29 @@ void GameState::Update()
 	spriteRotate += 3.14f * (1.0f / 60.0f);
 
 	sp.SetRotate(spriteRotate);
+
+
+	static int i = 0;
+	i++;
+	if (i == 60 * 10)
+	{
+		BGM_Buffer2.Play(true);
+	}
+
+
 }
 
 void GameState::Draw()
 {
 	Direct3D::DrawSprite(sp,tex, false);
+}
+
+void GameState::Init()
+{
+	BGM_Wave.Load("Loop_148.wav");
+	
+	BGM_Buffer.Create(BGM_Wave);
+	BGM_Buffer2.Create(BGM_Wave);
+
+	BGM_Buffer.Play(true);
 }

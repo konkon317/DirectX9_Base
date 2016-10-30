@@ -4,6 +4,10 @@
 #include "../Direct3D/Sprite.h"
 #include "../Direct3D/Texture.h"
 
+#include "../DirectSound/DirectSound.h"
+#include "../DirectSound/WaveFile.h"
+#include "../DirectSound/SoundBuffer.h"
+
 #include "../Template/Singleton.h"
 
 class GameState :public Singleton<GameState>
@@ -16,9 +20,15 @@ private:
 	float spriteRotate;
 
 
+	WaveFile BGM_Wave;
+	SoundBuffer BGM_Buffer;
+	SoundBuffer BGM_Buffer2;
+
 public :
 	static void Draw_Static();
 	static void Update_Static();
+
+	void Init();
 
 private:
 	GameState();

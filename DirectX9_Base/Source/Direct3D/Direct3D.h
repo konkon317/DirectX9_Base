@@ -8,7 +8,7 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "winmm.lib")
 
-#include <memory>
+//#include <memory>
 
 #include <comdef.h>
 #include <d3d9.h>

@@ -57,11 +57,22 @@ bool Direct3D::Create(HWND hWnd)
 	//スワップチェイン設定
 	//スワップチェイン　バックバッファをフロントバッファに書きかえる
 	//DISCARDはスワップチェインの方法をDIrectXに任せるという設定
-	D3DPRESENT_PARAMETERS D3DParam =
-	{
-		Width, Height, Display.Format, 1, D3DMULTISAMPLE_NONE, 0,
-		D3DSWAPEFFECT_DISCARD, hWnd, TRUE, TRUE, D3DFMT_D24S8, 0, 0, D3DPRESENT_INTERVAL_DEFAULT
-	};
+	D3DPRESENT_PARAMETERS D3DParam;
+	D3DParam.BackBufferWidth = Width;					//バックバッファの幅
+	D3DParam.BackBufferHeight = Height;					//バックバッファの高さ
+	D3DParam.BackBufferFormat = Display.Format;			//バックバッファのフォーマット
+	D3DParam.BackBufferCount = 1;						//バックバッファ数
+	D3DParam.MultiSampleType = D3DMULTISAMPLE_NONE;		//マルチサンプリングの設定 なし
+	D3DParam.MultiSampleQuality = 0;					//マルチサンプリングのクオリティ
+	D3DParam.SwapEffect = D3DSWAPEFFECT_DISCARD;		//スワップチェインの方法　DirectXまかせ
+	D3DParam.hDeviceWindow = hWnd;						//対象のウィンドウのハンドル
+	D3DParam.Windowed = TRUE;							//ウィンドウ
+	D3DParam.EnableAutoDepthStencil = TRUE;				//震度ステンシルバッファの作成
+	D3DParam.AutoDepthStencilFormat = D3DFMT_D24S8;		//震度ステンシルのフォーマット
+	D3DParam.Flags = 0;									//
+	D3DParam.FullScreen_RefreshRateInHz = 0;			//スクリーンのリフレッシュレート　ウィンドウモードだと必ず0
+	D3DParam.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;	//アダプタリフレッシュレートとpresent処理を実行するレートの関係
+
 
 	//幾つかの設定でデバイス作成を試みる
 	//HALモードで3Dデバイス作成
@@ -85,7 +96,20 @@ bool Direct3D::Create(HWND hWnd)
 			}
 		}
 	}
-	return true;
+	return true;//どれかで作成成功すればtrueが返る
+
+	/*HRESULT CreateDevice
+		(UINT Adapter,			ディスプレイ アダプタを示す序数
+		D3DDEVTYPE DeviceType,	目的のデバイス タイプ
+		HWND hFocusWindow,		デバイスでフォーカスを設定するウィンドウのハンドル
+		DWORD BehaviorFlags,	デバイス作成のオプション
+		D3DPRESENT_PARAMETERS *pPresentationParameters,
+		IDirect3DDevice9** ppReturnedDeviceInterface
+		);*/
+
+
+
+
 }
 
 //描画の反映時に実行
@@ -266,6 +290,7 @@ void Direct3D::DrawSprite(Sprite& sprite, Texture& texture, bool isTurn)
 	//頂点構造体宣言をセット
 	d3d.pDevice3D->SetFVF(Sprite::SPRITE_FVF);
 	//スプライト描画
+	//TRIANGLESTRIPで頂点を描画する 2はprimitiveCountポリゴン数
 	if (SUCCEEDED(d3d.pDevice3D->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vtx, sizeof(SpriteVertex))))
 	{
 		int a = 0;

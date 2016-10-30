@@ -8,11 +8,12 @@ struct AnimationNum
 	unsigned int numV;
 };
 
-//板ポリゴン頂点情報
+//板ポリゴン頂点情報　
+//MSDN頂点フォーマットを参照 FVFの設定によって型、数、順番が決まる
 struct SpriteVertex
 {
 	float x, y, z;	//3次元座標
-	float rhw;		//2D変換済みフラグ
+	float rhw;		//2D変換済みフラグ スクリーン座標
 	float u, v;		//UV座標
 
 };
