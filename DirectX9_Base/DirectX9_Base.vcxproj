@@ -88,6 +88,7 @@
     <ClCompile Include="Source\DirectSound\SoundBuffer.cpp" />
     <ClCompile Include="Source\DirectSound\WaveFile.cpp" />
     <ClCompile Include="Source\Game\GameState.cpp" />
+    <ClCompile Include="Source\Input\directInput.cpp" />
     <ClCompile Include="Source\Template\Singleton.cpp" />
     <ClCompile Include="Source\winmain.cpp" />
   </ItemGroup>
@@ -100,6 +101,8 @@
     <ClInclude Include="Source\DirectSound\SoundBuffer.h" />
     <ClInclude Include="Source\DirectSound\WaveFile.h" />
     <ClInclude Include="Source\Game\GameState.h" />
+    <ClInclude Include="Source\Input\directInput.h" />
+    <ClInclude Include="Source\Other\MyVector.h" />
     <ClInclude Include="Source\Template\Singleton.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

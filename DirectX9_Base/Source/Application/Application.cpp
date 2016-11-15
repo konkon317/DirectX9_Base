@@ -2,6 +2,8 @@
 
 #include "../Direct3D/Direct3D.h"
 
+#include "../Input/directInput.h"
+
 
 //ウィンドウプロシージャ
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -221,6 +223,8 @@ bool Application::CreateWind(
 
 void Application::MessageLoop()
 {
+
+
 	DWORD startTime, endTime, passTime;
 	MSG msg = {};
 
@@ -238,7 +242,16 @@ void Application::MessageLoop()
 		{
 			//メッセージ処理をしていないときにする処理 (メッセージキューに何も入っていないとき)
 
-			startTime = timeGetTime();//フレームの実行時間計測用	
+			startTime = timeGetTime();//フレームの実行時間計測用
+
+
+			//入力のアップデート
+			DirectInput& di = DirectInput::GetInstance();
+			if (di.Initialized() == false)
+			{
+				di.Init(hWnd);
+			}
+			di.Update();
 
 			
 			if (updateFunc != NULL)

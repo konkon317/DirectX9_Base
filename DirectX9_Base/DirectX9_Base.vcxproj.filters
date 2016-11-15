@@ -19,6 +19,12 @@
     <Filter Include="Source\DirectSound">
       <UniqueIdentifier>{dba80fc4-6ee7-4b64-8edd-316b8186557b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Other">
+      <UniqueIdentifier>{d687c331-d0ff-4332-acfe-cd30d9530069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{10e3ad76-e277-47e0-94ce-45641d3ea5d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
@@ -51,6 +57,9 @@
     <ClCompile Include="Source\DirectSound\SoundBuffer.cpp">
       <Filter>Source\DirectSound</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Input\directInput.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -79,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="Source\DirectSound\SoundBuffer.h">
       <Filter>Source\DirectSound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Other\MyVector.h">
+      <Filter>Source\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\directInput.h">
+      <Filter>Source\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

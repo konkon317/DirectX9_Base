@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "../Input/directInput.h"
 
 void GameState::Draw_Static()
 {
@@ -33,6 +34,28 @@ GameState::~GameState()
 
 void GameState::Update()
 {
+	DirectInput &di = DirectInput::GetInstance();
+	if (!di.Initialized())
+	{
+		return;
+	}
+
+
+	if (di.KeyDown(DIK_RETURN))
+	{
+		int i = 0;
+	}
+
+	if (di.MouseButtonDown(MOUSE_BUTTON_RIGHT))
+	{
+		int x = di.MousePosition().X();
+		int y = di.MousePosition().Y();
+
+		int a = 0;
+
+	}
+
+
 	spriteRotate += 3.14f * (1.0f / 60.0f);
 
 	sp.SetRotate(spriteRotate);

@@ -12,6 +12,7 @@
 
 #include "../Template/Singleton.h"
 
+
 static const TCHAR * WC_BASIC = _T("Basic");	//基本ウィンドウクラス名
 
 class Application :public Singleton<Application>
