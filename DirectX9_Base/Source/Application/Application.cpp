@@ -3,6 +3,7 @@
 #include "../Direct3D/Direct3D.h"
 
 #include "../Input/directInput.h"
+#include "../Input/XInput.h"
 
 
 //ウィンドウプロシージャ
@@ -245,12 +246,18 @@ void Application::MessageLoop()
 			startTime = timeGetTime();//フレームの実行時間計測用
 
 
-			//入力のアップデート
+			//入力 key and mouse
 			DirectInput& di = DirectInput::GetInstance();
 			if (di.Initialized() == false)
 			{
 				di.Init(hWnd);
 			}
+
+			//入力ゲームパッド
+			XInput& xi = XInput::GetInstance();
+			xi.Update();
+						
+			//入力のアップデート
 			di.Update();
 
 			

@@ -48,7 +48,6 @@ void SoundBuffer::Stop()
 
 
 //バッファ作成
-
 bool SoundBuffer::Create(WaveFile& waveFile)
 {
 	//desc : description

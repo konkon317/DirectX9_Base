@@ -53,8 +53,8 @@ HRESULT DirectSound::CreateSoundBuffer(DSBUFFERDESC* pDesc, IDirectSoundBuffer**
 		//デバイスが作成されていないため失敗
 		return S_FALSE;
 	}
-
+	HRESULT hr=pDirectSound8->CreateSoundBuffer(pDesc, ppBuffer,NULL);
 	
-	return pDirectSound8->CreateSoundBuffer(pDesc, ppBuffer,NULL);
+	return hr;
 
 }

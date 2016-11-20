@@ -60,6 +60,9 @@
     <ClCompile Include="Source\Input\directInput.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Input\XInput.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -93,6 +96,9 @@
       <Filter>Source\Other</Filter>
     </ClInclude>
     <ClInclude Include="Source\Input\directInput.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\XInput.h">
       <Filter>Source\Input</Filter>
     </ClInclude>
   </ItemGroup>

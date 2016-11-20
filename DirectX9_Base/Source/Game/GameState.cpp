@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include "../Input/directInput.h"
+#include "../Input/XInput.h"
 
 void GameState::Draw_Static()
 {
@@ -39,6 +40,8 @@ void GameState::Update()
 	{
 		return;
 	}
+
+	XInput& xi = XInput::GetInstance();
 
 
 	if (di.KeyDown(DIK_RETURN))
