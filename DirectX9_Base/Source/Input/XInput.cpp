@@ -18,6 +18,8 @@ int XInput::GamePadState::ButtonCode[14]=
 	XINPUT_GAMEPAD_Y
 };
 
+
+//インナークラス　コンストラクタ
 XInput::GamePadState::GamePadState()
 {
 	for (int i = 0; i < 14; i++)
@@ -35,20 +37,26 @@ XInput::GamePadState::GamePadState()
 	}
 }
 
+//インナークラス　更新
 void XInput::GamePadState::Update(int PadNum)
 {
+	//1フレーム前のCounterを保存
 	for (int i = 0; i < 16; i++)
 	{	
 		buttonCountPrev[i] = buttonCount[i];
 	}
 
 
+	//入力状態の取得がうまくいったかどうか
 	DWORD funcResult;
+	
+	//入力状態の取得 (コントローラ番号0-3 , 状態を保存したい構造体のアドレス)
 	funcResult = XInputGetState(PadNum,&state);
 
 	if (funcResult == ERROR_SUCCESS)
 	{
 		//成功
+
 		conected = true;
 
 		//ボタンの更新
@@ -132,6 +140,8 @@ void XInput::GamePadState::Update(int PadNum)
 		//失敗
 		conected = false;
 
+		//コントローラにまったく触っていないのと同じ状態にする
+
 		for (int i = 0; i < 16; i++)
 		{
 			 buttonCount[i] =0;
@@ -150,6 +160,9 @@ void XInput::GamePadState::Update(int PadNum)
 	}
 }
 
+
+//インナークラス
+//押された瞬間か
 bool XInput::GamePadState::GetButtonDown(int buttonNum)
 {
 	if (buttonNum >= 14 || buttonNum < 0)
@@ -167,6 +180,10 @@ bool XInput::GamePadState::GetButtonDown(int buttonNum)
 	}
 
 }
+
+
+//インナークラス
+//離された瞬間か
 bool XInput::GamePadState::GetButtonRelease(int buttonNum)
 {
 	if (buttonNum >= 14 || buttonNum < 0)
@@ -184,6 +201,9 @@ bool XInput::GamePadState::GetButtonRelease(int buttonNum)
 	}
 }
 
+
+//インナークラス
+//押され続けたフレーム数
 int  XInput::GamePadState::GetButtonCount(int buttonNum)
 {
 	if (buttonNum >= 14 || buttonNum < 0)
@@ -195,6 +215,9 @@ int  XInput::GamePadState::GetButtonCount(int buttonNum)
 
 }
 
+
+//インナークラス
+//スティックの傾き取得
 Stick XInput::GamePadState::GetStick(int stickNum)
 {
 	if (stickNum >= 0 && stickNum < 2)
@@ -208,6 +231,7 @@ Stick XInput::GamePadState::GetStick(int stickNum)
 	}
 }
 
+//トリガーの状態取得　押されていないと0 完全に押し込まれていると1  中間地を0~1の小数で
 float XInput::GamePadState::GetTrigger(int triggerNum)
 {
 	if (triggerNum >= 0 && triggerNum < 2)
@@ -222,17 +246,21 @@ float XInput::GamePadState::GetTrigger(int triggerNum)
 }
 
 
+//コンストラクタ
 XInput::XInput()
 {
 
 
 }
 
+//デストラクタ
 XInput::~XInput()
 {
 
 }
 
+
+//全てのコントローラ入力の状態を更新
 void XInput::Update()
 {
 	for (int i = 0; i < 4; i++)
@@ -241,6 +269,8 @@ void XInput::Update()
 	}
 }
 
+
+//ボタンが押されった瞬間か
 bool XInput::GetButtonDown(int padNum, int buttonNum)
 {
 	if (padNum < 0 || padNum >= 4)
@@ -251,6 +281,7 @@ bool XInput::GetButtonDown(int padNum, int buttonNum)
 	return state[padNum].GetButtonDown(buttonNum);
 }
 
+//ボタンが離された瞬間か
 bool XInput::GetButtonRelease(int padNum, int buttonNum)
 {
 	if (padNum < 0 || padNum >= 4)
@@ -260,6 +291,7 @@ bool XInput::GetButtonRelease(int padNum, int buttonNum)
 	return state[padNum].GetButtonDown(buttonNum);
 }
 
+//ボタンが押され続けたフレーム数
 int XInput::GetButtonCount(int padNum, int buttonNum)
 {
 	if (padNum < 0 || padNum >= 4)
@@ -269,6 +301,7 @@ int XInput::GetButtonCount(int padNum, int buttonNum)
 	return state[padNum].GetButtonDown(buttonNum);
 }
 
+//スティックの傾き
 Stick XInput::GetStick(int padNum, int stickNum)
 {
 	if (padNum < 0 || padNum >= 4)
@@ -281,7 +314,7 @@ Stick XInput::GetStick(int padNum, int stickNum)
 	return state[padNum].GetStick(stickNum);
 }
 
-
+//トリガーの状態
 float XInput::GetTrigger(int padNum, int triggerNum)
 {
 	if (padNum < 0 || padNum >= 4)

@@ -28,54 +28,83 @@
 #define TRIGGER_RIGHT	1
 
 
+//スティックの傾き　-1~1
 struct  Stick
 {
 	float x;
 	float y;
 };
 
+
+//4つのコントローラ入力をまとめて管理
 class XInput :public Singleton<XInput>
 {
 
-	//インナークラス
+	//インナークラス 
+	//ひとつのコントローラの入力状態
+	//privateで宣言しているので
+	//このクラス外からは一切アクセスできない
 	class  GamePadState
 	{
+		//ボタン番号とマスクの関係
 		static int ButtonCode[14];
 
+		//それぞれのボタンの押され続けたフレーム数
 		int buttonCount[14];
 		int buttonCountPrev[14];
 
+		//コントローラが接続されているか
 		bool conected;
 
+		//トリガーボタンの入力状態 0~1
 		float trigger[2];
 
+		//スティックの傾き
 		Stick stick[2];		
 
+		//入力状態　加工前
 		XINPUT_STATE state;
 
 	public:
 		GamePadState();
+		~GamePadState();
+
+		//状態の更新
 		void Update(int PadNum);
 
+		//ボタンが押された瞬間
 		bool GetButtonDown(int buttonNum);
+
+		//ボタンが離された瞬間
 		bool GetButtonRelease(int ButtunNum);
+
+		//ボタンが押され続けたフレーム数
 		int GetButtonCount(int ButtonNum);
+
+		//トリガーの入力状態
 		float GetTrigger(int TriggerNum);
 
+		//コントローラの接続
 		bool Conected(){ return conected; }
 
+		//スティックの傾き状態
 		Stick GetStick(int stickNum);
 
 	};
 
+
+	//親クラスからnew できるようにする
 	friend class Singleton<XInput>;
 
 private:
 
+	//コントローラの入力状態
+	//コントローラの数だけ
 	GamePadState state[4];
 
 public :
 
+	//状態の更新
 	void Update();
 
 
@@ -87,11 +116,18 @@ private:
 
 public:
 
+	//ボタンが押された瞬間
 	bool GetButtonDown(int padNum, int buttonNum);
+	//ボタンが離された瞬間
 	bool GetButtonRelease(int padNum, int buttonNum);
+
+	//ボタンが押され続けたフレーム数
 	int GetButtonCount(int padNum, int buttonNum);
+
+	//トリガーの入力状態
 	float GetTrigger(int padNum,int TriggerNum);
 
+	//スティックの傾き状態
 	Stick GetStick(int padNum,int stickNum);
 
 };
