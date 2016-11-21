@@ -58,8 +58,9 @@ class XInput :public Singleton<XInput>
 		void Update(int PadNum);
 
 		bool GetButtonDown(int buttonNum);
-		bool GetButtonRelease(int ButtunCode);
-		int GetButtonCount(int ButtonCode);
+		bool GetButtonRelease(int ButtunNum);
+		int GetButtonCount(int ButtonNum);
+		float GetTrigger(int TriggerNum);
 
 		bool Conected(){ return conected; }
 
@@ -89,6 +90,7 @@ public:
 	bool GetButtonDown(int padNum, int buttonNum);
 	bool GetButtonRelease(int padNum, int buttonNum);
 	int GetButtonCount(int padNum, int buttonNum);
+	float GetTrigger(int padNum,int TriggerNum);
 
 	Stick GetStick(int padNum,int stickNum);
 

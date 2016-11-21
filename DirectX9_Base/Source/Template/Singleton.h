@@ -51,10 +51,10 @@ protected:
 
 	virtual ~Singleton()
 	{
-		/*char szBuff[256];
+		char szBuff[256];
 		wsprintf(szBuff, "SINGLETON template %s", typeid(*this).name());
 		std::string st = szBuff;
-		MessageBox(NULL, st.c_str(), TEXT("開放"), MB_OK);*/
+		MessageBox(NULL, st.c_str(), TEXT("開放"), MB_OK);
 	}//デストラクタ
 
 	//

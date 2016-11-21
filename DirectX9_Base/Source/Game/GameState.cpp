@@ -43,6 +43,10 @@ void GameState::Update()
 
 	XInput& xi = XInput::GetInstance();
 
+	if (xi.GetTrigger(0, TRIGGER_LEFT) > 0)
+	{
+		int a = 0;
+	}
 
 	if (di.KeyDown(DIK_RETURN))
 	{

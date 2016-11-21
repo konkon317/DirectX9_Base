@@ -1,9 +1,5 @@
 #include "XInput.h"
 
-
-
-
-
 int XInput::GamePadState::ButtonCode[14]=
 {
 	XINPUT_GAMEPAD_DPAD_UP,
@@ -118,8 +114,16 @@ void XInput::GamePadState::Update(int PadNum)
 		for (int i = 0; i < 2; i++)
 		{
 			int x = (i == 0) ? state.Gamepad.bLeftTrigger : state.Gamepad.bRightTrigger;
-			
-			trigger[i] = (float)x / (float)255;
+
+			if (x > 10)//デッドゾーンから外れているか
+			{
+
+				trigger[i] = (float)x / (float)255;
+			}
+			else
+			{
+				trigger[i] = 0.0f;
+			}
 		}
 
 	}
@@ -204,6 +208,19 @@ Stick XInput::GamePadState::GetStick(int stickNum)
 	}
 }
 
+float XInput::GamePadState::GetTrigger(int triggerNum)
+{
+	if (triggerNum >= 0 && triggerNum < 2)
+	{
+		return trigger[triggerNum];
+	}
+	else
+	{
+		
+		return 0;
+	}
+}
+
 
 XInput::XInput()
 {
@@ -264,3 +281,13 @@ Stick XInput::GetStick(int padNum, int stickNum)
 	return state[padNum].GetStick(stickNum);
 }
 
+
+float XInput::GetTrigger(int padNum, int triggerNum)
+{
+	if (padNum < 0 || padNum >= 4)
+	{
+		return 0;
+	}
+
+	return state[padNum].GetTrigger(triggerNum);
+}
