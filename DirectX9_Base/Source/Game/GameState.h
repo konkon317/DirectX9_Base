@@ -3,12 +3,16 @@
 #include "../Direct3D/Direct3D.h"
 #include "../Direct3D/Sprite.h"
 #include "../Direct3D/Texture.h"
+#include "../Direct3D/Camera.h"
+#include "../Direct3D/mesh.h"
 
 #include "../DirectSound/DirectSound.h"
 #include "../DirectSound/WaveFile.h"
 #include "../DirectSound/SoundBuffer.h"
 
 #include "../Template/Singleton.h"
+
+
 
 class GameState :public Singleton<GameState>
 {
@@ -23,6 +27,10 @@ private:
 	WaveFile BGM_Wave;
 	SoundBuffer BGM_Buffer;
 	SoundBuffer BGM_Buffer2;
+
+	Camera camera;
+
+	Mesh testMesh;
 
 public :
 	static void Draw_Static();

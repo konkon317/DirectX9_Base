@@ -205,6 +205,50 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 			}
 			break;
 
+			case RENDER_MESH:
+			{
+				d3d.pDevice3D->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+				d3d.pDevice3D->SetRenderState(D3DRS_LIGHTING, TRUE);
+				d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
+
+
+				D3DMATERIAL9 mtrl;
+				ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+				mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
+				mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
+				mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
+				mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
+				d3d.pDevice3D->SetMaterial(&mtrl);
+
+				D3DLIGHT9 light;
+				ZeroMemory(&light, sizeof(D3DLIGHT9));
+				light.Type = D3DLIGHT_DIRECTIONAL;
+				light.Diffuse.r = 1.0f;
+				light.Diffuse.g = 0.0f;
+				light.Diffuse.b = 0.0f;
+				light.Direction = D3DXVECTOR3(-0.5f, -1.0f, 0.5f);
+				light.Range = 1000.0f;
+
+				d3d.pDevice3D->SetLight(0, &light);
+
+				ZeroMemory(&light, sizeof(D3DLIGHT9));
+				light.Type = D3DLIGHT_DIRECTIONAL;
+				light.Diffuse.r = 0.0f;
+				light.Diffuse.g = 1.0f;
+				light.Diffuse.b = 0.0f;
+				light.Direction = D3DXVECTOR3(0.5f, -1.0f, 0.5f);
+				light.Range = 1000.0f;
+
+				d3d.pDevice3D->SetLight(1, &light);
+
+				d3d.pDevice3D->LightEnable(0, TRUE);
+				d3d.pDevice3D->LightEnable(1, TRUE);
+
+				d3d.pDevice3D->SetRenderState(D3DRS_AMBIENT, 0x00444444);
+			}
+			break;
+
+
 			}
 		}
 		else
@@ -320,4 +364,30 @@ void Direct3D::TryCallDrawFunc()
 	{
 		int a = 0;
 	}
+}
+
+void Direct3D::SetViewMatrix(D3DXMATRIXA16& mat)
+{
+	pDevice3D->SetTransform(D3DTS_VIEW, &mat);
+}
+
+void Direct3D::LoadMesh(LPD3DXMESH* pMesh,TCHAR* path)
+{
+	D3DXLoadMeshFromX(path, D3DXMESH_SYSTEMMEM,pDevice3D,
+		NULL, NULL, NULL, NULL, pMesh
+		);
+}
+
+void Direct3D::DrawMatrix(LPD3DXMESH* pMesh, D3DXMATRIXA16& worldMat)
+{
+	pDevice3D->SetTransform(D3DTS_WORLD,&worldMat);
+
+	
+
+	D3DXMATRIXA16 matProj;
+	//projection matrix
+	D3DXMatrixPerspectiveFovLH(&matProj, 3.0f / 4.0f, 1.0f, 1.0f, 100.0f);
+	pDevice3D->SetTransform(D3DTS_PROJECTION, &matProj);
+
+	(*pMesh)->DrawSubset(0);
 }

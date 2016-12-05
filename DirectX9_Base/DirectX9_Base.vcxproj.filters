@@ -63,6 +63,12 @@
     <ClCompile Include="Source\Input\XInput.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\mesh.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\camera.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -100,6 +106,12 @@
     </ClInclude>
     <ClInclude Include="Source\Input\XInput.h">
       <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\mesh.h">
+      <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\camera.h">
+      <Filter>Source\Direct3D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

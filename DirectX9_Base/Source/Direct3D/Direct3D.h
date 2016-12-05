@@ -47,6 +47,11 @@ public:
 	static void SetRenderState(RENDERSTATE RenderrState);
 
 	bool LoadTexture(Texture& texture, TCHAR* FileName);
+	
+	void  SetViewMatrix(D3DXMATRIXA16& mat);
+
+	void LoadMesh(LPD3DXMESH* pMesh,TCHAR* path);
+	void DrawMatrix(LPD3DXMESH* pMesh, D3DXMATRIXA16& worldMat);
 
 	//スプライトの表示
 	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);

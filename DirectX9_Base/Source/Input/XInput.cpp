@@ -37,11 +37,17 @@ XInput::GamePadState::GamePadState()
 	}
 }
 
+XInput::GamePadState::~GamePadState()
+{
+
+}
+
+
 //インナークラス　更新
 void XInput::GamePadState::Update(int PadNum)
 {
 	//1フレーム前のCounterを保存
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 14; i++)
 	{	
 		buttonCountPrev[i] = buttonCount[i];
 	}
@@ -142,7 +148,7 @@ void XInput::GamePadState::Update(int PadNum)
 
 		//コントローラにまったく触っていないのと同じ状態にする
 
-		for (int i = 0; i < 16; i++)
+		for (int i = 0; i < 14; i++)
 		{
 			 buttonCount[i] =0;
 		}

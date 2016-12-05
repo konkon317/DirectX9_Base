@@ -25,6 +25,10 @@ GameState::GameState()
 	tex.SetDivide(2, 2);
 	tex.SetUVNum(1, 1);
 	
+	testMesh.Load(_T("sample0012.x"));
+
+	camera.SetEyePoint(0.0f, 1.0f, -5.0f);
+	camera.SetRelLookAtPoint(0.0f, 0.0f, 1.0f);
 }
 
 GameState::~GameState()
@@ -43,8 +47,14 @@ void GameState::Update()
 
 	XInput& xi = XInput::GetInstance();
 
+
 	if (xi.GetTrigger(0, TRIGGER_LEFT) > 0)
 	{
+		int a = 0;
+	}
+
+	if (xi.GetButtonDown(0,GAMEPAD_DPAD_UP))
+	{ 
 		int a = 0;
 	}
 
@@ -63,32 +73,65 @@ void GameState::Update()
 	}
 
 
+	float f = 0.0f;
+	float r = 0.0f;
+	if (di.KeyState(DIK_W))
+	{
+		f += 1;
+	}
+	if (di.KeyState(DIK_S))
+	{
+		f -= 1;
+	}
+	if (di.KeyState(DIK_D))
+	{
+		r += 1;
+	}
+	if (di.KeyState(DIK_A))
+	{
+		r -= 1;
+	}
+	camera.Move(f, r);
+	float x = di.MousePositionDelta().X();
+	x /= 800.0f / 2;
+	x *= -1;
+	float y = di.MousePositionDelta().Y();
+	y /= 600.0f / 2;
+	y *= -1;
+
+	camera.Rotate(x, y);
+
+
+
 	spriteRotate += 3.14f * (1.0f / 60.0f);
 
 	sp.SetRotate(spriteRotate);
-
-
-	static int i = 0;
-	i++;
-	if (i == 60 * 10)
-	{
-		BGM_Buffer2.Play(true);
-	}
-
 
 }
 
 void GameState::Draw()
 {
-	Direct3D::DrawSprite(sp,tex, false);
+
+	Direct3D::GetInstance().SetRenderState(RENDER_MESH);
+	camera.SetViewMatrix();
+
+	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
+
+	D3DXMatrixTranslation(&mat_transform, 0.0f, 0.0f, 0.0f);	//座標
+	D3DXMatrixScaling(&mat_scale, 1.0f, 1.0f, 1.0f);		//拡大
+	D3DXMatrixRotationY(&mat_rotate, 0);	//回転　（y軸中心）
+
+	testMesh.DrawMatrice(mat_transform, mat_scale, mat_rotate);
+
+	//Direct3D::DrawSprite(sp, tex, false);
 }
 
 void GameState::Init()
 {
-	BGM_Wave.Load("Loop_148.wav");
-	
-	BGM_Buffer.Create(BGM_Wave);
-	BGM_Buffer2.Create(BGM_Wave);
+	//BGM_Wave.Load("Loop_148.wav");
+	//
+	//BGM_Buffer.Create(BGM_Wave);
+	//BGM_Buffer2.Create(BGM_Wave);
 
-	BGM_Buffer.Play(true);
+	//BGM_Buffer.Play(true);
 }

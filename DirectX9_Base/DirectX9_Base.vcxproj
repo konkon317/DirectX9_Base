@@ -81,7 +81,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
+    <ClCompile Include="Source\Direct3D\camera.cpp" />
     <ClCompile Include="Source\Direct3D\Direct3D.cpp" />
+    <ClCompile Include="Source\Direct3D\mesh.cpp" />
     <ClCompile Include="Source\Direct3D\sprite.cpp" />
     <ClCompile Include="Source\Direct3D\texture.cpp" />
     <ClCompile Include="Source\DirectSound\DirectSound.cpp" />
@@ -95,7 +97,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h" />
+    <ClInclude Include="Source\Direct3D\camera.h" />
     <ClInclude Include="Source\Direct3D\Direct3D.h" />
+    <ClInclude Include="Source\Direct3D\mesh.h" />
     <ClInclude Include="Source\Direct3D\sprite.h" />
     <ClInclude Include="Source\Direct3D\texture.h" />
     <ClInclude Include="Source\DirectSound\DirectSound.h" />
