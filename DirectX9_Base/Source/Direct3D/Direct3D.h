@@ -29,6 +29,7 @@ enum RENDERSTATE
 
 class Texture;
 class Sprite;
+class Mesh;
 
 //-------------------------------
 class Direct3D : public Singleton<Direct3D>
@@ -49,9 +50,10 @@ public:
 	bool LoadTexture(Texture& texture, TCHAR* FileName);
 	
 	void  SetViewMatrix(D3DXMATRIXA16& mat);
+	void SetupRrojectionMatrix();
 
-	void LoadMesh(LPD3DXMESH* pMesh,TCHAR* path);
-	void DrawMatrix(LPD3DXMESH* pMesh, D3DXMATRIXA16& worldMat);
+	void LoadMesh(Mesh& mesh,TCHAR* path);
+	void DrawMesh(Mesh& mesh, D3DXMATRIXA16& worldMat);
 
 	//スプライトの表示
 	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);

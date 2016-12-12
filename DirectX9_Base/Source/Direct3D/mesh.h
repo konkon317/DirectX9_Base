@@ -5,8 +5,15 @@ class Camera;
 
 class Mesh
 {
+
+	friend class Direct3D;
+
 private:
 	LPD3DXMESH pMesh;
+	DWORD	   numMaterials;//ƒ}ƒeƒŠƒAƒ‹‚ÌŒÂ”
+
+	LPDIRECT3DTEXTURE9* ppTextures;
+	D3DMATERIAL9 *      pMaterials;
 
 public:
 	Mesh();

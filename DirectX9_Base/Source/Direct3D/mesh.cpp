@@ -9,6 +9,16 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
+	for (unsigned int i = 0; i < numMaterials; i++)
+	{
+		if (ppTextures[i])
+		{
+			ppTextures[i]->Release();
+		}
+	}
+
+	delete[] pMaterials;
+	
 	pMesh->Release();
 }
 
@@ -27,7 +37,7 @@ void Mesh::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D
 	////モデルの配置
 	//static float testx = 0.0f;
 	////testx += 0.01f;
-
+	
 	////モデルの拡大率
 	//static float testScaleY = 0;
 	//testScaleY += 0.005f;
@@ -38,7 +48,7 @@ void Mesh::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D
 
 
 	
-	Direct3D::GetInstance().DrawMatrix(&pMesh, matWorld);
+	Direct3D::GetInstance().DrawMesh(*this, matWorld);
 
 }
 
@@ -46,6 +56,6 @@ void Mesh::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D
 
 void Mesh::Load(TCHAR* path)
 {
-	Direct3D::GetInstance().LoadMesh(&pMesh, path);
+	Direct3D::GetInstance().LoadMesh(*this, path);
 
 }

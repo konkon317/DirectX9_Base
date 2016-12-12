@@ -1,6 +1,7 @@
 #include "direct3d.h"
 #include "texture.h"
 #include "sprite.h"
+#include "mesh.h"
 
 //コンストラクタ
 Direct3D::Direct3D()
@@ -212,13 +213,9 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
 
 
-				D3DMATERIAL9 mtrl;
-				ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
-				mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
-				mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
-				mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
-				mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
-				d3d.pDevice3D->SetMaterial(&mtrl);
+				d3d.SetupRrojectionMatrix();
+
+				
 
 				D3DLIGHT9 light;
 				ZeroMemory(&light, sizeof(D3DLIGHT9));
@@ -247,7 +244,7 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_AMBIENT, 0x00444444);
 			}
 			break;
-
+			
 
 			}
 		}
@@ -371,23 +368,115 @@ void Direct3D::SetViewMatrix(D3DXMATRIXA16& mat)
 	pDevice3D->SetTransform(D3DTS_VIEW, &mat);
 }
 
-void Direct3D::LoadMesh(LPD3DXMESH* pMesh,TCHAR* path)
+void Direct3D::LoadMesh(Mesh& mesh,TCHAR* path)
 {
-	D3DXLoadMeshFromX(path, D3DXMESH_SYSTEMMEM,pDevice3D,
-		NULL, NULL, NULL, NULL, pMesh
-		);
+	////LPSTR からLPCWSTRに変換
+	////https://msdn.microsoft.com/ja-jp/library/ms235631(VS.80).aspx
+	//LPSTR temp = path;
+	//size_t origsize = strlen(temp)+1;
+	//size_t convertedChars = 0;
+	//wchar_t wcstring[1024];
+	//ZeroMemory(wcstring, sizeof(wcstring));
+	//mbstowcs_s(&convertedChars, wcstring, origsize, temp, _TRUNCATE);
+	//
+	////	wcscat_s(wcstring, L"(wchar_t *)");
+	//LPCWSTR path2 = wcstring;
+
+
+	//Xファイルのパスを取得
+	CHAR dir[_MAX_DIR];
+	_splitpath_s(path, NULL, 0, dir, _MAX_DIR, NULL, 0, NULL, 0);
+
+	LPD3DXBUFFER pBufferMaterial;
+
+	if (D3DXLoadMeshFromX(path, D3DXMESH_SYSTEMMEM, pDevice3D, NULL, &pBufferMaterial, NULL, &mesh.numMaterials, &mesh.pMesh) != D3D_OK)
+	{
+		return;
+	}
+
+	//マテリアルの準備
+	if (mesh.numMaterials > 0)
+	{
+		mesh.pMaterials = new D3DMATERIAL9[mesh.numMaterials];
+		mesh.ppTextures = new LPDIRECT3DTEXTURE9[mesh.numMaterials];
+
+		D3DXMATERIAL * d3dxMaterials = (D3DXMATERIAL*)pBufferMaterial->GetBufferPointer();
+
+		for (int i = 0; i < mesh.numMaterials; i++)
+		{
+			//夫々のマテリアルをバッファからコピーする
+			mesh.pMaterials[i] = d3dxMaterials[i].MatD3D;
+			mesh.pMaterials[i].Ambient = mesh.pMaterials[i].Diffuse;
+
+			mesh.ppTextures[i] = NULL;
+
+			//テクスチャのファイル名を取り出してロード
+			if (d3dxMaterials[i].pTextureFilename != NULL)
+			{			
+
+				//テクスチャファイルパスを作成する
+				CHAR texturefile[1024];
+				ZeroMemory(texturefile, sizeof(texturefile));
+				lstrcat(texturefile, dir);
+				lstrcat(texturefile, d3dxMaterials[i].pTextureFilename);
+
+				if (D3DXCreateTextureFromFile(pDevice3D,texturefile, &mesh.ppTextures[i])!=D3D_OK)
+				{
+					mesh.ppTextures[i] = NULL;
+				}
+
+			}
+
+		}
+	}
+
+	pBufferMaterial->Release();
+
 }
 
-void Direct3D::DrawMatrix(LPD3DXMESH* pMesh, D3DXMATRIXA16& worldMat)
+void Direct3D::DrawMesh(Mesh& mesh, D3DXMATRIXA16& worldMat)
 {
-	pDevice3D->SetTransform(D3DTS_WORLD,&worldMat);
+	if (mesh.pMesh != NULL)
+	{
+		pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
 
-	
+		//頂点シェーダ
+		pDevice3D->SetVertexShader(NULL);
 
+		//頂点フォーマット
+		pDevice3D->SetFVF(mesh.pMesh->GetFVF());
+
+		if (mesh.numMaterials > 0)
+		{
+			for (unsigned int i = 0; i < mesh.numMaterials; i++)
+			{
+
+				pDevice3D->SetMaterial(&mesh.pMaterials[i]);
+				pDevice3D->SetTexture(0, mesh.ppTextures[i]);
+				mesh.pMesh->DrawSubset(i);
+			}
+		}
+		else
+		{
+			//マテリアルが無かった場合は（そんなケースまずないが）
+			//適当に作ったマテリアルで表示
+			D3DMATERIAL9 mtrl;
+			ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+			mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
+			mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
+			mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
+			mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
+			pDevice3D->SetMaterial(&mtrl);
+
+			mesh.pMesh->DrawSubset(0);
+		}
+	}
+}
+
+void Direct3D::SetupRrojectionMatrix()
+{
 	D3DXMATRIXA16 matProj;
-	//projection matrix
+
 	D3DXMatrixPerspectiveFovLH(&matProj, 3.0f / 4.0f, 1.0f, 1.0f, 100.0f);
 	pDevice3D->SetTransform(D3DTS_PROJECTION, &matProj);
-
-	(*pMesh)->DrawSubset(0);
 }

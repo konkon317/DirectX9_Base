@@ -25,7 +25,7 @@ GameState::GameState()
 	tex.SetDivide(2, 2);
 	tex.SetUVNum(1, 1);
 	
-	testMesh.Load(_T("sample0012.x"));
+	testMesh.Load(_T("Mesh/iasel/iasel_brackboard.x"));
 
 	camera.SetEyePoint(0.0f, 1.0f, -5.0f);
 	camera.SetRelLookAtPoint(0.0f, 0.0f, 1.0f);
