@@ -27,12 +27,40 @@ GameState::GameState()
 	
 	testMesh.Load(_T("Mesh/iasel/iasel_brackboard.x"));
 
-	camera.SetEyePoint(0.0f, 1.0f, -5.0f);
-	camera.SetRelLookAtPoint(0.0f, 0.0f, 1.0f);
+	camera.SetEyePoint(0.0f, 0.0f,-5);
+	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);
+
+	for (int i = 0; i < 2; i++)
+	{
+
+		pGameObject[i] = NULL;
+		pGameObject[i] = new GameObject3D();
+
+		if (pGameObject != NULL)
+		{
+			
+			pGameObject[i]->SetMesh(&testMesh);
+
+			pGameObject[i]->SetPosition(i * 5, -i*1, i*0.3);
+			
+		}
+	}
+
+	pGameObject[0]->rotateF = false;
+	pGameObject[1]->moveF = false;
 }
 
 GameState::~GameState()
 {
+	for (int i = 1; i >= 0; i--)
+	{
+
+		if (pGameObject[i] != NULL)
+		{
+			delete pGameObject[i];
+			pGameObject[i] = NULL;
+		}
+	}
 	
 }
 
@@ -106,6 +134,18 @@ void GameState::Update()
 	spriteRotate += 3.14f * (1.0f / 60.0f);
 
 	sp.SetRotate(spriteRotate);
+	for (int i = 1; i >= 0; i--)
+	{
+
+		pGameObject[i]->Update();
+	}
+
+
+	if (OrientedBoundingBox::Collision(*(pGameObject[0]->GetObb()), *(pGameObject[1]->GetObb())))
+	{
+		int a = 0;
+	//	MessageBox(NULL, "ヒット", TEXT("バウディングボックス"), MB_OK);
+	}
 
 }
 
@@ -115,13 +155,11 @@ void GameState::Draw()
 	Direct3D::GetInstance().SetRenderState(RENDER_MESH);
 	camera.SetViewMatrix();
 
-	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
+	for (int i = 1; i >= 0; i--)
+	{
 
-	D3DXMatrixTranslation(&mat_transform, 0.0f, 0.0f, 0.0f);	//座標
-	D3DXMatrixScaling(&mat_scale, 1.0f, 1.0f, 1.0f);		//拡大
-	D3DXMatrixRotationY(&mat_rotate, 0);	//回転　（y軸中心）
-
-	testMesh.DrawMatrice(mat_transform, mat_scale, mat_rotate);
+		pGameObject[i]->Draw();
+	}
 
 	//Direct3D::DrawSprite(sp, tex, false);
 }

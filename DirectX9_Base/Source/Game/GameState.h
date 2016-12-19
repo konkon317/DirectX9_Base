@@ -13,6 +13,8 @@
 #include "../Template/Singleton.h"
 
 
+#include "../Entity/GameObject3D.h"
+
 
 class GameState :public Singleton<GameState>
 {
@@ -31,6 +33,8 @@ private:
 	Camera camera;
 
 	Mesh testMesh;
+
+	GameObject3D* pGameObject[2];
 
 public :
 	static void Draw_Static();

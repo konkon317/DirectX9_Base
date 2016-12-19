@@ -480,3 +480,26 @@ void Direct3D::SetupRrojectionMatrix()
 	D3DXMatrixPerspectiveFovLH(&matProj, 3.0f / 4.0f, 1.0f, 1.0f, 100.0f);
 	pDevice3D->SetTransform(D3DTS_PROJECTION, &matProj);
 }
+
+void  Direct3D::DrawLine(LINE_VERTEX* pVertex, int count)
+{
+
+	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
+
+	D3DXMATRIXA16 matWorld;
+
+	//À•W@Šg‘å@‰ñ“]@‚ð•ÛŽ‚·‚és—ñ
+	D3DXMATRIXA16 mat_temp;
+
+	D3DXMatrixTranslation(&mat_transform,0,0,0);	//À•W
+	D3DXMatrixScaling(&mat_scale, 1.0f, 1.0f, 1.0f);		//Šg‘å
+	D3DXMatrixRotationY(&mat_rotate,0);	//‰ñ“]@iyŽ²’†Sj		
+
+	D3DXMatrixMultiply(&mat_temp, &mat_scale, &mat_rotate);   //ˆêŽžs—ñ‚ÉŠg‘å—¦ ‰ñ“]‚ð‡¬‚µ‚½‚à‚Ì‚ð‘ã“ü
+	D3DXMatrixMultiply(&matWorld, &mat_temp, &mat_transform); //ˆêŽžs—ñ‚ÆÀ•W‚ð‡¬
+	
+	pDevice3D->SetTransform(D3DTS_WORLD, &matWorld);
+
+	pDevice3D->SetFVF(D3DFVF_LINE_VERTEX);
+	pDevice3D->DrawPrimitiveUP(D3DPT_LINELIST, count, pVertex, sizeof(LINE_VERTEX));
+}

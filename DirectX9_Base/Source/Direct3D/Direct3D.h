@@ -2,6 +2,8 @@
 
 #define D3D_DEBUG_INFO	//Direct3Dデバッグフラグ
 
+#define D3DFVF_LINE_VERTEX D3DFVF_XYZ|D3DFVF_DIFFUSE
+
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
 #pragma comment(lib, "d3dxof.lib")
@@ -27,6 +29,14 @@ enum RENDERSTATE
 	RENDER_MESH
 };
 
+
+
+struct LINE_VERTEX
+{
+	D3DXVECTOR3 v;
+	DWORD color;
+};
+
 class Texture;
 class Sprite;
 class Mesh;
@@ -40,7 +50,7 @@ public :
 	typedef void(*FuncPointer)();//関数ポインタの型定義
 
 public:	
-
+	
 	//デバイス作成を試みる
 	bool TryCreate(HWND hWmd);
 
@@ -59,6 +69,8 @@ public:
 	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);
 	static void DrawSprite(Sprite& sprite, bool isTurn = false);
 	void SetDrawFunc(FuncPointer pointer);
+
+	void DrawLine(LINE_VERTEX* pVertex, int count);
 
 private:
 	IDirect3D9*	pD3D9 = NULL;				//Direct3Dデバイス生成用オブジェクト
@@ -79,4 +91,6 @@ private:
 	
 
 	void ReleaseDevice();
+
+	
 };

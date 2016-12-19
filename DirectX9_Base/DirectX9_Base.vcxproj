@@ -81,6 +81,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
+    <ClCompile Include="Source\BoundingBox\OrientedBoundinngBox.cpp" />
     <ClCompile Include="Source\Direct3D\camera.cpp" />
     <ClCompile Include="Source\Direct3D\Direct3D.cpp" />
     <ClCompile Include="Source\Direct3D\mesh.cpp" />
@@ -89,6 +90,7 @@
     <ClCompile Include="Source\DirectSound\DirectSound.cpp" />
     <ClCompile Include="Source\DirectSound\SoundBuffer.cpp" />
     <ClCompile Include="Source\DirectSound\WaveFile.cpp" />
+    <ClCompile Include="Source\Entity\GameObject3D.cpp" />
     <ClCompile Include="Source\Game\GameState.cpp" />
     <ClCompile Include="Source\Input\directInput.cpp" />
     <ClCompile Include="Source\Input\XInput.cpp" />
@@ -97,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h" />
+    <ClInclude Include="Source\BoundingBox\OrientedBoundinngBox.h" />
     <ClInclude Include="Source\Direct3D\camera.h" />
     <ClInclude Include="Source\Direct3D\Direct3D.h" />
     <ClInclude Include="Source\Direct3D\mesh.h" />
@@ -105,6 +108,8 @@
     <ClInclude Include="Source\DirectSound\DirectSound.h" />
     <ClInclude Include="Source\DirectSound\SoundBuffer.h" />
     <ClInclude Include="Source\DirectSound\WaveFile.h" />
+    <ClInclude Include="Source\Entity\GameObject.h" />
+    <ClInclude Include="Source\Entity\GameObject3D.h" />
     <ClInclude Include="Source\Game\GameState.h" />
     <ClInclude Include="Source\Input\directInput.h" />
     <ClInclude Include="Source\Input\XInput.h" />

@@ -25,6 +25,12 @@
     <Filter Include="Source\Input">
       <UniqueIdentifier>{10e3ad76-e277-47e0-94ce-45641d3ea5d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Entity">
+      <UniqueIdentifier>{ff1519a6-589d-4518-bda1-c0f53e016938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\BoundingBox">
+      <UniqueIdentifier>{fe851f10-5482-4da2-9ec0-bf3661176185}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
@@ -69,6 +75,12 @@
     <ClCompile Include="Source\Direct3D\camera.cpp">
       <Filter>Source\Direct3D</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Entity\GameObject3D.cpp">
+      <Filter>Source\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BoundingBox\OrientedBoundinngBox.cpp">
+      <Filter>Source\BoundingBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -112,6 +124,15 @@
     </ClInclude>
     <ClInclude Include="Source\Direct3D\camera.h">
       <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\GameObject3D.h">
+      <Filter>Source\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\GameObject.h">
+      <Filter>Source\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BoundingBox\OrientedBoundinngBox.h">
+      <Filter>Source\BoundingBox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
