@@ -138,7 +138,7 @@ void MainScene::Draw()
 		pGameObject[i]->Draw();
 	}
 
-	//Direct3D::DrawSprite(sp, tex, false);
+	Direct3D::DrawSprite(sp, tex, false);
 }
 
 void MainScene::Init()

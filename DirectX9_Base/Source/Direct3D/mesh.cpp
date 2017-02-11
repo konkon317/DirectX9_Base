@@ -17,6 +17,7 @@ Mesh::~Mesh()
 		}
 	}
 
+	delete[] ppTextures;
 	delete[] pMaterials;
 	
 	pMesh->Release();
