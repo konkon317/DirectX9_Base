@@ -31,6 +31,15 @@
     <Filter Include="Source\BoundingBox">
       <UniqueIdentifier>{fe851f10-5482-4da2-9ec0-bf3661176185}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Scene">
+      <UniqueIdentifier>{b9fe831a-11c8-4794-b604-079c6efafcdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\Manager">
+      <UniqueIdentifier>{5e1168f2-d6a9-42ea-9211-45b0ae704eaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\Scene">
+      <UniqueIdentifier>{342c1947-f3ca-48f4-a679-45acb9bb1a9d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
@@ -80,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="Source\BoundingBox\OrientedBoundinngBox.cpp">
       <Filter>Source\BoundingBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Manager\SceneManagetr.cpp">
+      <Filter>Source\Scene\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Scene\MainScene.cpp">
+      <Filter>Source\Scene\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="Source\BoundingBox\OrientedBoundinngBox.h">
       <Filter>Source\BoundingBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Manager\SceneManager.h">
+      <Filter>Source\Scene\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Scene\MainScene.h">
+      <Filter>Source\Scene\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

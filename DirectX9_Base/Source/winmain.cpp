@@ -9,6 +9,8 @@
 #include "DirectSound/DirectSound.h"
 #include "Game/GameState.h"
 
+#include "Scene/Manager/SceneManager.h"
+
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	//ウィンドウやメインループの実行を管理するクラスのインスタンスを作製
@@ -45,6 +47,11 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	App.MessageLoop();//メッセージループ
 
 	//メッセージループが終了したので終了処理をしてプログラムを終える
-
+	
+	SceneManager::Finalize();
+	
 	SingletonFinalizer::Finalize();//シングルトンなクラスの終了処理
+
+	
+
 }

@@ -35,10 +35,12 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="DirectX_note.props" />
+    <Import Project="DirectX_Desktop.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="DirectX_note.props" />
+    <Import Project="DirectX_Desktop.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -94,6 +96,8 @@
     <ClCompile Include="Source\Game\GameState.cpp" />
     <ClCompile Include="Source\Input\directInput.cpp" />
     <ClCompile Include="Source\Input\XInput.cpp" />
+    <ClCompile Include="Source\Scene\Manager\SceneManagetr.cpp" />
+    <ClCompile Include="Source\Scene\Scene\MainScene.cpp" />
     <ClCompile Include="Source\Template\Singleton.cpp" />
     <ClCompile Include="Source\winmain.cpp" />
   </ItemGroup>
@@ -114,6 +118,8 @@
     <ClInclude Include="Source\Input\directInput.h" />
     <ClInclude Include="Source\Input\XInput.h" />
     <ClInclude Include="Source\Other\MyVector.h" />
+    <ClInclude Include="Source\Scene\Manager\SceneManager.h" />
+    <ClInclude Include="Source\Scene\Scene\MainScene.h" />
     <ClInclude Include="Source\Template\Singleton.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -12,29 +12,18 @@
 
 #include "../Template/Singleton.h"
 
-
 #include "../Entity/GameObject3D.h"
+
+#include "../Scene/Manager/SceneManager.h"
 
 
 class GameState :public Singleton<GameState>
 {
 	friend class Singleton<GameState>;
-private:
-	Texture tex;
-	Sprite sp;
 
-	float spriteRotate;
+private:	
 
-
-	WaveFile BGM_Wave;
-	SoundBuffer BGM_Buffer;
-	SoundBuffer BGM_Buffer2;
-
-	Camera camera;
-
-	Mesh testMesh;
-
-	GameObject3D* pGameObject[2];
+	SceneManager sceneManager;
 
 public :
 	static void Draw_Static();

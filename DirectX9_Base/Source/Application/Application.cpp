@@ -306,7 +306,7 @@ void Application::MessageLoop()
 bool Application::Wait(DWORD wait_time)
 {
 	MSG msg = {};
-	DWORD startTime = timeGetTime();
+	DWORD startTime = timeGetTime();	
 
 	do
 	{
