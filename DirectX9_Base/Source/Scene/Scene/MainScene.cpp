@@ -58,7 +58,6 @@ void MainScene::Update()
 
 	XInput& xi = XInput::GetInstance();
 
-
 	if (xi.GetTrigger(0, TRIGGER_LEFT) > 0)
 	{
 		int a = 0;

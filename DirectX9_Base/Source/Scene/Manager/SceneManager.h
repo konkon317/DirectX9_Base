@@ -11,7 +11,7 @@ class Scene
 {
 
 public :
-	Scene(){};
+	Scene()/*{}*/;
 	virtual ~Scene(){};
 
 	virtual void Update() = 0;
@@ -96,6 +96,8 @@ private:
 
 public:
 	SceneManager();
+	~SceneManager();
+
 	void Update();
 
 	void Draw();

@@ -4,6 +4,11 @@ TestSceneCreater TestSceneCreater::instance;
 
 map <int, SceneCreater*>*  SceneManager::pSceneCreaterMap=nullptr;
 
+Scene::Scene()
+{
+	
+}
+
 SceneCreater::SceneCreater()
 {
 	doneHashSet = false;
@@ -63,6 +68,8 @@ void SceneManager::RegisterSceneCreater(SceneCreater* pSc)
 
 void SceneManager::Finalize()
 {
+	
+
 	if (pSceneCreaterMap != nullptr)
 	{
 		pSceneCreaterMap->clear();
@@ -79,6 +86,28 @@ SceneManager::SceneManager()
 	currentSceneHash = 0;
 	nextSceneHash = 0;
 
+}
+
+SceneManager::~SceneManager()
+{
+	if (pCurrentScene != nullptr ||pNextScene!=nullptr)
+	{
+		if (pNextScene != nullptr)
+		{
+			if (pCurrentScene != pNextScene)
+			{
+				delete pNextScene;
+			}
+			pNextScene = nullptr;
+		}
+
+		if (pCurrentScene != nullptr)
+		{
+			delete pCurrentScene;
+			pCurrentScene = nullptr;
+		}
+
+	}
 }
 
 void SceneManager::Update()
