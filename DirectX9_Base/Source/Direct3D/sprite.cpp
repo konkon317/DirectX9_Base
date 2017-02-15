@@ -8,6 +8,8 @@ Sprite::Sprite()
 	width = height = 0;
 
 	rotate = 0.0f;
+	
+	alpha = 1.0f;
 }
 
 //デストラクタ
@@ -43,4 +45,21 @@ void Sprite::SetSize(int Width, int Height)
 void Sprite::SetRotate(float Rotate)
 {
 	rotate = Rotate;
+}
+
+void  Sprite::SetAlpha(float a)
+{
+	if (a < 0.0f)
+	{
+		alpha = 0.0f;
+	}
+	else if (a>1.0f)
+	{
+		alpha = 1;
+	}
+	else
+	{
+		alpha = a;
+	}
+
 }

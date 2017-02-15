@@ -23,6 +23,7 @@ enum RENDERSTATE
 {
 	RENDER_DEFAULT,		//デフォルト
 	RENDER_ALPHATEST,	//αテスト
+	RENDER_ALPHABLEND,
 	RENDER_HALFADD,		//半加算合成
 	RENDER_ADD,		//加算合成
 
@@ -75,6 +76,8 @@ public:
 private:
 	IDirect3D9*	pD3D9 = NULL;				//Direct3Dデバイス生成用オブジェクト
 	IDirect3DDevice9* pDevice3D = NULL;		//Direct3Dのデバイス　スプライトの表示やテクスチャのロード時に必要
+
+	static RENDERSTATE currentState;
 
 	//デバイス作成
 	bool Create(HWND hWmd);

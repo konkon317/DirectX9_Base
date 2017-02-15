@@ -138,6 +138,18 @@ void MainScene::Draw()
 		pGameObject[i]->Draw();
 	}
 
+	
+	static int dir = -1;
+	static float targetValue=0;
+
+	sp.SetAlpha(sp.GetAlpha() + (0.01f*dir));
+	if (sp.GetAlpha() == targetValue)
+	{
+		dir *= -1;
+		targetValue = (dir == -1) ? 0 : 1;
+	}
+
+	Direct3D::GetInstance().SetRenderState(RENDERSTATE::RENDER_ALPHABLEND);
 	Direct3D::DrawSprite(sp, tex, false);
 }
 

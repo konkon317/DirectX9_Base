@@ -3,6 +3,8 @@
 #include "sprite.h"
 #include "mesh.h"
 
+RENDERSTATE Direct3D::currentState;
+
 //コンストラクタ
 Direct3D::Direct3D()
 {
@@ -157,6 +159,8 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 
 		if (d3d.IsDeviceCreated())
 		{
+			currentState = RenderState;
+
 			switch (RenderState)
 			{
 			case RENDER_DEFAULT:
@@ -176,6 +180,15 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);			//αブレンドの無効化
 			}
 			break;
+
+			case RENDER_ALPHABLEND:
+			{
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);			//αテストの有効化
+				d3d.pDevice3D->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+				d3d.pDevice3D->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+				d3d.pDevice3D->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+			}
+				break;
 
 			case RENDER_HALFADD:
 			{
@@ -296,20 +309,20 @@ void Direct3D::DrawSprite(Sprite& sprite, Texture& texture, bool isTurn)
 
 		//
 		//右上
-		{ (float)sprite.width / 2, -(float)sprite.height / 2, 0.0f, 1.0f,
-			(isTurn ? static_cast<float>(texture.numU) / texture.divU : static_cast<float>(texture.numU + 1) / texture.divU), static_cast<float>(texture.numV) / texture.divV
+		{ (float)sprite.width / 2, -(float)sprite.height / 2, 0.0f, 1.0f,0x00ffffff,
+			(isTurn ? static_cast<float>(texture.numU) / texture.divU : static_cast<float>(texture.numU + 1) / texture.divU),  static_cast<float>(texture.numV) / texture.divV
 		},
 		//右下
-		{ (float)sprite.width / 2, (float)sprite.height / 2, 0.0f, 1.0f,
-		(isTurn ? static_cast<float>(texture.numU) / texture.divU : static_cast<float>(texture.numU + 1) / texture.divU), static_cast<float>(texture.numV + 1) / texture.divV
+		{ (float)sprite.width / 2, (float)sprite.height / 2, 0.0f, 1.0f,0x00ffffff,
+		(isTurn ? static_cast<float>(texture.numU) / texture.divU : static_cast<float>(texture.numU + 1) / texture.divU),  static_cast<float>(texture.numV + 1) / texture.divV
 		},
 		//左上
-		{ -(float)sprite.width / 2, -(float)sprite.height / 2, 0.0f, 1.0f,
-		(isTurn ? static_cast<float>(texture.numU + 1) / texture.divU : static_cast<float>(texture.numU) / texture.divU), static_cast<float>(texture.numV) / texture.divV
+		{ -(float)sprite.width / 2, -(float)sprite.height / 2, 0.0f, 1.0f,0x00ffffff,
+		(isTurn ? static_cast<float>(texture.numU + 1) / texture.divU : static_cast<float>(texture.numU) / texture.divU),  static_cast<float>(texture.numV) / texture.divV
 		},
 		//左下
-		{ -(float)sprite.width / 2, (float)sprite.height / 2, 0.0f, 1.0f,
-		(isTurn ? static_cast<float>(texture.numU + 1) / texture.divU : static_cast<float>(texture.numU) / texture.divU), static_cast<float>(texture.numV + 1) / texture.divV
+		{ -(float)sprite.width / 2, (float)sprite.height / 2, 0.0f, 1.0f,0x00ffffff,
+		(isTurn ? static_cast<float>(texture.numU + 1) / texture.divU : static_cast<float>(texture.numU) / texture.divU),  static_cast<float>(texture.numV + 1) / texture.divV
 		},
 
 	};
@@ -324,10 +337,24 @@ void Direct3D::DrawSprite(Sprite& sprite, Texture& texture, bool isTurn)
 		vtx[i].x = x + sprite.pos.x;
 		vtx[i].y = y + sprite.pos.y;
 
+
+		vtx[i].colorDefuse += static_cast<int>(((float)0x000000ff)*sprite.alpha)<<(8*3);
 	}
 
+	//d3d.pDevice3D->SetMaterial(&sprite.mat);
 	//テクスチャのセット
 	d3d.pDevice3D->SetTexture(0, texture.pTexture);
+
+	if (currentState==RENDERSTATE::RENDER_ALPHABLEND)
+	{
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+	}
+
 	//頂点構造体宣言をセット
 	d3d.pDevice3D->SetFVF(Sprite::SPRITE_FVF);
 	//スプライト描画
@@ -413,7 +440,6 @@ void Direct3D::LoadMesh(Mesh& mesh,TCHAR* path)
 			//テクスチャのファイル名を取り出してロード
 			if (d3dxMaterials[i].pTextureFilename != NULL)
 			{			
-
 				//テクスチャファイルパスを作成する
 				CHAR texturefile[1024];
 				ZeroMemory(texturefile, sizeof(texturefile));

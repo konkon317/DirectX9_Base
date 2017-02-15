@@ -14,6 +14,9 @@ struct SpriteVertex
 {
 	float x, y, z;	//3次元座標
 	float rhw;		//2D変換済みフラグ スクリーン座標
+
+	DWORD colorDefuse;
+
 	float u, v;		//UV座標
 
 };
@@ -24,7 +27,7 @@ class Sprite
 public:
 	
 	//FVF(柔軟な頂点構造体宣言)
-	static const DWORD SPRITE_FVF = D3DFVF_XYZRHW | D3DFVF_TEX1;
+	static const DWORD SPRITE_FVF = D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1;
 
 private:
 	D3DXVECTOR2 pos;
@@ -35,6 +38,8 @@ private:
 	
 	//回転値(ラジアン)
 	float rotate;
+
+	float alpha;
 public :
 
 	//コンストラクタ
@@ -46,6 +51,9 @@ public :
 	void SetSize(int Width, int Height);
 	void SetRotate(float Rotate);
 
-	void Draw(IDirect3DDevice9* pDevice3D, IDirect3DTexture9* pTexture, bool isTurn = false);
+	float GetAlpha(){ return alpha; }
+	void SetAlpha(float a);
+
+	//void Draw(IDirect3DDevice9* pDevice3D, IDirect3DTexture9* pTexture, bool isTurn = false);
 
 };
