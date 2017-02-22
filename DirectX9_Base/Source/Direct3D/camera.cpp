@@ -76,7 +76,7 @@ void Camera::Move(float front, float right)
 		float rad = atan2(relLookAtPoint.z, relLookAtPoint.x);
 		float frontY = sin(rad);
 		float frontX = cos(rad);
-		rad -= 3.14159265 / 2;
+		rad -= static_cast<float>(3.14159265 / 2);
 		float rightY = sin(rad);
 		float rightX = cos(rad);
 
@@ -100,8 +100,8 @@ void Camera::Rotate(float radYaw, float radPitch)
 		//zとxからピッチ回転の角度を求める　（ラジアン）
 		double first_radYaw = atan2(relLookAtPoint.z, relLookAtPoint.x);
 		//三角関数の加法定理
-		float resultZ = sin(first_radYaw) * cos(radYaw) + cos(first_radYaw) * sin(radYaw);
-		float resultX = cos(first_radYaw) * cos(radYaw) - sin(first_radYaw) * sin(radYaw);
+		float resultZ =static_cast<float>( sin(first_radYaw) * cos(radYaw) + cos(first_radYaw) * sin(radYaw));
+		float resultX = static_cast<float>(cos(first_radYaw) * cos(radYaw) - sin(first_radYaw) * sin(radYaw));
 		//ここまでヨー回転の処理
 
 		//以下ピッチ回転の処理
@@ -120,8 +120,8 @@ void Camera::Rotate(float radYaw, float radPitch)
 			addRadPitch = (-(3.1415 * 1 / 5)) - first_radPitch;
 		}
 		//三角関数の加法定理
-		float resultY = sin(first_radPitch)*cos(addRadPitch) + cos(first_radPitch)*sin(addRadPitch);
-		float resultPitchX = cos(first_radPitch)*cos(addRadPitch) - sin(first_radPitch)*sin(addRadPitch);
+		float resultY = static_cast<float>(sin(first_radPitch)*cos(addRadPitch) + cos(first_radPitch)*sin(addRadPitch));
+		float resultPitchX = static_cast<float>(cos(first_radPitch)*cos(addRadPitch) - sin(first_radPitch)*sin(addRadPitch));
 
 		resultX *= resultPitchX;
 		resultZ *= resultPitchX;

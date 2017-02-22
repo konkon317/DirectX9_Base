@@ -429,7 +429,7 @@ void Direct3D::LoadMesh(Mesh& mesh,TCHAR* path)
 
 		D3DXMATERIAL * d3dxMaterials = (D3DXMATERIAL*)pBufferMaterial->GetBufferPointer();
 
-		for (int i = 0; i < mesh.numMaterials; i++)
+		for (unsigned int i = 0; i < mesh.numMaterials; i++)
 		{
 			//夫々のマテリアルをバッファからコピーする
 			mesh.pMaterials[i] = d3dxMaterials[i].MatD3D;

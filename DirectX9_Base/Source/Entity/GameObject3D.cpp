@@ -14,7 +14,7 @@ GameObject3D::GameObject3D()
 	UpdateVectors();	
 
 	obb.SetOffset(0, 0, 0.75);
-	obb.SetLength(0.5, 0.8, 1.5);
+	obb.SetLength(0.5f, 0.8f, 1.5f);
 
 	obb.UpdateInfo(position, forwardVector, rightVector, upVector);
 

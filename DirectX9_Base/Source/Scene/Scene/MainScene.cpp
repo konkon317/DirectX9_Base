@@ -28,7 +28,7 @@ MainScene::MainScene()
 		{
 			pGameObject[i]->SetMesh(&testMesh);
 
-			pGameObject[i]->SetPosition(i * 5, -i * 1, i*0.3);
+			pGameObject[i]->SetPosition(i * 5.0f, -i * 1.0f, i*0.3f);
 		}
 	}
 
@@ -101,10 +101,11 @@ void MainScene::Update()
 		r -= 1;
 	}
 	camera.Move(f, r);
-	float x = di.MousePositionDelta().X();
+
+	float x = static_cast<float>(di.MousePositionDelta().X());
 	x /= 800.0f / 2;
 	x *= -1;
-	float y = di.MousePositionDelta().Y();
+	float y = static_cast<float>(di.MousePositionDelta().Y());
 	y /= 600.0f / 2;
 	y *= -1;
 
@@ -146,7 +147,7 @@ void MainScene::Draw()
 	if (sp.GetAlpha() == targetValue)
 	{
 		dir *= -1;
-		targetValue = (dir == -1) ? 0 : 1;
+		targetValue = (dir == -1) ? 0.0f : 1.0f;
 	}
 
 	Direct3D::GetInstance().SetRenderState(RENDERSTATE::RENDER_ALPHABLEND);
