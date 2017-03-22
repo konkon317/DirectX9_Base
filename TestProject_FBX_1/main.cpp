@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fbxsdk.h>
 
+#include "fbxUtil.h"
+
 using namespace fbxsdk;
 
 void WaitKey(char* message)
@@ -108,7 +110,16 @@ int main(int argc, char* argv[])
 	pImporter->Destroy();
 	pImporter = NULL;
 	
+	//------------------------------------------------------------------
+	//ƒm[ƒh’T¸
+	FbxNode* pRootNode = pScene->GetRootNode();
 
+	if (pRootNode)
+	{		
+		ProbeNode(pRootNode);		
+	}
+
+	pRootNode->Destroy();
 
 	//------------------------------------------------------------------
 	std::cout << "I—¹ˆ—‚É“ü‚è‚Ü‚·" <<std::endl;
