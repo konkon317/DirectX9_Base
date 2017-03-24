@@ -1,9 +1,23 @@
+#if _DEBUG
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#endif
+
+
 #include <iostream>
 #include <fbxsdk.h>
 
 #include "fbxUtil.h"
 
 using namespace fbxsdk;
+
+
+#if _DEBUG
+#define new ::new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#endif
 
 void WaitKey(char* message)
 {
@@ -14,6 +28,8 @@ void WaitKey(char* message)
 
 int main(int argc, char* argv[])
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	//------------------------------------------------------------------
 	//FBX Manager�̍쐬
 	std::cout << "Create FbxManager ... ";

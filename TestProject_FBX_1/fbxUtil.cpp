@@ -1,40 +1,44 @@
 #include "fbxUtil.h"
+#include "fbxMeshLoader.h"
+#include <iomanip>
 
-void ProbeNode(FbxNode* pNode)
+void ProbeNode(FbxNode* pNode,int depth)
 {
 	//ƒm[ƒh’T¸ŠÖ”
 	if (pNode)
 	{
 		int childCount = pNode->GetChildCount();
+		for (int i = 0; i < depth; i++)
+		{
+			std::cout << " " ;
+		}
+		
+		std::cout << "|- ("<<std::setw(4)<<depth<<") " ;		
+
 		std::cout << pNode->GetName() << " : " << childCount << " children. ";
 
 		if (IsMesh(pNode))
 		{
 			std::cout << " [ Mesh ] ";
-		}
-		
-		std::cout << std::endl;
+		}			
 
 		if (IsMesh(pNode))
 		{	
-			FbxMesh *pMesh = pNode->GetMesh();
-
-			if (pMesh != NULL)
-			{
-				std::cout << "mesh load" << std::endl;
-			}
+			FbxMeshLoader fbxMeshLoader;
+			fbxMeshLoader.Load(pNode);
 		}
 
+		std::cout << std::endl;
 
 		if (childCount > 0)
 		{			
-			std::cout <<">>>>  childNode" << std::endl;
+			//std::cout <<">>>>  In childNode" << std::endl;
 		
 			for (int i = 0; i < childCount; i++)
 			{
-				ProbeNode(pNode->GetChild(i));
+				ProbeNode(pNode->GetChild(i), depth + 1);
 			}
-			std::cout << "<<<<  backParent" << std::endl;
+			//std::cout << "<<<<  back ParentNode" << std::endl;
 		}
 	}
 }

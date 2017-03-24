@@ -32,9 +32,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	fbxsdk::FbxManager* fbxManager = fbxsdk::FbxManager::Create();
 
 	fbxManager->Destroy();
-	*/
-
-	
+	*/	
 
 	//ウィンドウやメインループの実行を管理するクラスのインスタンスを作製
 	Application& App = Application::GetInstance();
