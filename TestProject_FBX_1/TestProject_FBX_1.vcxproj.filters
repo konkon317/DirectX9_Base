@@ -3,21 +3,10 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="fbxUtil.cpp" />
-    <ClCompile Include="Template\Singleton.cpp">
-      <Filter>Template</Filter>
-    </ClCompile>
     <ClCompile Include="FbxMeshLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fbxUtil.h" />
-    <ClInclude Include="Template\Singleton.h">
-      <Filter>Template</Filter>
-    </ClInclude>
     <ClInclude Include="FbxMeshLoader.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Template">
-      <UniqueIdentifier>{87f65ff2-24bf-4550-a264-2ac1ec65fb3f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>

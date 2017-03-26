@@ -60,18 +60,23 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="FBX_SDK_desktop_debug.props" />
     <Import Project="DirectX_Desktop.props" />
+    <Import Project="FBX_SDK_note_debug.props" />
+    <Import Project="DirectX_note.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="DirectX_Desktop.props" />
+    <Import Project="DirectX_note.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="DirectX_Desktop.props" />
+    <Import Project="DirectX_note.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="DirectX_Desktop.props" />
+    <Import Project="DirectX_note.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -155,12 +160,10 @@
     <ClCompile Include="FbxMeshLoader.cpp" />
     <ClCompile Include="fbxUtil.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Template\Singleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FbxMeshLoader.h" />
     <ClInclude Include="fbxUtil.h" />
-    <ClInclude Include="Template\Singleton.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
