@@ -6,13 +6,20 @@ FbxMeshLoader::FbxMeshLoader()
 {
 	pVertexPoints_DX = NULL;
 	
-	controlNum=0;
+	vertexPointCount =0;
 
-	polygonNum = 0;
-	polygonVertexNum = 0;
-	pIndexArray = NULL;
+	polygonCount = 0;
+	/*polygonVertexNum = 0;
+	pIndexArray = NULL;*/
 	pPolygonVertexCount = NULL;
 	ppPolygonVertexIndex = NULL;
+
+	pNormalCounts = NULL;
+
+
+	ppNormalVector =NULL;
+
+	loaded = false;
 }
 
 FbxMeshLoader::~FbxMeshLoader()
@@ -30,7 +37,7 @@ void FbxMeshLoader::Release()
 
 	if (ppPolygonVertexIndex != NULL)
 	{
-		for (int i = 0; i < polygonNum; i++)
+		for (int i = 0; i < polygonCount; i++)
 		{
 			if (ppPolygonVertexIndex[i] != NULL)
 			{
@@ -47,12 +54,36 @@ void FbxMeshLoader::Release()
 		delete[] pPolygonVertexCount;
 		pPolygonVertexCount = NULL;;
 	}
+
+
+	if(ppNormalVector!=NULL)
+	{ 
+		for (int i = 0; i < normalLayerCount; i++)
+		{
+			if (ppNormalVector[i] != NULL)
+			{
+				delete[] ppNormalVector[i];
+				ppNormalVector[i] = NULL;
+			}
+		}
+		delete[] ppNormalVector;
+		ppNormalVector = NULL;
+	}
+
+	if (pNormalCounts != NULL)
+	{
+		delete[]pNormalCounts;
+		pNormalCounts = NULL;
+	}
+
+
+	loaded = false;
 }
 
 void FbxMeshLoader::Load(FbxNode* pNode)
 {
 
-	if (Loaded == false)
+	if (loaded == false)
 	{
 		if (IsMesh(pNode))
 		{
@@ -61,22 +92,25 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 
 			if (pMesh != NULL)
 			{
-				Loaded = true;
+				loaded = true;
 
-				std::cout << " mesh load "<<std::endl;
+				std::cout << std::endl;
+				std::cout << "mesh load "<<std::endl;
+
+				
 
 				//メッシュを構成するポリゴン数
-				polygonNum = pMesh->GetPolygonCount();
+				polygonCount = pMesh->GetPolygonCount();
 
 				//メッシュの総頂点
-				polygonVertexNum = pMesh->GetPolygonVertexCount();
-				pIndexArray = pMesh->GetPolygonVertices();
+				/*polygonVertexNum = pMesh->GetPolygonVertexCount();
+				pIndexArray = pMesh->GetPolygonVertices();*/
 
 				//ポリゴンを構成する頂点の数
-				pPolygonVertexCount = new int[polygonNum];
-				ppPolygonVertexIndex = new int*[polygonNum];
+				pPolygonVertexCount = new int[polygonCount];
+				ppPolygonVertexIndex = new int*[polygonCount];
 
-				for (int i = 0; i < polygonNum; i++)
+				for (int i = 0; i < polygonCount; i++)
 				{
 					pPolygonVertexCount[i] = 0;
 					ppPolygonVertexIndex[i] = NULL;
@@ -95,30 +129,119 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 				
 
 				//頂点座標の数
-				controlNum = pMesh->GetControlPointsCount();
+				vertexPointCount = pMesh->GetControlPointsCount();
 
 				FbxVector4* pControllPoints_FBX = pMesh->GetControlPoints();
 
-				pVertexPoints_DX = new D3DXVECTOR4[controlNum];
+				pVertexPoints_DX = new D3DXVECTOR4[vertexPointCount];
 
 				//FbxVector4 から D3DXVECTOR4へ
-				for (int i = 0; i < controlNum; i++)
+				for (int i = 0; i < vertexPointCount; i++)
 				{
-					pVertexPoints_DX[i].x = pControllPoints_FBX[i][0];
-					pVertexPoints_DX[i].y = pControllPoints_FBX[i][1];
-					pVertexPoints_DX[i].z = pControllPoints_FBX[i][2];
-					pVertexPoints_DX[i].w = pControllPoints_FBX[i][3];
-				}
+					pVertexPoints_DX[i].x = (float)pControllPoints_FBX[i][0];
+					pVertexPoints_DX[i].y = (float)pControllPoints_FBX[i][1];
+					pVertexPoints_DX[i].z = (float)pControllPoints_FBX[i][2];
+					pVertexPoints_DX[i].w = (float)pControllPoints_FBX[i][3];
+				}			
 				
+				//------法線----
+
+				//法線セットの数
+				int normalLayerCount = pMesh->GetElementNormalCount();
+
+				pNormalCounts = new int[normalLayerCount];
+				ppNormalVector = new D3DXVECTOR4*[normalLayerCount];				
+
+				for (int layer = 0; layer < normalLayerCount; layer++)
+				{
+
+					FbxGeometryElementNormal* pNormal= pMesh->GetElementNormal(layer);
+
+					//マッピングモードの取得
+					FbxGeometryElement::EMappingMode mappingMode = pNormal->GetMappingMode();
+					//リファレンスモードの取得
+					FbxGeometryElement::EReferenceMode referenceMode = pNormal->GetReferenceMode();
+
+					//マッピングモードの判別
+					switch (mappingMode)
+					{
+					case FbxGeometryElement::eByControlPoint:
+
+						//リファレンスモードの判別
+						switch(referenceMode)
+						{ 
+						case FbxGeometryElement::eDirect:					
+
+							//eDirectの場合データは順番に格納されているためそのまま保持
+
+							pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
+
+							ppNormalVector[layer] = new D3DXVECTOR4[pNormalCounts[layer]];
+
+							for (int i = 0; i < pNormalCounts[layer]; i++)
+							{
+								FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
+
+								ppNormalVector[layer][i].x = vec[0];
+								ppNormalVector[layer][i].y = vec[1];
+								ppNormalVector[layer][i].z = vec[2];
+								ppNormalVector[layer][i].w = vec[3];
+							}
+
+							break;
+
+						case FbxGeometryElement::eIndexToDirect:
+					
+							break;
+						}
+
+						break;
+
+					case FbxGeometryElement::eByPolygonVertex:
+						//法線がポリゴンの各頂点ごとに設定されている場合						
+
+						//リファレンスモードの判別
+						switch (referenceMode)
+						{
+						case FbxGeometryElement::eDirect:
+					
+							//eDirectの場合データは順番に格納されているためそのまま保持				
+
+							pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
+
+							ppNormalVector[layer] = new D3DXVECTOR4[pNormalCounts[layer]];
+
+							for (int i = 0; i < pNormalCounts[layer]; i++)
+							{
+								FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
+
+								ppNormalVector[layer][i].x = vec[0];
+								ppNormalVector[layer][i].y = vec[1];
+								ppNormalVector[layer][i].z = vec[2];
+								ppNormalVector[layer][i].w = vec[3];
+							}
+													
+							break;
+
+						case FbxGeometryElement::eIndexToDirect:
+					
+							break;
+						}
+						
+						break;
+					}
+				}
+
+
 
 				//読み込んだ情報を表示
-				std::cout << "polygonNum : " << polygonNum << std::endl;
+				std::cout << "polygonCount : " << polygonCount << std::endl;
 				std::cout << "polygonVertexList" << std::endl;
 				
-				for (int i = 0; i < polygonNum; i++)
+				for (int i = 0; i < polygonCount; i++)
 				{
-					std::cout << "PolygonVertexCount [ " << i << " ] : " << pPolygonVertexCount[i] << std::endl;
-					std::cout << "vertexIndex";
+					std::cout << "PolygonVertexCount [ " << i << " ] : " << pPolygonVertexCount[i] <<" - ";
+					std::cout << "vertexIndex ";
 					for (int j = 0; j < pPolygonVertexCount[i]; j++)
 					{
 						std::cout << ppPolygonVertexIndex[i][j]<<",";
