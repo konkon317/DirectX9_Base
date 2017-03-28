@@ -138,10 +138,10 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 				//FbxVector4 Ç©ÇÁ D3DXVECTOR4Ç÷
 				for (int i = 0; i < vertexPointCount; i++)
 				{
-					pVertexPoints_DX[i].x = (float)pControllPoints_FBX[i][0];
-					pVertexPoints_DX[i].y = (float)pControllPoints_FBX[i][1];
-					pVertexPoints_DX[i].z = (float)pControllPoints_FBX[i][2];
-					pVertexPoints_DX[i].w = (float)pControllPoints_FBX[i][3];
+					pVertexPoints_DX[i].x = static_cast<float>(pControllPoints_FBX[i][0]);
+					pVertexPoints_DX[i].y = static_cast<float>(pControllPoints_FBX[i][1]);
+					pVertexPoints_DX[i].z = static_cast<float>(pControllPoints_FBX[i][2]);
+					pVertexPoints_DX[i].w = static_cast<float>(pControllPoints_FBX[i][3]);
 				}			
 				
 				//------ñ@ê¸----
