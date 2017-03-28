@@ -182,10 +182,10 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 							{
 								FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
 
-								ppNormalVector[layer][i].x = vec[0];
-								ppNormalVector[layer][i].y = vec[1];
-								ppNormalVector[layer][i].z = vec[2];
-								ppNormalVector[layer][i].w = vec[3];
+								ppNormalVector[layer][i].x = static_cast<float>( vec[0]);
+								ppNormalVector[layer][i].y = static_cast<float>(vec[1]);
+								ppNormalVector[layer][i].z = static_cast<float>(vec[2]);
+								ppNormalVector[layer][i].w = static_cast<float>(vec[3]);
 							}
 
 							break;
@@ -215,10 +215,10 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 							{
 								FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
 
-								ppNormalVector[layer][i].x = vec[0];
-								ppNormalVector[layer][i].y = vec[1];
-								ppNormalVector[layer][i].z = vec[2];
-								ppNormalVector[layer][i].w = vec[3];
+								ppNormalVector[layer][i].x = static_cast<float>(vec[0]);
+								ppNormalVector[layer][i].y = static_cast<float>(vec[1]);
+								ppNormalVector[layer][i].z = static_cast<float>(vec[2]);
+								ppNormalVector[layer][i].w = static_cast<float>(vec[3]);
 							}
 													
 							break;
