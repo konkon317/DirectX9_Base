@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
 	
 	//------------------------------------------------------------------
 	//インポーターでファイルを開く
-	const char* filePath = "FBX_FILES/cube.fbx";
+	const char* filePath = "FBX_FILES/cube2.fbx";
 	//const char* filePath = "FBX_FILES/rio.fbx";
 	/*const char* filePath = "FBX_FILES/attack01.fbx";*/
 
