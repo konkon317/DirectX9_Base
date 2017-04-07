@@ -76,6 +76,48 @@ struct WP
 
 _TCHAR gName[100] = _T("完全ホワイトボックスなスキンメッシュアニメーションテストプログラム");
 
+
+// 最低限のシェーダ
+//  重み係数と頂点を動かすためのワールド変換行列の配列を渡します
+const char *vertexShaderStr =
+"float4x4 view : register(c0);"
+"float4x4 proj : register(c4);"
+"float4x4 world[12] : register(c8);"
+"  "
+"struct VS_IN {"
+"    float3 pos : POSITION;"
+"    float3 blend : BLENDWEIGHT;"
+"    int4 idx : BLENDINDICES;"
+"};"
+"struct VS_OUT {"
+"    float4 pos : POSITION;"
+"};"
+"VS_OUT main( VS_IN In ) {"
+"    VS_OUT Out = (VS_OUT)0;"
+"    float w[3] = (float[3])In.blend;"
+"    float4x4 comb = (float4x4)0;"
+"    for ( int i = 0; i < 3; i++ )"
+"        comb += world[In.idx[i]] * w[i];"
+"    comb += world[In.idx[3]] * (1.0f - w[0] - w[1] - w[2]);"
+"    "
+"    Out.pos = mul( float4(In.pos, 1.0f), comb );"
+"    Out.pos = mul( Out.pos, view );"
+"    Out.pos = mul( Out.pos, proj );"
+"    return Out;"
+"}";
+
+// ピクセルシェーダは至って適当
+// 好きなように点を穿って下さい。
+const char *pixelShaderStr =
+"struct VS_OUT {"
+"    float4 pos : POSITION;"
+"};"
+"float4 main( VS_OUT In ) : COLOR {"
+"    return float4(1.0f, 1.0f, 1.0f, 1.0f);"
+"}"
+"";
+
+
 //メイン
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -159,6 +201,9 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	//ウィンドウ表示
 	ShowWindow(hWnd, SW_SHOW);
 
+
+	SkinMeshAppMain(g_pD3DDEV);
+
 	g_pD3DDEV->Release();
 	g_pD3D->Release();
 
@@ -171,7 +216,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 //スキンメッシュ
 int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 {
-	//ポリゴンの頂点定義
+	//ポリゴンの頂点定義=======================================================================
 	//頂点数は15個
 	Vertex vtx[15]=
 	{
@@ -187,7 +232,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		{ D3DXVECTOR3( 1.7321f, 1.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 6,0,0,0 } },//9
 		{ D3DXVECTOR3( 2.2321f, 0.7113f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 6,0,0,0 } },//10
 		{ D3DXVECTOR3( 1.3660f, 0.2113f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 5,6,0,0 } },//11
-		{ D3DXVECTOR3( 0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//12
+		{ D3DXVECTOR3( 0.5000f,-0.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//12
 		{ D3DXVECTOR3( 0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,2,0,0 } },//13
 		{ D3DXVECTOR3( 0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } } //14
 	};
@@ -218,8 +263,9 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		v[i] = vtx[idx[i]];
 	}
 
-	//頂点宣言　FVF作成 
-	//頂点構造体の構成情報　
+	//頂点宣言　FVF作成========================================================================
+	//頂点構造体の構成情報 何バイト目からどんな情報？　
+	//Declaration :　宣言
 	D3DVERTEXELEMENT9 declAry[]=
 	{
 		{0,0,D3DDECLTYPE_FLOAT3 ,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_POSITION,0},
@@ -230,6 +276,259 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	IDirect3DVertexDeclaration9 *decl = 0;
 	g_pD3DDev->CreateVertexDeclaration(declAry, &decl);
 
+
+	//ボーン情報の作成========================================================================
+	//必要なのは　・ボーンオフセット行列　・ボーン行列
+
+	Bone * pBones = new Bone[7];
+	
+	//ボーンの親子関係の構築
+	//0 --- 1 - 2
+	//   |- 3 - 4
+	//   |- 5 - 6
+	
+	pBones[0].firstChild	= &pBones[1];
+	pBones[1].sibling		= &pBones[3];//bone[0]の子供だが 兄弟の(同じくbone[0]の子)bone[1]に登録
+	pBones[3].sibling		= &pBones[5];//bone[0]の子供だが 兄弟の(同じくbone[0]の子)bone[3]に登録
+
+	//pBone[0]は　第一子 bone[1] 第二子 bone[3] 第三子 bone[5]
+	//第一子(first)以外は　親ではなく　一つ上の兄弟からたどる
+
+	pBones[1].firstChild	= &pBones[2];
+	pBones[3].firstChild	= &pBones[4];
+	pBones[5].firstChild	= &pBones[6];
+
+
+	//初期姿勢の計算==================================================================================
+	//ローカル姿勢を設定し
+	//最終的に自分の親からの相対姿勢に修正
+	D3DXMatrixRotationZ(&pBones[0].initMat, D3DXToRadian(-90.0f));
+	D3DXMatrixRotationZ(&pBones[1].initMat, D3DXToRadian(-90.0f));
+	D3DXMatrixRotationZ(&pBones[2].initMat, D3DXToRadian(-90.0f));
+	D3DXMatrixRotationZ(&pBones[3].initMat, D3DXToRadian(150.0f));
+	D3DXMatrixRotationZ(&pBones[4].initMat, D3DXToRadian(150.0f));
+	D3DXMatrixRotationZ(&pBones[5].initMat, D3DXToRadian(30.0f));
+	D3DXMatrixRotationZ(&pBones[6].initMat, D3DXToRadian(30.0f));
+	//それぞれのボーンの x y座標を入力
+	pBones[0].initMat._41 =  0.0000f; 	pBones[0].initMat._42 =  0.0000f;
+	pBones[1].initMat._41 =  0.0000f;	pBones[1].initMat._42 = -1.0000f;
+	pBones[2].initMat._41 =  0.0000f;	pBones[2].initMat._42 = -2.0000f;
+	pBones[3].initMat._41 = -0.6830f;	pBones[3].initMat._42 =  0.3943f;
+	pBones[4].initMat._41 = -1.5490f;	pBones[4].initMat._42 =  0.8943f;
+	pBones[5].initMat._41 =  0.6830f;	pBones[5].initMat._42 =  0.3943f;
+	pBones[6].initMat._41 =  1.5490f;	pBones[6].initMat._42 =  0.8943f;
+	
+	//ボーン　オフセット行列の計算
+	//オフセット行列は各ボーンの「ローカル姿勢」の逆行列
+	D3DXMATRIX *pCombMat = new D3DXMATRIX[7];
+	for (int i=0;i<7;i++)
+	{
+		pBones[i].id = i;
+		pBones[i].combMatAry = pCombMat;
+		D3DXMatrixInverse(&pBones[i].offsetMat, 0, &pBones[i].initMat);
+	}
+
+	//初期姿勢を親の姿勢~相対姿勢に直す
+	//先ず子の末端まで降りて自分のローカル空間で初期姿勢＊親のボーンオフセット行列で相対姿勢を求める	
+
+	//初期姿勢を親空間ベースに変換する関数の定義
+	//親子関係をたどるため再帰関数が必要
+	struct CalcRelativeMat
+	{
+		static void run(Bone* pMe, D3DXMATRIX *pParentOffsetMat = NULL)
+		{
+			if (pMe->firstChild)
+			{
+				run(pMe->firstChild, &pMe->offsetMat);
+			}
+			if (pMe->sibling)
+			{
+				run(pMe->sibling, pParentOffsetMat);
+			}
+
+			if (pParentOffsetMat)
+			{
+				pMe->initMat *= *pParentOffsetMat;
+			}
+		}
+	};
+	//初期姿勢を親空間ベースに変換する関数の実行
+	CalcRelativeMat::run(&pBones[0]);
+
+
+	/////////////////////////////////////////
+	// シェーダのコンパイルとシェーダ作成
+	//////
+	ID3DXBuffer *shader, *error;
+	IDirect3DVertexShader9 *vertexShader;
+	IDirect3DPixelShader9 *pixelShader;
+	HRESULT res = D3DXCompileShader(vertexShaderStr, (UINT)strlen(vertexShaderStr), 0, 0, "main", "vs_3_0", D3DXSHADER_PACKMATRIX_ROWMAJOR, &shader, &error, 0);
+	if (FAILED(res)) {
+		OutputDebugStringA((const char*)error->GetBufferPointer());
+		return 0;
+	};
+	g_pD3DDev->CreateVertexShader((const DWORD*)shader->GetBufferPointer(), &vertexShader);
+	shader->Release();
+	res = D3DXCompileShader(pixelShaderStr, (UINT)strlen(pixelShaderStr), 0, 0, "main", "ps_3_0", D3DXSHADER_PACKMATRIX_ROWMAJOR, &shader, &error, 0);
+	if (FAILED(res)) {
+		OutputDebugStringA((const char*)error->GetBufferPointer());
+		return 0;
+	};
+	g_pD3DDev->CreatePixelShader((const DWORD*)shader->GetBufferPointer(), &pixelShader);
+	shader->Release();
+
+
+	//===========================================================
+	// 各種行列初期化
+	D3DXMATRIX view, proj;
+	D3DXMatrixLookAtLH(&view, &D3DXVECTOR3(0.0f, -5.0f, -4.0f), &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	D3DXMatrixPerspectiveFovLH(&proj, D3DXToRadian(30), 64.0f / 48, 1.0f, 10000.0f);
+
+
+
+
+	//========================================================
+
+	g_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	g_pD3DDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	g_pD3DDev->SetRenderState(D3DRS_ZENABLE, TRUE);
+
+
+	//d3d.SetupRrojectionMatrix();
+
+	D3DLIGHT9 light;
+	ZeroMemory(&light, sizeof(D3DLIGHT9));
+	light.Type = D3DLIGHT_DIRECTIONAL;
+	light.Diffuse.r = 1.0f;
+	light.Diffuse.g = 0.0f;
+	light.Diffuse.b = 0.0f;
+	light.Direction = D3DXVECTOR3(-0.5f, -1.0f, 0.5f);
+	light.Range = 1000.0f;
+
+	g_pD3DDev->SetLight(0, &light);
+
+	ZeroMemory(&light, sizeof(D3DLIGHT9));
+	light.Type = D3DLIGHT_DIRECTIONAL;
+	light.Diffuse.r = 0.0f;
+	light.Diffuse.g = 1.0f;
+	light.Diffuse.b = 0.0f;
+	light.Direction = D3DXVECTOR3(0.5f, -1.0f, 0.5f);
+	light.Range = 1000.0f;
+
+	g_pD3DDev->SetLight(1, &light);
+
+	g_pD3DDev->LightEnable(0, TRUE);
+	g_pD3DDev->LightEnable(1, TRUE);
+
+	g_pD3DDev->SetRenderState(D3DRS_AMBIENT, 0x00444444);
+
+
+
+
+
+	//描画ループ==========================================
+	//毎フレームの姿勢制御
+	MSG msg;
+
+	float val = 0.0f;
+	float a[7]= {0};
+
+
+	do 
+	{
+		val += 0.03f;
+		while(PeekMessage(&msg,NULL,0,0,PM_REMOVE))
+		{
+			DispatchMessage(&msg);
+		}
+
+		g_pD3DDev->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(40, 40, 80), 1.0f, 0);
+		g_pD3DDev->BeginScene();
+
+		//ボーンの姿勢を更新
+		//最終的には
+		//[ボーンオフセット行列] * [ワールド空間でのボーン姿勢]
+		//を計算する
+
+		//各ボーンの初期姿勢からの差分姿勢(親空間ベース)を更新
+		D3DXMATRIX defBone[7];
+		D3DXMatrixIdentity(&defBone[0]);
+
+		//ボーンの回転を適当に動かす
+		for (int i = 0; i < 7; i++)
+		{
+			D3DXMATRIX tmp;
+			D3DXMatrixRotationY(&defBone[i], D3DXToRadian(sinf(val)*70.0f));
+		}
+
+
+		//各ボーン行列の親空間ベースyでの姿勢を更新
+		//基本姿勢* 初期姿勢(ともに親空間ベース)
+		for (int i = 0; i < 7; i++)
+		{
+			pBones[i].boneMat = defBone[i] * pBones[i].initMat;
+		}
+
+
+		//親空間ベースにアqる各ボーン行列をローカル空間ベースの姿勢に変換
+		//ここは親子関係にしたがって行列をかける必要がある
+		//かける順番は子*親
+		D3DXMATRIX global;
+		D3DXMatrixRotationZ(&global, val*0.1);
+		
+		struct UpdateBone
+		{
+			static void run(Bone* pMe, D3DXMATRIX*pParentWorldMat)
+			{
+				pMe->boneMat *= *pParentWorldMat;
+				pMe->combMatAry[pMe->id] = pMe->offsetMat * pMe->boneMat;
+
+				if (pMe->firstChild)
+				{
+					run(pMe->firstChild, &pMe->boneMat);
+				}
+				if (pMe->sibling)
+				{
+					run(pMe->sibling, pParentWorldMat);
+				}
+			}
+		};
+
+		UpdateBone::run(pBones, &global);
+
+		// シェーダ設定
+		// 変数を書き込むレジスタ位置はシェーダに書いてありますよ。
+		g_pD3DDev->SetVertexShader(vertexShader);
+		g_pD3DDev->SetPixelShader(pixelShader);
+		g_pD3DDev->SetVertexShaderConstantF(0, (const float*)&view, 4);
+		g_pD3DDev->SetVertexShaderConstantF(4, (const float*)&proj, 4);
+		g_pD3DDev->SetVertexShaderConstantF(8, (const float*)pCombMat, 4 * 7);
+
+
+		g_pD3DDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		g_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+		g_pD3DDev->SetVertexDeclaration(decl);
+		g_pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 13, &v, sizeof(Vertex));
+
+
+
+	
+		g_pD3DDev->EndScene();
+		g_pD3DDev->Present(NULL, NULL, NULL, NULL);
+
+	} while (msg.message != WM_QUIT);
+
+	/*for (int i = 0; i < 7; i++)
+		boneObj[i]->Release();*/
+	vertexShader->Release();
+	pixelShader->Release();
+	decl->Release();
+
+
+	delete[]pCombMat;
+	delete []pBones;
+	
 
 	return 0;
 
