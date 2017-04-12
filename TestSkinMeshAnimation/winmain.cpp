@@ -216,49 +216,164 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 //スキンメッシュ
 int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 {
+	////ポリゴンの頂点定義=======================================================================
+	////頂点数は15個
+	//Vertex vtx[15]=
+	//{
+	//	{ D3DXVECTOR3(-0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//0
+	//	{ D3DXVECTOR3(-0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,2,0,0 } },//1
+	//	{ D3DXVECTOR3(-0.5000f,-0.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//2
+	//	{ D3DXVECTOR3(-1.3660f, 0.2113f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 3,4,0,0 } },//3
+	//	{ D3DXVECTOR3(-2.2321f, 0.7113f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//4
+	//	{ D3DXVECTOR3(-1.7321f, 1.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//5
+	//	{ D3DXVECTOR3(-0.8660f, 1.0774f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 3,4,0,0 } },//6
+	//	{ D3DXVECTOR3( 0.0000f, 0.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//7
+	//	{ D3DXVECTOR3( 0.8660f, 1.0774f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 5,6,0,0 } },//8
+	//	{ D3DXVECTOR3( 1.7321f, 1.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 6,0,0,0 } },//9
+	//	{ D3DXVECTOR3( 2.2321f, 0.7113f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 6,0,0,0 } },//10
+	//	{ D3DXVECTOR3( 1.3660f, 0.2113f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 5,6,0,0 } },//11
+	//	{ D3DXVECTOR3( 0.5000f,-0.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//12
+	//	{ D3DXVECTOR3( 0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,2,0,0 } },//13
+	//	{ D3DXVECTOR3( 0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } } //14
+	//};
+
+	////頂点インデックス
+	////ポリゴンは13枚で　三角形なので　13*3 39個
+	//WORD idx[39] =
+	//{
+	//	0,1,14,
+	//	1,13,14,
+	//	1,2,13,
+	//	2,12,13,
+	//	2,7,12,
+	//	2,6,7,
+	//	2,3,6,
+	//	3,5,6,
+	//	3,4,5,
+	//	7,8,12,
+	//	8,11,12,
+	//	8,9,11,
+	//	9,10,11,
+	//};
+
+	////インデックスをたどって三角形リストを作成
+	//Vertex v[39];
+	//for (int i = 0; i < 39; i++)
+	//{
+	//	v[i] = vtx[idx[i]];
+	//}
+
+	////頂点宣言　FVF作成========================================================================
+	////頂点構造体の構成情報 何バイト目からどんな情報？　
+	////Declaration :　宣言
+	//D3DVERTEXELEMENT9 declAry[]=
+	//{
+	//	{0,0,D3DDECLTYPE_FLOAT3 ,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_POSITION,0},
+	//	{0,12,D3DDECLTYPE_FLOAT3,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_BLENDWEIGHT,0},
+	//	{0,24,D3DDECLTYPE_UBYTE4,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_BLENDINDICES,0},
+	//	D3DDECL_END()	
+	//};
+	//IDirect3DVertexDeclaration9 *decl = 0;
+	//g_pD3DDev->CreateVertexDeclaration(declAry, &decl);
+
+
+	////ボーン情報の作成========================================================================
+	////必要なのは　・ボーンオフセット行列　・ボーン行列
+
+	//Bone * pBones = new Bone[7];
+	//
+	////ボーンの親子関係の構築
+	////0 --- 1 - 2
+	////   |- 3 - 4
+	////   |- 5 - 6
+	//
+	//pBones[0].firstChild	= &pBones[1];
+	//pBones[1].sibling		= &pBones[3];//bone[0]の子供だが 兄弟の(同じくbone[0]の子)bone[1]に登録
+	//pBones[3].sibling		= &pBones[5];//bone[0]の子供だが 兄弟の(同じくbone[0]の子)bone[3]に登録
+
+	////pBone[0]は　第一子 bone[1] 第二子 bone[3] 第三子 bone[5]
+	////第一子(first)以外は　親ではなく　一つ上の兄弟からたどる
+
+	//pBones[1].firstChild	= &pBones[2];
+	//pBones[3].firstChild	= &pBones[4];
+	//pBones[5].firstChild	= &pBones[6];
+
+
+	////初期姿勢の計算==================================================================================
+	////ローカル姿勢を設定し
+	////最終的に自分の親からの相対姿勢に修正
+	//D3DXMatrixRotationZ(&pBones[0].initMat, D3DXToRadian(-90.0f));
+	//D3DXMatrixRotationZ(&pBones[1].initMat, D3DXToRadian(-90.0f));
+	//D3DXMatrixRotationZ(&pBones[2].initMat, D3DXToRadian(-90.0f));
+	//D3DXMatrixRotationZ(&pBones[3].initMat, D3DXToRadian(150.0f));
+	//D3DXMatrixRotationZ(&pBones[4].initMat, D3DXToRadian(150.0f));
+	//D3DXMatrixRotationZ(&pBones[5].initMat, D3DXToRadian(30.0f));
+	//D3DXMatrixRotationZ(&pBones[6].initMat, D3DXToRadian(30.0f));
+	////それぞれのボーンの x y座標を入力
+	//pBones[0].initMat._41 =  0.0000f; 	pBones[0].initMat._42 =  0.0000f;
+	//pBones[1].initMat._41 =  0.0000f;	pBones[1].initMat._42 = -1.0000f;
+	//pBones[2].initMat._41 =  0.0000f;	pBones[2].initMat._42 = -2.0000f;
+	//pBones[3].initMat._41 = -0.6830f;	pBones[3].initMat._42 =  0.3943f;
+	//pBones[4].initMat._41 = -1.5490f;	pBones[4].initMat._42 =  0.8943f;
+	//pBones[5].initMat._41 =  0.6830f;	pBones[5].initMat._42 =  0.3943f;
+	//pBones[6].initMat._41 =  1.5490f;	pBones[6].initMat._42 =  0.8943f;
+
+
 	//ポリゴンの頂点定義=======================================================================
-	//頂点数は15個
-	Vertex vtx[15]=
+	//頂点数は16個
+	Vertex vtx[17] =
 	{
 		{ D3DXVECTOR3(-0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//0
-		{ D3DXVECTOR3(-0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,2,0,0 } },//1
-		{ D3DXVECTOR3(-0.5000f,-0.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//2
-		{ D3DXVECTOR3(-1.3660f, 0.2113f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 3,4,0,0 } },//3
-		{ D3DXVECTOR3(-2.2321f, 0.7113f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//4
-		{ D3DXVECTOR3(-1.7321f, 1.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//5
-		{ D3DXVECTOR3(-0.8660f, 1.0774f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 3,4,0,0 } },//6
-		{ D3DXVECTOR3( 0.0000f, 0.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//7
-		{ D3DXVECTOR3( 0.8660f, 1.0774f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 5,6,0,0 } },//8
-		{ D3DXVECTOR3( 1.7321f, 1.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 6,0,0,0 } },//9
-		{ D3DXVECTOR3( 2.2321f, 0.7113f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 6,0,0,0 } },//10
-		{ D3DXVECTOR3( 1.3660f, 0.2113f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 5,6,0,0 } },//11
-		{ D3DXVECTOR3( 0.5000f,-0.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//12
-		{ D3DXVECTOR3( 0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,2,0,0 } },//13
-		{ D3DXVECTOR3( 0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } } //14
+		{ D3DXVECTOR3(-0.5000f,-1.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//1
+		{ D3DXVECTOR3(-0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 2,1,0,0 } },//2
+		{ D3DXVECTOR3(-0.5000f,-0.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 1,0,0,0 } },//3
+		{ D3DXVECTOR3(-0.5000f,-0.2887f,0.0f),D3DXVECTOR3(0.00f,0.10f,0.00f),{ 1,0,0,0 } },//4
+		{ D3DXVECTOR3( 0.0000f,-0.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,0,0,0 } },//5
+		{ D3DXVECTOR3( 0.0000f,-0.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 1,0,0,0 } },//6
+		{ D3DXVECTOR3( 0.0000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 2,1,0,0 } },//7
+		{ D3DXVECTOR3( 0.0000f,-1.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//8
+		{ D3DXVECTOR3( 0.0000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//9
+		{ D3DXVECTOR3( 0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//10
+		{ D3DXVECTOR3( 0.5000f,-1.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//11
+		{ D3DXVECTOR3( 0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 2,1,0,0 } },//12
+		{ D3DXVECTOR3( 0.5000f,-0.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 1,0,0,0 } },//13
+		{ D3DXVECTOR3( 0.5000f,-0.2887f,0.0f),D3DXVECTOR3(0.00f,1.00f,0.00f),{ 1,0,0,0 } },//14
+		{ D3DXVECTOR3( 0.0000f, 0.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//15
+		{ D3DXVECTOR3( 0.0000f, 0.0000f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//16
+
 	};
 
 	//頂点インデックス
 	//ポリゴンは13枚で　三角形なので　13*3 39個
-	WORD idx[39] =
+	WORD idx[3*20] =
 	{
-		0,1,14,
-		1,13,14,
-		1,2,13,
-		2,12,13,
-		2,7,12,
-		2,6,7,
-		2,3,6,
-		3,5,6,
-		3,4,5,
-		7,8,12,
-		8,11,12,
-		8,9,11,
-		9,10,11,
+		0,1,9,
+		1,8,9,
+		1,2,8,
+		2,7,8,
+		2,3,7,
+		3,6,7,
+		3,4,6,
+		4,5,6,
+		
+		5,14,6,
+		14,13,6,
+		6,13,7,
+		13,12,7,
+		7,12,8,
+		12,11,8,
+		8,11,9,
+		11,10,9,
+
+		15,14,16,
+		15,16,4,
+		16,14,5,
+		16, 5, 4
 	};
 
 	//インデックスをたどって三角形リストを作成
-	Vertex v[39];
-	for (int i = 0; i < 39; i++)
+	Vertex v[3*20];
+	for (int i = 0; i < 60; i++)
 	{
 		v[i] = vtx[idx[i]];
 	}
@@ -266,12 +381,12 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	//頂点宣言　FVF作成========================================================================
 	//頂点構造体の構成情報 何バイト目からどんな情報？　
 	//Declaration :　宣言
-	D3DVERTEXELEMENT9 declAry[]=
+	D3DVERTEXELEMENT9 declAry[] =
 	{
-		{0,0,D3DDECLTYPE_FLOAT3 ,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_POSITION,0},
-		{0,12,D3DDECLTYPE_FLOAT3,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_BLENDWEIGHT,0},
-		{0,24,D3DDECLTYPE_UBYTE4,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_BLENDINDICES,0},
-		D3DDECL_END()	
+		{ 0,0,D3DDECLTYPE_FLOAT3 ,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_POSITION,0 },
+		{ 0,12,D3DDECLTYPE_FLOAT3,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_BLENDWEIGHT,0 },
+		{ 0,24,D3DDECLTYPE_UBYTE4,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_BLENDINDICES,0 },
+		D3DDECL_END()
 	};
 	IDirect3DVertexDeclaration9 *decl = 0;
 	g_pD3DDev->CreateVertexDeclaration(declAry, &decl);
@@ -280,23 +395,15 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	//ボーン情報の作成========================================================================
 	//必要なのは　・ボーンオフセット行列　・ボーン行列
 
-	Bone * pBones = new Bone[7];
-	
+	Bone * pBones = new Bone[3];
+
 	//ボーンの親子関係の構築
 	//0 --- 1 - 2
 	//   |- 3 - 4
 	//   |- 5 - 6
-	
-	pBones[0].firstChild	= &pBones[1];
-	pBones[1].sibling		= &pBones[3];//bone[0]の子供だが 兄弟の(同じくbone[0]の子)bone[1]に登録
-	pBones[3].sibling		= &pBones[5];//bone[0]の子供だが 兄弟の(同じくbone[0]の子)bone[3]に登録
 
-	//pBone[0]は　第一子 bone[1] 第二子 bone[3] 第三子 bone[5]
-	//第一子(first)以外は　親ではなく　一つ上の兄弟からたどる
-
-	pBones[1].firstChild	= &pBones[2];
-	pBones[3].firstChild	= &pBones[4];
-	pBones[5].firstChild	= &pBones[6];
+	pBones[0].firstChild = &pBones[1];
+	pBones[1].firstChild = &pBones[2];
 
 
 	//初期姿勢の計算==================================================================================
@@ -305,26 +412,27 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	D3DXMatrixRotationZ(&pBones[0].initMat, D3DXToRadian(-90.0f));
 	D3DXMatrixRotationZ(&pBones[1].initMat, D3DXToRadian(-90.0f));
 	D3DXMatrixRotationZ(&pBones[2].initMat, D3DXToRadian(-90.0f));
-	D3DXMatrixRotationZ(&pBones[3].initMat, D3DXToRadian(150.0f));
-	D3DXMatrixRotationZ(&pBones[4].initMat, D3DXToRadian(150.0f));
-	D3DXMatrixRotationZ(&pBones[5].initMat, D3DXToRadian(30.0f));
-	D3DXMatrixRotationZ(&pBones[6].initMat, D3DXToRadian(30.0f));
-	//それぞれのボーンの x y座標を入力
-	pBones[0].initMat._41 =  0.0000f; 	pBones[0].initMat._42 =  0.0000f;
-	pBones[1].initMat._41 =  0.0000f;	pBones[1].initMat._42 = -1.0000f;
-	pBones[2].initMat._41 =  0.0000f;	pBones[2].initMat._42 = -2.0000f;
-	pBones[3].initMat._41 = -0.6830f;	pBones[3].initMat._42 =  0.3943f;
-	pBones[4].initMat._41 = -1.5490f;	pBones[4].initMat._42 =  0.8943f;
-	pBones[5].initMat._41 =  0.6830f;	pBones[5].initMat._42 =  0.3943f;
-	pBones[6].initMat._41 =  1.5490f;	pBones[6].initMat._42 =  0.8943f;
 	
+	//それぞれのボーンの x y座標を入力
+	pBones[0].initMat._41 = 0.0000f; 	pBones[0].initMat._42 = 0.0000f;
+	pBones[1].initMat._41 = 0.0000f;	pBones[1].initMat._42 = -1.0000f;
+	pBones[2].initMat._41 = 0.0000f;	pBones[2].initMat._42 = -2.0000f;
+	
+
+
+
 	//ボーン　オフセット行列の計算
 	//オフセット行列は各ボーンの「ローカル姿勢」の逆行列
 	D3DXMATRIX *pCombMat = new D3DXMATRIX[7];
-	for (int i=0;i<7;i++)
+	for (int i = 0; i < 3; i++)
 	{
 		pBones[i].id = i;
 		pBones[i].combMatAry = pCombMat;
+
+		//親空間ベースに修正する前にオフセット行列を求めておく
+		//ボーンと頂点の座標差分を求めるために必要
+
+		//ボーンオフセット行列 * 初期姿勢の頂点座標 =頂点の　ボーンから見た相対座標
 		D3DXMatrixInverse(&pBones[i].offsetMat, 0, &pBones[i].initMat);
 	}
 
@@ -431,13 +539,13 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	MSG msg;
 
 	float val = 0.0f;
-	float a[7]= {0};
+	float a[7] = { 0 };
 
 
-	do 
+	do
 	{
 		val += 0.03f;
-		while(PeekMessage(&msg,NULL,0,0,PM_REMOVE))
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			DispatchMessage(&msg);
 		}
@@ -451,20 +559,43 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		//を計算する
 
 		//各ボーンの初期姿勢からの差分姿勢(親空間ベース)を更新
-		D3DXMATRIX defBone[7];
+		D3DXMATRIX defBone[3/*7*/];
 		D3DXMatrixIdentity(&defBone[0]);
 
 		//ボーンの回転を適当に動かす
-		for (int i = 0; i < 7; i++)
+		for (int i = 1; i < /*7*/3; i++)
 		{
-			D3DXMATRIX tmp;
-			D3DXMatrixRotationY(&defBone[i], D3DXToRadian(sinf(val)*70.0f));
+			D3DXMATRIX transLation;
+			D3DXMATRIX rotate;
+			D3DXMATRIX scale;
+			D3DXMatrixIdentity(&scale);
+			D3DXMatrixIdentity(&transLation);
+			D3DXMatrixIdentity(&rotate);
+			D3DXMatrixIdentity(&defBone[i]);
+
+			//if (i == 2 || i == 4 || i == 6)
+			{
+
+				//
+				//行列のかける順番はこれで確定っぽい
+				//
+
+				D3DXMatrixScaling(&scale,1.0f,1.0f,1.0f);
+				D3DXMatrixTranslation(&transLation, sinf(val * 1.5) * 0.25, 0, 0);
+				D3DXMatrixRotationZ(&rotate, D3DXToRadian(sinf(val)*30.0f));
+				D3DXMatrixMultiply(&defBone[i], &scale, &rotate);
+				D3DXMatrixMultiply(&defBone[i], &defBone[i], &transLation);
+			}
+			/*else
+			{
+				D3DXMatrixIdentity(&defBone[i]);
+			}*/
 		}
 
 
-		//各ボーン行列の親空間ベースyでの姿勢を更新
+		//各ボーン行列の親空間ベースでの姿勢を更新
 		//基本姿勢* 初期姿勢(ともに親空間ベース)
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < 3/*7*/; i++)
 		{
 			pBones[i].boneMat = defBone[i] * pBones[i].initMat;
 		}
@@ -474,8 +605,15 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		//ここは親子関係にしたがって行列をかける必要がある
 		//かける順番は子*親
 		D3DXMATRIX global;
-		D3DXMatrixRotationZ(&global, val*0.1);
-		
+		D3DXMATRIX tmp;
+		D3DXMatrixIdentity(&global);		
+		D3DXMatrixIdentity(&tmp);
+		D3DXMatrixRotationZ(&global,/*1.507f*/ val*0.2);
+		D3DXMatrixTranslation(&tmp, -1.5f-(sinf(val*0.5f)), 0, 0);
+
+		D3DXMatrixMultiply(&global, &global, &tmp);
+
+
 		struct UpdateBone
 		{
 			static void run(Bone* pMe, D3DXMATRIX*pParentWorldMat)
@@ -509,11 +647,10 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		g_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 		g_pD3DDev->SetVertexDeclaration(decl);
-		g_pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 13, &v, sizeof(Vertex));
+		g_pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, /*13*/20, &v, sizeof(Vertex));
 
 
 
-	
 		g_pD3DDev->EndScene();
 		g_pD3DDev->Present(NULL, NULL, NULL, NULL);
 
@@ -527,8 +664,8 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 
 
 	delete[]pCombMat;
-	delete []pBones;
-	
+	delete[]pBones;
+
 
 	return 0;
 
