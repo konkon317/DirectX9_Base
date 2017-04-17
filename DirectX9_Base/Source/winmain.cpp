@@ -9,6 +9,8 @@
 #include <Windows.h>
 #pragma comment(lib, "winmm.lib")
 
+#include <fbxsdk.h>
+
 #include "Template/Singleton.h"
 #include "Application/Application.h"
 #include "Direct3D/Direct3D.h"
@@ -25,6 +27,12 @@
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	/*
+	fbxsdk::FbxManager* fbxManager = fbxsdk::FbxManager::Create();
+
+	fbxManager->Destroy();
+	*/	
 
 	//ウィンドウやメインループの実行を管理するクラスのインスタンスを作製
 	Application& App = Application::GetInstance();
@@ -64,5 +72,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	SceneManager::Finalize();
 	
 	SingletonFinalizer::Finalize();//シングルトンなクラスの終了処理
+
+	
 
 }

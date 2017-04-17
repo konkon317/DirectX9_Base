@@ -40,6 +40,9 @@
     <Filter Include="Source\Scene\Scene">
       <UniqueIdentifier>{342c1947-f3ca-48f4-a679-45acb9bb1a9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\FBX">
+      <UniqueIdentifier>{7847d37d-c922-406f-bc9e-049fe75eb3fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
