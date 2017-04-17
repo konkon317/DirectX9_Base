@@ -95,7 +95,7 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 				loaded = true;
 
 				std::cout << std::endl;
-				std::cout << "mesh load "<<std::endl;
+				std::cout << "mesh load "<<std::endl;	
 
 				
 
@@ -143,94 +143,20 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 					pVertexPoints_DX[i].z = static_cast<float>(pControllPoints_FBX[i][2]);
 					pVertexPoints_DX[i].w = static_cast<float>(pControllPoints_FBX[i][3]);
 				}			
+			
+
+
+
+				//法線の取得
+				GetNormal(pMesh);
+
+				//UVの取得
+				GetVertexUV_Buffer(pMesh);
+
 				
-				//------法線----
-
-				//法線セットの数
-				int normalLayerCount = pMesh->GetElementNormalCount();
-
-				pNormalCounts = new int[normalLayerCount];
-				ppNormalVector = new D3DXVECTOR4*[normalLayerCount];				
-
-				for (int layer = 0; layer < normalLayerCount; layer++)
-				{
-
-					FbxGeometryElementNormal* pNormal= pMesh->GetElementNormal(layer);
-
-					//マッピングモードの取得
-					FbxGeometryElement::EMappingMode mappingMode = pNormal->GetMappingMode();
-					//リファレンスモードの取得
-					FbxGeometryElement::EReferenceMode referenceMode = pNormal->GetReferenceMode();
-
-					//マッピングモードの判別
-					switch (mappingMode)
-					{
-					case FbxGeometryElement::eByControlPoint:
-
-						//リファレンスモードの判別
-						switch(referenceMode)
-						{ 
-						case FbxGeometryElement::eDirect:					
-
-							//eDirectの場合データは順番に格納されているためそのまま保持
-
-							pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
-
-							ppNormalVector[layer] = new D3DXVECTOR4[pNormalCounts[layer]];
-
-							for (int i = 0; i < pNormalCounts[layer]; i++)
-							{
-								FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
-
-								ppNormalVector[layer][i].x = static_cast<float>( vec[0]);
-								ppNormalVector[layer][i].y = static_cast<float>(vec[1]);
-								ppNormalVector[layer][i].z = static_cast<float>(vec[2]);
-								ppNormalVector[layer][i].w = static_cast<float>(vec[3]);
-							}
-
-							break;
-
-						case FbxGeometryElement::eIndexToDirect:
-					
-							break;
-						}
-
-						break;
-
-					case FbxGeometryElement::eByPolygonVertex:
-						//法線がポリゴンの各頂点ごとに設定されている場合						
-
-						//リファレンスモードの判別
-						switch (referenceMode)
-						{
-						case FbxGeometryElement::eDirect:
-					
-							//eDirectの場合データは順番に格納されているためそのまま保持				
-
-							pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
-
-							ppNormalVector[layer] = new D3DXVECTOR4[pNormalCounts[layer]];
-
-							for (int i = 0; i < pNormalCounts[layer]; i++)
-							{
-								FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
-
-								ppNormalVector[layer][i].x = static_cast<float>(vec[0]);
-								ppNormalVector[layer][i].y = static_cast<float>(vec[1]);
-								ppNormalVector[layer][i].z = static_cast<float>(vec[2]);
-								ppNormalVector[layer][i].w = static_cast<float>(vec[3]);
-							}
-													
-							break;
-
-						case FbxGeometryElement::eIndexToDirect:
-					
-							break;
-						}
-						
-						break;
-					}
-				}
+				//UVSEtとマテリアルの関連付け
+				Asociate_UVSetAndMaterial(pNode);
+				
 
 
 
@@ -254,3 +180,275 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 		}
 	}
 }
+
+
+
+
+
+
+void FbxMeshLoader::GetVertexUV_Buffer(FbxMesh* pMesh)
+{
+	//http://shikemokuthinking.blogspot.jp/
+
+	//UVSetの数を取得
+	int UvLayerCount = pMesh->GetElementUVCount();
+	
+	UvSet uvSet;
+	for (int i = 0; i<UvLayerCount; i++)
+	{
+		//Uvバッファを取得
+		FbxGeometryElementUV*UV = pMesh->GetElementUV(i);
+
+
+		//マッピングモードの取得
+		FbxGeometryElement::EMappingMode mapping = UV->GetMappingMode();
+
+		//リファレンスモードの取得
+		FbxGeometryElement::EReferenceMode reference = UV->GetReferenceMode();
+
+
+		//UV数の取得
+		int uvCount = UV->GetDirectArray().GetCount();
+
+		switch (mapping)
+		{
+		
+		case fbxsdk::FbxLayerElement::eByControlPoint:
+
+			break;
+		case fbxsdk::FbxLayerElement::eByPolygonVertex:
+		{
+			switch (reference)
+			{
+			case FbxGeometryElement::eDirect:
+				break;
+			case FbxGeometryElement::eIndexToDirect:
+			{
+				FbxLayerElementArrayTemplate<int>* pUvIndex = &UV->GetIndexArray();
+				int uvIndexCount = pUvIndex->GetCount();
+
+				Point2DF temp;
+				for (int i = 0; i < uvIndexCount; i++)
+				{
+					temp.x = (float)UV->GetDirectArray().GetAt(pUvIndex->GetAt(i))[0];
+					temp.y = 1.0f - (float)UV->GetDirectArray().GetAt(pUvIndex->GetAt(i))[1];//ブレンダーで作ったファイルは上下逆
+
+					uvSet.uvBuffer.push_back(temp);
+				}
+
+				//UvSet名を取得
+				uvSet.uvSetName = UV->GetName();
+
+				list_uvSet.push_back(uvSet);
+			}
+			break;
+
+			}
+
+		}
+			break;
+		
+		case fbxsdk::FbxLayerElement::eByPolygon:
+			break;
+		case fbxsdk::FbxLayerElement::eByEdge:
+			break;
+		case fbxsdk::FbxLayerElement::eAllSame:
+			break;
+		default:
+			break;
+		}
+		UV->Destroy();
+
+	}
+}
+
+void FbxMeshLoader::GetNormal(FbxMesh* pMesh)
+{
+	//------法線----
+
+	//法線セットの数
+	normalLayerCount = pMesh->GetElementNormalCount();
+
+	pNormalCounts = new int[normalLayerCount];
+	ppNormalVector = new D3DXVECTOR4*[normalLayerCount];
+
+	for (int layer = 0; layer < normalLayerCount; layer++)
+	{
+
+		FbxGeometryElementNormal* pNormal = pMesh->GetElementNormal(layer);
+
+		//マッピングモードの取得
+		FbxGeometryElement::EMappingMode mappingMode = pNormal->GetMappingMode();
+		//リファレンスモードの取得
+		FbxGeometryElement::EReferenceMode referenceMode = pNormal->GetReferenceMode();
+
+		//マッピングモードの判別
+		switch (mappingMode)
+		{
+		case FbxGeometryElement::eByControlPoint:
+
+			//リファレンスモードの判別
+			switch (referenceMode)
+			{
+			case FbxGeometryElement::eDirect:
+
+				//eDirectの場合データは順番に格納されているためそのまま保持
+
+				pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
+
+				ppNormalVector[layer] = new D3DXVECTOR4[pNormalCounts[layer]];
+
+				for (int i = 0; i < pNormalCounts[layer]; i++)
+				{
+					FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
+
+					ppNormalVector[layer][i].x = static_cast<float>(vec[0]);
+					ppNormalVector[layer][i].y = static_cast<float>(vec[1]);
+					ppNormalVector[layer][i].z = static_cast<float>(vec[2]);
+					ppNormalVector[layer][i].w = static_cast<float>(vec[3]);
+				}
+
+				break;
+
+			case FbxGeometryElement::eIndexToDirect:
+
+				break;
+			}
+
+			break;
+
+		case FbxGeometryElement::eByPolygonVertex:
+			//法線がポリゴンの各頂点ごとに設定されている場合						
+
+			//リファレンスモードの判別
+			switch (referenceMode)
+			{
+			case FbxGeometryElement::eDirect:
+
+				//eDirectの場合データは順番に格納されているためそのまま保持				
+
+				pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
+
+				ppNormalVector[layer] = new D3DXVECTOR4[pNormalCounts[layer]];
+
+				for (int i = 0; i < pNormalCounts[layer]; i++)
+				{
+					FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
+
+					ppNormalVector[layer][i].x = static_cast<float>(vec[0]);
+					ppNormalVector[layer][i].y = static_cast<float>(vec[1]);
+					ppNormalVector[layer][i].z = static_cast<float>(vec[2]);
+					ppNormalVector[layer][i].w = static_cast<float>(vec[3]);
+				}
+
+				break;
+
+			case FbxGeometryElement::eIndexToDirect:
+
+				break;
+			}
+
+			break;
+		}
+		pNormal->Destroy();
+	}
+}
+
+void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode)
+{
+	//注意作りかけ　2017_4_18
+
+	//UVSetとマテリアルの関連付け
+	//uvセットのテクスチャ名とマテリアルのテクスチャ名で関連付け
+
+	//マテリアルの数を取得
+	int materialCount = pNode->GetMaterialCount();
+
+	for (int i = 0; i < materialCount; i++)
+	{
+		//マテリアルの取得
+		FbxSurfaceMaterial * pMaterial = pNode->GetMaterial(i);
+
+		//マテリアルからDeffuseを取得
+		FbxProperty prop = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
+
+
+		//プロパティにアタッチされているテクスチャの種別を判断
+		int LayerdTextureCount = prop.GetSrcObjectCount<FbxLayeredTexture>();
+
+		//FbxLayerdTexture :複数のテクスチャをブレンド使用されている場合に有効になる
+		//FbxFileTexture :　単一のテクスチャとして使用されていると有効になる
+		//FbxProceduralTexture : 不明今回は考慮しない
+
+		if (LayerdTextureCount>0)
+		{
+			for (int j = 0; j < LayerdTextureCount; j++)
+			{
+				//テクスチャを取得
+				FbxLayeredTexture *pLayerdTexture = prop.GetSrcObject<FbxLayeredTexture>(j);
+
+				//レイヤー数を取得
+				int textureCount = pLayerdTexture->GetSrcObjectCount<FbxFileTexture>();
+
+				for (int k = 0; k < textureCount; k++)
+				{
+					FbxFileTexture* pTexture = prop.GetSrcObject<FbxFileTexture>(k);
+
+
+					if (pTexture)
+					{
+						//テクスチャ名を取得
+						std::string textureName = pTexture->GetRelativeFileName();
+
+						//UVSet名を取得
+						std::string UVSetName = pTexture->UVSet.Get().Buffer();
+
+						for (UVSetList::iterator it = list_uvSet.begin(); it != list_uvSet.end(); it++)
+						{
+							if ((*it).uvSetName == UVSetName)
+							{
+								(*it).texture = textureName;
+							}
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			//--- テクスチャ数を取得 ---//
+			int fileTextureCount = prop.GetSrcObjectCount<FbxFileTexture>();
+
+			if (0 < fileTextureCount)
+			{
+				//--- テクスチャの数だけ繰り返す ---//
+				for (int j = 0; fileTextureCount > j; j++)
+				{
+					//--- テクスチャを取得 ---//
+					FbxFileTexture* pTexture = prop.GetSrcObject<FbxFileTexture>(j);
+					if (pTexture)
+					{
+						//--- テクスチャ名を取得 ---//
+						//std::string textureName = texture->GetName();
+						std::string textureName = pTexture->GetRelativeFileName();
+
+						//--- UVSet名を取得 ---//
+						std::string UVSetName = pTexture->UVSet.Get().Buffer();
+
+						//--- UVSet名を比較し対応しているテクスチャなら保持 ---//
+						for (UVSetList::iterator it = list_uvSet.begin(); it != list_uvSet.end(); it++)
+						{
+							if ((*it).uvSetName == UVSetName)
+							{
+								(*it).texture = textureName;
+							}
+						}
+					}
+				}
+			}
+		}
+		pMaterial->Destroy();
+	}
+}
+
+

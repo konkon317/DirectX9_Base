@@ -1,3 +1,6 @@
+
+
+
 #if _DEBUG
 
 #define _CRTDBG_MAP_ALLOC
@@ -320,7 +323,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 
 
 	//ポリゴンの頂点定義=======================================================================
-	//頂点数は16個
+	//頂点数は17個
 	Vertex vtx[17] =
 	{
 		{ D3DXVECTOR3(-0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//0
@@ -344,7 +347,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	};
 
 	//頂点インデックス
-	//ポリゴンは13枚で　三角形なので　13*3 39個
+	//ポリゴンは20枚で　三角形なので　20*3 60個
 	WORD idx[3*20] =
 	{
 		0,1,9,

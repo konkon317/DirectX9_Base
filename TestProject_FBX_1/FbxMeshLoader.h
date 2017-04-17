@@ -17,6 +17,31 @@
 
 #include <iostream>
 
+#include <list>
+
+struct Point2DF
+{
+	float x, y;
+
+	bool operator==(Point2DF& val)
+	{
+		return(this->x == val.x &&this->y == val.y);
+	}
+};
+
+struct UvSet
+{
+	std::string uvSetName;
+	//std::list<std::string> textures;
+	std::string texture;
+	std::list<Point2DF> uvBuffer;
+
+};
+
+
+typedef std::list<UvSet> UVSetList;
+
+
 class FbxMeshLoader
 {
 private:
@@ -63,6 +88,12 @@ private:
 	D3DXVECTOR4 **ppNormalVector;
 
 
+	//マテリアル数
+	int materialCount;
+
+	UVSetList list_uvSet;
+
+
 public :
 	//デフォルトコンストラクタ
 	FbxMeshLoader();
@@ -76,5 +107,12 @@ public :
 	//解放処理
 	void Release();
 
+
+private:
+	void GetVertexUV_Buffer(FbxMesh * pMesh);
+
+	void GetNormal(FbxMesh * pMesh);
+
+	void Asociate_UVSetAndMaterial(FbxNode* pNode);
 
 };
