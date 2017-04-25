@@ -38,6 +38,15 @@ struct UvSet
 
 };
 
+struct ColorRGBA
+{
+	float r;
+	float g;
+	float b;
+	float a;
+
+};
+
 
 typedef std::list<UvSet> UVSetList;
 

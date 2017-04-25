@@ -146,6 +146,21 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 			
 
 
+				int vColorLayerCount = pMesh->GetElementVertexColorCount();
+
+				for (int i = 0; i < vColorLayerCount; i++)
+				{
+					//頂点カラーのセットを取得
+					FbxGeometryElementVertexColor * pColor = pMesh->GetElementVertexColor(i);
+
+					FbxGeometryElement::EMappingMode mappingMode = pColor->GetMappingMode();
+					FbxGeometryElement::EReferenceMode referenceMode = pColor->GetReferenceMode();
+
+					int a =0;
+
+				}
+
+
 
 				//法線の取得
 				GetNormal(pMesh);
