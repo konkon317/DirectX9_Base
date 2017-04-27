@@ -38,6 +38,15 @@ struct UvSet
 
 };
 
+struct ColorRGBA
+{
+	float r;
+	float g;
+	float b;
+	float a;
+
+};
+
 
 typedef std::list<UvSet> UVSetList;
 
@@ -71,6 +80,12 @@ private:
 	//	p :ポリゴン番号
 	//	x = 0　～ (pPolygonVertexCount[p]-1)
 	int **ppPolygonVertexIndex;
+
+
+	//頂点色
+	int VertexColorSetMax;
+	int *pColorCount_ByVertexColorSet;
+	ColorRGBA** ppVertexColor;
 
 
 	//--------------
