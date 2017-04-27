@@ -35,6 +35,8 @@ void FbxMeshLoader::Release()
 		pVertexPoints_DX = NULL;
 	}
 
+
+	//ポリゴンに使ったメモリの解放
 	if (ppPolygonVertexIndex != NULL)
 	{
 		for (int i = 0; i < polygonCount; i++)
@@ -56,6 +58,8 @@ void FbxMeshLoader::Release()
 	}
 
 
+
+	//法線に使ったメモリの解放
 	if(ppNormalVector!=NULL)
 	{ 
 		for (int i = 0; i < normalLayerCount; i++)
@@ -75,6 +79,28 @@ void FbxMeshLoader::Release()
 		delete[]pNormalCounts;
 		pNormalCounts = NULL;
 	}
+
+	//頂点色に使ったメモリの解放
+	if (ppVertexColor != NULL)
+	{
+		for (int i = 0; i <  VertexColorSetMax; i++)
+		{
+			if (ppVertexColor[i] != NULL)
+			{
+				delete[] ppVertexColor[i];
+				ppVertexColor[i] = NULL;
+			}
+		}
+		delete[]ppVertexColor;
+		ppVertexColor = NULL;
+	}
+
+	if (pColorCount_ByVertexColorSet != NULL)
+	{
+		delete[]pColorCount_ByVertexColorSet;
+		pColorCount_ByVertexColorSet = NULL;
+	}
+
 
 
 	loaded = false;
@@ -146,18 +172,113 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 			
 
 
-				int vColorLayerCount = pMesh->GetElementVertexColorCount();
+				//頂点カラーセット数を取得
+				VertexColorSetMax = pMesh->GetElementVertexColorCount();
 
-				for (int i = 0; i < vColorLayerCount; i++)
+				ppVertexColor = new ColorRGBA*[VertexColorSetMax];
+				pColorCount_ByVertexColorSet = new int[VertexColorSetMax];
+
+				for (int i = 0; i < VertexColorSetMax; i++)
 				{
-					//頂点カラーのセットを取得
+					ppVertexColor[i] = nullptr;
+					pColorCount_ByVertexColorSet[i] = 0;
+				}
+
+				//カラーセットの数だけ繰り返す
+				for (int i = 0; i <VertexColorSetMax; i++)
+				{
+					//頂点カラーセットを取得
 					FbxGeometryElementVertexColor * pColor = pMesh->GetElementVertexColor(i);
 
 					FbxGeometryElement::EMappingMode mappingMode = pColor->GetMappingMode();
 					FbxGeometryElement::EReferenceMode referenceMode = pColor->GetReferenceMode();
 
-					int a =0;
+					
 
+
+					switch (mappingMode)
+					{
+
+						case FbxGeometryElement::eByControlPoint:
+							{
+								int BreakPoint = 0;
+							}
+							break;
+
+						case FbxGeometryElement::eByPolygon:
+							{
+								int BreakPoint = 0;
+							}
+							break;
+
+						case FbxGeometryElement::eByPolygonVertex:
+							
+							switch (referenceMode)
+							{
+
+								case fbxsdk::FbxLayerElement::eIndexToDirect:
+									{
+										//今回はまず mapping =eByPolygonVertex reference=eIndexToCirect
+										//の組み合わせから書く 
+										//実験用のファイルがその保存形式なので
+
+										FbxLayerElementArrayTemplate<int>* pIndex = &pColor->GetIndexArray();
+										
+
+										pColorCount_ByVertexColorSet[i] = pIndex->GetCount();
+										
+
+										ppVertexColor[i] =new ColorRGBA[pColorCount_ByVertexColorSet[i]];
+										
+										//頂点の数だけ頂点カラーを取得
+										for (int j = 0; j < pColorCount_ByVertexColorSet[i]; j++)
+										{
+											
+											int k = pIndex->GetAt(j);
+											FbxColor color = pColor->GetDirectArray().GetAt(k);
+											
+											ppVertexColor[i][j].r = static_cast<float>(color[0]);
+											ppVertexColor[i][j].g = static_cast<float>(color[1]);
+											ppVertexColor[i][j].b = static_cast<float>(color[2]);
+											ppVertexColor[i][j].a = static_cast<float>(color[3]);
+										}
+										{
+											int BreakPoint = 0;
+										}
+
+									}
+									break;
+
+								case fbxsdk::FbxLayerElement::eDirect:
+									{
+										int BreakPoint = 0;
+									}
+									break;
+
+								case fbxsdk::FbxLayerElement::eIndex:
+									{
+										int BreakPoint = 0;
+									}
+									break;
+
+								default:
+									{
+										int BreakPoint = 0;
+									}
+									break;
+							}							
+
+							break;
+
+						default:
+
+							{
+								int BreakPoint = 0;
+							}
+
+							break;
+
+					}
 				}
 
 
@@ -170,8 +291,7 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 
 				
 				//UVSEtとマテリアルの関連付け
-				Asociate_UVSetAndMaterial(pNode);
-				
+				Asociate_UVSetAndMaterial(pNode);			
 
 
 
@@ -209,6 +329,7 @@ void FbxMeshLoader::GetVertexUV_Buffer(FbxMesh* pMesh)
 	int UvLayerCount = pMesh->GetElementUVCount();
 	
 	UvSet uvSet;
+
 	for (int i = 0; i<UvLayerCount; i++)
 	{
 		//Uvバッファを取得
@@ -227,51 +348,51 @@ void FbxMeshLoader::GetVertexUV_Buffer(FbxMesh* pMesh)
 
 		switch (mapping)
 		{
-		
-		case fbxsdk::FbxLayerElement::eByControlPoint:
 
-			break;
-		case fbxsdk::FbxLayerElement::eByPolygonVertex:
-		{
-			switch (reference)
-			{
-			case FbxGeometryElement::eDirect:
+			case fbxsdk::FbxLayerElement::eByControlPoint:
+
 				break;
-			case FbxGeometryElement::eIndexToDirect:
-			{
-				FbxLayerElementArrayTemplate<int>* pUvIndex = &UV->GetIndexArray();
-				int uvIndexCount = pUvIndex->GetCount();
+			case fbxsdk::FbxLayerElement::eByPolygonVertex:
 
-				Point2DF temp;
-				for (int i = 0; i < uvIndexCount; i++)
+				switch (reference)
 				{
-					temp.x = (float)UV->GetDirectArray().GetAt(pUvIndex->GetAt(i))[0];
-					temp.y = 1.0f - (float)UV->GetDirectArray().GetAt(pUvIndex->GetAt(i))[1];//ブレンダーで作ったファイルは上下逆
+					case FbxGeometryElement::eDirect:
+						break;
 
-					uvSet.uvBuffer.push_back(temp);
+					case FbxGeometryElement::eIndexToDirect:
+						{
+							FbxLayerElementArrayTemplate<int>* pUvIndex = &UV->GetIndexArray();
+							int uvIndexCount = pUvIndex->GetCount();
+
+							Point2DF temp;
+							for (int i = 0; i < uvIndexCount; i++)
+							{
+								temp.x = (float)UV->GetDirectArray().GetAt(pUvIndex->GetAt(i))[0];
+								temp.y = 1.0f - (float)UV->GetDirectArray().GetAt(pUvIndex->GetAt(i))[1];//ブレンダーで作ったファイルは上下逆
+
+								uvSet.uvBuffer.push_back(temp);
+							}
+
+							//UvSet名を取得
+							uvSet.uvSetName = UV->GetName();
+
+							list_uvSet.push_back(uvSet);
+						}
+						break;
 				}
 
-				//UvSet名を取得
-				uvSet.uvSetName = UV->GetName();
+				break;
 
-				list_uvSet.push_back(uvSet);
-			}
-			break;
-
-			}
-
+			case fbxsdk::FbxLayerElement::eByPolygon:
+				break;
+			case fbxsdk::FbxLayerElement::eByEdge:
+				break;
+			case fbxsdk::FbxLayerElement::eAllSame:
+				break;
+			default:
+				break;
 		}
-			break;
-		
-		case fbxsdk::FbxLayerElement::eByPolygon:
-			break;
-		case fbxsdk::FbxLayerElement::eByEdge:
-			break;
-		case fbxsdk::FbxLayerElement::eAllSame:
-			break;
-		default:
-			break;
-		}
+
 		UV->Destroy();
 
 	}
@@ -300,70 +421,70 @@ void FbxMeshLoader::GetNormal(FbxMesh* pMesh)
 		//マッピングモードの判別
 		switch (mappingMode)
 		{
-		case FbxGeometryElement::eByControlPoint:
+			case FbxGeometryElement::eByControlPoint:
 
-			//リファレンスモードの判別
-			switch (referenceMode)
-			{
-			case FbxGeometryElement::eDirect:
-
-				//eDirectの場合データは順番に格納されているためそのまま保持
-
-				pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
-
-				ppNormalVector[layer] = new D3DXVECTOR4[pNormalCounts[layer]];
-
-				for (int i = 0; i < pNormalCounts[layer]; i++)
+				//リファレンスモードの判別
+				switch (referenceMode)
 				{
-					FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
+					case FbxGeometryElement::eDirect:
 
-					ppNormalVector[layer][i].x = static_cast<float>(vec[0]);
-					ppNormalVector[layer][i].y = static_cast<float>(vec[1]);
-					ppNormalVector[layer][i].z = static_cast<float>(vec[2]);
-					ppNormalVector[layer][i].w = static_cast<float>(vec[3]);
+						//eDirectの場合データは順番に格納されているためそのまま保持
+
+						pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
+
+						ppNormalVector[layer] = new D3DXVECTOR4[pNormalCounts[layer]];
+
+						for (int i = 0; i < pNormalCounts[layer]; i++)
+						{
+							FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
+
+							ppNormalVector[layer][i].x = static_cast<float>(vec[0]);
+							ppNormalVector[layer][i].y = static_cast<float>(vec[1]);
+							ppNormalVector[layer][i].z = static_cast<float>(vec[2]);
+							ppNormalVector[layer][i].w = static_cast<float>(vec[3]);
+						}
+
+						break;
+
+					case FbxGeometryElement::eIndexToDirect:
+
+						break;
 				}
 
 				break;
 
-			case FbxGeometryElement::eIndexToDirect:
+			case FbxGeometryElement::eByPolygonVertex:
+				//法線がポリゴンの各頂点ごとに設定されている場合						
 
-				break;
-			}
-
-			break;
-
-		case FbxGeometryElement::eByPolygonVertex:
-			//法線がポリゴンの各頂点ごとに設定されている場合						
-
-			//リファレンスモードの判別
-			switch (referenceMode)
-			{
-			case FbxGeometryElement::eDirect:
-
-				//eDirectの場合データは順番に格納されているためそのまま保持				
-
-				pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
-
-				ppNormalVector[layer] = new D3DXVECTOR4[pNormalCounts[layer]];
-
-				for (int i = 0; i < pNormalCounts[layer]; i++)
+				//リファレンスモードの判別
+				switch (referenceMode)
 				{
-					FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
+					case FbxGeometryElement::eDirect:
 
-					ppNormalVector[layer][i].x = static_cast<float>(vec[0]);
-					ppNormalVector[layer][i].y = static_cast<float>(vec[1]);
-					ppNormalVector[layer][i].z = static_cast<float>(vec[2]);
-					ppNormalVector[layer][i].w = static_cast<float>(vec[3]);
+						//eDirectの場合データは順番に格納されているためそのまま保持				
+
+						pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
+
+						ppNormalVector[layer] = new D3DXVECTOR4[pNormalCounts[layer]];
+
+						for (int i = 0; i < pNormalCounts[layer]; i++)
+						{
+							FbxVector4 vec = pNormal->GetDirectArray().GetAt(i);
+
+							ppNormalVector[layer][i].x = static_cast<float>(vec[0]);
+							ppNormalVector[layer][i].y = static_cast<float>(vec[1]);
+							ppNormalVector[layer][i].z = static_cast<float>(vec[2]);
+							ppNormalVector[layer][i].w = static_cast<float>(vec[3]);
+						}
+
+						break;
+
+					case FbxGeometryElement::eIndexToDirect:
+
+						break;
 				}
 
 				break;
-
-			case FbxGeometryElement::eIndexToDirect:
-
-				break;
-			}
-
-			break;
 		}
 		pNormal->Destroy();
 	}

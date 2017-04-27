@@ -82,6 +82,12 @@ private:
 	int **ppPolygonVertexIndex;
 
 
+	//í∏ì_êF
+	int VertexColorSetMax;
+	int *pColorCount_ByVertexColorSet;
+	ColorRGBA** ppVertexColor;
+
+
 	//--------------
 	//ñ@ê¸
 
