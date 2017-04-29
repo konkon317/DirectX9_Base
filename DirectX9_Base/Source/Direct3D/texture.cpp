@@ -3,7 +3,7 @@
 //コンストラクタ
 Texture::Texture()
 {
-	pTexture = NULL;
+	pTexture = nullptr;
 
 	divU = 1;
 	divV = 1;
@@ -15,7 +15,7 @@ Texture::Texture()
 Texture::~Texture()
 {
 	//読み込まれていたら破棄
-	if (pTexture != NULL)
+	if (pTexture != nullptr)
 	{
 		pTexture->Release();
 	}

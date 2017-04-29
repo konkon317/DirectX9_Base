@@ -8,10 +8,10 @@ RENDERSTATE Direct3D::currentState;
 //コンストラクタ
 Direct3D::Direct3D()
 {
-	pD3D9 = NULL;
-	pDevice3D = NULL;
+	pD3D9 = nullptr;
+	pDevice3D = nullptr;
 	isDeviceCreated = false;
-	DrawFunc = NULL;
+	DrawFunc = nullptr;
 }
 
 void Direct3D::ReleaseDevice()
@@ -21,8 +21,8 @@ void Direct3D::ReleaseDevice()
 		pDevice3D->Release();
 		pD3D9->Release();
 
-		pDevice3D = NULL;
-		pD3D9 = NULL;
+		pDevice3D = nullptr;
+		pD3D9 = nullptr;
 
 		isDeviceCreated = false;
 	}
@@ -377,7 +377,7 @@ void Direct3D::SetDrawFunc(FuncPointer pointer)
 
 void Direct3D::TryCallDrawFunc()
 {
-	if (DrawFunc != NULL)
+	if (DrawFunc != nullptr)
 	{	
 		
 		DrawFunc();
@@ -435,10 +435,10 @@ void Direct3D::LoadMesh(Mesh& mesh,TCHAR* path)
 			mesh.pMaterials[i] = d3dxMaterials[i].MatD3D;
 			mesh.pMaterials[i].Ambient = mesh.pMaterials[i].Diffuse;
 
-			mesh.ppTextures[i] = NULL;
+			mesh.ppTextures[i] = nullptr;
 
 			//テクスチャのファイル名を取り出してロード
-			if (d3dxMaterials[i].pTextureFilename != NULL)
+			if (d3dxMaterials[i].pTextureFilename != nullptr)
 			{			
 				//テクスチャファイルパスを作成する
 				CHAR texturefile[1024];
@@ -448,7 +448,7 @@ void Direct3D::LoadMesh(Mesh& mesh,TCHAR* path)
 
 				if (D3DXCreateTextureFromFile(pDevice3D,texturefile, &mesh.ppTextures[i])!=D3D_OK)
 				{
-					mesh.ppTextures[i] = NULL;
+					mesh.ppTextures[i] = nullptr;
 				}
 
 			}
@@ -462,7 +462,7 @@ void Direct3D::LoadMesh(Mesh& mesh,TCHAR* path)
 
 void Direct3D::DrawMesh(Mesh& mesh, D3DXMATRIXA16& worldMat)
 {
-	if (mesh.pMesh != NULL)
+	if (mesh.pMesh != nullptr)
 	{
 		pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
 

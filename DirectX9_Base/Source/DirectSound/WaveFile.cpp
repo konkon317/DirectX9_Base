@@ -12,7 +12,7 @@ WaveFile::WaveFile()
 	//waveFormat‚ğ0‚Å‰Šú‰»
 	memset(&waveFormat, 0, sizeof(WAVEFORMATEX));
 
-	waveData = NULL;
+	waveData = nullptr;
 	dataSize = 0;
 
 }
@@ -27,11 +27,11 @@ WaveFile::~WaveFile()
 //ŠJ•úˆ—
 void WaveFile::Release()
 {
-	if (waveData != NULL)
+	if (waveData != nullptr)
 	{
 		delete[]waveData;
 
-		waveData = NULL;
+		waveData = nullptr;
 		memset(&waveFormat, 0, sizeof(WAVEFORMATEX));		
 		dataSize = 0;
 	}

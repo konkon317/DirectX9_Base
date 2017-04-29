@@ -5,7 +5,7 @@
 //コンストラクタ
 SoundBuffer::SoundBuffer()
 {
-	pSecondaryBuffer = NULL;
+	pSecondaryBuffer = nullptr;
 
 }
 //デストラクタ
@@ -17,19 +17,19 @@ SoundBuffer::~SoundBuffer()
 //開放処理
 void SoundBuffer::Release()
 {
-	if (pSecondaryBuffer != NULL)
+	if (pSecondaryBuffer != nullptr)
 	{
 		Stop();//開放する際には再生停止する
 
 		pSecondaryBuffer->Release();
-		pSecondaryBuffer = NULL;
+		pSecondaryBuffer = nullptr;
 	}
 }
 
 //再生開始
 void SoundBuffer::Play(bool isLoop)
 {
-	if (pSecondaryBuffer != NULL)
+	if (pSecondaryBuffer != nullptr)
 	{
 		DWORD LoopFlag = (isLoop ? DSBPLAY_LOOPING : 0);
 		pSecondaryBuffer->Play(0, 0, LoopFlag);
@@ -39,7 +39,7 @@ void SoundBuffer::Play(bool isLoop)
 //再生停止
 void SoundBuffer::Stop()
 {
-	if (pSecondaryBuffer != NULL)
+	if (pSecondaryBuffer != nullptr)
 	{
 		pSecondaryBuffer->Stop();
 	}
@@ -81,7 +81,7 @@ bool SoundBuffer::Create(WaveFile& waveFile)
 	DirectSound & directSound = DirectSound::GetInstance();
 
 	//サウンドバッファ
-	IDirectSoundBuffer* pBuffer = NULL;
+	IDirectSoundBuffer* pBuffer = nullptr;
 
 	//プライマリバッファ作製
 	if (directSound.CreateSoundBuffer(&desc,&pBuffer))
@@ -100,8 +100,8 @@ bool SoundBuffer::Create(WaveFile& waveFile)
 	pBuffer->Release();//セカンダリバッファが作成出来ればバッファは破棄して構わない
 
 
-	unsigned char *block1 = NULL;
-	unsigned char *block2 = NULL;
+	unsigned char *block1 = nullptr;
+	unsigned char *block2 = nullptr;
 	unsigned long blockSize1 = 0;
 	unsigned long blockSize2 = 0;
 

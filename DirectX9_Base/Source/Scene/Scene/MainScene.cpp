@@ -21,10 +21,10 @@ MainScene::MainScene()
 
 	for (int i = 0; i < 2; i++)
 	{
-		pGameObject[i] = NULL;
+		pGameObject[i] = nullptr;
 		pGameObject[i] = new GameObject3D();
 
-		if (pGameObject != NULL)
+		if (pGameObject != nullptr)
 		{
 			pGameObject[i]->SetMesh(&testMesh);
 
@@ -40,10 +40,10 @@ MainScene::~MainScene()
 {
 	for (int i = 1; i >= 0; i--)
 	{
-		if (pGameObject[i] != NULL)
+		if (pGameObject[i] != nullptr)
 		{
 			delete pGameObject[i];
-			pGameObject[i] = NULL;
+			pGameObject[i] = nullptr;
 		}
 	}
 }

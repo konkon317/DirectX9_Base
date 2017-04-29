@@ -3,7 +3,7 @@
 //コンストラクタ
 DirectSound::DirectSound()
 {
-	pDirectSound8 = NULL;
+	pDirectSound8 = nullptr;
 }
 
 //デストラクタ
@@ -15,10 +15,10 @@ DirectSound::~DirectSound()
 //開放
 void DirectSound::Release()
 {
-	if (pDirectSound8 != NULL)
+	if (pDirectSound8 != nullptr)
 	{
 		pDirectSound8->Release();
-		pDirectSound8 = NULL;
+		pDirectSound8 = nullptr;
 	}
 }
 
@@ -48,7 +48,7 @@ bool DirectSound::Create(HWND hWnd)
 
 HRESULT DirectSound::CreateSoundBuffer(DSBUFFERDESC* pDesc, IDirectSoundBuffer** ppBuffer)
 {
-	if (pDirectSound8 == NULL)
+	if (pDirectSound8 == nullptr)
 	{
 		//デバイスが作成されていないため失敗
 		return S_FALSE;

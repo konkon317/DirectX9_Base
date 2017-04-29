@@ -42,7 +42,7 @@ public :
 
 	void DrawLine();
 
-	void SetMesh(Mesh* pMesh_){ if (pMesh_ != NULL)pMesh = pMesh_; }
+	void SetMesh(Mesh* pMesh_){ if (pMesh_ != nullptr)pMesh = pMesh_; }
 
 	//正面　上　右方向のベクトルを更新
 	void UpdateVectors();

@@ -9,7 +9,7 @@ GameObject3D::GameObject3D()
 
 	rotateYaw_Rad = 0;
 
-	pMesh = NULL;
+	pMesh = nullptr;
 
 	UpdateVectors();	
 
@@ -43,7 +43,7 @@ void GameObject3D::Draw()
 
 	obb.DrawLine();
 
-	if (pMesh != NULL)
+	if (pMesh != nullptr)
 	{
 		D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
 

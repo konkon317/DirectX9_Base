@@ -446,7 +446,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	//親子関係をたどるため再帰関数が必要
 	struct CalcRelativeMat
 	{
-		static void run(Bone* pMe, D3DXMATRIX *pParentOffsetMat = NULL)
+		static void run(Bone* pMe, D3DXMATRIX *pParentOffsetMat = nullptr)
 		{
 			if (pMe->firstChild)
 			{

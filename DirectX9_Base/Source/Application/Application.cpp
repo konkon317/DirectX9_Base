@@ -51,7 +51,7 @@ bool   Application::pathed = false;
 
 Application::Application()
 {
-	updateFunc = NULL;
+	updateFunc = nullptr;
 }
 
 Application::~Application()
@@ -261,7 +261,7 @@ void Application::MessageLoop()
 			di.Update();
 
 			
-			if (updateFunc != NULL)
+			if (updateFunc != nullptr)
 			{
 				updateFunc();//アップデートの実行
 			}

@@ -3,7 +3,7 @@
 
 Mesh::Mesh()
 {
-	pMesh = NULL;
+	pMesh = nullptr;
 	
 }
 

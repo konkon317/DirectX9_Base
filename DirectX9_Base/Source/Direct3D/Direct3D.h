@@ -74,8 +74,8 @@ public:
 	void DrawLine(LINE_VERTEX* pVertex, int count);
 
 private:
-	IDirect3D9*	pD3D9 = NULL;				//Direct3Dデバイス生成用オブジェクト
-	IDirect3DDevice9* pDevice3D = NULL;		//Direct3Dのデバイス　スプライトの表示やテクスチャのロード時に必要
+	IDirect3D9*	pD3D9 = nullptr;				//Direct3Dデバイス生成用オブジェクト
+	IDirect3DDevice9* pDevice3D = nullptr;		//Direct3Dのデバイス　スプライトの表示やテクスチャのロード時に必要
 
 	static RENDERSTATE currentState;
 

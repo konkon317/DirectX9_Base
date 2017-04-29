@@ -3,9 +3,9 @@
 //コンストラクタ
 DirectInput::DirectInput()
 {
-	pDInput			= NULL;
-	pKeyDevice		= NULL;
-	pMouseDevice	= NULL;
+	pDInput			= nullptr;
+	pKeyDevice		= nullptr;
+	pMouseDevice	= nullptr;
 
 	initialized = false;
 
@@ -237,20 +237,20 @@ HRESULT  DirectInput::Release()
 	{
 		pMouseDevice->Unacquire();
 		pMouseDevice->Release();
-		pMouseDevice = NULL;
+		pMouseDevice = nullptr;
 	}
 	
 	if (pKeyDevice)
 	{
 		pKeyDevice->Unacquire();
 		pKeyDevice->Release();
-		pKeyDevice = NULL;
+		pKeyDevice = nullptr;
 	}
 
 	if (pDInput)
 	{
 		pDInput->Release();
-		pDInput = NULL;
+		pDInput = nullptr;
 	}
 	
 	return S_OK;
