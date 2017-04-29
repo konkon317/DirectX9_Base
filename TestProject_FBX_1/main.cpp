@@ -11,6 +11,9 @@
 #include <fbxsdk.h>
 
 #include "fbxUtil.h"
+#include "Grobal.h"
+
+#include <windows.h>
 
 
 using namespace fbxsdk;

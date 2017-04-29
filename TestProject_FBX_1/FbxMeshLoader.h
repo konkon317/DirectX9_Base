@@ -66,11 +66,11 @@ private:
 	//ロード済みかどうか
 	bool loaded;
 
-	//頂点座標の数
-	int vertexPointCount;
+	//コントロールポイント座標の数
+	int controlPointCount;
 
-	//頂点座標
-	D3DXVECTOR4* pVertexPoints_DX;
+	//コントロールポイント座標
+	D3DXVECTOR4* pControlPoints_DX;
 
 	//ポリゴン数
 	int polygonCount;
@@ -133,10 +133,13 @@ public :
 	void Release();
 
 private:
+	void LoadVertexPosition(FbxMesh * pMesh);
 
-	void GetVertexUV_Buffer(FbxMesh * pMesh);
+	void LoadVertexUV_Buffer(FbxMesh * pMesh);
 
-	void GetNormal(FbxMesh * pMesh);
+	void LoadNormal(FbxMesh * pMesh);
+
+	void LoadVertexColor(FbxMesh * pMesh);
 
 	void Asociate_UVSetAndMaterial(FbxNode* pNode);
 

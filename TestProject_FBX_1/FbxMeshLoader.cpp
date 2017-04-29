@@ -2,6 +2,8 @@
 
 #include "fbxUtil.h"
 
+#include "Grobal.h"
+
 
 UvSet::UvSet()
 {
@@ -25,9 +27,9 @@ UvSet::~UvSet()
 
 FbxMeshLoader::FbxMeshLoader()
 {
-	pVertexPoints_DX = nullptr;
+	pControlPoints_DX = nullptr;
 	
-	vertexPointCount =0;
+    controlPointCount =0;
 
 	polygonCount = 0;
 	/*polygonVertexNum = 0;
@@ -55,10 +57,10 @@ FbxMeshLoader::~FbxMeshLoader()
 
 void FbxMeshLoader::Release()
 {
-	if (pVertexPoints_DX != nullptr)
+	if (pControlPoints_DX != nullptr)
 	{
-		delete[] pVertexPoints_DX;
-		pVertexPoints_DX = nullptr;
+		delete[] pControlPoints_DX;
+		pControlPoints_DX = nullptr;
 	}
 
 
@@ -127,17 +129,18 @@ void FbxMeshLoader::Release()
 		pColorCount_ByVertexColorSet = nullptr;
 	}
 
+	//UVセットの解放
 	if (pUvSetArray != nullptr)
 	{
 		delete[] pUvSetArray;
 		pUvSetArray = nullptr;
 	}
 
-
-
 	loaded = false;
 }
 
+
+//ロード
 void FbxMeshLoader::Load(FbxNode* pNode)
 {
 
@@ -154,187 +157,38 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 
 				std::cout << std::endl;
 				std::cout << "mesh load "<<std::endl;	
-
 				
 
-				//メッシュを構成するポリゴン数
-				polygonCount = pMesh->GetPolygonCount();
-
-				//メッシュの総頂点
-				/*polygonVertexNum = pMesh->GetPolygonVertexCount();
-				pIndexArray = pMesh->GetPolygonVertices();*/
-
-				//ポリゴンを構成する頂点の数
-				pPolygonVertexCount = new int[polygonCount];
-				ppPolygonVertexIndex = new int*[polygonCount];
-
-				for (int i = 0; i < polygonCount; i++)
-				{
-					pPolygonVertexCount[i] = 0;
-					ppPolygonVertexIndex[i] = nullptr;
-
-					//ポリゴン[i]を構成する頂点数
-					pPolygonVertexCount[i] = pMesh->GetPolygonSize(i);
-
-					//ポリゴン[i]を構成する頂点のインデックスを格納する
-					ppPolygonVertexIndex[i] = new int[pPolygonVertexCount[i]];
-
-					for (int j = 0; j < pPolygonVertexCount[i]; j++)
-					{
-						ppPolygonVertexIndex[i][j] = pMesh->GetPolygonVertex(i, j);
-					}
-				}
 				
+				//頂点座標
+				LoadVertexPosition(pMesh);
 
-				//頂点座標の数
-				vertexPointCount = pMesh->GetControlPointsCount();
-
-				FbxVector4* pControllPoints_FBX = pMesh->GetControlPoints();
-
-				pVertexPoints_DX = new D3DXVECTOR4[vertexPointCount];
-
-				//FbxVector4 から D3DXVECTOR4へ
-				for (int i = 0; i < vertexPointCount; i++)
-				{
-					pVertexPoints_DX[i].x = static_cast<float>(pControllPoints_FBX[i][0]);
-					pVertexPoints_DX[i].y = static_cast<float>(pControllPoints_FBX[i][1]);
-					pVertexPoints_DX[i].z = static_cast<float>(pControllPoints_FBX[i][2]);
-					pVertexPoints_DX[i].w = static_cast<float>(pControllPoints_FBX[i][3]);
-				}			
-			
-
-
-				//頂点カラーセット数を取得
-				VertexColorSetMax = pMesh->GetElementVertexColorCount();
-
-				ppVertexColor = new ColorRGBA*[VertexColorSetMax];
-				pColorCount_ByVertexColorSet = new int[VertexColorSetMax];
-
-				for (int i = 0; i < VertexColorSetMax; i++)
-				{
-					ppVertexColor[i] = nullptr;
-					pColorCount_ByVertexColorSet[i] = 0;
-				}
-
-				//カラーセットの数だけ繰り返す
-				for (int i = 0; i <VertexColorSetMax; i++)
-				{
-					//頂点カラーセットを取得
-					FbxGeometryElementVertexColor * pColor = pMesh->GetElementVertexColor(i);
-
-					FbxGeometryElement::EMappingMode mappingMode = pColor->GetMappingMode();
-					FbxGeometryElement::EReferenceMode referenceMode = pColor->GetReferenceMode();
-
-					
-
-
-					switch (mappingMode)
-					{
-
-						case FbxGeometryElement::eByControlPoint:
-							{
-								int BreakPoint = 0;
-							}
-							break;
-
-						case FbxGeometryElement::eByPolygon:
-							{
-								int BreakPoint = 0;
-							}
-							break;
-
-						case FbxGeometryElement::eByPolygonVertex:
-							
-							switch (referenceMode)
-							{
-
-								case fbxsdk::FbxLayerElement::eIndexToDirect:
-									{
-										//今回はまず mapping =eByPolygonVertex reference=eIndexToCirect
-										//の組み合わせから書く 
-										//実験用のファイルがその保存形式なので
-
-										FbxLayerElementArrayTemplate<int>* pIndex = &pColor->GetIndexArray();
-										
-
-										pColorCount_ByVertexColorSet[i] = pIndex->GetCount();
-										
-
-										ppVertexColor[i] =new ColorRGBA[pColorCount_ByVertexColorSet[i]];
-										
-										//頂点の数だけ頂点カラーを取得
-										for (int j = 0; j < pColorCount_ByVertexColorSet[i]; j++)
-										{
-											
-											int index = pIndex->GetAt(j);
-											FbxColor color = pColor->GetDirectArray().GetAt(index);
-											
-											ppVertexColor[i][j].r = static_cast<float>(color[0]);
-											ppVertexColor[i][j].g = static_cast<float>(color[1]);
-											ppVertexColor[i][j].b = static_cast<float>(color[2]);
-											ppVertexColor[i][j].a = static_cast<float>(color[3]);
-										}
-										{
-											int BreakPoint = 0;
-										}
-
-									}
-									break;
-
-								case fbxsdk::FbxLayerElement::eDirect:
-									{
-										int BreakPoint = 0;
-									}
-									break;
-
-								case fbxsdk::FbxLayerElement::eIndex:
-									{
-										int BreakPoint = 0;
-									}
-									break;
-
-								default:
-									{
-										int BreakPoint = 0;
-									}
-									break;
-							}							
-
-							break;
-
-						default:
-
-							{
-								int BreakPoint = 0;
-							}
-
-							break;
-					}
-				}
+				//頂点色の取得
+				LoadVertexColor(pMesh);
 
 				//法線の取得
-				GetNormal(pMesh);
+				LoadNormal(pMesh);
 
 				//UVの取得
-				GetVertexUV_Buffer(pMesh);
+				LoadVertexUV_Buffer(pMesh);
 				
 				//UVSEtとマテリアルの関連付け
 				Asociate_UVSetAndMaterial(pNode);		
 
-				//読み込んだ情報を表示
-				std::cout << "polygonCount : " << polygonCount << std::endl;
-				std::cout << "polygonVertexList" << std::endl;
-				
-				for (int i = 0; i < polygonCount; i++)
-				{
-					std::cout << "PolygonVertexCount [ " << i << " ] : " << pPolygonVertexCount[i] <<" - ";
-					std::cout << "vertexIndex ";
-					for (int j = 0; j < pPolygonVertexCount[i]; j++)
-					{
-						std::cout << ppPolygonVertexIndex[i][j]<<",";
-					}
-					std::cout << std::endl;
-				}
+				////読み込んだ情報を表示
+				//std::cout << "polygonCount : " << polygonCount << std::endl;
+				//std::cout << "polygonVertexList" << std::endl;
+				//
+				//for (int i = 0; i < polygonCount; i++)
+				//{
+				//	std::cout << "PolygonVertexCount [ " << i << " ] : " << pPolygonVertexCount[i] <<" - ";
+				//	std::cout << "vertexIndex ";
+				//	for (int j = 0; j < pPolygonVertexCount[i]; j++)
+				//	{
+				//		std::cout << ppPolygonVertexIndex[i][j]<<",";
+				//	}
+				//	std::cout << std::endl;
+				//}
 
 				pMesh->Destroy();
 			}
@@ -343,11 +197,64 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 }
 
 
+void FbxMeshLoader::LoadVertexPosition(FbxMesh* pMesh)
+{
+	//メッシュを構成するポリゴン数
+	polygonCount = pMesh->GetPolygonCount();
 
+	//メッシュの総頂点		
 
+	//ポリゴンを構成する頂点の数
+	pPolygonVertexCount = new int[polygonCount];
+	ppPolygonVertexIndex = new int*[polygonCount];
 
+	bool flag = false;
+	for (int i = 0; i < polygonCount; i++)
+	{
+		pPolygonVertexCount[i] = 0;
+		ppPolygonVertexIndex[i] = nullptr;
 
-void FbxMeshLoader::GetVertexUV_Buffer(FbxMesh* pMesh)
+		//ポリゴン[i]を構成する頂点数
+		pPolygonVertexCount[i] = pMesh->GetPolygonSize(i);
+
+		//ポリゴン[i]を構成する頂点のインデックスを格納する
+		ppPolygonVertexIndex[i] = new int[pPolygonVertexCount[i]];
+
+		for (int j = 0; j < pPolygonVertexCount[i]; j++)
+		{
+			if (pPolygonVertexCount[i] > 3)
+			{
+				flag = true;
+			}
+			ppPolygonVertexIndex[i][j] = pMesh->GetPolygonVertex(i, j);
+		}
+	}
+
+	if (flag)
+	{
+		std::cout << "メッシュロード中" << std::endl;
+		WaitKey("多角形ポリゴンが含まれていました");
+	}
+
+	//頂点座標の数
+	controlPointCount = pMesh->GetControlPointsCount();
+
+	FbxVector4* pControllPoints_FBX = pMesh->GetControlPoints();
+
+	pControlPoints_DX = new D3DXVECTOR4[controlPointCount];
+
+	//FbxVector4 から D3DXVECTOR4へ
+	for (int i = 0; i < controlPointCount; i++)
+	{
+		pControlPoints_DX[i].x = static_cast<float>(pControllPoints_FBX[i][0]);
+		pControlPoints_DX[i].y = static_cast<float>(pControllPoints_FBX[i][1]);
+		pControlPoints_DX[i].z = static_cast<float>(pControllPoints_FBX[i][2]);
+		pControlPoints_DX[i].w = static_cast<float>(pControllPoints_FBX[i][3]);
+	}
+}
+
+//UV座標取得関数
+void FbxMeshLoader::LoadVertexUV_Buffer(FbxMesh* pMesh)
 {
 	//http://shikemokuthinking.blogspot.jp/
 
@@ -390,6 +297,9 @@ void FbxMeshLoader::GetVertexUV_Buffer(FbxMesh* pMesh)
 				switch (reference)
 				{
 					case FbxGeometryElement::eDirect:
+						{
+							int BreakPoint = 0;
+						}
 						break;
 
 					case FbxGeometryElement::eIndexToDirect:
@@ -448,11 +358,12 @@ void FbxMeshLoader::GetVertexUV_Buffer(FbxMesh* pMesh)
 		}
 
 		UV->Destroy();
-
 	}
 }
 
-void FbxMeshLoader::GetNormal(FbxMesh* pMesh)
+
+//法線取得関数
+void FbxMeshLoader::LoadNormal(FbxMesh* pMesh)
 {
 	//------法線----
 
@@ -543,6 +454,7 @@ void FbxMeshLoader::GetNormal(FbxMesh* pMesh)
 	}
 }
 
+//UVとマテリアルのテクスチャを関連付ける関数
 void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode)
 {
 	//注意作りかけ　2017_4_18
@@ -638,6 +550,118 @@ void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode)
 		}
 		pMaterial->Destroy();
 	}
+}
+
+
+//頂点色取得関数
+void FbxMeshLoader::LoadVertexColor(FbxMesh* pMesh)
+{
+	//頂点カラーセット数を取得
+	VertexColorSetMax = pMesh->GetElementVertexColorCount();
+
+	ppVertexColor = new ColorRGBA*[VertexColorSetMax];
+	pColorCount_ByVertexColorSet = new int[VertexColorSetMax];
+
+	for (int i = 0; i < VertexColorSetMax; i++)
+	{
+		ppVertexColor[i] = nullptr;
+		pColorCount_ByVertexColorSet[i] = 0;
+	}
+
+	//カラーセットの数だけ繰り返す
+	for (int i = 0; i <VertexColorSetMax; i++)
+	{
+		//頂点カラーセットを取得
+		FbxGeometryElementVertexColor * pColor = pMesh->GetElementVertexColor(i);
+
+		FbxGeometryElement::EMappingMode mappingMode = pColor->GetMappingMode();
+		FbxGeometryElement::EReferenceMode referenceMode = pColor->GetReferenceMode();
+
+		switch (mappingMode)
+		{
+
+			case FbxGeometryElement::eByControlPoint:
+				{
+					int BreakPoint = 0;
+				}
+				break;
+
+			case FbxGeometryElement::eByPolygon:
+				{
+					int BreakPoint = 0;
+				}
+				break;
+
+			case FbxGeometryElement::eByPolygonVertex:
+
+				switch (referenceMode)
+				{
+
+					case fbxsdk::FbxLayerElement::eIndexToDirect:
+						{
+							//今回はまず mapping =eByPolygonVertex reference=eIndexToCirect
+							//の組み合わせから書く 
+							//実験用のファイルがその保存形式なので
+
+							FbxLayerElementArrayTemplate<int>* pIndex = &pColor->GetIndexArray();
+
+
+							pColorCount_ByVertexColorSet[i] = pIndex->GetCount();
+
+
+							ppVertexColor[i] = new ColorRGBA[pColorCount_ByVertexColorSet[i]];
+
+							//頂点の数だけ頂点カラーを取得
+							for (int j = 0; j < pColorCount_ByVertexColorSet[i]; j++)
+							{
+
+								int index = pIndex->GetAt(j);
+								FbxColor color = pColor->GetDirectArray().GetAt(index);
+
+								ppVertexColor[i][j].r = static_cast<float>(color[0]);
+								ppVertexColor[i][j].g = static_cast<float>(color[1]);
+								ppVertexColor[i][j].b = static_cast<float>(color[2]);
+								ppVertexColor[i][j].a = static_cast<float>(color[3]);
+							}
+							{
+								int BreakPoint = 0;
+							}
+
+						}
+						break;
+
+					case fbxsdk::FbxLayerElement::eDirect:
+						{
+							int BreakPoint = 0;
+						}
+						break;
+
+					case fbxsdk::FbxLayerElement::eIndex:
+						{
+							int BreakPoint = 0;
+						}
+						break;
+
+					default:
+						{
+							int BreakPoint = 0;
+						}
+						break;
+				}
+
+				break;
+
+			default:
+
+				{
+					int BreakPoint = 0;
+				}
+
+				break;
+		}
+	}
+	
+
 }
 
 
