@@ -12,7 +12,6 @@
 
 #include "fbxUtil.h"
 
-#include <Windows.h>
 
 using namespace fbxsdk;
 
@@ -26,7 +25,7 @@ void WaitKey(char* message)
 	std::cout << message << std::endl;
 	std::cout << "Return ƒL[‚ð‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢" << std::endl;
 	getchar();
-	
+	Sleep(500);
 	
 }
 
