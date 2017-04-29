@@ -25,20 +25,20 @@ UvSet::~UvSet()
 
 FbxMeshLoader::FbxMeshLoader()
 {
-	pVertexPoints_DX = NULL;
+	pVertexPoints_DX = nullptr;
 	
 	vertexPointCount =0;
 
 	polygonCount = 0;
 	/*polygonVertexNum = 0;
 	pIndexArray = NULL;*/
-	pPolygonVertexCount = NULL;
-	ppPolygonVertexIndex = NULL;
+	pPolygonVertexCount = nullptr;
+	ppPolygonVertexIndex = nullptr;
 
-	pNormalCounts = NULL;
+	pNormalCounts = nullptr;
 
 
-	ppNormalVector =NULL;
+	ppNormalVector = nullptr;
 
 
 	uvSetCount = 0;
@@ -55,73 +55,73 @@ FbxMeshLoader::~FbxMeshLoader()
 
 void FbxMeshLoader::Release()
 {
-	if (pVertexPoints_DX != NULL)
+	if (pVertexPoints_DX != nullptr)
 	{
 		delete[] pVertexPoints_DX;
-		pVertexPoints_DX = NULL;
+		pVertexPoints_DX = nullptr;
 	}
 
 
 	//ポリゴンに使ったメモリの解放
-	if (ppPolygonVertexIndex != NULL)
+	if (ppPolygonVertexIndex != nullptr)
 	{
 		for (int i = 0; i < polygonCount; i++)
 		{
-			if (ppPolygonVertexIndex[i] != NULL)
+			if (ppPolygonVertexIndex[i] != nullptr)
 			{
 				delete[] ppPolygonVertexIndex[i];
 			}
 		}
 
 		delete[] ppPolygonVertexIndex;
-		ppPolygonVertexIndex = NULL;
+		ppPolygonVertexIndex = nullptr;
 	}
 
-	if (pPolygonVertexCount != NULL)
+	if (pPolygonVertexCount != nullptr)
 	{
 		delete[] pPolygonVertexCount;
-		pPolygonVertexCount = NULL;;
+		pPolygonVertexCount = nullptr;
 	}
 
 
 
 	//法線に使ったメモリの解放
-	if(ppNormalVector!=NULL)
+	if(ppNormalVector!= nullptr)
 	{ 
 		for (int i = 0; i < normalLayerCount; i++)
 		{
-			if (ppNormalVector[i] != NULL)
+			if (ppNormalVector[i] != nullptr)
 			{
 				delete[] ppNormalVector[i];
-				ppNormalVector[i] = NULL;
+				ppNormalVector[i] = nullptr;
 			}
 		}
 		delete[] ppNormalVector;
-		ppNormalVector = NULL;
+		ppNormalVector = nullptr;
 	}
 
-	if (pNormalCounts != NULL)
+	if (pNormalCounts != nullptr)
 	{
 		delete[]pNormalCounts;
-		pNormalCounts = NULL;
+		pNormalCounts = nullptr;
 	}
 
 	//頂点色に使ったメモリの解放
-	if (ppVertexColor != NULL)
+	if (ppVertexColor != nullptr)
 	{
 		for (int i = 0; i <  VertexColorSetMax; i++)
 		{
-			if (ppVertexColor[i] != NULL)
+			if (ppVertexColor[i] != nullptr)
 			{
 				delete[] ppVertexColor[i];
-				ppVertexColor[i] = NULL;
+				ppVertexColor[i] = nullptr;
 			}
 		}
 		delete[]ppVertexColor;
-		ppVertexColor = NULL;
+		ppVertexColor = nullptr;
 	}
 
-	if (pColorCount_ByVertexColorSet != NULL)
+	if (pColorCount_ByVertexColorSet != nullptr)
 	{
 		delete[]pColorCount_ByVertexColorSet;
 		pColorCount_ByVertexColorSet = nullptr;
@@ -148,7 +148,7 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 			//ノードからメッシュデータ取得
 			FbxMesh *pMesh = pNode->GetMesh();
 
-			if (pMesh != NULL)
+			if (pMesh != nullptr)
 			{
 				loaded = true;
 
@@ -171,7 +171,7 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 				for (int i = 0; i < polygonCount; i++)
 				{
 					pPolygonVertexCount[i] = 0;
-					ppPolygonVertexIndex[i] = NULL;
+					ppPolygonVertexIndex[i] = nullptr;
 
 					//ポリゴン[i]を構成する頂点数
 					pPolygonVertexCount[i] = pMesh->GetPolygonSize(i);

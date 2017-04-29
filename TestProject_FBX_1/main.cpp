@@ -12,6 +12,8 @@
 
 #include "fbxUtil.h"
 
+#include <Windows.h>
+
 using namespace fbxsdk;
 
 
@@ -24,6 +26,8 @@ void WaitKey(char* message)
 	std::cout << message << std::endl;
 	std::cout << "Return キーを押してください" << std::endl;
 	getchar();
+	
+	
 }
 
 int main(int argc, char* argv[])
@@ -52,7 +56,7 @@ int main(int argc, char* argv[])
 	std::cout << "Create FbxImporter ... ";
 	FbxImporter* pImporter = FbxImporter::Create(pManager, "");
 	
-	if (pImporter == NULL)
+	if (pImporter ==nullptr)
 	{
 		std::cout << "Failed" << std::endl;
 		pManager->Destroy();
@@ -90,7 +94,7 @@ int main(int argc, char* argv[])
 	std::cout << "CreateScene ...";
 	FbxScene* pScene = FbxScene::Create(pManager, "");
 
-	if (pScene == NULL)
+	if (pScene == nullptr)
 	{
 		std::cout << "Failed " << std::endl;
 		pImporter->Destroy();
@@ -127,7 +131,7 @@ int main(int argc, char* argv[])
 
 	//シーンを読んだら必要ないのでインポーターは破棄する
 	pImporter->Destroy();
-	pImporter = NULL;
+	pImporter = nullptr;
 	
 	//------------------------------------------------------------------
 	//ノード探査
@@ -148,6 +152,8 @@ int main(int argc, char* argv[])
 	pManager->Destroy();
 
 	WaitKey("プログラムの終了");
+
+	
 	return 1;
 		
 
