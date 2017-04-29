@@ -8,6 +8,6 @@
   <ItemGroup>
     <ClInclude Include="fbxUtil.h" />
     <ClInclude Include="FbxMeshLoader.h" />
-    <ClInclude Include="Grobal.h" />
+    <ClInclude Include="Global.h" />
   </ItemGroup>
 </Project>

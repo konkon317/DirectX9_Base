@@ -11,7 +11,7 @@
 #include <fbxsdk.h>
 
 #include "fbxUtil.h"
-#include "Grobal.h"
+#include "Global.h"
 
 #include <windows.h>
 
@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
 	//const char* filePath = "FBX_FILES/cube2.fbx";
 	const char* filePath = "FBX_FILES/cube4.fbx";
 	//const char* filePath = "FBX_FILES/rio.fbx";
-	/*const char* filePath = "FBX_FILES/attack01.fbx";*/
+	//const char* filePath = "FBX_FILES/attack01.fbx";
 
 	std::cout << "Open File [ " << filePath << " ] ... ";
 	if (pImporter->Initialize(filePath) == false)

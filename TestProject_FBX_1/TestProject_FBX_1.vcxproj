@@ -164,7 +164,7 @@
   <ItemGroup>
     <ClInclude Include="FbxMeshLoader.h" />
     <ClInclude Include="fbxUtil.h" />
-    <ClInclude Include="Grobal.h" />
+    <ClInclude Include="Global.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

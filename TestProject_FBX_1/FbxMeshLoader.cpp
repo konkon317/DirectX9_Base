@@ -2,7 +2,7 @@
 
 #include "fbxUtil.h"
 
-#include "Grobal.h"
+#include "Global.h"
 
 
 UvSet::UvSet()
