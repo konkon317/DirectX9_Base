@@ -2,6 +2,27 @@
 
 #include "fbxUtil.h"
 
+
+UvSet::UvSet()
+{
+	pUvBuffer = nullptr;
+
+
+
+}
+
+
+UvSet::~UvSet()
+{
+	if (pUvBuffer != nullptr)
+	{
+		delete[] pUvBuffer;
+		pUvBuffer = nullptr;
+	}
+}
+
+
+
 FbxMeshLoader::FbxMeshLoader()
 {
 	pVertexPoints_DX = NULL;
@@ -18,6 +39,11 @@ FbxMeshLoader::FbxMeshLoader()
 
 
 	ppNormalVector =NULL;
+
+
+	uvSetCount = 0;
+	
+	pUvSetArray = nullptr;
 
 	loaded = false;
 }
@@ -98,7 +124,13 @@ void FbxMeshLoader::Release()
 	if (pColorCount_ByVertexColorSet != NULL)
 	{
 		delete[]pColorCount_ByVertexColorSet;
-		pColorCount_ByVertexColorSet = NULL;
+		pColorCount_ByVertexColorSet = nullptr;
+	}
+
+	if (pUvSetArray != nullptr)
+	{
+		delete[] pUvSetArray;
+		pUvSetArray = nullptr;
 	}
 
 
@@ -234,8 +266,8 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 										for (int j = 0; j < pColorCount_ByVertexColorSet[i]; j++)
 										{
 											
-											int k = pIndex->GetAt(j);
-											FbxColor color = pColor->GetDirectArray().GetAt(k);
+											int index = pIndex->GetAt(j);
+											FbxColor color = pColor->GetDirectArray().GetAt(index);
 											
 											ppVertexColor[i][j].r = static_cast<float>(color[0]);
 											ppVertexColor[i][j].g = static_cast<float>(color[1]);
@@ -277,23 +309,17 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 							}
 
 							break;
-
 					}
 				}
-
-
 
 				//法線の取得
 				GetNormal(pMesh);
 
 				//UVの取得
 				GetVertexUV_Buffer(pMesh);
-
 				
 				//UVSEtとマテリアルの関連付け
-				Asociate_UVSetAndMaterial(pNode);			
-
-
+				Asociate_UVSetAndMaterial(pNode);		
 
 				//読み込んだ情報を表示
 				std::cout << "polygonCount : " << polygonCount << std::endl;
@@ -326,11 +352,11 @@ void FbxMeshLoader::GetVertexUV_Buffer(FbxMesh* pMesh)
 	//http://shikemokuthinking.blogspot.jp/
 
 	//UVSetの数を取得
-	int UvLayerCount = pMesh->GetElementUVCount();
 	
-	UvSet uvSet;
+	uvSetCount = pMesh->GetElementUVCount();
+	pUvSetArray = new UvSet[uvSetCount];
 
-	for (int i = 0; i<UvLayerCount; i++)
+	for (int i = 0; i<uvSetCount; i++)
 	{
 		//Uvバッファを取得
 		FbxGeometryElementUV*UV = pMesh->GetElementUV(i);
@@ -344,12 +370,19 @@ void FbxMeshLoader::GetVertexUV_Buffer(FbxMesh* pMesh)
 
 
 		//UV数の取得
-		int uvCount = UV->GetDirectArray().GetCount();
+		
+		FbxLayerElementArrayTemplate<int>* pUvIndex = &UV->GetIndexArray();
+		int uvIndexCount = pUvIndex->GetCount();
+
+		pUvSetArray[i].pUvBuffer = new Point2DF[uvIndexCount];
+	
 
 		switch (mapping)
 		{
-
 			case fbxsdk::FbxLayerElement::eByControlPoint:
+				{
+					int BreakPoint = 0;
+				}
 
 				break;
 			case fbxsdk::FbxLayerElement::eByPolygonVertex:
@@ -361,35 +394,56 @@ void FbxMeshLoader::GetVertexUV_Buffer(FbxMesh* pMesh)
 
 					case FbxGeometryElement::eIndexToDirect:
 						{
-							FbxLayerElementArrayTemplate<int>* pUvIndex = &UV->GetIndexArray();
-							int uvIndexCount = pUvIndex->GetCount();
-
-							Point2DF temp;
-							for (int i = 0; i < uvIndexCount; i++)
+							for (int j = 0; j < uvIndexCount; j++)
 							{
-								temp.x = (float)UV->GetDirectArray().GetAt(pUvIndex->GetAt(i))[0];
-								temp.y = 1.0f - (float)UV->GetDirectArray().GetAt(pUvIndex->GetAt(i))[1];//ブレンダーで作ったファイルは上下逆
+								Point2DF temp;
 
-								uvSet.uvBuffer.push_back(temp);
+								int index = pUvIndex->GetAt(j);
+								FbxVector2 v = UV->GetDirectArray().GetAt(index);
+
+								temp.x =static_cast<float>( v[0] );
+								temp.y =static_cast<float>( 1.0f- v[1]);//ブレンダーで作ったファイルは上下逆
+
+								pUvSetArray[i].pUvBuffer[j] = temp;
 							}
 
 							//UvSet名を取得
-							uvSet.uvSetName = UV->GetName();
+							pUvSetArray[i].uvSetName = UV->GetName();
 
-							list_uvSet.push_back(uvSet);
+							{
+								int BreakPoint = 0;
+							}
+
 						}
+				
 						break;
 				}
 
 				break;
 
 			case fbxsdk::FbxLayerElement::eByPolygon:
+				{
+					int BreakPoint = 0;
+				}
 				break;
 			case fbxsdk::FbxLayerElement::eByEdge:
+
+				{
+					int BreakPoint = 0;
+				}
 				break;
+
 			case fbxsdk::FbxLayerElement::eAllSame:
+
+				{
+					int BreakPoint = 0;
+				}
 				break;
+
 			default:
+				{
+					int BreakPoint = 0;
+				}
 				break;
 		}
 
@@ -483,7 +537,6 @@ void FbxMeshLoader::GetNormal(FbxMesh* pMesh)
 
 						break;
 				}
-
 				break;
 		}
 		pNormal->Destroy();
@@ -539,11 +592,11 @@ void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode)
 						//UVSet名を取得
 						std::string UVSetName = pTexture->UVSet.Get().Buffer();
 
-						for (UVSetList::iterator it = list_uvSet.begin(); it != list_uvSet.end(); it++)
+						for (int k=0;k<uvSetCount;k++)
 						{
-							if ((*it).uvSetName == UVSetName)
+							if (pUvSetArray[k].uvSetName == UVSetName)
 							{
-								(*it).texture = textureName;
+								pUvSetArray[k].texture = textureName;
 							}
 						}
 					}
@@ -572,11 +625,11 @@ void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode)
 						std::string UVSetName = pTexture->UVSet.Get().Buffer();
 
 						//--- UVSet名を比較し対応しているテクスチャなら保持 ---//
-						for (UVSetList::iterator it = list_uvSet.begin(); it != list_uvSet.end(); it++)
+						for (int k = 0; k<uvSetCount; k++)
 						{
-							if ((*it).uvSetName == UVSetName)
+							if (pUvSetArray[k].uvSetName == UVSetName)
 							{
-								(*it).texture = textureName;
+								pUvSetArray[k].texture = textureName;
 							}
 						}
 					}
