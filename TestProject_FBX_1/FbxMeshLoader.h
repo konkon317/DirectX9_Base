@@ -29,14 +29,24 @@ struct Point2DF
 	}
 };
 
-struct UvSet
+class UvSet
 {
+
+
+public :
 	std::string uvSetName;
 	//std::list<std::string> textures;
 	std::string texture;
-	std::list<Point2DF> uvBuffer;
+	Point2DF* pUvBuffer;
+
+	UvSet();
+	~UvSet();
 
 };
+
+
+
+
 
 struct ColorRGBA
 {
@@ -47,8 +57,6 @@ struct ColorRGBA
 
 };
 
-
-typedef std::list<UvSet> UVSetList;
 
 
 class FbxMeshLoader
@@ -106,7 +114,9 @@ private:
 	//マテリアル数
 	int materialCount;
 
-	UVSetList list_uvSet;
+	//uvマップ
+	int uvSetCount;	
+	UvSet* pUvSetArray;
 
 
 public :
@@ -122,8 +132,8 @@ public :
 	//解放処理
 	void Release();
 
-
 private:
+
 	void GetVertexUV_Buffer(FbxMesh * pMesh);
 
 	void GetNormal(FbxMesh * pMesh);

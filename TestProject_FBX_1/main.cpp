@@ -12,6 +12,7 @@
 
 #include "fbxUtil.h"
 
+
 using namespace fbxsdk;
 
 
@@ -24,6 +25,8 @@ void WaitKey(char* message)
 	std::cout << message << std::endl;
 	std::cout << "Return キーを押してください" << std::endl;
 	getchar();
+	Sleep(500);
+	
 }
 
 int main(int argc, char* argv[])
@@ -52,7 +55,9 @@ int main(int argc, char* argv[])
 	std::cout << "Create FbxImporter ... ";
 	FbxImporter* pImporter = FbxImporter::Create(pManager, "");
 	
+
 	if (pImporter == nullptr)
+
 	{
 		std::cout << "Failed" << std::endl;
 		pManager->Destroy();
@@ -148,6 +153,8 @@ int main(int argc, char* argv[])
 	pManager->Destroy();
 
 	WaitKey("プログラムの終了");
+
+	
 	return 1;
 		
 
