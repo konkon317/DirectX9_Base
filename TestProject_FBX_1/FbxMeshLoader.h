@@ -75,6 +75,10 @@ private:
 	//ポリゴン数
 	int polygonCount;
 
+	int indexCount;
+	D3DXVECTOR4* pVertexPoints_DX;
+
+
 	////総長点数
 	//int polygonVertexNum;
 	//int * pIndexArray;
@@ -88,7 +92,6 @@ private:
 	//	p :ポリゴン番号
 	//	x = 0　～ (pPolygonVertexCount[p]-1)
 	int **ppPolygonVertexIndex;
-
 
 	//頂点色
 	int VertexColorSetMax;

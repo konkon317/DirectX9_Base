@@ -44,6 +44,9 @@ FbxMeshLoader::FbxMeshLoader()
 
 
 	uvSetCount = 0;
+
+	indexCount = 0;
+	pVertexPoints_DX = nullptr;
 	
 	pUvSetArray = nullptr;
 
@@ -83,6 +86,14 @@ void FbxMeshLoader::Release()
 	{
 		delete[] pPolygonVertexCount;
 		pPolygonVertexCount = nullptr;
+	}
+
+	if (pVertexPoints_DX != nullptr)
+	{
+		delete[] pVertexPoints_DX;
+		pVertexPoints_DX = nullptr;
+		indexCount = 0;
+
 	}
 
 
@@ -157,9 +168,7 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 
 				std::cout << std::endl;
 				std::cout << "mesh load "<<std::endl;	
-				
-
-				
+								
 				//頂点座標
 				LoadVertexPosition(pMesh);
 
@@ -190,10 +199,10 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 				//	std::cout << std::endl;
 				//}
 
-				pMesh->Destroy();
-			}
-		}
-	}
+				pMesh->Destroy();			
+			}			
+		}		
+	}	
 }
 
 
@@ -236,6 +245,7 @@ void FbxMeshLoader::LoadVertexPosition(FbxMesh* pMesh)
 		WaitKey("多角形ポリゴンが含まれていました");
 	}
 
+
 	//頂点座標の数
 	controlPointCount = pMesh->GetControlPointsCount();
 
@@ -251,6 +261,30 @@ void FbxMeshLoader::LoadVertexPosition(FbxMesh* pMesh)
 		pControlPoints_DX[i].z = static_cast<float>(pControllPoints_FBX[i][2]);
 		pControlPoints_DX[i].w = static_cast<float>(pControllPoints_FBX[i][3]);
 	}
+
+
+	indexCount = pMesh->GetPolygonVertexCount();
+	
+	pVertexPoints_DX = new D3DXVECTOR4[indexCount];
+
+	int index = 0;
+
+	for (int i = 0; i < polygonCount; i++)
+	{
+		
+		for (int j = 0; j < pPolygonVertexCount[i]; j++)
+		{
+
+			int a = ppPolygonVertexIndex[i][j];
+			pVertexPoints_DX[index] = pControlPoints_DX[a];
+			index++;
+		}
+	}
+
+	{
+		int breakPoint=0;
+	}
+
 }
 
 //UV座標取得関数
@@ -377,6 +411,7 @@ void FbxMeshLoader::LoadNormal(FbxMesh* pMesh)
 	{
 
 		FbxGeometryElementNormal* pNormal = pMesh->GetElementNormal(layer);
+		
 
 		//マッピングモードの取得
 		FbxGeometryElement::EMappingMode mappingMode = pNormal->GetMappingMode();
