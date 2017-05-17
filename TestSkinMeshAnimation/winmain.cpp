@@ -1,4 +1,4 @@
-
+﻿
 
 
 #if _DEBUG
@@ -24,12 +24,12 @@
 #define new ::new(_NORMAL_BLOCK,__FILE__,__LINE__)
 #endif
 
-//�Q�l�@�v���O����
+//参考　プログラム
 //  HP    : http://marupeke296.com
 
-//�Œ���̒��_���
-//���W�Ɗe�{�[���̏d�݂ƃ{�[���s��ԍ�
-//��3������΃X�L�����b�V���͂ł���
+//最低限の頂点情報
+//座標と各ボーンの重みとボーン行列番号
+//の3つがあればスキンメッシュはできる
 struct Vertex
 {
 	D3DXVECTOR3 coord;
@@ -37,16 +37,16 @@ struct Vertex
 	unsigned char matrixIndex[4];
 };
 
-//�{�[���\����
+//ボーン構造体
 struct Bone
 {
-	int id;					//�{�[��id
-	Bone* firstChild;		//���q�{�[��
-	Bone* sibling;			//���̌Z��{�[��
-	D3DXMATRIX offsetMat;	//�{�[���I�t�Z�b�g�s��
-	D3DXMATRIX initMat;		//�����p���s��
-	D3DXMATRIX boneMat;		//�{�[���p���s��
-	D3DXMATRIX *combMatAry;	//�����p���s��z��ւ̃|�C���^
+	int id;					//ボーンid
+	Bone* firstChild;		//第一子ボーン
+	Bone* sibling;			//次の兄弟ボーン
+	D3DXMATRIX offsetMat;	//ボーンオフセット行列
+	D3DXMATRIX initMat;		//初期姿勢行列
+	D3DXMATRIX boneMat;		//ボーン姿勢行列
+	D3DXMATRIX *combMatAry;	//合成姿勢行列配列へのポインタ
 
 	Bone() :id(), firstChild(), sibling(), combMatAry()
 	{
@@ -60,28 +60,28 @@ struct Bone
 
 int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev);
 
-//�E�B���h�E�v���V�[�W���\����
+//ウィンドウプロシージャ構造体
 struct WP
 {
 	static LRESULT CALLBACK WndProc
 	(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-	{//���ʂȏ�����K�v�Ƃ��郁�b�Z�[�W�́@�Ƃ肠�����I���������������Ă���
+	{//特別な処理を必要とするメッセージは　とりあえず終了処理だけ書いておく
 		switch (msg)
 		{
-		case WM_DESTROY: //�E��̃o�c�������ꂽ�AAltF4�������ꂽ���ȂǂɎ�M���郁�b�Z�[�W
-			PostQuitMessage(0);//���b�Z�[�W�L���[��WM_QUIT���b�Z�[�W�𑗂�
+		case WM_DESTROY: //右上のバツが押された、AltF4が押された時などに受信するメッセージ
+			PostQuitMessage(0);//メッセージキューにWM_QUITメッセージを送る
 			break;
 		}
-		//���ʂȏ�����v���Ȃ����b�Z�[�W�̓f�t�H���g�̃E�B���h�E�v���V�[�W������������
-		return DefWindowProc(hWnd, msg, wParam, lParam);//�ړ��Ƃ��T�C�Y�ύX�Ƃ�
+		//特別な処理を要さないメッセージはデフォルトのウィンドウプロシージャが処理する
+		return DefWindowProc(hWnd, msg, wParam, lParam);//移動とかサイズ変更とか
 	}
 };
 
-_TCHAR gName[100] = _T("���S�z���C�g�{�b�N�X�ȃX�L�����b�V���A�j���[�V�����e�X�g�v���O����");
+_TCHAR gName[100] = _T("完全ホワイトボックスなスキンメッシュアニメーションテストプログラム");
 
 
-// �Œ���̃V�F�[�_
-//  �d�݌W���ƒ��_�𓮂������߂̃��[���h�ϊ��s��̔z���n���܂�
+// 最低限のシェーダ
+//  重み係数と頂点を動かすためのワールド変換行列の配列を渡します
 const char *vertexShaderStr =
 "float4x4 view : register(c0);"
 "float4x4 proj : register(c4);"
@@ -109,8 +109,8 @@ const char *vertexShaderStr =
 "    return Out;"
 "}";
 
-// �s�N�Z���V�F�[�_�͎����ēK��
-// �D���Ȃ悤�ɓ_������ĉ������B
+// ピクセルシェーダは至って適当
+// 好きなように点を穿って下さい。
 const char *pixelShaderStr =
 "struct VS_OUT {"
 "    float4 pos : POSITION;"
@@ -121,31 +121,31 @@ const char *pixelShaderStr =
 "";
 
 
-//���C��
+//メイン
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	//�A�v�����V�����̏�����
+	//アプリけションの初期化
 
 	HWND hWnd;
 
 	WNDCLASSEX wcex;
-	memset(&wcex, 0, sizeof(WNDCLASSEX));						// �ϐ��̃����o��S��0�ŏ�����
-	wcex.cbSize			= sizeof(WNDCLASSEX);					// cbSize : �\���̂̃T�C�Y
-	wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;	// style : �E�B���h�E�X�^�C��
-	wcex.lpfnWndProc	= (WNDPROC)WP::WndProc;					// ipfnWndProc : �E�B���h�E�v���V�[�W���̃A�h���X�@�֐��|�C���^
-	wcex.cbClsExtra		= 0;									// cbClsExtra : 0�Œ�
-	wcex.cbWndExtra		= 0;									// cbWndExtra : 0�Œ�
-	wcex.hInstance		= hInstance;							// hInstance : WinMain�̃C���X�^���X�n���h��
+	memset(&wcex, 0, sizeof(WNDCLASSEX));						// 変数のメンバを全て0で初期化
+	wcex.cbSize			= sizeof(WNDCLASSEX);					// cbSize : 構造体のサイズ
+	wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;	// style : ウィンドウスタイル
+	wcex.lpfnWndProc	= (WNDPROC)WP::WndProc;					// ipfnWndProc : ウィンドウプロシージャのアドレス　関数ポインタ
+	wcex.cbClsExtra		= 0;									// cbClsExtra : 0固定
+	wcex.cbWndExtra		= 0;									// cbWndExtra : 0固定
+	wcex.hInstance		= hInstance;							// hInstance : WinMainのインスタンスハンドル
 	wcex.hIcon			= NULL;
 	wcex.hCursor		= NULL;
 
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	/*GetStockObject(BLACK_BRUSH);*/							// hbrBackground : �E�B���h�E�N���C�A���g�̈�̔w�i�F
+	/*GetStockObject(BLACK_BRUSH);*/							// hbrBackground : ウィンドウクライアント領域の背景色
 	
-	wcex.lpszMenuName	= NULL;									// lpszMeueName : ���j���[
-	wcex.lpszClassName	= (_TCHAR*)gName;						// lpszClassName : �E�B���h�E�N���X�̖��O
+	wcex.lpszMenuName	= NULL;									// lpszMeueName : メニュー
+	wcex.lpszClassName	= (_TCHAR*)gName;						// lpszClassName : ウィンドウクラスの名前
 	wcex.hIconSm		= NULL;
 
 
@@ -166,32 +166,32 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		return 0;
 	}
 
-	//Direct3D������
+	//Direct3D初期化
 	LPDIRECT3D9 g_pD3D;
 	LPDIRECT3DDEVICE9 g_pD3DDEV;
 
 	if ((g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)) == false) { return 0; }
 
-	//�f�B�X�v���C���擾
+	//ディスプレイ情報取得
 	D3DDISPLAYMODE Display;
 	g_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &Display);
 
 
 	D3DPRESENT_PARAMETERS D3DParam;
-	D3DParam.BackBufferWidth = width;					//�o�b�N�o�b�t�@�̕�
-	D3DParam.BackBufferHeight = height;					//�o�b�N�o�b�t�@�̍���
-	D3DParam.BackBufferFormat = Display.Format;			//�o�b�N�o�b�t�@�̃t�H�[�}�b�g
-	D3DParam.BackBufferCount = 1;						//�o�b�N�o�b�t�@��
-	D3DParam.MultiSampleType = D3DMULTISAMPLE_NONE;		//�}���`�T���v�����O�̐ݒ� �Ȃ�
-	D3DParam.MultiSampleQuality = 0;					//�}���`�T���v�����O�̃N�I���e�B
-	D3DParam.SwapEffect = D3DSWAPEFFECT_DISCARD;		//�X���b�v�`�F�C���̕��@�@DirectX�܂���
-	D3DParam.hDeviceWindow = hWnd;						//�Ώۂ̃E�B���h�E�̃n���h��
-	D3DParam.Windowed = TRUE;							//�E�B���h�E
-	D3DParam.EnableAutoDepthStencil = TRUE;				//�k�x�X�e���V���o�b�t�@�̍쐬
-	D3DParam.AutoDepthStencilFormat = D3DFMT_D24S8;		//�k�x�X�e���V���̃t�H�[�}�b�g
+	D3DParam.BackBufferWidth = width;					//バックバッファの幅
+	D3DParam.BackBufferHeight = height;					//バックバッファの高さ
+	D3DParam.BackBufferFormat = Display.Format;			//バックバッファのフォーマット
+	D3DParam.BackBufferCount = 1;						//バックバッファ数
+	D3DParam.MultiSampleType = D3DMULTISAMPLE_NONE;		//マルチサンプリングの設定 なし
+	D3DParam.MultiSampleQuality = 0;					//マルチサンプリングのクオリティ
+	D3DParam.SwapEffect = D3DSWAPEFFECT_DISCARD;		//スワップチェインの方法　DirectXまかせ
+	D3DParam.hDeviceWindow = hWnd;						//対象のウィンドウのハンドル
+	D3DParam.Windowed = TRUE;							//ウィンドウ
+	D3DParam.EnableAutoDepthStencil = TRUE;				//震度ステンシルバッファの作成
+	D3DParam.AutoDepthStencilFormat = D3DFMT_D24S8;		//震度ステンシルのフォーマット
 	D3DParam.Flags = 0;									//
-	D3DParam.FullScreen_RefreshRateInHz = /*0*/D3DPRESENT_RATE_DEFAULT;			//�X�N���[���̃��t���b�V�����[�g�@�E�B���h�E���[�h���ƕK��0
-	D3DParam.PresentationInterval =/* D3DPRESENT_INTERVAL_DEFAULT*/ D3DPRESENT_INTERVAL_ONE;	//�A�_�v�^���t���b�V�����[�g��present���������s���郌�[�g�̊֌W
+	D3DParam.FullScreen_RefreshRateInHz = /*0*/D3DPRESENT_RATE_DEFAULT;			//スクリーンのリフレッシュレート　ウィンドウモードだと必ず0
+	D3DParam.PresentationInterval =/* D3DPRESENT_INTERVAL_DEFAULT*/ D3DPRESENT_INTERVAL_ONE;	//アダプタリフレッシュレートとpresent処理を実行するレートの関係
 
 	if (FAILED(g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &D3DParam, &g_pD3DDEV)))
 	{
@@ -201,7 +201,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			return 0;
 		}
 	}
-	//�E�B���h�E�\��
+	//ウィンドウ表示
 	ShowWindow(hWnd, SW_SHOW);
 
 
@@ -216,11 +216,11 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 }
 
 
-//�X�L�����b�V��
+//スキンメッシュ
 int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 {
-	//�|���S���̒��_��`=======================================================================
-	//���_����17��
+	//ポリゴンの頂点定義=======================================================================
+	//頂点数は17個
 	Vertex vtx[17] =
 	{
 		{ D3DXVECTOR3( 5, 0, 1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//0
@@ -243,8 +243,8 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 
 	};
 
-	//���_�C���f�b�N�X
-	//�|���S����20���Ł@�O�p�`�Ȃ̂Ł@20*3 60��
+	//頂点インデックス
+	//ポリゴンは20枚で　三角形なので　20*3 60個
 	WORD idx[3*20] =
 	{
 		 0, 1, 8,
@@ -273,16 +273,16 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		16,15,14
 	};
 
-	//�C���f�b�N�X�����ǂ��ĎO�p�`���X�g���쐬
+	//インデックスをたどって三角形リストを作成
 	Vertex v[3*20];
 	for (int i = 0; i < 60; i++)
 	{
 		v[i] = vtx[idx[i]];
 	}
 
-	//���_�錾�@FVF�쐬========================================================================
-	//���_�\���̂̍\����� ���o�C�g�ڂ���ǂ�ȏ��H�@
-	//Declaration :�@�錾
+	//頂点宣言　FVF作成========================================================================
+	//頂点構造体の構成情報 何バイト目からどんな情報？　
+	//Declaration :　宣言
 	D3DVERTEXELEMENT9 declAry[] =
 	{
 		{ 0,0,D3DDECLTYPE_FLOAT3 ,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_POSITION,0 },
@@ -294,50 +294,50 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	g_pD3DDev->CreateVertexDeclaration(declAry, &decl);
 
 
-	//�{�[�����̍쐬========================================================================
-	//�K�v�Ȃ̂́@�E�{�[���I�t�Z�b�g�s��@�E�{�[���s��
+	//ボーン情報の作成========================================================================
+	//必要なのは　・ボーンオフセット行列　・ボーン行列
 
 	Bone * pBones = new Bone[3];
 
-	//�{�[���̐e�q�֌W�̍\�z
+	//ボーンの親子関係の構築
 	//0 --- 1 - 2
 
 	pBones[0].firstChild = &pBones[1];
 	pBones[1].firstChild = &pBones[2];
 
 
-	//�����p���̌v�Z==================================================================================
-	//���[�J���p����ݒ肵
-	//�ŏI�I�Ɏ����̐e����̑��Ύp���ɏC��
+	//初期姿勢の計算==================================================================================
+	//ローカル姿勢を設定し
+	//最終的に自分の親からの相対姿勢に修正
 	D3DXMatrixRotationY(&pBones[0].initMat, D3DXToRadian(0.0f));
 	D3DXMatrixRotationY(&pBones[1].initMat, D3DXToRadian(0.0f));
 	D3DXMatrixRotationY(&pBones[2].initMat, D3DXToRadian(0.0f));
 	
-	//���ꂼ��̃{�[���� x y���W�����
+	//それぞれのボーンの x y座標を入力
 	pBones[0].initMat._41 = 0.0000f; 	pBones[0].initMat._42 = 0.0000f; pBones[0].initMat._43 = 0.0000f;
 	pBones[1].initMat._41 = 2.0000f;	pBones[1].initMat._42 = 0.0000f; pBones[1].initMat._42 = 0.0000f;
 	pBones[2].initMat._41 = 4.0000f;	pBones[2].initMat._42 = 0.0000f; pBones[1].initMat._42 = 0.0000f;
 
-	//�{�[���@�I�t�Z�b�g�s��̌v�Z
-	//�I�t�Z�b�g�s��͊e�{�[���́u���[�J���p���v�̋t�s��
+	//ボーン　オフセット行列の計算
+	//オフセット行列は各ボーンの「ローカル姿勢」の逆行列
 	D3DXMATRIX *pCombMat = new D3DXMATRIX[7];
 	for (int i = 0; i < 3; i++)
 	{
 		pBones[i].id = i;
 		pBones[i].combMatAry = pCombMat;
 
-		//�e��ԃx�[�X�ɏC������O�ɃI�t�Z�b�g�s������߂Ă���
-		//�{�[���ƒ��_�̍��W���������߂邽�߂ɕK�v
+		//親空間ベースに修正する前にオフセット行列を求めておく
+		//ボーンと頂点の座標差分を求めるために必要
 
-		//�{�[���I�t�Z�b�g�s�� * �����p���̒��_���W =���_�́@�{�[�����猩�����΍��W
+		//ボーンオフセット行列 * 初期姿勢の頂点座標 =頂点の　ボーンから見た相対座標
 		D3DXMatrixInverse(&pBones[i].offsetMat, 0, &pBones[i].initMat);
 	}
 
-	//�����p����e�̎p��~���Ύp���ɒ���
-	//�悸�q�̖��[�܂ō~��Ď����̃��[�J����Ԃŏ����p�����e�̃{�[���I�t�Z�b�g�s��ő��Ύp�������߂�	
+	//初期姿勢を親の姿勢~相対姿勢に直す
+	//先ず子の末端まで降りて自分のローカル空間で初期姿勢＊親のボーンオフセット行列で相対姿勢を求める	
 
-	//�����p����e��ԃx�[�X�ɕϊ�����֐��̒�`
-	//�e�q�֌W�����ǂ邽�ߍċA�֐����K�v
+	//初期姿勢を親空間ベースに変換する関数の定義
+	//親子関係をたどるため再帰関数が必要
 	struct CalcRelativeMat
 	{
 		static void run(Bone* pMe, D3DXMATRIX *pParentOffsetMat = NULL)
@@ -357,12 +357,12 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 			}
 		}
 	};
-	//�����p����e��ԃx�[�X�ɕϊ�����֐��̎��s
+	//初期姿勢を親空間ベースに変換する関数の実行
 	CalcRelativeMat::run(&pBones[0]);
 
 
 	/////////////////////////////////////////
-	// �V�F�[�_�̃R���p�C���ƃV�F�[�_�쐬
+	// シェーダのコンパイルとシェーダ作成
 	//////
 	ID3DXBuffer *shader, *error;
 	IDirect3DVertexShader9 *vertexShader;
@@ -384,7 +384,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 
 
 	//===========================================================
-	// �e��s�񏉊���
+	// 各種行列初期化
 	D3DXMATRIX view, proj;
 	D3DXMatrixLookAtLH(&view, &D3DXVECTOR3(0.0f, -20.0f,-0.1f), &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 	D3DXMatrixPerspectiveFovLH(&proj, D3DXToRadian(30), 64.0f / 48, 1.0f, 10000.0f);
@@ -427,8 +427,8 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 
 	g_pD3DDev->SetRenderState(D3DRS_AMBIENT, 0x00444444);
 
-	//�`�惋�[�v==========================================
-	//���t���[���̎p������
+	//描画ループ==========================================
+	//毎フレームの姿勢制御
 	MSG msg;
 
 	float val = 0.0f;
@@ -446,16 +446,16 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		g_pD3DDev->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(40, 40, 80), 1.0f, 0);
 		g_pD3DDev->BeginScene();
 
-		//�{�[���̎p�����X�V
-		//�ŏI�I�ɂ�
-		//[�{�[���I�t�Z�b�g�s��] * [���[���h��Ԃł̃{�[���p��]
-		//���v�Z����
+		//ボーンの姿勢を更新
+		//最終的には
+		//[ボーンオフセット行列] * [ワールド空間でのボーン姿勢]
+		//を計算する
 
-		//�e�{�[���̏����p������̍����p��(�e��ԃx�[�X)���X�V
+		//各ボーンの初期姿勢からの差分姿勢(親空間ベース)を更新
 		D3DXMATRIX defBone[3];
 		D3DXMatrixIdentity(&defBone[0]);
 
-		//�{�[���̉�]��K���ɓ�����
+		//ボーンの回転を適当に動かす
 		for (int i = 1; i < 3; i++)
 		{
 			D3DXMATRIX transLation;
@@ -467,7 +467,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 			D3DXMatrixIdentity(&defBone[i]);
 
 			//
-			//�s��̂����鏇�Ԃ͂���Ŋm����ۂ�
+			//行列のかける順番はこれで確定っぽい
 			//
 
 			D3DXMatrixScaling(&scale, 1.0f, 1.0f, 1.0f);
@@ -479,17 +479,17 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		}
 
 
-		//�e�{�[���s��̐e��ԃx�[�X�ł̎p�����X�V
-		//��{�p��* �����p��(�Ƃ��ɐe��ԃx�[�X)
+		//各ボーン行列の親空間ベースでの姿勢を更新
+		//基本姿勢* 初期姿勢(ともに親空間ベース)
 		for (int i = 0; i < 3; i++)
 		{
 			pBones[i].boneMat = defBone[i] * pBones[i].initMat;
 		}
 
 
-		//�e��ԃx�[�X�ɃAq��e�{�[���s������[�J����ԃx�[�X�̎p���ɕϊ�
-		//�����͐e�q�֌W�ɂ��������čs���������K�v������
-		//�����鏇�Ԃ͎q*�e
+		//親空間ベースにアqる各ボーン行列をローカル空間ベースの姿勢に変換
+		//ここは親子関係にしたがって行列をかける必要がある
+		//かける順番は子*親
 		D3DXMATRIX global;
 		D3DXMATRIX tmp;
 		D3DXMatrixIdentity(&global);		
@@ -521,8 +521,8 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		UpdateBone::run(pBones, &global);
 
 
-		// �V�F�[�_�ݒ�
-		// �ϐ����������ރ��W�X�^�ʒu�̓V�F�[�_�ɏ����Ă���܂���B
+		// シェーダ設定
+		// 変数を書き込むレジスタ位置はシェーダに書いてありますよ。
 		g_pD3DDev->SetVertexShader(vertexShader);
 		g_pD3DDev->SetPixelShader(pixelShader);
 		g_pD3DDev->SetVertexShaderConstantF(0, (const float*)&view, 4);
