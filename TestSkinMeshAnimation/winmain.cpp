@@ -379,7 +379,9 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	D3DXMatrixRotationY(&pBones[2].initMat, D3DXToRadian(0.0f));
 	
 	D3DXMatrixRotationY(&pBones[3].initMat, D3DXToRadian(-90.0f));
+	//D3DXMatrixRotationAxis(&pBones[3].initMat, &D3DXVECTOR3(0.0f, -1.0f, 0.0f), D3DXToRadian(90));
 	D3DXMatrixRotationY(&pBones[4].initMat, D3DXToRadian(-90.0f));
+	//D3DXMatrixRotationAxis(&pBones[4].initMat, &D3DXVECTOR3(0.0f, -1.0f, 0.0f), D3DXToRadian(90));
 
 	//それぞれのボーンの x y座標を入力
 	pBones[0].initMat._41 = 0.0000f; 	pBones[0].initMat._42 = 0.0000f; pBones[0].initMat._43 = 0.0000f;
@@ -549,10 +551,10 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 			/*v *= (1.0f + (0.5f*((i+1) % 2)));*/
 			D3DXMatrixScaling(&scale,v.x,v.y,v.z);									//拡大率差分
 
-			D3DXMatrixTranslation(&transLation,1.0f, 0.0f,1.5*(sinf(val)/** ((i+1) % 2))*/));	//座標差分 
+			D3DXMatrixTranslation(&transLation,1.0f, 0.0f,1.5f*(sinf(val)/** ((i+1) % 2))*/));	//座標差分 
 																							    //自身の回転差分は関係しない　自身初期姿勢の回転と親の姿勢の回転によって移動する方向が決定する様子
-			
-			D3DXMatrixRotationY(&rotate, rotateRate);//回転差分
+			//if(i>2)
+			//D3DXMatrixRotationY(&rotate, rotateRate);//回転差分
 		
 			//行列のかける順番は以下の順番で間違いなさそう			
 			D3DXMatrixMultiply(&defBone[i], &scale, &rotate);
@@ -565,7 +567,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		//基本姿勢* 初期姿勢(ともに親空間ベース)
 		for (int i = 0; i < 5; i++)
 		{
-			pBones[i].boneMat = defBone[i] * pBones[i].initMat;
+			pBones[i].boneMat =defBone[i]*pBones[i].initMat  ;
 		}
 
 
@@ -577,7 +579,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		D3DXMatrixIdentity(&global);		
 		D3DXMatrixIdentity(&tmp);
 		D3DXMatrixRotationY(&global,D3DXToRadian(val*1.5f)*0.0f);
-		D3DXMatrixTranslation(&tmp, -5.5f-(sinf(val*0.0f)), 0, +val);
+		D3DXMatrixTranslation(&tmp, -5.5f-(sinf(val*0.0f)), 0.0f,0.0f/* +val*/);
 
 		D3DXMatrixMultiply(&global, &global, &tmp);
 
