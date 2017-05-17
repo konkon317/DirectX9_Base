@@ -237,7 +237,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	{
 		//右方向
 		{ D3DXVECTOR3( 5, 0, 1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//0
-		{ D3DXVECTOR3( 4, 0, 1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//1
+		{ D3DXVECTOR3( 4, 0, 2)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//1
 		{ D3DXVECTOR3( 3, 0, 1)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 2,1,0,0 } },//2
 		{ D3DXVECTOR3( 2, 0, 1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 1,0,0,0 } },//3
 		{ D3DXVECTOR3( 1, 0, 1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,1,3,0 } },//4
@@ -260,7 +260,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		{ D3DXVECTOR3(-1, 0, 1)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 0,3,0,0 } },//17
 		{ D3DXVECTOR3(-1, 0, 2)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 3,0,0,0 } },//18
 		{ D3DXVECTOR3(-1, 0, 3)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 3,4,0,0 } },//19
-		{ D3DXVECTOR3(-1, 0, 4)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//20
+		{ D3DXVECTOR3(-2, 0, 4)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//20
 		{ D3DXVECTOR3(-1, 0, 5)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//21
 		{ D3DXVECTOR3( 0, 0, 5)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//22
 		{ D3DXVECTOR3( 0, 0, 4)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//23
@@ -281,58 +281,58 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	//ポリゴンは20枚で　三角形なので　20*3 60個
 	WORD idx[VertexCount] =
 	{
-		 //右方向
-		  0, 1, 8,
-		  1, 2, 8,
-		  2, 3, 6,
-		  3, 4, 6,
+		//右方向
+		 0,  8,1,
+		 1,  8,2,
+		 2,  6,3,
+		 3,  6,4,
 
-		  4, 5, 6,
-		  2, 6, 7,
-		  2, 7, 8,
-		  0, 8, 9,
+		 4,  6,5,
+		 2, 7,6,
+		 2,  8,7,
+		 0, 9, 8,
 
-		  9, 8,10,
-		  8, 7,12,
-		  7, 6,12,
-		  6, 5,14,
+		 9, 10,8,
+		 8, 12,7,
+		 7, 12,6,
+		 6, 14,5,
 
-		 14,13, 6,
-		  6,13,12,
-		 12,11, 8,
-		  8,11,10,
+		14, 6,13,
+		 6,12,13,
+		12, 8,11,
+		 8,10,11,
 
 		 //下方向
-		  4,27,25,
-		 27,28,25,
-		 28,29,23,
-		 29,30,23,
+		  4,25,27,
+		 27,25,28,
+		 28,23,29,
+		 29,23,30,
 
-		 30,22,23,
-		 23,24,28,
-		 28,24,25,
-		 25,26, 4,
+		 30,23,22,
+		 23,28,24,
+		 28,25,24,
+		 25, 4,26,
 
-		 26,25,17,
-		 25,24,19,
-		 24,23,19,
-		 23,22,21,
+		 26,17,25,
+		 25,19,24,
+		 24,19,23,
+		 23,21,22,
 
-		 21,20,23,
-		 20,19,23,
-		 19,18,25,
-		 18,17,25,
+		 21,23,20,
+		 20,23,19,
+		 19,25,18,
+		 18,25,17,
 
 
 		 //根っこ周辺
-		 14, 5,31,
-		  5, 4,31,
-		  4,26,31,
-		 26,17,31,
-		 17,16,31,
-		 15,14,31,
-		 31,16,15,	 
-		
+		 14,31, 5,
+		  5, 31,4,
+		  4,31,26,
+		 26,31,17,
+		 17,31,16,
+		 15,31,14,
+		 31,15,	16,
+
 	};
 
 	//インデックスをたどって三角形リストを作成
@@ -378,8 +378,12 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	D3DXMatrixRotationY(&pBones[1].initMat, D3DXToRadian(0.0f));
 	D3DXMatrixRotationY(&pBones[2].initMat, D3DXToRadian(0.0f));
 	
-	D3DXMatrixRotationY(&pBones[3].initMat, D3DXToRadian(-90.0f));
+	D3DXMatrixRotationY(&pBones[3].initMat, D3DXToRadian(-90.0f)); //座標系の仕様でY軸から見下ろす時に時計回りになる方が正になる
+																   //なので x=1z=0  ～　x=0,z=1　を正方向の回転とする三角関数の考え方とは真逆になる
+																   //x=1=0; ～　x=0;z=-1　が正の方向になる　
+																   //原点から x=0 z=1の地点を向いたような回転にしたいため -90度
 	D3DXMatrixRotationY(&pBones[4].initMat, D3DXToRadian(-90.0f));
+	
 
 	//それぞれのボーンの x y座標を入力
 	pBones[0].initMat._41 = 0.0000f; 	pBones[0].initMat._42 = 0.0000f; pBones[0].initMat._43 = 0.0000f;
@@ -457,7 +461,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	//===========================================================
 	// 各種行列初期化
 	D3DXMATRIX view, proj;
-	D3DXMatrixLookAtLH(&view, &D3DXVECTOR3(0.0f, -50.50f,-1.0f), &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	D3DXMatrixLookAtLH(&view, &D3DXVECTOR3(0.0f, 50.50f,-1.0f), &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 	D3DXMatrixPerspectiveFovLH(&proj, D3DXToRadian(30), 64.0f / 48, 1.0f, 10000.0f);
 
 
@@ -549,10 +553,10 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 			/*v *= (1.0f + (0.5f*((i+1) % 2)));*/
 			D3DXMatrixScaling(&scale,v.x,v.y,v.z);									//拡大率差分
 
-			D3DXMatrixTranslation(&transLation,1.0f, 0.0f,1.5*(sinf(val)/** ((i+1) % 2))*/));	//座標差分 
+			D3DXMatrixTranslation(&transLation,1.0f, 0.0f,1.5f*(sinf(val)/** ((i+1) % 2))*/));	//座標差分 
 																							    //自身の回転差分は関係しない　自身初期姿勢の回転と親の姿勢の回転によって移動する方向が決定する様子
-			
-			D3DXMatrixRotationY(&rotate, rotateRate);//回転差分
+			//if(i>2)
+			//D3DXMatrixRotationY(&rotate, rotateRate);//回転差分
 		
 			//行列のかける順番は以下の順番で間違いなさそう			
 			D3DXMatrixMultiply(&defBone[i], &scale, &rotate);
@@ -565,7 +569,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		//基本姿勢* 初期姿勢(ともに親空間ベース)
 		for (int i = 0; i < 5; i++)
 		{
-			pBones[i].boneMat = defBone[i] * pBones[i].initMat;
+			pBones[i].boneMat =defBone[i]*pBones[i].initMat  ;
 		}
 
 
@@ -577,7 +581,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		D3DXMatrixIdentity(&global);		
 		D3DXMatrixIdentity(&tmp);
 		D3DXMatrixRotationY(&global,D3DXToRadian(val*1.5f)*0.0f);
-		D3DXMatrixTranslation(&tmp, -5.5f-(sinf(val*0.0f)), 0, +val);
+		D3DXMatrixTranslation(&tmp, -5.5f-(sinf(val*0.0f)), 0.0f, +val);
 
 		D3DXMatrixMultiply(&global, &global, &tmp);
 
@@ -612,7 +616,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		g_pD3DDev->SetVertexShaderConstantF(8, (const float*)pCombMat, 4 * 5);
 
 		g_pD3DDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		g_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		g_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);//左手系カリングモード
 
 		g_pD3DDev->SetVertexDeclaration(decl);
 		g_pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, polygonCount, &v, sizeof(Vertex));
