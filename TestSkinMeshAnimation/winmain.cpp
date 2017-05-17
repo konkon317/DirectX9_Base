@@ -1,4 +1,4 @@
-
+ï»¿
 
 
 #if _DEBUG
@@ -24,12 +24,12 @@
 #define new ::new(_NORMAL_BLOCK,__FILE__,__LINE__)
 #endif
 
-//Ql@ƒvƒƒOƒ‰ƒ€
+//å‚è€ƒã€€ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 //  HP    : http://marupeke296.com
 
-//Å’áŒÀ‚Ì’¸“_î•ñ
-//À•W‚ÆŠeƒ{[ƒ“‚Ìd‚İ‚Æƒ{[ƒ“s—ñ”Ô†
-//‚Ì3‚Â‚ª‚ ‚ê‚ÎƒXƒLƒ“ƒƒbƒVƒ…‚Í‚Å‚«‚é
+//æœ€ä½é™ã®é ‚ç‚¹æƒ…å ±
+//åº§æ¨™ã¨å„ãƒœãƒ¼ãƒ³ã®é‡ã¿ã¨ãƒœãƒ¼ãƒ³è¡Œåˆ—ç•ªå·
+//ã®3ã¤ãŒã‚ã‚Œã°ã‚¹ã‚­ãƒ³ãƒ¡ãƒƒã‚·ãƒ¥ã¯ã§ãã‚‹
 struct Vertex
 {
 	D3DXVECTOR3 coord;
@@ -37,16 +37,16 @@ struct Vertex
 	unsigned char matrixIndex[4];
 };
 
-//ƒ{[ƒ“\‘¢‘Ì
+//ãƒœãƒ¼ãƒ³æ§‹é€ ä½“
 struct Bone
 {
-	int id;					//ƒ{[ƒ“id
-	Bone* firstChild;		//‘æˆêqƒ{[ƒ“
-	Bone* sibling;			//Ÿ‚ÌŒZ’íƒ{[ƒ“
-	D3DXMATRIX offsetMat;	//ƒ{[ƒ“ƒIƒtƒZƒbƒgs—ñ
-	D3DXMATRIX initMat;		//‰Šúp¨s—ñ
-	D3DXMATRIX boneMat;		//ƒ{[ƒ“p¨s—ñ
-	D3DXMATRIX *combMatAry;	//‡¬p¨s—ñ”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	int id;					//ãƒœãƒ¼ãƒ³id
+	Bone* firstChild;		//ç¬¬ä¸€å­ãƒœãƒ¼ãƒ³
+	Bone* sibling;			//æ¬¡ã®å…„å¼Ÿãƒœãƒ¼ãƒ³
+	D3DXMATRIX offsetMat;	//ãƒœãƒ¼ãƒ³ã‚ªãƒ•ã‚»ãƒƒãƒˆè¡Œåˆ—
+	D3DXMATRIX initMat;		//åˆæœŸå§¿å‹¢è¡Œåˆ—
+	D3DXMATRIX boneMat;		//ãƒœãƒ¼ãƒ³å§¿å‹¢è¡Œåˆ—
+	D3DXMATRIX *combMatAry;	//åˆæˆå§¿å‹¢è¡Œåˆ—é…åˆ—ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 
 	Bone() :id(), firstChild(), sibling(), combMatAry()
 	{
@@ -60,28 +60,28 @@ struct Bone
 
 int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev);
 
-//ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ\‘¢‘Ì
+//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£æ§‹é€ ä½“
 struct WP
 {
 	static LRESULT CALLBACK WndProc
 	(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-	{//“Á•Ê‚Èˆ—‚ğ•K—v‚Æ‚·‚éƒƒbƒZ[ƒW‚Í@‚Æ‚è‚ ‚¦‚¸I—¹ˆ—‚¾‚¯‘‚¢‚Ä‚¨‚­
+	{//ç‰¹åˆ¥ãªå‡¦ç†ã‚’å¿…è¦ã¨ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯ã€€ã¨ã‚Šã‚ãˆãšçµ‚äº†å‡¦ç†ã ã‘æ›¸ã„ã¦ãŠã
 		switch (msg)
 		{
-		case WM_DESTROY: //‰Eã‚Ìƒoƒc‚ª‰Ÿ‚³‚ê‚½AAltF4‚ª‰Ÿ‚³‚ê‚½‚È‚Ç‚ÉóM‚·‚éƒƒbƒZ[ƒW
-			PostQuitMessage(0);//ƒƒbƒZ[ƒWƒLƒ…[‚ÉWM_QUITƒƒbƒZ[ƒW‚ğ‘—‚é
+		case WM_DESTROY: //å³ä¸Šã®ãƒãƒ„ãŒæŠ¼ã•ã‚ŒãŸã€AltF4ãŒæŠ¼ã•ã‚ŒãŸæ™‚ãªã©ã«å—ä¿¡ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+			PostQuitMessage(0);//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚­ãƒ¥ãƒ¼ã«WM_QUITãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹
 			break;
 		}
-		//“Á•Ê‚Èˆ—‚ğ—v‚³‚È‚¢ƒƒbƒZ[ƒW‚ÍƒfƒtƒHƒ‹ƒg‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ªˆ—‚·‚é
-		return DefWindowProc(hWnd, msg, wParam, lParam);//ˆÚ“®‚Æ‚©ƒTƒCƒY•ÏX‚Æ‚©
+		//ç‰¹åˆ¥ãªå‡¦ç†ã‚’è¦ã•ãªã„ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£ãŒå‡¦ç†ã™ã‚‹
+		return DefWindowProc(hWnd, msg, wParam, lParam);//ç§»å‹•ã¨ã‹ã‚µã‚¤ã‚ºå¤‰æ›´ã¨ã‹
 	}
 };
 
-_TCHAR gName[100] = _T("Š®‘SƒzƒƒCƒgƒ{ƒbƒNƒX‚ÈƒXƒLƒ“ƒƒbƒVƒ…ƒAƒjƒ[ƒVƒ‡ƒ“ƒeƒXƒgƒvƒƒOƒ‰ƒ€");
+_TCHAR gName[100] = _T("å®Œå…¨ãƒ›ãƒ¯ã‚¤ãƒˆãƒœãƒƒã‚¯ã‚¹ãªã‚¹ã‚­ãƒ³ãƒ¡ãƒƒã‚·ãƒ¥ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ†ã‚¹ãƒˆãƒ—ãƒ­ã‚°ãƒ©ãƒ ");
 
 
-// Å’áŒÀ‚ÌƒVƒF[ƒ_
-//  d‚İŒW”‚Æ’¸“_‚ğ“®‚©‚·‚½‚ß‚Ìƒ[ƒ‹ƒh•ÏŠ·s—ñ‚Ì”z—ñ‚ğ“n‚µ‚Ü‚·
+// æœ€ä½é™ã®ã‚·ã‚§ãƒ¼ãƒ€
+//  é‡ã¿ä¿‚æ•°ã¨é ‚ç‚¹ã‚’å‹•ã‹ã™ãŸã‚ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—ã®é…åˆ—ã‚’æ¸¡ã—ã¾ã™
 const char *vertexShaderStr =
 "float4x4 view : register(c0);"
 "float4x4 proj : register(c4);"
@@ -103,14 +103,15 @@ const char *vertexShaderStr =
 "        comb += world[In.idx[i]] * w[i];"
 "    comb += world[In.idx[3]] * (1.0f - w[0] - w[1] - w[2]);"
 "    "
+//"	 In.pos[2]= In.pos[2]*-1.0f;"
 "    Out.pos = mul( float4(In.pos, 1.0f), comb );"
 "    Out.pos = mul( Out.pos, view );"
 "    Out.pos = mul( Out.pos, proj );"
 "    return Out;"
 "}";
 
-// ƒsƒNƒZƒ‹ƒVƒF[ƒ_‚ÍŠ‚Á‚Ä“K“–
-// D‚«‚È‚æ‚¤‚É“_‚ğú‚Á‚Ä‰º‚³‚¢B
+// ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã¯è‡³ã£ã¦é©å½“
+// å¥½ããªã‚ˆã†ã«ç‚¹ã‚’ç©¿ã£ã¦ä¸‹ã•ã„ã€‚
 const char *pixelShaderStr =
 "struct VS_OUT {"
 "    float4 pos : POSITION;"
@@ -121,31 +122,31 @@ const char *pixelShaderStr =
 "";
 
 
-//ƒƒCƒ“
+//ãƒ¡ã‚¤ãƒ³
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	//ƒAƒvƒŠ‚¯ƒVƒ‡ƒ“‚Ì‰Šú‰»
+	//ã‚¢ãƒ—ãƒªã‘ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–
 
 	HWND hWnd;
 
 	WNDCLASSEX wcex;
-	memset(&wcex, 0, sizeof(WNDCLASSEX));						// •Ï”‚Ìƒƒ“ƒo‚ğ‘S‚Ä0‚Å‰Šú‰»
-	wcex.cbSize			= sizeof(WNDCLASSEX);					// cbSize : \‘¢‘Ì‚ÌƒTƒCƒY
-	wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;	// style : ƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹
-	wcex.lpfnWndProc	= (WNDPROC)WP::WndProc;					// ipfnWndProc : ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ÌƒAƒhƒŒƒX@ŠÖ”ƒ|ƒCƒ“ƒ^
-	wcex.cbClsExtra		= 0;									// cbClsExtra : 0ŒÅ’è
-	wcex.cbWndExtra		= 0;									// cbWndExtra : 0ŒÅ’è
-	wcex.hInstance		= hInstance;							// hInstance : WinMain‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
+	memset(&wcex, 0, sizeof(WNDCLASSEX));						// å¤‰æ•°ã®ãƒ¡ãƒ³ãƒã‚’å…¨ã¦0ã§åˆæœŸåŒ–
+	wcex.cbSize			= sizeof(WNDCLASSEX);					// cbSize : æ§‹é€ ä½“ã®ã‚µã‚¤ã‚º
+	wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;	// style : ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«
+	wcex.lpfnWndProc	= (WNDPROC)WP::WndProc;					// ipfnWndProc : ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã€€é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
+	wcex.cbClsExtra		= 0;									// cbClsExtra : 0å›ºå®š
+	wcex.cbWndExtra		= 0;									// cbWndExtra : 0å›ºå®š
+	wcex.hInstance		= hInstance;							// hInstance : WinMainã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«
 	wcex.hIcon			= NULL;
 	wcex.hCursor		= NULL;
 
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	/*GetStockObject(BLACK_BRUSH);*/							// hbrBackground : ƒEƒBƒ“ƒhƒEƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì”wŒiF
+	/*GetStockObject(BLACK_BRUSH);*/							// hbrBackground : ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé ˜åŸŸã®èƒŒæ™¯è‰²
 	
-	wcex.lpszMenuName	= NULL;									// lpszMeueName : ƒƒjƒ…[
-	wcex.lpszClassName	= (_TCHAR*)gName;						// lpszClassName : ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ì–¼‘O
+	wcex.lpszMenuName	= NULL;									// lpszMeueName : ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+	wcex.lpszClassName	= (_TCHAR*)gName;						// lpszClassName : ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®åå‰
 	wcex.hIconSm		= NULL;
 
 
@@ -166,32 +167,32 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		return 0;
 	}
 
-	//Direct3D‰Šú‰»
+	//Direct3DåˆæœŸåŒ–
 	LPDIRECT3D9 g_pD3D;
 	LPDIRECT3DDEVICE9 g_pD3DDEV;
 
 	if ((g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)) == false) { return 0; }
 
-	//ƒfƒBƒXƒvƒŒƒCî•ñæ“¾
+	//ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤æƒ…å ±å–å¾—
 	D3DDISPLAYMODE Display;
 	g_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &Display);
 
 
 	D3DPRESENT_PARAMETERS D3DParam;
-	D3DParam.BackBufferWidth = width;					//ƒoƒbƒNƒoƒbƒtƒ@‚Ì•
-	D3DParam.BackBufferHeight = height;					//ƒoƒbƒNƒoƒbƒtƒ@‚Ì‚‚³
-	D3DParam.BackBufferFormat = Display.Format;			//ƒoƒbƒNƒoƒbƒtƒ@‚ÌƒtƒH[ƒ}ƒbƒg
-	D3DParam.BackBufferCount = 1;						//ƒoƒbƒNƒoƒbƒtƒ@”
-	D3DParam.MultiSampleType = D3DMULTISAMPLE_NONE;		//ƒ}ƒ‹ƒ`ƒTƒ“ƒvƒŠƒ“ƒO‚Ìİ’è ‚È‚µ
-	D3DParam.MultiSampleQuality = 0;					//ƒ}ƒ‹ƒ`ƒTƒ“ƒvƒŠƒ“ƒO‚ÌƒNƒIƒŠƒeƒB
-	D3DParam.SwapEffect = D3DSWAPEFFECT_DISCARD;		//ƒXƒƒbƒvƒ`ƒFƒCƒ“‚Ì•û–@@DirectX‚Ü‚©‚¹
-	D3DParam.hDeviceWindow = hWnd;						//‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	D3DParam.Windowed = TRUE;							//ƒEƒBƒ“ƒhƒE
-	D3DParam.EnableAutoDepthStencil = TRUE;				//k“xƒXƒeƒ“ƒVƒ‹ƒoƒbƒtƒ@‚Ìì¬
-	D3DParam.AutoDepthStencilFormat = D3DFMT_D24S8;		//k“xƒXƒeƒ“ƒVƒ‹‚ÌƒtƒH[ƒ}ƒbƒg
+	D3DParam.BackBufferWidth = width;					//ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã®å¹…
+	D3DParam.BackBufferHeight = height;					//ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã®é«˜ã•
+	D3DParam.BackBufferFormat = Display.Format;			//ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
+	D3DParam.BackBufferCount = 1;						//ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡æ•°
+	D3DParam.MultiSampleType = D3DMULTISAMPLE_NONE;		//ãƒãƒ«ãƒã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã®è¨­å®š ãªã—
+	D3DParam.MultiSampleQuality = 0;					//ãƒãƒ«ãƒã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã®ã‚¯ã‚ªãƒªãƒ†ã‚£
+	D3DParam.SwapEffect = D3DSWAPEFFECT_DISCARD;		//ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ã‚¤ãƒ³ã®æ–¹æ³•ã€€DirectXã¾ã‹ã›
+	D3DParam.hDeviceWindow = hWnd;						//å¯¾è±¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	D3DParam.Windowed = TRUE;							//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+	D3DParam.EnableAutoDepthStencil = TRUE;				//éœ‡åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
+	D3DParam.AutoDepthStencilFormat = D3DFMT_D24S8;		//éœ‡åº¦ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 	D3DParam.Flags = 0;									//
-	D3DParam.FullScreen_RefreshRateInHz = /*0*/D3DPRESENT_RATE_DEFAULT;			//ƒXƒNƒŠ[ƒ“‚ÌƒŠƒtƒŒƒbƒVƒ…ƒŒ[ƒg@ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚¾‚Æ•K‚¸0
-	D3DParam.PresentationInterval =/* D3DPRESENT_INTERVAL_DEFAULT*/ D3DPRESENT_INTERVAL_ONE;	//ƒAƒ_ƒvƒ^ƒŠƒtƒŒƒbƒVƒ…ƒŒ[ƒg‚Æpresentˆ—‚ğÀs‚·‚éƒŒ[ƒg‚ÌŠÖŒW
+	D3DParam.FullScreen_RefreshRateInHz = /*0*/D3DPRESENT_RATE_DEFAULT;			//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®ãƒªãƒ•ãƒ¬ãƒƒã‚·ãƒ¥ãƒ¬ãƒ¼ãƒˆã€€ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã ã¨å¿…ãš0
+	D3DParam.PresentationInterval =/* D3DPRESENT_INTERVAL_DEFAULT*/ D3DPRESENT_INTERVAL_ONE;	//ã‚¢ãƒ€ãƒ—ã‚¿ãƒªãƒ•ãƒ¬ãƒƒã‚·ãƒ¥ãƒ¬ãƒ¼ãƒˆã¨presentå‡¦ç†ã‚’å®Ÿè¡Œã™ã‚‹ãƒ¬ãƒ¼ãƒˆã®é–¢ä¿‚
 
 	if (FAILED(g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &D3DParam, &g_pD3DDEV)))
 	{
@@ -201,7 +202,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			return 0;
 		}
 	}
-	//ƒEƒBƒ“ƒhƒE•\¦
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 	ShowWindow(hWnd, SW_SHOW);
 
 
@@ -216,174 +217,134 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 }
 
 
-//ƒXƒLƒ“ƒƒbƒVƒ…
+//ã‚¹ã‚­ãƒ³ãƒ¡ãƒƒã‚·ãƒ¥
 int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 {
-	////ƒ|ƒŠƒSƒ“‚Ì’¸“_’è‹`=======================================================================
-	////’¸“_”‚Í15ŒÂ
-	//Vertex vtx[15]=
-	//{
-	//	{ D3DXVECTOR3(-0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//0
-	//	{ D3DXVECTOR3(-0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,2,0,0 } },//1
-	//	{ D3DXVECTOR3(-0.5000f,-0.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//2
-	//	{ D3DXVECTOR3(-1.3660f, 0.2113f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 3,4,0,0 } },//3
-	//	{ D3DXVECTOR3(-2.2321f, 0.7113f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//4
-	//	{ D3DXVECTOR3(-1.7321f, 1.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//5
-	//	{ D3DXVECTOR3(-0.8660f, 1.0774f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 3,4,0,0 } },//6
-	//	{ D3DXVECTOR3( 0.0000f, 0.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//7
-	//	{ D3DXVECTOR3( 0.8660f, 1.0774f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 5,6,0,0 } },//8
-	//	{ D3DXVECTOR3( 1.7321f, 1.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 6,0,0,0 } },//9
-	//	{ D3DXVECTOR3( 2.2321f, 0.7113f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 6,0,0,0 } },//10
-	//	{ D3DXVECTOR3( 1.3660f, 0.2113f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 5,6,0,0 } },//11
-	//	{ D3DXVECTOR3( 0.5000f,-0.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//12
-	//	{ D3DXVECTOR3( 0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,2,0,0 } },//13
-	//	{ D3DXVECTOR3( 0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } } //14
-	//};
 
-	////’¸“_ƒCƒ“ƒfƒbƒNƒX
-	////ƒ|ƒŠƒSƒ“‚Í13–‡‚Å@OŠpŒ`‚È‚Ì‚Å@13*3 39ŒÂ
-	//WORD idx[39] =
-	//{
-	//	0,1,14,
-	//	1,13,14,
-	//	1,2,13,
-	//	2,12,13,
-	//	2,7,12,
-	//	2,6,7,
-	//	2,3,6,
-	//	3,5,6,
-	//	3,4,5,
-	//	7,8,12,
-	//	8,11,12,
-	//	8,9,11,
-	//	9,10,11,
-	//};
+	const int controlPointCount=32;
 
-	////ƒCƒ“ƒfƒbƒNƒX‚ğ‚½‚Ç‚Á‚ÄOŠpŒ`ƒŠƒXƒg‚ğì¬
-	//Vertex v[39];
-	//for (int i = 0; i < 39; i++)
-	//{
-	//	v[i] = vtx[idx[i]];
-	//}
+	const int polygonCount = 39;
 
-	////’¸“_éŒ¾@FVFì¬========================================================================
-	////’¸“_\‘¢‘Ì‚Ì\¬î•ñ ‰½ƒoƒCƒg–Ú‚©‚ç‚Ç‚ñ‚Èî•ñH@
-	////Declaration :@éŒ¾
-	//D3DVERTEXELEMENT9 declAry[]=
-	//{
-	//	{0,0,D3DDECLTYPE_FLOAT3 ,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_POSITION,0},
-	//	{0,12,D3DDECLTYPE_FLOAT3,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_BLENDWEIGHT,0},
-	//	{0,24,D3DDECLTYPE_UBYTE4,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_BLENDINDICES,0},
-	//	D3DDECL_END()	
-	//};
-	//IDirect3DVertexDeclaration9 *decl = 0;
-	//g_pD3DDev->CreateVertexDeclaration(declAry, &decl);
+	const int VertexCount = 3 * polygonCount;
 
 
-	////ƒ{[ƒ“î•ñ‚Ìì¬========================================================================
-	////•K—v‚È‚Ì‚Í@Eƒ{[ƒ“ƒIƒtƒZƒbƒgs—ñ@Eƒ{[ƒ“s—ñ
-
-	//Bone * pBones = new Bone[7];
-	//
-	////ƒ{[ƒ“‚ÌeqŠÖŒW‚Ì\’z
-	////0 --- 1 - 2
-	////   |- 3 - 4
-	////   |- 5 - 6
-	//
-	//pBones[0].firstChild	= &pBones[1];
-	//pBones[1].sibling		= &pBones[3];//bone[0]‚Ìq‹Ÿ‚¾‚ª ŒZ’í‚Ì(“¯‚¶‚­bone[0]‚Ìq)bone[1]‚É“o˜^
-	//pBones[3].sibling		= &pBones[5];//bone[0]‚Ìq‹Ÿ‚¾‚ª ŒZ’í‚Ì(“¯‚¶‚­bone[0]‚Ìq)bone[3]‚É“o˜^
-
-	////pBone[0]‚Í@‘æˆêq bone[1] ‘æ“ñq bone[3] ‘æOq bone[5]
-	////‘æˆêq(first)ˆÈŠO‚Í@e‚Å‚Í‚È‚­@ˆê‚Âã‚ÌŒZ’í‚©‚ç‚½‚Ç‚é
-
-	//pBones[1].firstChild	= &pBones[2];
-	//pBones[3].firstChild	= &pBones[4];
-	//pBones[5].firstChild	= &pBones[6];
+	//ãƒãƒªã‚´ãƒ³ã®é ‚ç‚¹å®šç¾©=======================================================================
+	//é ‚ç‚¹æ•°ã¯32å€‹
 
 
-	////‰Šúp¨‚ÌŒvZ==================================================================================
-	////ƒ[ƒJƒ‹p¨‚ğİ’è‚µ
-	////ÅI“I‚É©•ª‚Ìe‚©‚ç‚Ì‘Š‘Îp¨‚ÉC³
-	//D3DXMatrixRotationZ(&pBones[0].initMat, D3DXToRadian(-90.0f));
-	//D3DXMatrixRotationZ(&pBones[1].initMat, D3DXToRadian(-90.0f));
-	//D3DXMatrixRotationZ(&pBones[2].initMat, D3DXToRadian(-90.0f));
-	//D3DXMatrixRotationZ(&pBones[3].initMat, D3DXToRadian(150.0f));
-	//D3DXMatrixRotationZ(&pBones[4].initMat, D3DXToRadian(150.0f));
-	//D3DXMatrixRotationZ(&pBones[5].initMat, D3DXToRadian(30.0f));
-	//D3DXMatrixRotationZ(&pBones[6].initMat, D3DXToRadian(30.0f));
-	////‚»‚ê‚¼‚ê‚Ìƒ{[ƒ“‚Ì x yÀ•W‚ğ“ü—Í
-	//pBones[0].initMat._41 =  0.0000f; 	pBones[0].initMat._42 =  0.0000f;
-	//pBones[1].initMat._41 =  0.0000f;	pBones[1].initMat._42 = -1.0000f;
-	//pBones[2].initMat._41 =  0.0000f;	pBones[2].initMat._42 = -2.0000f;
-	//pBones[3].initMat._41 = -0.6830f;	pBones[3].initMat._42 =  0.3943f;
-	//pBones[4].initMat._41 = -1.5490f;	pBones[4].initMat._42 =  0.8943f;
-	//pBones[5].initMat._41 =  0.6830f;	pBones[5].initMat._42 =  0.3943f;
-	//pBones[6].initMat._41 =  1.5490f;	pBones[6].initMat._42 =  0.8943f;
 
-
-	//ƒ|ƒŠƒSƒ“‚Ì’¸“_’è‹`=======================================================================
-	//’¸“_”‚Í17ŒÂ
-	Vertex vtx[17] =
+	Vertex vtx[controlPointCount] =
 	{
-		{ D3DXVECTOR3(-0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//0
-		{ D3DXVECTOR3(-0.5000f,-1.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//1
-		{ D3DXVECTOR3(-0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 2,1,0,0 } },//2
-		{ D3DXVECTOR3(-0.5000f,-0.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 1,0,0,0 } },//3
-		{ D3DXVECTOR3(-0.5000f,-0.2887f,0.0f),D3DXVECTOR3(0.00f,0.10f,0.00f),{ 1,0,0,0 } },//4
-		{ D3DXVECTOR3( 0.0000f,-0.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,0,0,0 } },//5
-		{ D3DXVECTOR3( 0.0000f,-0.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 1,0,0,0 } },//6
-		{ D3DXVECTOR3( 0.0000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 2,1,0,0 } },//7
-		{ D3DXVECTOR3( 0.0000f,-1.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//8
-		{ D3DXVECTOR3( 0.0000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//9
-		{ D3DXVECTOR3( 0.5000f,-2.2887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//10
-		{ D3DXVECTOR3( 0.5000f,-1.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//11
-		{ D3DXVECTOR3( 0.5000f,-1.2887f,0.0f),D3DXVECTOR3(0.50f,0.50f,0.00f),{ 2,1,0,0 } },//12
-		{ D3DXVECTOR3( 0.5000f,-0.7887f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 1,0,0,0 } },//13
-		{ D3DXVECTOR3( 0.5000f,-0.2887f,0.0f),D3DXVECTOR3(0.00f,1.00f,0.00f),{ 1,0,0,0 } },//14
-		{ D3DXVECTOR3( 0.0000f, 0.5774f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//15
-		{ D3DXVECTOR3( 0.0000f, 0.0000f,0.0f),D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//16
+		//å³æ–¹å‘
+		{ D3DXVECTOR3( 5, 0, 1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//0
+		{ D3DXVECTOR3( 4, 0, 1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//1
+		{ D3DXVECTOR3( 3, 0, 1)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 2,1,0,0 } },//2
+		{ D3DXVECTOR3( 2, 0, 1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 1,0,0,0 } },//3
+		{ D3DXVECTOR3( 1, 0, 1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,1,3,0 } },//4
+		{ D3DXVECTOR3( 1, 0, 0)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,0,0,0 } },//5
+		{ D3DXVECTOR3( 2, 0, 0)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 1,0,0,0 } },//6
+		{ D3DXVECTOR3( 3, 0, 0)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 2,1,0,0 } },//7
+		{ D3DXVECTOR3( 4, 0, 0)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//8
+		{ D3DXVECTOR3( 5, 0, 0)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//9
+		{ D3DXVECTOR3( 5, 0,-1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//10
+		{ D3DXVECTOR3( 4, 0,-1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 2,0,0,0 } },//11
+		{ D3DXVECTOR3( 3, 0,-1)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 2,1,0,0 } },//12
+		{ D3DXVECTOR3( 2, 0,-1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 1,0,0,0 } },//13
+		{ D3DXVECTOR3( 1, 0,-1)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 1,0,0,0 } },//14
+	
+		//æ ¹ã£ã“å‘¨è¾º
+		{ D3DXVECTOR3( 0, 0,-1)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//15
+		{ D3DXVECTOR3(-1, 0, 0)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//16
 
+		//ä¸‹æ–¹å‘
+		{ D3DXVECTOR3(-1, 0, 1)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 0,3,0,0 } },//17
+		{ D3DXVECTOR3(-1, 0, 2)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 3,0,0,0 } },//18
+		{ D3DXVECTOR3(-1, 0, 3)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 3,4,0,0 } },//19
+		{ D3DXVECTOR3(-1, 0, 4)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//20
+		{ D3DXVECTOR3(-1, 0, 5)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//21
+		{ D3DXVECTOR3( 0, 0, 5)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//22
+		{ D3DXVECTOR3( 0, 0, 4)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//23
+		{ D3DXVECTOR3( 0, 0, 3)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 3,4,0,0 } },//24
+		{ D3DXVECTOR3( 0, 0, 2)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 3,0,0,0 } },//25
+		{ D3DXVECTOR3( 0, 0, 1)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 0,3,0,0 } },//26
+		{ D3DXVECTOR3( 1, 0, 2)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 3,0,0,0 } },//27
+		{ D3DXVECTOR3( 1, 0, 3)	,D3DXVECTOR3(0.50f,0.50f,0.00f),{ 3,4,0,0 } },//28
+		{ D3DXVECTOR3( 1, 0, 4)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//29
+		{ D3DXVECTOR3( 1, 0, 5)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 4,0,0,0 } },//30
+
+		//æ ¹ã£ã“
+		{ D3DXVECTOR3( 0, 0, 0)	,D3DXVECTOR3(1.00f,0.00f,0.00f),{ 0,0,0,0 } },//31
+		 
 	};
 
-	//’¸“_ƒCƒ“ƒfƒbƒNƒX
-	//ƒ|ƒŠƒSƒ“‚Í20–‡‚Å@OŠpŒ`‚È‚Ì‚Å@20*3 60ŒÂ
-	WORD idx[3*20] =
+	//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+	//ãƒãƒªã‚´ãƒ³ã¯20æšã§ã€€ä¸‰è§’å½¢ãªã®ã§ã€€20*3 60å€‹
+	WORD idx[VertexCount] =
 	{
-		0,1,9,
-		1,8,9,
-		1,2,8,
-		2,7,8,
-		2,3,7,
-		3,6,7,
-		3,4,6,
-		4,5,6,
+		 //å³æ–¹å‘
+		  0, 1, 8,
+		  1, 2, 8,
+		  2, 3, 6,
+		  3, 4, 6,
+
+		  4, 5, 6,
+		  2, 6, 7,
+		  2, 7, 8,
+		  0, 8, 9,
+
+		  9, 8,10,
+		  8, 7,12,
+		  7, 6,12,
+		  6, 5,14,
+
+		 14,13, 6,
+		  6,13,12,
+		 12,11, 8,
+		  8,11,10,
+
+		 //ä¸‹æ–¹å‘
+		  4,27,25,
+		 27,28,25,
+		 28,29,23,
+		 29,30,23,
+
+		 30,22,23,
+		 23,24,28,
+		 28,24,25,
+		 25,26, 4,
+
+		 26,25,17,
+		 25,24,19,
+		 24,23,19,
+		 23,22,21,
+
+		 21,20,23,
+		 20,19,23,
+		 19,18,25,
+		 18,17,25,
+
+
+		 //æ ¹ã£ã“å‘¨è¾º
+		 14, 5,31,
+		  5, 4,31,
+		  4,26,31,
+		 26,17,31,
+		 17,16,31,
+		 15,14,31,
+		 31,16,15,	 
 		
-		5,14,6,
-		14,13,6,
-		6,13,7,
-		13,12,7,
-		7,12,8,
-		12,11,8,
-		8,11,9,
-		11,10,9,
-
-		15,14,16,
-		15,16,4,
-		16,14,5,
-		16, 5, 4
 	};
 
-	//ƒCƒ“ƒfƒbƒNƒX‚ğ‚½‚Ç‚Á‚ÄOŠpŒ`ƒŠƒXƒg‚ğì¬
-	Vertex v[3*20];
-	for (int i = 0; i < 60; i++)
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ãŸã©ã£ã¦ä¸‰è§’å½¢ãƒªã‚¹ãƒˆã‚’ä½œæˆ
+	Vertex v[VertexCount];
+	for (int i = 0; i <VertexCount; i++)
 	{
 		v[i] = vtx[idx[i]];
 	}
 
-	//’¸“_éŒ¾@FVFì¬========================================================================
-	//’¸“_\‘¢‘Ì‚Ì\¬î•ñ ‰½ƒoƒCƒg–Ú‚©‚ç‚Ç‚ñ‚Èî•ñH@
-	//Declaration :@éŒ¾
+	//é ‚ç‚¹å®£è¨€ã€€FVFä½œæˆ========================================================================
+	//é ‚ç‚¹æ§‹é€ ä½“ã®æ§‹æˆæƒ…å ± ä½•ãƒã‚¤ãƒˆç›®ã‹ã‚‰ã©ã‚“ãªæƒ…å ±ï¼Ÿã€€
+	//Declaration :ã€€å®£è¨€
 	D3DVERTEXELEMENT9 declAry[] =
 	{
 		{ 0,0,D3DDECLTYPE_FLOAT3 ,D3DDECLMETHOD_DEFAULT,D3DDECLUSAGE_POSITION,0 },
@@ -395,55 +356,59 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 	g_pD3DDev->CreateVertexDeclaration(declAry, &decl);
 
 
-	//ƒ{[ƒ“î•ñ‚Ìì¬========================================================================
-	//•K—v‚È‚Ì‚Í@Eƒ{[ƒ“ƒIƒtƒZƒbƒgs—ñ@Eƒ{[ƒ“s—ñ
+	//ãƒœãƒ¼ãƒ³æƒ…å ±ã®ä½œæˆ========================================================================
+	//å¿…è¦ãªã®ã¯ã€€ãƒ»ãƒœãƒ¼ãƒ³ã‚ªãƒ•ã‚»ãƒƒãƒˆè¡Œåˆ—ã€€ãƒ»ãƒœãƒ¼ãƒ³è¡Œåˆ—
 
-	Bone * pBones = new Bone[3];
+	Bone * pBones = new Bone[5];
 
-	//ƒ{[ƒ“‚ÌeqŠÖŒW‚Ì\’z
+	//ãƒœãƒ¼ãƒ³ã®è¦ªå­é–¢ä¿‚ã®æ§‹ç¯‰
 	//0 --- 1 - 2
-	//   |- 3 - 4
-	//   |- 5 - 6
 
 	pBones[0].firstChild = &pBones[1];
 	pBones[1].firstChild = &pBones[2];
 
+	pBones[1].sibling = &pBones[3];
 
-	//‰Šúp¨‚ÌŒvZ==================================================================================
-	//ƒ[ƒJƒ‹p¨‚ğİ’è‚µ
-	//ÅI“I‚É©•ª‚Ìe‚©‚ç‚Ì‘Š‘Îp¨‚ÉC³
-	D3DXMatrixRotationZ(&pBones[0].initMat, D3DXToRadian(-90.0f));
-	D3DXMatrixRotationZ(&pBones[1].initMat, D3DXToRadian(-90.0f));
-	D3DXMatrixRotationZ(&pBones[2].initMat, D3DXToRadian(-90.0f));
+	pBones[3].firstChild = &pBones[4];
+
+	//åˆæœŸå§¿å‹¢ã®è¨ˆç®—==================================================================================
+	//ãƒ­ãƒ¼ã‚«ãƒ«å§¿å‹¢ã‚’è¨­å®šã—
+	//æœ€çµ‚çš„ã«è‡ªåˆ†ã®è¦ªã‹ã‚‰ã®ç›¸å¯¾å§¿å‹¢ã«ä¿®æ­£
+	D3DXMatrixRotationY(&pBones[0].initMat, D3DXToRadian(0.0f));
+	D3DXMatrixRotationY(&pBones[1].initMat, D3DXToRadian(0.0f));
+	D3DXMatrixRotationY(&pBones[2].initMat, D3DXToRadian(0.0f));
 	
-	//‚»‚ê‚¼‚ê‚Ìƒ{[ƒ“‚Ì x yÀ•W‚ğ“ü—Í
-	pBones[0].initMat._41 = 0.0000f; 	pBones[0].initMat._42 = 0.0000f;
-	pBones[1].initMat._41 = 0.0000f;	pBones[1].initMat._42 = -1.0000f;
-	pBones[2].initMat._41 = 0.0000f;	pBones[2].initMat._42 = -2.0000f;
-	
+	D3DXMatrixRotationY(&pBones[3].initMat, D3DXToRadian(-90.0f));
+	D3DXMatrixRotationY(&pBones[4].initMat, D3DXToRadian(-90.0f));
 
+	//ãã‚Œãã‚Œã®ãƒœãƒ¼ãƒ³ã® x yåº§æ¨™ã‚’å…¥åŠ›
+	pBones[0].initMat._41 = 0.0000f; 	pBones[0].initMat._42 = 0.0000f; pBones[0].initMat._43 = 0.0000f;
+	pBones[1].initMat._41 = 2.0000f;	pBones[1].initMat._42 = 0.0000f; pBones[1].initMat._43 = 0.0000f;
+	pBones[2].initMat._41 = 4.0000f;	pBones[2].initMat._42 = 0.0000f; pBones[1].initMat._43 = 0.0000f;
 
+	pBones[3].initMat._41 = 0.0000f;	pBones[3].initMat._42 = 0.0000f; pBones[3].initMat._43 = 2.0000f;
+	pBones[4].initMat._41 = 0.0000f;	pBones[4].initMat._42 = 0.0000f; pBones[4].initMat._43 = 4.0000f;
 
-	//ƒ{[ƒ“@ƒIƒtƒZƒbƒgs—ñ‚ÌŒvZ
-	//ƒIƒtƒZƒbƒgs—ñ‚ÍŠeƒ{[ƒ“‚Ìuƒ[ƒJƒ‹p¨v‚Ì‹ts—ñ
-	D3DXMATRIX *pCombMat = new D3DXMATRIX[7];
-	for (int i = 0; i < 3; i++)
+	//ãƒœãƒ¼ãƒ³ã€€ã‚ªãƒ•ã‚»ãƒƒãƒˆè¡Œåˆ—ã®è¨ˆç®—
+	//ã‚ªãƒ•ã‚»ãƒƒãƒˆè¡Œåˆ—ã¯å„ãƒœãƒ¼ãƒ³ã®ã€Œãƒ­ãƒ¼ã‚«ãƒ«å§¿å‹¢ã€ã®é€†è¡Œåˆ—
+	D3DXMATRIX *pCombMat = new D3DXMATRIX[5];
+	for (int i = 0; i < 5; i++)
 	{
 		pBones[i].id = i;
 		pBones[i].combMatAry = pCombMat;
 
-		//e‹óŠÔƒx[ƒX‚ÉC³‚·‚é‘O‚ÉƒIƒtƒZƒbƒgs—ñ‚ğ‹‚ß‚Ä‚¨‚­
-		//ƒ{[ƒ“‚Æ’¸“_‚ÌÀ•W·•ª‚ğ‹‚ß‚é‚½‚ß‚É•K—v
+		//è¦ªç©ºé–“ãƒ™ãƒ¼ã‚¹ã«ä¿®æ­£ã™ã‚‹å‰ã«ã‚ªãƒ•ã‚»ãƒƒãƒˆè¡Œåˆ—ã‚’æ±‚ã‚ã¦ãŠã
+		//ãƒœãƒ¼ãƒ³ã¨é ‚ç‚¹ã®åº§æ¨™å·®åˆ†ã‚’æ±‚ã‚ã‚‹ãŸã‚ã«å¿…è¦
 
-		//ƒ{[ƒ“ƒIƒtƒZƒbƒgs—ñ * ‰Šúp¨‚Ì’¸“_À•W =’¸“_‚Ì@ƒ{[ƒ“‚©‚çŒ©‚½‘Š‘ÎÀ•W
+		//ãƒœãƒ¼ãƒ³ã‚ªãƒ•ã‚»ãƒƒãƒˆè¡Œåˆ— * åˆæœŸå§¿å‹¢ã®é ‚ç‚¹åº§æ¨™ =é ‚ç‚¹ã®ã€€ãƒœãƒ¼ãƒ³ã‹ã‚‰è¦‹ãŸç›¸å¯¾åº§æ¨™
 		D3DXMatrixInverse(&pBones[i].offsetMat, 0, &pBones[i].initMat);
 	}
 
-	//‰Šúp¨‚ğe‚Ìp¨~‘Š‘Îp¨‚É’¼‚·
-	//æ‚¸q‚Ì––’[‚Ü‚Å~‚è‚Ä©•ª‚Ìƒ[ƒJƒ‹‹óŠÔ‚Å‰Šúp¨–e‚Ìƒ{[ƒ“ƒIƒtƒZƒbƒgs—ñ‚Å‘Š‘Îp¨‚ğ‹‚ß‚é	
+	//åˆæœŸå§¿å‹¢ã‚’è¦ªã®å§¿å‹¢~ç›¸å¯¾å§¿å‹¢ã«ç›´ã™
+	//å…ˆãšå­ã®æœ«ç«¯ã¾ã§é™ã‚Šã¦è‡ªåˆ†ã®ãƒ­ãƒ¼ã‚«ãƒ«ç©ºé–“ã§åˆæœŸå§¿å‹¢ï¼Šè¦ªã®ãƒœãƒ¼ãƒ³ã‚ªãƒ•ã‚»ãƒƒãƒˆè¡Œåˆ—ã§ç›¸å¯¾å§¿å‹¢ã‚’æ±‚ã‚ã‚‹	
 
-	//‰Šúp¨‚ğe‹óŠÔƒx[ƒX‚É•ÏŠ·‚·‚éŠÖ”‚Ì’è‹`
-	//eqŠÖŒW‚ğ‚½‚Ç‚é‚½‚ßÄ‹AŠÖ”‚ª•K—v
+	//åˆæœŸå§¿å‹¢ã‚’è¦ªç©ºé–“ãƒ™ãƒ¼ã‚¹ã«å¤‰æ›ã™ã‚‹é–¢æ•°ã®å®šç¾©
+	//è¦ªå­é–¢ä¿‚ã‚’ãŸã©ã‚‹ãŸã‚å†å¸°é–¢æ•°ãŒå¿…è¦
 	struct CalcRelativeMat
 	{
 		static void run(Bone* pMe, D3DXMATRIX *pParentOffsetMat = nullptr)
@@ -463,12 +428,12 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 			}
 		}
 	};
-	//‰Šúp¨‚ğe‹óŠÔƒx[ƒX‚É•ÏŠ·‚·‚éŠÖ”‚ÌÀs
+	//åˆæœŸå§¿å‹¢ã‚’è¦ªç©ºé–“ãƒ™ãƒ¼ã‚¹ã«å¤‰æ›ã™ã‚‹é–¢æ•°ã®å®Ÿè¡Œ
 	CalcRelativeMat::run(&pBones[0]);
 
 
 	/////////////////////////////////////////
-	// ƒVƒF[ƒ_‚ÌƒRƒ“ƒpƒCƒ‹‚ÆƒVƒF[ƒ_ì¬
+	// ã‚·ã‚§ãƒ¼ãƒ€ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã¨ã‚·ã‚§ãƒ¼ãƒ€ä½œæˆ
 	//////
 	ID3DXBuffer *shader, *error;
 	IDirect3DVertexShader9 *vertexShader;
@@ -490,9 +455,9 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 
 
 	//===========================================================
-	// Šeís—ñ‰Šú‰»
+	// å„ç¨®è¡Œåˆ—åˆæœŸåŒ–
 	D3DXMATRIX view, proj;
-	D3DXMatrixLookAtLH(&view, &D3DXVECTOR3(0.0f, -5.0f, -4.0f), &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	D3DXMatrixLookAtLH(&view, &D3DXVECTOR3(0.0f, -50.50f,-1.0f), &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 	D3DXMatrixPerspectiveFovLH(&proj, D3DXToRadian(30), 64.0f / 48, 1.0f, 10000.0f);
 
 
@@ -533,12 +498,8 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 
 	g_pD3DDev->SetRenderState(D3DRS_AMBIENT, 0x00444444);
 
-
-
-
-
-	//•`‰æƒ‹[ƒv==========================================
-	//–ˆƒtƒŒ[ƒ€‚Ìp¨§Œä
+	//æç”»ãƒ«ãƒ¼ãƒ—==========================================
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®å§¿å‹¢åˆ¶å¾¡
 	MSG msg;
 
 	float val = 0.0f;
@@ -556,17 +517,24 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 		g_pD3DDev->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(40, 40, 80), 1.0f, 0);
 		g_pD3DDev->BeginScene();
 
-		//ƒ{[ƒ“‚Ìp¨‚ğXV
-		//ÅI“I‚É‚Í
-		//[ƒ{[ƒ“ƒIƒtƒZƒbƒgs—ñ] * [ƒ[ƒ‹ƒh‹óŠÔ‚Å‚Ìƒ{[ƒ“p¨]
-		//‚ğŒvZ‚·‚é
+		//ãƒœãƒ¼ãƒ³ã®å§¿å‹¢ã‚’æ›´æ–°
+		//æœ€çµ‚çš„ã«ã¯
+		//[ãƒœãƒ¼ãƒ³ã‚ªãƒ•ã‚»ãƒƒãƒˆè¡Œåˆ—] * [ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã§ã®ãƒœãƒ¼ãƒ³å§¿å‹¢]
+		//ã‚’è¨ˆç®—ã™ã‚‹
 
-		//Šeƒ{[ƒ“‚Ì‰Šúp¨‚©‚ç‚Ì·•ªp¨(e‹óŠÔƒx[ƒX)‚ğXV
-		D3DXMATRIX defBone[3/*7*/];
+		//å„ãƒœãƒ¼ãƒ³ã®åˆæœŸå§¿å‹¢ã‹ã‚‰ã®å·®åˆ†å§¿å‹¢(è¦ªç©ºé–“ãƒ™ãƒ¼ã‚¹)ã‚’æ›´æ–°
+		D3DXMATRIX defBone[5];
 		D3DXMatrixIdentity(&defBone[0]);
 
-		//ƒ{[ƒ“‚Ì‰ñ“]‚ğ“K“–‚É“®‚©‚·
-		for (int i = 1; i < /*7*/3; i++)
+		static float rotateRate = 0.00f;
+
+		//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®å›è»¢å·®åˆ†æ›´æ–°
+		rotateRate += sinf(val)*0.01f;
+	
+		
+	
+		//ãƒœãƒ¼ãƒ³ã®å›è»¢ã‚’é©å½“ã«å‹•ã‹ã™
+		for (int i = 1; i < 5; i++)
 		{
 			D3DXMATRIX transLation;
 			D3DXMATRIX rotate;
@@ -575,44 +543,41 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 			D3DXMatrixIdentity(&transLation);
 			D3DXMatrixIdentity(&rotate);
 			D3DXMatrixIdentity(&defBone[i]);
+			
+			D3DXVECTOR3 v; 
+			v.x = 1.0f; v.y = 1.0f; v.z = 1.0f;
+			/*v *= (1.0f + (0.5f*((i+1) % 2)));*/
+			D3DXMatrixScaling(&scale,v.x,v.y,v.z);									//æ‹¡å¤§ç‡å·®åˆ†
 
-			//if (i == 2 || i == 4 || i == 6)
-			{
-
-				//
-				//s—ñ‚Ì‚©‚¯‚é‡”Ô‚Í‚±‚ê‚ÅŠm’è‚Á‚Û‚¢
-				//
-
-				D3DXMatrixScaling(&scale,1.0f,1.0f,1.0f);
-				D3DXMatrixTranslation(&transLation, sinf(val * 1.5) * 0.25, 0, 0);
-				D3DXMatrixRotationZ(&rotate, D3DXToRadian(sinf(val)*30.0f));
-				D3DXMatrixMultiply(&defBone[i], &scale, &rotate);
-				D3DXMatrixMultiply(&defBone[i], &defBone[i], &transLation);
-			}
-			/*else
-			{
-				D3DXMatrixIdentity(&defBone[i]);
-			}*/
+			D3DXMatrixTranslation(&transLation,1.0f, 0.0f,1.5*(sinf(val)/** ((i+1) % 2))*/));	//åº§æ¨™å·®åˆ† 
+																							    //è‡ªèº«ã®å›è»¢å·®åˆ†ã¯é–¢ä¿‚ã—ãªã„ã€€è‡ªèº«åˆæœŸå§¿å‹¢ã®å›è»¢ã¨è¦ªã®å§¿å‹¢ã®å›è»¢ã«ã‚ˆã£ã¦ç§»å‹•ã™ã‚‹æ–¹å‘ãŒæ±ºå®šã™ã‚‹æ§˜å­
+			
+			D3DXMatrixRotationY(&rotate, rotateRate);//å›è»¢å·®åˆ†
+		
+			//è¡Œåˆ—ã®ã‹ã‘ã‚‹é †ç•ªã¯ä»¥ä¸‹ã®é †ç•ªã§é–“é•ã„ãªã•ãã†			
+			D3DXMatrixMultiply(&defBone[i], &scale, &rotate);
+			D3DXMatrixMultiply(&defBone[i], &defBone[i], &transLation);
+			
 		}
 
 
-		//Šeƒ{[ƒ“s—ñ‚Ìe‹óŠÔƒx[ƒX‚Å‚Ìp¨‚ğXV
-		//Šî–{p¨* ‰Šúp¨(‚Æ‚à‚Ée‹óŠÔƒx[ƒX)
-		for (int i = 0; i < 3/*7*/; i++)
+		//å„ãƒœãƒ¼ãƒ³è¡Œåˆ—ã®è¦ªç©ºé–“ãƒ™ãƒ¼ã‚¹ã§ã®å§¿å‹¢ã‚’æ›´æ–°
+		//åŸºæœ¬å§¿å‹¢* åˆæœŸå§¿å‹¢(ã¨ã‚‚ã«è¦ªç©ºé–“ãƒ™ãƒ¼ã‚¹)
+		for (int i = 0; i < 5; i++)
 		{
 			pBones[i].boneMat = defBone[i] * pBones[i].initMat;
 		}
 
 
-		//e‹óŠÔƒx[ƒX‚ÉƒAq‚éŠeƒ{[ƒ“s—ñ‚ğƒ[ƒJƒ‹‹óŠÔƒx[ƒX‚Ìp¨‚É•ÏŠ·
-		//‚±‚±‚ÍeqŠÖŒW‚É‚µ‚½‚ª‚Á‚Äs—ñ‚ğ‚©‚¯‚é•K—v‚ª‚ ‚é
-		//‚©‚¯‚é‡”Ô‚Íq*e
+		//è¦ªç©ºé–“ãƒ™ãƒ¼ã‚¹ã«ã‚¢qã‚‹å„ãƒœãƒ¼ãƒ³è¡Œåˆ—ã‚’ãƒ­ãƒ¼ã‚«ãƒ«ç©ºé–“ãƒ™ãƒ¼ã‚¹ã®å§¿å‹¢ã«å¤‰æ›
+		//ã“ã“ã¯è¦ªå­é–¢ä¿‚ã«ã—ãŸãŒã£ã¦è¡Œåˆ—ã‚’ã‹ã‘ã‚‹å¿…è¦ãŒã‚ã‚‹
+		//ã‹ã‘ã‚‹é †ç•ªã¯å­*è¦ª
 		D3DXMATRIX global;
 		D3DXMATRIX tmp;
 		D3DXMatrixIdentity(&global);		
 		D3DXMatrixIdentity(&tmp);
-		D3DXMatrixRotationZ(&global,/*1.507f*/ val*0.2);
-		D3DXMatrixTranslation(&tmp, -1.5f-(sinf(val*0.5f)), 0, 0);
+		D3DXMatrixRotationY(&global,D3DXToRadian(val*1.5f)*0.0f);
+		D3DXMatrixTranslation(&tmp, -5.5f-(sinf(val*0.0f)), 0, +val);
 
 		D3DXMatrixMultiply(&global, &global, &tmp);
 
@@ -637,20 +602,20 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 
 		UpdateBone::run(pBones, &global);
 
-		// ƒVƒF[ƒ_İ’è
-		// •Ï”‚ğ‘‚«‚ŞƒŒƒWƒXƒ^ˆÊ’u‚ÍƒVƒF[ƒ_‚É‘‚¢‚Ä‚ ‚è‚Ü‚·‚æB
+
+		// ã‚·ã‚§ãƒ¼ãƒ€è¨­å®š
+		// å¤‰æ•°ã‚’æ›¸ãè¾¼ã‚€ãƒ¬ã‚¸ã‚¹ã‚¿ä½ç½®ã¯ã‚·ã‚§ãƒ¼ãƒ€ã«æ›¸ã„ã¦ã‚ã‚Šã¾ã™ã‚ˆã€‚
 		g_pD3DDev->SetVertexShader(vertexShader);
 		g_pD3DDev->SetPixelShader(pixelShader);
 		g_pD3DDev->SetVertexShaderConstantF(0, (const float*)&view, 4);
 		g_pD3DDev->SetVertexShaderConstantF(4, (const float*)&proj, 4);
-		g_pD3DDev->SetVertexShaderConstantF(8, (const float*)pCombMat, 4 * 7);
-
+		g_pD3DDev->SetVertexShaderConstantF(8, (const float*)pCombMat, 4 * 5);
 
 		g_pD3DDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		g_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 		g_pD3DDev->SetVertexDeclaration(decl);
-		g_pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, /*13*/20, &v, sizeof(Vertex));
+		g_pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, polygonCount, &v, sizeof(Vertex));
 
 
 
@@ -659,7 +624,7 @@ int SkinMeshAppMain(LPDIRECT3DDEVICE9 g_pD3DDev)
 
 	} while (msg.message != WM_QUIT);
 
-	/*for (int i = 0; i < 7; i++)
+	/*for (int i = 0; i < ; i++)
 		boneObj[i]->Release();*/
 	vertexShader->Release();
 	pixelShader->Release();
