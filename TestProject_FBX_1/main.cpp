@@ -1,4 +1,4 @@
-#if _DEBUG
+ï»¿#if _DEBUG
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -26,7 +26,7 @@ using namespace fbxsdk;
 void WaitKey(char* message)
 {
 	std::cout << message << std::endl;
-	std::cout << "Return ƒL[‚ğ‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢" << std::endl;
+	std::cout << "Return ã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ãã ã•ã„" << std::endl;
 	getchar();
 	Sleep(500);
 	
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	//------------------------------------------------------------------
-	//FBX Manager‚Ìì¬
+	//FBX Managerã®ä½œæˆ
 	std::cout << "Create FbxManager ... ";
 	FbxManager* pManager = FbxManager::Create();
 
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 	{
 		std::cout << "Failed" << std::endl;
 
-		WaitKey("ƒvƒƒOƒ‰ƒ€‚ÌI—¹");
+		WaitKey("ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®çµ‚äº†");
 		return 0;
 	}
 	else
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 	}
 
 	//------------------------------------------------------------------
-	//FBX Iporter‚Ìì¬
+	//FBX Iporterã®ä½œæˆ
 	std::cout << "Create FbxImporter ... ";
 	FbxImporter* pImporter = FbxImporter::Create(pManager, "");
 	
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 	{
 		std::cout << "Failed" << std::endl;
 		pManager->Destroy();
-		WaitKey("ƒvƒƒOƒ‰ƒ€‚ÌI—¹");
+		WaitKey("ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®çµ‚äº†");
 	}
 	else
 	{
@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
 	}
 	
 	//------------------------------------------------------------------
-	//ƒCƒ“ƒ|[ƒ^[‚Åƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	//ã‚¤ãƒ³ãƒãƒ¼ã‚¿ãƒ¼ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	//const char* filePath = "FBX_FILES/cube2.fbx";
 	const char* filePath = "FBX_FILES/cube4.fbx";
 	//const char* filePath = "FBX_FILES/rio.fbx";
@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
 		pImporter->Destroy();
 		pManager->Destroy();
 
-		WaitKey("ƒvƒƒOƒ‰ƒ€‚ÌI—¹");
+		WaitKey("ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®çµ‚äº†");
 		return 0;
 	}
 	else
@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
 	}
 
 	//------------------------------------------------------------------
-	//ƒV[ƒ“‚Ìì¬
+	//ã‚·ãƒ¼ãƒ³ã®ä½œæˆ
 	std::cout << "CreateScene ...";
 	FbxScene* pScene = FbxScene::Create(pManager, "");
 
@@ -104,7 +104,7 @@ int main(int argc, char* argv[])
 		pImporter->Destroy();
 		pManager->Destroy();
 		
-		WaitKey("ƒvƒƒOƒ‰ƒ€‚ÌI—¹");
+		WaitKey("ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®çµ‚äº†");
 		return 0;
 	}
 	else
@@ -114,7 +114,7 @@ int main(int argc, char* argv[])
 	
 	
 	//------------------------------------------------------------------
-	//ƒCƒ“ƒ|[ƒ^[‚©‚çƒV[ƒ“‚ğ“Ç‚İ‚Ş
+	//ã‚¤ãƒ³ãƒãƒ¼ã‚¿ãƒ¼ã‹ã‚‰ã‚·ãƒ¼ãƒ³ã‚’èª­ã¿è¾¼ã‚€
 	std::cout << "Import Scene ... " << std:: endl;
 
 	if(!pImporter->Import(pScene))
@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
 		pImporter->Destroy();
 		pManager->Destroy();
 
-		WaitKey("ƒvƒƒOƒ‰ƒ€‚ÌI—¹");
+		WaitKey("ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®çµ‚äº†");
 		return 0;
 	}
 	else
@@ -133,12 +133,12 @@ int main(int argc, char* argv[])
 	}
 
 
-	//ƒV[ƒ“‚ğ“Ç‚ñ‚¾‚ç•K—v‚È‚¢‚Ì‚ÅƒCƒ“ƒ|[ƒ^[‚Í”jŠü‚·‚é
+	//ã‚·ãƒ¼ãƒ³ã‚’èª­ã‚“ã ã‚‰å¿…è¦ãªã„ã®ã§ã‚¤ãƒ³ãƒãƒ¼ã‚¿ãƒ¼ã¯ç ´æ£„ã™ã‚‹
 	pImporter->Destroy();
 	pImporter = nullptr;
 	
 	//------------------------------------------------------------------
-	//ƒm[ƒh’T¸
+	//ãƒãƒ¼ãƒ‰æ¢æŸ»
 	FbxNode* pRootNode = pScene->GetRootNode();
 
 	if (pRootNode)
@@ -149,13 +149,13 @@ int main(int argc, char* argv[])
 	pRootNode->Destroy();
 
 	//------------------------------------------------------------------
-	std::cout << "I—¹ˆ—‚É“ü‚è‚Ü‚·" <<std::endl;
+	std::cout << "çµ‚äº†å‡¦ç†ã«å…¥ã‚Šã¾ã™" <<std::endl;
 
 	
 	pScene->Destroy();
 	pManager->Destroy();
 
-	WaitKey("ƒvƒƒOƒ‰ƒ€‚ÌI—¹");
+	WaitKey("ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®çµ‚äº†");
 
 	
 	return 1;

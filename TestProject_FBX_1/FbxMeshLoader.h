@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <fbxsdk.h>
 
@@ -63,76 +63,76 @@ class FbxMeshLoader
 {
 private:
 
-	//ƒ[ƒhÏ‚İ‚©‚Ç‚¤‚©
+	//ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã‹ã©ã†ã‹
 	bool loaded;
 
-	//ƒRƒ“ƒgƒ[ƒ‹ƒ|ƒCƒ“ƒgÀ•W‚Ì”
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ãƒã‚¤ãƒ³ãƒˆåº§æ¨™ã®æ•°
 	int controlPointCount;
 
-	//ƒRƒ“ƒgƒ[ƒ‹ƒ|ƒCƒ“ƒgÀ•W
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ãƒã‚¤ãƒ³ãƒˆåº§æ¨™
 	D3DXVECTOR4* pControlPoints_DX;
 
-	//ƒ|ƒŠƒSƒ“”
+	//ãƒãƒªã‚´ãƒ³æ•°
 	int polygonCount;
 
 	int indexCount;
 	D3DXVECTOR4* pVertexPoints_DX;
 
 
-	////‘’·“_”
+	////ç·é•·ç‚¹æ•°
 	//int polygonVertexNum;
 	//int * pIndexArray;
 
-	//‚»‚ê‚¼‚ê‚Ìƒ|ƒŠƒSƒ“‚ğ\¬‚·‚é’¸“_‚Ì”
-	// x”Ô–Ú‚Ìƒ|ƒŠƒSƒ“‚ğ\¬‚·‚é’¸“_” = pPolygonVertexCount[x];
+	//ãã‚Œãã‚Œã®ãƒãƒªã‚´ãƒ³ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹ã®æ•°
+	// xç•ªç›®ã®ãƒãƒªã‚´ãƒ³ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹æ•° = pPolygonVertexCount[x];
 	int *pPolygonVertexCount;
 
-	//‚»‚ê‚¼‚ê‚Ìƒ|ƒŠƒSƒ“‚ğ\¬‚·‚é’¸“_‚ÌƒCƒ“ƒfƒbƒNƒX
-	//’¸“_ƒCƒ“ƒfƒbƒNƒX = ppPolygonVertexIndex [p][x];
-	//	p :ƒ|ƒŠƒSƒ“”Ô†
-	//	x = 0@` (pPolygonVertexCount[p]-1)
+	//ãã‚Œãã‚Œã®ãƒãƒªã‚´ãƒ³ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+	//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ = ppPolygonVertexIndex [p][x];
+	//	p :ãƒãƒªã‚´ãƒ³ç•ªå·
+	//	x = 0ã€€ï½ (pPolygonVertexCount[p]-1)
 	int **ppPolygonVertexIndex;
 
-	//’¸“_F
+	//é ‚ç‚¹è‰²
 	int VertexColorSetMax;
 	int *pColorCount_ByVertexColorSet;
 	ColorRGBA** ppVertexColor;
 
 
 	//--------------
-	//–@ü
+	//æ³•ç·š
 
-	//–@üƒŒƒCƒ„[”
+	//æ³•ç·šãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°
 	int normalLayerCount;
 
-	//–@üƒŒƒCƒ„[”‚²‚Æ‚Ì–@ü”
-	//–@ü” = pNormalCounts[ƒŒƒCƒ„[”Ô†]
+	//æ³•ç·šãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°ã”ã¨ã®æ³•ç·šæ•°
+	//æ³•ç·šæ•° = pNormalCounts[ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·]
 	int *pNormalCounts;
 
-	//–@üƒf[ƒ^
-	//–@ü = ppNormalVector[ƒŒƒCƒ„[”Ô†][–@ü”Ô†]
+	//æ³•ç·šãƒ‡ãƒ¼ã‚¿
+	//æ³•ç·š = ppNormalVector[ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·][æ³•ç·šç•ªå·]
 	D3DXVECTOR4 **ppNormalVector;
 
 
-	//ƒ}ƒeƒŠƒAƒ‹”
+	//ãƒãƒ†ãƒªã‚¢ãƒ«æ•°
 	int materialCount;
 
-	//uvƒ}ƒbƒv
+	//uvãƒãƒƒãƒ—
 	int uvSetCount;	
 	UvSet* pUvSetArray;
 
 
 public :
-	//ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	FbxMeshLoader();
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~FbxMeshLoader();
 
-	//ƒ[ƒh
-	//ƒ[ƒh‚µ‚½‚¢ƒƒbƒVƒ…‚ğ‚Âƒm[ƒh
+	//ãƒ­ãƒ¼ãƒ‰
+	//ãƒ­ãƒ¼ãƒ‰ã—ãŸã„ãƒ¡ãƒƒã‚·ãƒ¥ã‚’æŒã¤ãƒãƒ¼ãƒ‰
 	void Load(FbxNode* pNode);
 
-	//‰ğ•úˆ—
+	//è§£æ”¾å‡¦ç†
 	void Release();
 
 private:
