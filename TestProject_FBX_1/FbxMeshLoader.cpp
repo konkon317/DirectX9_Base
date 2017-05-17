@@ -1,4 +1,4 @@
-#include "FbxMeshLoader.h"
+ï»¿#include "FbxMeshLoader.h"
 
 #include "fbxUtil.h"
 
@@ -67,7 +67,7 @@ void FbxMeshLoader::Release()
 	}
 
 
-	//ƒ|ƒŠƒSƒ“‚Ég‚Á‚½ƒƒ‚ƒŠ‚Ì‰ğ•ú
+	//ãƒãƒªã‚´ãƒ³ã«ä½¿ã£ãŸãƒ¡ãƒ¢ãƒªã®è§£æ”¾
 	if (ppPolygonVertexIndex != nullptr)
 	{
 		for (int i = 0; i < polygonCount; i++)
@@ -98,7 +98,7 @@ void FbxMeshLoader::Release()
 
 
 
-	//–@ü‚Ég‚Á‚½ƒƒ‚ƒŠ‚Ì‰ğ•ú
+	//æ³•ç·šã«ä½¿ã£ãŸãƒ¡ãƒ¢ãƒªã®è§£æ”¾
 	if(ppNormalVector!= nullptr)
 	{ 
 		for (int i = 0; i < normalLayerCount; i++)
@@ -119,7 +119,7 @@ void FbxMeshLoader::Release()
 		pNormalCounts = nullptr;
 	}
 
-	//’¸“_F‚Ég‚Á‚½ƒƒ‚ƒŠ‚Ì‰ğ•ú
+	//é ‚ç‚¹è‰²ã«ä½¿ã£ãŸãƒ¡ãƒ¢ãƒªã®è§£æ”¾
 	if (ppVertexColor != nullptr)
 	{
 		for (int i = 0; i <  VertexColorSetMax; i++)
@@ -140,7 +140,7 @@ void FbxMeshLoader::Release()
 		pColorCount_ByVertexColorSet = nullptr;
 	}
 
-	//UVƒZƒbƒg‚Ì‰ğ•ú
+	//UVã‚»ãƒƒãƒˆã®è§£æ”¾
 	if (pUvSetArray != nullptr)
 	{
 		delete[] pUvSetArray;
@@ -151,7 +151,7 @@ void FbxMeshLoader::Release()
 }
 
 
-//ƒ[ƒh
+//ãƒ­ãƒ¼ãƒ‰
 void FbxMeshLoader::Load(FbxNode* pNode)
 {
 
@@ -159,7 +159,7 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 	{
 		if (IsMesh(pNode))
 		{
-			//ƒm[ƒh‚©‚çƒƒbƒVƒ…ƒf[ƒ^æ“¾
+			//ãƒãƒ¼ãƒ‰ã‹ã‚‰ãƒ¡ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿å–å¾—
 			FbxMesh *pMesh = pNode->GetMesh();
 
 			if (pMesh != nullptr)
@@ -169,22 +169,22 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 				std::cout << std::endl;
 				std::cout << "mesh load "<<std::endl;	
 								
-				//’¸“_À•W
+				//é ‚ç‚¹åº§æ¨™
 				LoadVertexPosition(pMesh);
 
-				//’¸“_F‚Ìæ“¾
+				//é ‚ç‚¹è‰²ã®å–å¾—
 				LoadVertexColor(pMesh);
 
-				//–@ü‚Ìæ“¾
+				//æ³•ç·šã®å–å¾—
 				LoadNormal(pMesh);
 
-				//UV‚Ìæ“¾
+				//UVã®å–å¾—
 				LoadVertexUV_Buffer(pMesh);
 				
-				//UVSEt‚Æƒ}ƒeƒŠƒAƒ‹‚ÌŠÖ˜A•t‚¯
+				//UVSEtã¨ãƒãƒ†ãƒªã‚¢ãƒ«ã®é–¢é€£ä»˜ã‘
 				Asociate_UVSetAndMaterial(pNode);		
 
-				////“Ç‚İ‚ñ‚¾î•ñ‚ğ•\¦
+				////èª­ã¿è¾¼ã‚“ã æƒ…å ±ã‚’è¡¨ç¤º
 				//std::cout << "polygonCount : " << polygonCount << std::endl;
 				//std::cout << "polygonVertexList" << std::endl;
 				//
@@ -208,12 +208,12 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 
 void FbxMeshLoader::LoadVertexPosition(FbxMesh* pMesh)
 {
-	//ƒƒbƒVƒ…‚ğ\¬‚·‚éƒ|ƒŠƒSƒ“”
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã‚’æ§‹æˆã™ã‚‹ãƒãƒªã‚´ãƒ³æ•°
 	polygonCount = pMesh->GetPolygonCount();
 
-	//ƒƒbƒVƒ…‚Ì‘’¸“_		
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã®ç·é ‚ç‚¹		
 
-	//ƒ|ƒŠƒSƒ“‚ğ\¬‚·‚é’¸“_‚Ì”
+	//ãƒãƒªã‚´ãƒ³ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹ã®æ•°
 	pPolygonVertexCount = new int[polygonCount];
 	ppPolygonVertexIndex = new int*[polygonCount];
 
@@ -223,10 +223,10 @@ void FbxMeshLoader::LoadVertexPosition(FbxMesh* pMesh)
 		pPolygonVertexCount[i] = 0;
 		ppPolygonVertexIndex[i] = nullptr;
 
-		//ƒ|ƒŠƒSƒ“[i]‚ğ\¬‚·‚é’¸“_”
+		//ãƒãƒªã‚´ãƒ³[i]ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹æ•°
 		pPolygonVertexCount[i] = pMesh->GetPolygonSize(i);
 
-		//ƒ|ƒŠƒSƒ“[i]‚ğ\¬‚·‚é’¸“_‚ÌƒCƒ“ƒfƒbƒNƒX‚ğŠi”[‚·‚é
+		//ãƒãƒªã‚´ãƒ³[i]ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æ ¼ç´ã™ã‚‹
 		ppPolygonVertexIndex[i] = new int[pPolygonVertexCount[i]];
 
 		for (int j = 0; j < pPolygonVertexCount[i]; j++)
@@ -241,19 +241,19 @@ void FbxMeshLoader::LoadVertexPosition(FbxMesh* pMesh)
 
 	if (flag)
 	{
-		std::cout << "ƒƒbƒVƒ…ƒ[ƒh’†" << std::endl;
-		WaitKey("‘½ŠpŒ`ƒ|ƒŠƒSƒ“‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚µ‚½");
+		std::cout << "ãƒ¡ãƒƒã‚·ãƒ¥ãƒ­ãƒ¼ãƒ‰ä¸­" << std::endl;
+		WaitKey("å¤šè§’å½¢ãƒãƒªã‚´ãƒ³ãŒå«ã¾ã‚Œã¦ã„ã¾ã—ãŸ");
 	}
 
 
-	//’¸“_À•W‚Ì”
+	//é ‚ç‚¹åº§æ¨™ã®æ•°
 	controlPointCount = pMesh->GetControlPointsCount();
 
 	FbxVector4* pControllPoints_FBX = pMesh->GetControlPoints();
 
 	pControlPoints_DX = new D3DXVECTOR4[controlPointCount];
 
-	//FbxVector4 ‚©‚ç D3DXVECTOR4‚Ö
+	//FbxVector4 ã‹ã‚‰ D3DXVECTOR4ã¸
 	for (int i = 0; i < controlPointCount; i++)
 	{
 		pControlPoints_DX[i].x = static_cast<float>(pControllPoints_FBX[i][0]);
@@ -287,30 +287,30 @@ void FbxMeshLoader::LoadVertexPosition(FbxMesh* pMesh)
 
 }
 
-//UVÀ•Wæ“¾ŠÖ”
+//UVåº§æ¨™å–å¾—é–¢æ•°
 void FbxMeshLoader::LoadVertexUV_Buffer(FbxMesh* pMesh)
 {
 	//http://shikemokuthinking.blogspot.jp/
 
-	//UVSet‚Ì”‚ğæ“¾
+	//UVSetã®æ•°ã‚’å–å¾—
 	
 	uvSetCount = pMesh->GetElementUVCount();
 	pUvSetArray = new UvSet[uvSetCount];
 
 	for (int i = 0; i<uvSetCount; i++)
 	{
-		//Uvƒoƒbƒtƒ@‚ğæ“¾
+		//Uvãƒãƒƒãƒ•ã‚¡ã‚’å–å¾—
 		FbxGeometryElementUV*UV = pMesh->GetElementUV(i);
 
 
-		//ƒ}ƒbƒsƒ“ƒOƒ‚[ƒh‚Ìæ“¾
+		//ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰ã®å–å¾—
 		FbxGeometryElement::EMappingMode mapping = UV->GetMappingMode();
 
-		//ƒŠƒtƒ@ƒŒƒ“ƒXƒ‚[ƒh‚Ìæ“¾
+		//ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ãƒ¢ãƒ¼ãƒ‰ã®å–å¾—
 		FbxGeometryElement::EReferenceMode reference = UV->GetReferenceMode();
 
 
-		//UV”‚Ìæ“¾
+		//UVæ•°ã®å–å¾—
 		
 		FbxLayerElementArrayTemplate<int>* pUvIndex = &UV->GetIndexArray();
 		int uvIndexCount = pUvIndex->GetCount();
@@ -346,12 +346,12 @@ void FbxMeshLoader::LoadVertexUV_Buffer(FbxMesh* pMesh)
 								FbxVector2 v = UV->GetDirectArray().GetAt(index);
 
 								temp.x =static_cast<float>( v[0] );
-								temp.y =static_cast<float>( 1.0f- v[1]);//ƒuƒŒƒ“ƒ_[‚Åì‚Á‚½ƒtƒ@ƒCƒ‹‚Íã‰º‹t
+								temp.y =static_cast<float>( 1.0f- v[1]);//ãƒ–ãƒ¬ãƒ³ãƒ€ãƒ¼ã§ä½œã£ãŸãƒ•ã‚¡ã‚¤ãƒ«ã¯ä¸Šä¸‹é€†
 
 								pUvSetArray[i].pUvBuffer[j] = temp;
 							}
 
-							//UvSet–¼‚ğæ“¾
+							//UvSetåã‚’å–å¾—
 							pUvSetArray[i].uvSetName = UV->GetName();
 
 							{
@@ -396,12 +396,12 @@ void FbxMeshLoader::LoadVertexUV_Buffer(FbxMesh* pMesh)
 }
 
 
-//–@üæ“¾ŠÖ”
+//æ³•ç·šå–å¾—é–¢æ•°
 void FbxMeshLoader::LoadNormal(FbxMesh* pMesh)
 {
-	//------–@ü----
+	//------æ³•ç·š----
 
-	//–@üƒZƒbƒg‚Ì”
+	//æ³•ç·šã‚»ãƒƒãƒˆã®æ•°
 	normalLayerCount = pMesh->GetElementNormalCount();
 
 	pNormalCounts = new int[normalLayerCount];
@@ -413,22 +413,22 @@ void FbxMeshLoader::LoadNormal(FbxMesh* pMesh)
 		FbxGeometryElementNormal* pNormal = pMesh->GetElementNormal(layer);
 		
 
-		//ƒ}ƒbƒsƒ“ƒOƒ‚[ƒh‚Ìæ“¾
+		//ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰ã®å–å¾—
 		FbxGeometryElement::EMappingMode mappingMode = pNormal->GetMappingMode();
-		//ƒŠƒtƒ@ƒŒƒ“ƒXƒ‚[ƒh‚Ìæ“¾
+		//ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ãƒ¢ãƒ¼ãƒ‰ã®å–å¾—
 		FbxGeometryElement::EReferenceMode referenceMode = pNormal->GetReferenceMode();
 
-		//ƒ}ƒbƒsƒ“ƒOƒ‚[ƒh‚Ì”»•Ê
+		//ãƒãƒƒãƒ”ãƒ³ã‚°ãƒ¢ãƒ¼ãƒ‰ã®åˆ¤åˆ¥
 		switch (mappingMode)
 		{
 			case FbxGeometryElement::eByControlPoint:
 
-				//ƒŠƒtƒ@ƒŒƒ“ƒXƒ‚[ƒh‚Ì”»•Ê
+				//ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ãƒ¢ãƒ¼ãƒ‰ã®åˆ¤åˆ¥
 				switch (referenceMode)
 				{
 					case FbxGeometryElement::eDirect:
 
-						//eDirect‚Ìê‡ƒf[ƒ^‚Í‡”Ô‚ÉŠi”[‚³‚ê‚Ä‚¢‚é‚½‚ß‚»‚Ì‚Ü‚Ü•Û
+						//eDirectã®å ´åˆãƒ‡ãƒ¼ã‚¿ã¯é †ç•ªã«æ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãŸã‚ãã®ã¾ã¾ä¿æŒ
 
 						pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
 
@@ -454,14 +454,14 @@ void FbxMeshLoader::LoadNormal(FbxMesh* pMesh)
 				break;
 
 			case FbxGeometryElement::eByPolygonVertex:
-				//–@ü‚ªƒ|ƒŠƒSƒ“‚ÌŠe’¸“_‚²‚Æ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡						
+				//æ³•ç·šãŒãƒãƒªã‚´ãƒ³ã®å„é ‚ç‚¹ã”ã¨ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ						
 
-				//ƒŠƒtƒ@ƒŒƒ“ƒXƒ‚[ƒh‚Ì”»•Ê
+				//ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ãƒ¢ãƒ¼ãƒ‰ã®åˆ¤åˆ¥
 				switch (referenceMode)
 				{
 					case FbxGeometryElement::eDirect:
 
-						//eDirect‚Ìê‡ƒf[ƒ^‚Í‡”Ô‚ÉŠi”[‚³‚ê‚Ä‚¢‚é‚½‚ß‚»‚Ì‚Ü‚Ü•Û				
+						//eDirectã®å ´åˆãƒ‡ãƒ¼ã‚¿ã¯é †ç•ªã«æ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãŸã‚ãã®ã¾ã¾ä¿æŒ				
 
 						pNormalCounts[layer] = pNormal->GetDirectArray().GetCount();
 
@@ -489,41 +489,41 @@ void FbxMeshLoader::LoadNormal(FbxMesh* pMesh)
 	}
 }
 
-//UV‚Æƒ}ƒeƒŠƒAƒ‹‚ÌƒeƒNƒXƒ`ƒƒ‚ğŠÖ˜A•t‚¯‚éŠÖ”
+//UVã¨ãƒãƒ†ãƒªã‚¢ãƒ«ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’é–¢é€£ä»˜ã‘ã‚‹é–¢æ•°
 void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode)
 {
-	//’ˆÓì‚è‚©‚¯@2017_4_18
+	//æ³¨æ„ä½œã‚Šã‹ã‘ã€€2017_4_18
 
-	//UVSet‚Æƒ}ƒeƒŠƒAƒ‹‚ÌŠÖ˜A•t‚¯
-	//uvƒZƒbƒg‚ÌƒeƒNƒXƒ`ƒƒ–¼‚Æƒ}ƒeƒŠƒAƒ‹‚ÌƒeƒNƒXƒ`ƒƒ–¼‚ÅŠÖ˜A•t‚¯
+	//UVSetã¨ãƒãƒ†ãƒªã‚¢ãƒ«ã®é–¢é€£ä»˜ã‘
+	//uvã‚»ãƒƒãƒˆã®ãƒ†ã‚¯ã‚¹ãƒãƒ£åã¨ãƒãƒ†ãƒªã‚¢ãƒ«ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£åã§é–¢é€£ä»˜ã‘
 
-	//ƒ}ƒeƒŠƒAƒ‹‚Ì”‚ğæ“¾
+	//ãƒãƒ†ãƒªã‚¢ãƒ«ã®æ•°ã‚’å–å¾—
 	int materialCount = pNode->GetMaterialCount();
 
 	for (int i = 0; i < materialCount; i++)
 	{
-		//ƒ}ƒeƒŠƒAƒ‹‚Ìæ“¾
+		//ãƒãƒ†ãƒªã‚¢ãƒ«ã®å–å¾—
 		FbxSurfaceMaterial * pMaterial = pNode->GetMaterial(i);
 
-		//ƒ}ƒeƒŠƒAƒ‹‚©‚çDeffuse‚ğæ“¾
+		//ãƒãƒ†ãƒªã‚¢ãƒ«ã‹ã‚‰Deffuseã‚’å–å¾—
 		FbxProperty prop = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
 
 
-		//ƒvƒƒpƒeƒB‚ÉƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚éƒeƒNƒXƒ`ƒƒ‚Ìí•Ê‚ğ”»’f
+		//ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã«ã‚¢ã‚¿ãƒƒãƒã•ã‚Œã¦ã„ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¨®åˆ¥ã‚’åˆ¤æ–­
 		int LayerdTextureCount = prop.GetSrcObjectCount<FbxLayeredTexture>();
 
-		//FbxLayerdTexture :•¡”‚ÌƒeƒNƒXƒ`ƒƒ‚ğƒuƒŒƒ“ƒhg—p‚³‚ê‚Ä‚¢‚éê‡‚É—LŒø‚É‚È‚é
-		//FbxFileTexture :@’Pˆê‚ÌƒeƒNƒXƒ`ƒƒ‚Æ‚µ‚Äg—p‚³‚ê‚Ä‚¢‚é‚Æ—LŒø‚É‚È‚é
-		//FbxProceduralTexture : •s–¾¡‰ñ‚Íl—¶‚µ‚È‚¢
+		//FbxLayerdTexture :è¤‡æ•°ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ãƒ–ãƒ¬ãƒ³ãƒ‰ä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹å ´åˆã«æœ‰åŠ¹ã«ãªã‚‹
+		//FbxFileTexture :ã€€å˜ä¸€ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¨ã—ã¦ä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹ã¨æœ‰åŠ¹ã«ãªã‚‹
+		//FbxProceduralTexture : ä¸æ˜ä»Šå›ã¯è€ƒæ…®ã—ãªã„
 
 		if (LayerdTextureCount>0)
 		{
 			for (int j = 0; j < LayerdTextureCount; j++)
 			{
-				//ƒeƒNƒXƒ`ƒƒ‚ğæ“¾
+				//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’å–å¾—
 				FbxLayeredTexture *pLayerdTexture = prop.GetSrcObject<FbxLayeredTexture>(j);
 
-				//ƒŒƒCƒ„[”‚ğæ“¾
+				//ãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°ã‚’å–å¾—
 				int textureCount = pLayerdTexture->GetSrcObjectCount<FbxFileTexture>();
 
 				for (int k = 0; k < textureCount; k++)
@@ -533,10 +533,10 @@ void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode)
 
 					if (pTexture)
 					{
-						//ƒeƒNƒXƒ`ƒƒ–¼‚ğæ“¾
+						//ãƒ†ã‚¯ã‚¹ãƒãƒ£åã‚’å–å¾—
 						std::string textureName = pTexture->GetRelativeFileName();
 
-						//UVSet–¼‚ğæ“¾
+						//UVSetåã‚’å–å¾—
 						std::string UVSetName = pTexture->UVSet.Get().Buffer();
 
 						for (int k=0;k<uvSetCount;k++)
@@ -552,26 +552,26 @@ void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode)
 		}
 		else
 		{
-			//--- ƒeƒNƒXƒ`ƒƒ”‚ğæ“¾ ---//
+			//--- ãƒ†ã‚¯ã‚¹ãƒãƒ£æ•°ã‚’å–å¾— ---//
 			int fileTextureCount = prop.GetSrcObjectCount<FbxFileTexture>();
 
 			if (0 < fileTextureCount)
 			{
-				//--- ƒeƒNƒXƒ`ƒƒ‚Ì”‚¾‚¯ŒJ‚è•Ô‚· ---//
+				//--- ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ•°ã ã‘ç¹°ã‚Šè¿”ã™ ---//
 				for (int j = 0; fileTextureCount > j; j++)
 				{
-					//--- ƒeƒNƒXƒ`ƒƒ‚ğæ“¾ ---//
+					//--- ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’å–å¾— ---//
 					FbxFileTexture* pTexture = prop.GetSrcObject<FbxFileTexture>(j);
 					if (pTexture)
 					{
-						//--- ƒeƒNƒXƒ`ƒƒ–¼‚ğæ“¾ ---//
+						//--- ãƒ†ã‚¯ã‚¹ãƒãƒ£åã‚’å–å¾— ---//
 						//std::string textureName = texture->GetName();
 						std::string textureName = pTexture->GetRelativeFileName();
 
-						//--- UVSet–¼‚ğæ“¾ ---//
+						//--- UVSetåã‚’å–å¾— ---//
 						std::string UVSetName = pTexture->UVSet.Get().Buffer();
 
-						//--- UVSet–¼‚ğ”äŠr‚µ‘Î‰‚µ‚Ä‚¢‚éƒeƒNƒXƒ`ƒƒ‚È‚ç•Û ---//
+						//--- UVSetåã‚’æ¯”è¼ƒã—å¯¾å¿œã—ã¦ã„ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ãªã‚‰ä¿æŒ ---//
 						for (int k = 0; k<uvSetCount; k++)
 						{
 							if (pUvSetArray[k].uvSetName == UVSetName)
@@ -588,10 +588,10 @@ void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode)
 }
 
 
-//’¸“_Fæ“¾ŠÖ”
+//é ‚ç‚¹è‰²å–å¾—é–¢æ•°
 void FbxMeshLoader::LoadVertexColor(FbxMesh* pMesh)
 {
-	//’¸“_ƒJƒ‰[ƒZƒbƒg”‚ğæ“¾
+	//é ‚ç‚¹ã‚«ãƒ©ãƒ¼ã‚»ãƒƒãƒˆæ•°ã‚’å–å¾—
 	VertexColorSetMax = pMesh->GetElementVertexColorCount();
 
 	ppVertexColor = new ColorRGBA*[VertexColorSetMax];
@@ -603,10 +603,10 @@ void FbxMeshLoader::LoadVertexColor(FbxMesh* pMesh)
 		pColorCount_ByVertexColorSet[i] = 0;
 	}
 
-	//ƒJƒ‰[ƒZƒbƒg‚Ì”‚¾‚¯ŒJ‚è•Ô‚·
+	//ã‚«ãƒ©ãƒ¼ã‚»ãƒƒãƒˆã®æ•°ã ã‘ç¹°ã‚Šè¿”ã™
 	for (int i = 0; i <VertexColorSetMax; i++)
 	{
-		//’¸“_ƒJƒ‰[ƒZƒbƒg‚ğæ“¾
+		//é ‚ç‚¹ã‚«ãƒ©ãƒ¼ã‚»ãƒƒãƒˆã‚’å–å¾—
 		FbxGeometryElementVertexColor * pColor = pMesh->GetElementVertexColor(i);
 
 		FbxGeometryElement::EMappingMode mappingMode = pColor->GetMappingMode();
@@ -634,9 +634,9 @@ void FbxMeshLoader::LoadVertexColor(FbxMesh* pMesh)
 
 					case fbxsdk::FbxLayerElement::eIndexToDirect:
 						{
-							//¡‰ñ‚Í‚Ü‚¸ mapping =eByPolygonVertex reference=eIndexToCirect
-							//‚Ì‘g‚İ‡‚í‚¹‚©‚ç‘‚­ 
-							//ÀŒ±—p‚Ìƒtƒ@ƒCƒ‹‚ª‚»‚Ì•Û‘¶Œ`®‚È‚Ì‚Å
+							//ä»Šå›ã¯ã¾ãš mapping =eByPolygonVertex reference=eIndexToCirect
+							//ã®çµ„ã¿åˆã‚ã›ã‹ã‚‰æ›¸ã 
+							//å®Ÿé¨“ç”¨ã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒãã®ä¿å­˜å½¢å¼ãªã®ã§
 
 							FbxLayerElementArrayTemplate<int>* pIndex = &pColor->GetIndexArray();
 
@@ -646,7 +646,7 @@ void FbxMeshLoader::LoadVertexColor(FbxMesh* pMesh)
 
 							ppVertexColor[i] = new ColorRGBA[pColorCount_ByVertexColorSet[i]];
 
-							//’¸“_‚Ì”‚¾‚¯’¸“_ƒJƒ‰[‚ğæ“¾
+							//é ‚ç‚¹ã®æ•°ã ã‘é ‚ç‚¹ã‚«ãƒ©ãƒ¼ã‚’å–å¾—
 							for (int j = 0; j < pColorCount_ByVertexColorSet[i]; j++)
 							{
 

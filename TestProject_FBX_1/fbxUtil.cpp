@@ -1,10 +1,10 @@
-#include "fbxUtil.h"
+﻿#include "fbxUtil.h"
 #include "fbxMeshLoader.h"
 #include <iomanip>
 
 void ProbeNode(FbxNode* pNode,int depth)
 {
-	//�m�[�h�T���֐�
+	//ノード探査関数
 	if (pNode)
 	{
 		int childCount = pNode->GetChildCount();
@@ -47,9 +47,9 @@ void ProbeNode(FbxNode* pNode,int depth)
 
 bool IsMesh(FbxNode* pNode)
 {
-	//�m�[�h�����b�V���Ɍq�����Ă��邩
+	//ノードがメッシュに繋がっているか
 
-	//�m�[�h�ɂ͕����̃A�g���r���[�g���q�����Ă��邽�߁A���̌����`�F�b�N����
+	//ノードには複数のアトリビュートが繋がっているため、その個数分チェックする
 
 	if (pNode)
 	{
