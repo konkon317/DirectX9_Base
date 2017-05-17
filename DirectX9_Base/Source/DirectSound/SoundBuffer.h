@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #pragma comment(lib,"dsound.lib")
 #pragma comment(lib,"d3dxof.lib")
@@ -13,7 +13,7 @@ class WaveFile;
 class SoundBuffer
 {
 private :
-	IDirectSoundBuffer8 *pSecondaryBuffer;//ƒZƒJƒ“ƒ_ƒŠƒoƒbƒtƒ@
+	IDirectSoundBuffer8 *pSecondaryBuffer;//ã‚»ã‚«ãƒ³ãƒ€ãƒªãƒãƒƒãƒ•ã‚¡
 
 public :
 	SoundBuffer();

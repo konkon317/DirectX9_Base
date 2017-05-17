@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #define DIRECTSOUND_VERSION 0x800
 
@@ -19,7 +19,7 @@ class DirectSound : public Singleton<DirectSound>
 	friend class Singleton<DirectSound>;
 
 private :
-	IDirectSound8* pDirectSound8;//ƒTƒEƒ“ƒhƒfƒoƒCƒX
+	IDirectSound8* pDirectSound8;//ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒã‚¤ã‚¹
 
 	DirectSound();
 	~DirectSound();
@@ -27,7 +27,7 @@ private :
 	void Release();
 
 public :
-	bool Create(HWND hWnd);//ƒfƒoƒCƒXì¬
+	bool Create(HWND hWnd);//ãƒ‡ãƒã‚¤ã‚¹ä½œæˆ
 
 	const IDirectSound8* GetDevice(){ return pDirectSound8; }
 

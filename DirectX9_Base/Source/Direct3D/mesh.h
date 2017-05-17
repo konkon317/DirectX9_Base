@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Direct3D.h"
 class Camera;
@@ -10,7 +10,7 @@ class Mesh
 
 private:
 	LPD3DXMESH pMesh;
-	DWORD	   numMaterials;//ƒ}ƒeƒŠƒAƒ‹‚ÌŒÂ”
+	DWORD	   numMaterials;//ãƒãƒ†ãƒªã‚¢ãƒ«ã®å€‹æ•°
 
 	LPDIRECT3DTEXTURE9* ppTextures;
 	D3DMATERIAL9 *      pMaterials;

@@ -1,4 +1,4 @@
-#include "MainScene.h"
+ï»¿#include "MainScene.h"
 
 #include "../../Input/directInput.h"
 #include "../../Input/XInput.h"
@@ -124,7 +124,7 @@ void MainScene::Update()
 	if (OrientedBoundingBox::Collision(*(pGameObject[0]->GetObb()), *(pGameObject[1]->GetObb())))
 	{
 		int a = 0;
-		//	MessageBox(NULL, "ƒqƒbƒg", TEXT("ƒoƒEƒfƒBƒ“ƒOƒ{ƒbƒNƒX"), MB_OK);
+		//	MessageBox(NULL, "ãƒ’ãƒƒãƒˆ", TEXT("ãƒã‚¦ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹"), MB_OK);
 	}
 }
 

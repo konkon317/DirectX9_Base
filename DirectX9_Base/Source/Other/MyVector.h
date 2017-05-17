@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 class Vector2
 {
@@ -22,7 +22,7 @@ public:
 	int Y()const{ return y; }
 
 
-	//ˆÈ‰º‰‰Zq‚ÌƒI[ƒo[ƒ[ƒh
+	//ä»¥ä¸‹æ¼”ç®—å­ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	const Vector2 operator +(const Vector2& other)const
 	{
 		Vector2 temp;

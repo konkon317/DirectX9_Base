@@ -1,4 +1,4 @@
-#include "mesh.h"
+ï»¿#include "mesh.h"
 
 
 Mesh::Mesh()
@@ -27,25 +27,25 @@ void Mesh::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D
 {
 	D3DXMATRIXA16 matWorld;
 
-	//À•W@Šg‘å@‰ñ“]@‚ğ•Û‚·‚és—ñ
+	//åº§æ¨™ã€€æ‹¡å¤§ã€€å›è»¢ã€€ã‚’ä¿æŒã™ã‚‹è¡Œåˆ—
 	D3DXMATRIXA16 mat_temp;
 
-	//’PˆÊs—ñ‚É‰Šú‰»
+	//å˜ä½è¡Œåˆ—ã«åˆæœŸåŒ–
 	D3DXMatrixIdentity(&matWorld);
 	
 	D3DXMatrixIdentity(&mat_temp);
 
-	////ƒ‚ƒfƒ‹‚Ì”z’u
+	////ãƒ¢ãƒ‡ãƒ«ã®é…ç½®
 	//static float testx = 0.0f;
 	////testx += 0.01f;
 	
-	////ƒ‚ƒfƒ‹‚ÌŠg‘å—¦
+	////ãƒ¢ãƒ‡ãƒ«ã®æ‹¡å¤§ç‡
 	//static float testScaleY = 0;
 	//testScaleY += 0.005f;
 	
 
-	D3DXMatrixMultiply(&mat_temp, &mat_scale, &mat_rotate);   //ˆês—ñ‚ÉŠg‘å—¦ ‰ñ“]‚ğ‡¬‚µ‚½‚à‚Ì‚ğ‘ã“ü
-	D3DXMatrixMultiply(&matWorld, &mat_temp, &mat_transform); //ˆês—ñ‚ÆÀ•W‚ğ‡¬
+	D3DXMatrixMultiply(&mat_temp, &mat_scale, &mat_rotate);   //ä¸€æ™‚è¡Œåˆ—ã«æ‹¡å¤§ç‡ å›è»¢ã‚’åˆæˆã—ãŸã‚‚ã®ã‚’ä»£å…¥
+	D3DXMatrixMultiply(&matWorld, &mat_temp, &mat_transform); //ä¸€æ™‚è¡Œåˆ—ã¨åº§æ¨™ã‚’åˆæˆ
 
 
 	

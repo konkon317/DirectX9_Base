@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "GameObject.h"
 #include "../Direct3D/mesh.h"
@@ -8,19 +8,19 @@ class GameObject3D : public GameObject
 { 
 protected:
 
-	//À•W
+	//åº§æ¨™
 	D3DXVECTOR3 position;
 
-	//Še•ûŒü‚ÌƒxƒNƒgƒ‹
+	//å„æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«
 	D3DXVECTOR3 forwardVector;
 	D3DXVECTOR3 rightVector;
 	D3DXVECTOR3 upVector;
 
-	//y²‚ğ’†S‚Æ‚µ‚½‰ñ“]“x
-	//‚»‚Ì‘¼‚Ì²‚Í¡‚Ì‚Æ‚±‚ëg—p‚µ‚È‚¢
+	//yè»¸ã‚’ä¸­å¿ƒã¨ã—ãŸå›è»¢åº¦
+	//ãã®ä»–ã®è»¸ã¯ä»Šã®ã¨ã“ã‚ä½¿ç”¨ã—ãªã„
 	float rotateYaw_Rad;
 
-	//ƒƒbƒVƒ…ƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã‚¯ãƒ©ã‚¹ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 	Mesh* pMesh;
 
 	OrientedBoundingBox obb;
@@ -44,37 +44,37 @@ public :
 
 	void SetMesh(Mesh* pMesh_){ if (pMesh_ != nullptr)pMesh = pMesh_; }
 
-	//³–Ê@ã@‰E•ûŒü‚ÌƒxƒNƒgƒ‹‚ğXV
+	//æ­£é¢ã€€ä¸Šã€€å³æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ›´æ–°
 	void UpdateVectors();
 
-	//y²‚ğ’†S‚Æ‚µ‚½‰ñ“]‚ğƒZƒbƒg
+	//yè»¸ã‚’ä¸­å¿ƒã¨ã—ãŸå›è»¢ã‚’ã‚»ãƒƒãƒˆ
 	void SetRotateYaw(float yawRad){ rotateYaw_Rad = yawRad; UpdateVectors(); };
 
-	//À•W‚ğİ’è
+	//åº§æ¨™ã‚’è¨­å®š
 	void SetPosition(float x, float y, float z){ position.x = x; position.y = y; position.z = 0; }
 
-	//‰ñ“]“xæ“¾
+	//å›è»¢åº¦å–å¾—
 	float GetRotateYaw_rad(){ return rotateYaw_Rad; }
 
-	//À•Wæ“¾
+	//åº§æ¨™å–å¾—
 	D3DXVECTOR3 GetPosition(){ return position; }
 
-	//ƒoƒEƒ“ƒfƒBƒ“ƒ“ƒOƒ{ƒbƒNƒXæ“¾
+	//ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹å–å¾—
 	OrientedBoundingBox* GetObb(){ return &obb; }
 
-	//³–Ê•ûŒü‚Ö‚ÌƒxƒNƒgƒ‹
+	//æ­£é¢æ–¹å‘ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
 	D3DXVECTOR3 GetForwardVector()
 	{ 
 		return forwardVector;
 	}
 
-	//‰E•ûŒü‚Ö‚ÌƒxƒNƒgƒ‹
+	//å³æ–¹å‘ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
 	D3DXVECTOR3 GetRightVector()
 	{		
 		return rightVector;
 	}
 
-	//ã•ûŒü‚Ö‚ÌƒxƒNƒgƒ‹
+	//ä¸Šæ–¹å‘ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
 	D3DXVECTOR3 GetUpVector()
 	{	
 		return upVector;

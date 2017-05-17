@@ -1,6 +1,6 @@
-#include "texture.h"
+ï»¿#include "texture.h"
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Texture::Texture()
 {
 	pTexture = nullptr;
@@ -11,10 +11,10 @@ Texture::Texture()
 	numV = 0;
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Texture::~Texture()
 {
-	//“Ç‚İ‚Ü‚ê‚Ä‚¢‚½‚ç”jŠü
+	//èª­ã¿è¾¼ã¾ã‚Œã¦ã„ãŸã‚‰ç ´æ£„
 	if (pTexture != nullptr)
 	{
 		pTexture->Release();
@@ -25,10 +25,10 @@ bool Texture::Load(TCHAR* FileName)
 {
 	Direct3D& d3d =Direct3D::GetInstance();
 
-	return d3d.LoadTexture(*this, FileName);//“Ç‚İ‚İ
+	return d3d.LoadTexture(*this, FileName);//èª­ã¿è¾¼ã¿
 }
 
-//ƒeƒNƒXƒ`ƒƒ‚ğc‰¡‰½•ªŠ„‚µ‚Ä—˜—p‚·‚é‚©‚ğİ’è
+//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç¸¦æ¨ªä½•åˆ†å‰²ã—ã¦åˆ©ç”¨ã™ã‚‹ã‹ã‚’è¨­å®š
 void Texture::SetDivide(unsigned int DivU, unsigned int DivV)
 {
 	if (DivU <= 0 || DivV <= 0)
@@ -40,7 +40,7 @@ void Texture::SetDivide(unsigned int DivU, unsigned int DivV)
 	divV = DivV;
 }
 
-//•ªŠ„‚µ‚½ƒeƒNƒXƒ`ƒƒ‚Ìc‰¡‰½”Ô–Ú‚ğg‚¤‚©‚ğw’è
+//åˆ†å‰²ã—ãŸãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¸¦æ¨ªä½•ç•ªç›®ã‚’ä½¿ã†ã‹ã‚’æŒ‡å®š
 void Texture::SetUVNum(unsigned int NumU, unsigned int NumV)
 {
 	if (NumU >= divU)return;

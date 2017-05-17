@@ -1,18 +1,18 @@
-#include "DirectSound.h"
+ï»¿#include "DirectSound.h"
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 DirectSound::DirectSound()
 {
 	pDirectSound8 = nullptr;
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 DirectSound::~DirectSound()
 {
 	Release();
 }
 
-//ŠJ•ú
+//é–‹æ”¾
 void DirectSound::Release()
 {
 	if (pDirectSound8 != nullptr)
@@ -22,19 +22,19 @@ void DirectSound::Release()
 	}
 }
 
-//ƒTƒEƒ“ƒhƒfƒoƒCƒX‚Ìì¬‚Æ‹¦’²ƒŒƒxƒ‹‚ÌÝ’è
+//ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ã®ä½œæˆã¨å”èª¿ãƒ¬ãƒ™ãƒ«ã®è¨­å®š
 bool DirectSound::Create(HWND hWnd)
 { 
-	//ƒfƒoƒCƒXì¬
+	//ãƒ‡ãƒã‚¤ã‚¹ä½œæˆ
 	if(FAILED(DirectSoundCreate8(NULL, &pDirectSound8, NULL)))
 	{
-		//ì»Ž¸”s
+		//ä½œè£½å¤±æ•—
 		Release();
 		return false;
 	}
 
-	//‹¦’²ƒŒƒxƒ‹‚ÌÝ’è@
-	//‚Ü‚½@‰¹‚ð–Â‚ç‚·ƒEƒBƒ“ƒhƒE‚ÌÝ’è
+	//å”èª¿ãƒ¬ãƒ™ãƒ«ã®è¨­å®šã€€
+	//ã¾ãŸã€€éŸ³ã‚’é³´ã‚‰ã™ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®è¨­å®š
 	if (FAILED(pDirectSound8->SetCooperativeLevel(hWnd, DSSCL_PRIORITY)))
 	{
 		Release();
@@ -50,7 +50,7 @@ HRESULT DirectSound::CreateSoundBuffer(DSBUFFERDESC* pDesc, IDirectSoundBuffer**
 {
 	if (pDirectSound8 == nullptr)
 	{
-		//ƒfƒoƒCƒX‚ªì¬‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßŽ¸”s
+		//ãƒ‡ãƒã‚¤ã‚¹ãŒä½œæˆã•ã‚Œã¦ã„ãªã„ãŸã‚å¤±æ•—
 		return S_FALSE;
 	}
 	HRESULT hr=pDirectSound8->CreateSoundBuffer(pDesc, ppBuffer,NULL);

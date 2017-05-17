@@ -1,4 +1,4 @@
-#include "GameObject3D.h"
+ï»¿#include "GameObject3D.h"
 
 GameObject3D::GameObject3D()
 {
@@ -47,21 +47,21 @@ void GameObject3D::Draw()
 	{
 		D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
 
-		D3DXMatrixTranslation(&mat_transform,position.x,position.y,position.z);	//À•W
-		D3DXMatrixScaling(&mat_scale, 1.0f, 1.0f, 1.0f);		//Šg‘å
+		D3DXMatrixTranslation(&mat_transform,position.x,position.y,position.z);	//åº§æ¨™
+		D3DXMatrixScaling(&mat_scale, 1.0f, 1.0f, 1.0f);		//æ‹¡å¤§
 
-		D3DXMatrixRotationY(&mat_rotate, -rotateYaw_Rad + D3DX_PI);	//‰ñ“]@iy²’†Sj		
+		D3DXMatrixRotationY(&mat_rotate, -rotateYaw_Rad + D3DX_PI);	//å›è»¢ã€€ï¼ˆyè»¸ä¸­å¿ƒï¼‰		
 
 		pMesh->DrawMatrice(mat_transform, mat_scale, mat_rotate);
 
-		//ˆÈ‰ºÀŒ±
+		//ä»¥ä¸‹å®Ÿé¨“
 
 	}
 
 }
 
 
-//³–Ê@ã@‰E•ûŒü‚ÌƒxƒNƒgƒ‹‚ğXV
+//æ­£é¢ã€€ä¸Šã€€å³æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ›´æ–°
 void GameObject3D::UpdateVectors()
 {
 	
@@ -69,7 +69,7 @@ void GameObject3D::UpdateVectors()
 	
 	D3DXVECTOR3 v;
 
-	//‰E
+	//å³
 	v.x = cos(rad);
 	v.z = sin(rad);
 	v.y = 0;
@@ -77,13 +77,13 @@ void GameObject3D::UpdateVectors()
 
 	rad += D3DX_PI / 2;
 
-	//‘O
+	//å‰
 	v.x = cos(rad);
 	v.z = sin(rad);
 	v.y = 0;
 	forwardVector = v;
 
-	//ã
+	//ä¸Š
 	v.x = v.z = 0;
 	v.y = 1;
 	upVector = v;

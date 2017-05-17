@@ -1,6 +1,6 @@
-#pragma once 
+ï»¿#pragma once 
 
-#define D3D_DEBUG_INFO	//Direct3DƒfƒoƒbƒOƒtƒ‰ƒO
+#define D3D_DEBUG_INFO	//Direct3Dãƒ‡ãƒãƒƒã‚°ãƒ•ãƒ©ã‚°
 
 #define D3DFVF_LINE_VERTEX D3DFVF_XYZ|D3DFVF_DIFFUSE
 
@@ -21,11 +21,11 @@
 
 enum RENDERSTATE
 {
-	RENDER_DEFAULT,		//ƒfƒtƒHƒ‹ƒg
-	RENDER_ALPHATEST,	//ƒ¿ƒeƒXƒg
+	RENDER_DEFAULT,		//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
+	RENDER_ALPHATEST,	//Î±ãƒ†ã‚¹ãƒˆ
 	RENDER_ALPHABLEND,
-	RENDER_HALFADD,		//”¼‰ÁZ‡¬
-	RENDER_ADD,		//‰ÁZ‡¬
+	RENDER_HALFADD,		//åŠåŠ ç®—åˆæˆ
+	RENDER_ADD,		//åŠ ç®—åˆæˆ
 
 	RENDER_MESH
 };
@@ -48,11 +48,11 @@ class Direct3D : public Singleton<Direct3D>
 	friend class Singleton<Direct3D>;
 
 public :
-	typedef void(*FuncPointer)();//ŠÖ”ƒ|ƒCƒ“ƒ^‚ÌŒ^’è‹`
+	typedef void(*FuncPointer)();//é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®å‹å®šç¾©
 
 public:	
 	
-	//ƒfƒoƒCƒXì¬‚ğ‚İ‚é
+	//ãƒ‡ãƒã‚¤ã‚¹ä½œæˆã‚’è©¦ã¿ã‚‹
 	bool TryCreate(HWND hWmd);
 
 	static void Render();
@@ -66,7 +66,7 @@ public:
 	void LoadMesh(Mesh& mesh,TCHAR* path);
 	void DrawMesh(Mesh& mesh, D3DXMATRIXA16& worldMat);
 
-	//ƒXƒvƒ‰ƒCƒg‚Ì•\¦
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®è¡¨ç¤º
 	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);
 	static void DrawSprite(Sprite& sprite, bool isTurn = false);
 	void SetDrawFunc(FuncPointer pointer);
@@ -74,22 +74,22 @@ public:
 	void DrawLine(LINE_VERTEX* pVertex, int count);
 
 private:
-	IDirect3D9*	pD3D9 = nullptr;				//Direct3DƒfƒoƒCƒX¶¬—pƒIƒuƒWƒFƒNƒg
-	IDirect3DDevice9* pDevice3D = nullptr;		//Direct3D‚ÌƒfƒoƒCƒX@ƒXƒvƒ‰ƒCƒg‚Ì•\¦‚âƒeƒNƒXƒ`ƒƒ‚Ìƒ[ƒh‚É•K—v
+	IDirect3D9*	pD3D9 = nullptr;				//Direct3Dãƒ‡ãƒã‚¤ã‚¹ç”Ÿæˆç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	IDirect3DDevice9* pDevice3D = nullptr;		//Direct3Dã®ãƒ‡ãƒã‚¤ã‚¹ã€€ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®è¡¨ç¤ºã‚„ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ­ãƒ¼ãƒ‰æ™‚ã«å¿…è¦
 
 	static RENDERSTATE currentState;
 
-	//ƒfƒoƒCƒXì¬
+	//ãƒ‡ãƒã‚¤ã‚¹ä½œæˆ
 	bool Create(HWND hWmd);
 
 	bool isDeviceCreated ;
 	bool IsDeviceCreated(){ return isDeviceCreated; }
 
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^@ƒfƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€€ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Direct3D();
 	~Direct3D();
 
-	FuncPointer DrawFunc;//ŠÖ”ƒ|ƒCƒ“ƒ^
+	FuncPointer DrawFunc;//é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
 	void TryCallDrawFunc();
 	
 

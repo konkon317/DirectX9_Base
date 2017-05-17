@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 #include "../Template/Singleton.h"
 
 #include <Xinput.h>
 #pragma comment(lib,"xinput.lib")
 
-//ƒ{ƒ^ƒ“‚Æ”z—ñ@“Y‚¦š‚ÌŠÖŒW
+//ãƒœã‚¿ãƒ³ã¨é…åˆ—ã€€æ·»ãˆå­—ã®é–¢ä¿‚
 #define GAMEPAD_DPAD_UP			0
 #define GAMEPAD_DPAD_DOWN		1
 #define GAMEPAD_DPAD_LEFT		2
@@ -28,7 +28,7 @@
 #define TRIGGER_RIGHT	1
 
 
-//ƒXƒeƒBƒbƒN‚ÌŒX‚«@-1~1
+//ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å‚¾ãã€€-1~1
 struct  Stick
 {
 	float x;
@@ -36,75 +36,75 @@ struct  Stick
 };
 
 
-//4‚Â‚ÌƒRƒ“ƒgƒ[ƒ‰“ü—Í‚ğ‚Ü‚Æ‚ß‚ÄŠÇ—
+//4ã¤ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©å…¥åŠ›ã‚’ã¾ã¨ã‚ã¦ç®¡ç†
 class XInput :public Singleton<XInput>
 {
 
-	//ƒCƒ“ƒi[ƒNƒ‰ƒX 
-	//‚Ğ‚Æ‚Â‚ÌƒRƒ“ƒgƒ[ƒ‰‚Ì“ü—Íó‘Ô
-	//private‚ÅéŒ¾‚µ‚Ä‚¢‚é‚Ì‚Å
-	//‚±‚ÌƒNƒ‰ƒXŠO‚©‚ç‚ÍˆêØƒAƒNƒZƒX‚Å‚«‚È‚¢
+	//ã‚¤ãƒ³ãƒŠãƒ¼ã‚¯ãƒ©ã‚¹ 
+	//ã²ã¨ã¤ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã®å…¥åŠ›çŠ¶æ…‹
+	//privateã§å®£è¨€ã—ã¦ã„ã‚‹ã®ã§
+	//ã“ã®ã‚¯ãƒ©ã‚¹å¤–ã‹ã‚‰ã¯ä¸€åˆ‡ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„
 	class  GamePadState
 	{
-		//ƒ{ƒ^ƒ“”Ô†‚Æƒ}ƒXƒN‚ÌŠÖŒW
+		//ãƒœã‚¿ãƒ³ç•ªå·ã¨ãƒã‚¹ã‚¯ã®é–¢ä¿‚
 		static int ButtonCode[14];
 
-		//‚»‚ê‚¼‚ê‚Ìƒ{ƒ^ƒ“‚Ì‰Ÿ‚³‚ê‘±‚¯‚½ƒtƒŒ[ƒ€”
+		//ãã‚Œãã‚Œã®ãƒœã‚¿ãƒ³ã®æŠ¼ã•ã‚Œç¶šã‘ãŸãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 		int buttonCount[14];
 		int buttonCountPrev[14];
 
-		//ƒRƒ“ƒgƒ[ƒ‰‚ªÚ‘±‚³‚ê‚Ä‚¢‚é‚©
+		//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãŒæ¥ç¶šã•ã‚Œã¦ã„ã‚‹ã‹
 		bool conected;
 
-		//ƒgƒŠƒK[ƒ{ƒ^ƒ“‚Ì“ü—Íó‘Ô 0~1
+		//ãƒˆãƒªã‚¬ãƒ¼ãƒœã‚¿ãƒ³ã®å…¥åŠ›çŠ¶æ…‹ 0~1
 		float trigger[2];
 
-		//ƒXƒeƒBƒbƒN‚ÌŒX‚«
+		//ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å‚¾ã
 		Stick stick[2];		
 
-		//“ü—Íó‘Ô@‰ÁH‘O
+		//å…¥åŠ›çŠ¶æ…‹ã€€åŠ å·¥å‰
 		XINPUT_STATE state;
 
 	public:
 		GamePadState();
 		~GamePadState();
 
-		//ó‘Ô‚ÌXV
+		//çŠ¶æ…‹ã®æ›´æ–°
 		void Update(int PadNum);
 
-		//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½uŠÔ
+		//ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸç¬é–“
 		bool GetButtonDown(int buttonNum);
 
-		//ƒ{ƒ^ƒ“‚ª—£‚³‚ê‚½uŠÔ
+		//ãƒœã‚¿ãƒ³ãŒé›¢ã•ã‚ŒãŸç¬é–“
 		bool GetButtonRelease(int ButtunNum);
 
-		//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‘±‚¯‚½ƒtƒŒ[ƒ€”
+		//ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œç¶šã‘ãŸãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 		int GetButtonCount(int ButtonNum);
 
-		//ƒgƒŠƒK[‚Ì“ü—Íó‘Ô
+		//ãƒˆãƒªã‚¬ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹
 		float GetTrigger(int TriggerNum);
 
-		//ƒRƒ“ƒgƒ[ƒ‰‚ÌÚ‘±
+		//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã®æ¥ç¶š
 		bool Conected(){ return conected; }
 
-		//ƒXƒeƒBƒbƒN‚ÌŒX‚«ó‘Ô
+		//ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å‚¾ãçŠ¶æ…‹
 		Stick GetStick(int stickNum);
 
 	};
 
 
-	//eƒNƒ‰ƒX‚©‚çnew ‚Å‚«‚é‚æ‚¤‚É‚·‚é
+	//è¦ªã‚¯ãƒ©ã‚¹ã‹ã‚‰new ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 	friend class Singleton<XInput>;
 
 private:
 
-	//ƒRƒ“ƒgƒ[ƒ‰‚Ì“ü—Íó‘Ô
-	//ƒRƒ“ƒgƒ[ƒ‰‚Ì”‚¾‚¯
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã®å…¥åŠ›çŠ¶æ…‹
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã®æ•°ã ã‘
 	GamePadState state[4];
 
 public :
 
-	//ó‘Ô‚ÌXV
+	//çŠ¶æ…‹ã®æ›´æ–°
 	void Update();
 
 
@@ -116,18 +116,18 @@ private:
 
 public:
 
-	//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½uŠÔ
+	//ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸç¬é–“
 	bool GetButtonDown(int padNum, int buttonNum);
-	//ƒ{ƒ^ƒ“‚ª—£‚³‚ê‚½uŠÔ
+	//ãƒœã‚¿ãƒ³ãŒé›¢ã•ã‚ŒãŸç¬é–“
 	bool GetButtonRelease(int padNum, int buttonNum);
 
-	//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‘±‚¯‚½ƒtƒŒ[ƒ€”
+	//ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œç¶šã‘ãŸãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 	int GetButtonCount(int padNum, int buttonNum);
 
-	//ƒgƒŠƒK[‚Ì“ü—Íó‘Ô
+	//ãƒˆãƒªã‚¬ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹
 	float GetTrigger(int padNum,int TriggerNum);
 
-	//ƒXƒeƒBƒbƒN‚ÌŒX‚«ó‘Ô
+	//ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å‚¾ãçŠ¶æ…‹
 	Stick GetStick(int padNum,int stickNum);
 
 };

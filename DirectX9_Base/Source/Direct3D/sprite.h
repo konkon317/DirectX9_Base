@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Direct3D.h"
 
@@ -8,16 +8,16 @@ struct AnimationNum
 	unsigned int numV;
 };
 
-//”Âƒ|ƒŠƒSƒ“’¸“_î•ñ@
-//MSDN’¸“_ƒtƒH[ƒ}ƒbƒg‚ğQÆ FVF‚Ìİ’è‚É‚æ‚Á‚ÄŒ^A”A‡”Ô‚ªŒˆ‚Ü‚é
+//æ¿ãƒãƒªã‚´ãƒ³é ‚ç‚¹æƒ…å ±ã€€
+//MSDNé ‚ç‚¹ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’å‚ç…§ FVFã®è¨­å®šã«ã‚ˆã£ã¦å‹ã€æ•°ã€é †ç•ªãŒæ±ºã¾ã‚‹
 struct SpriteVertex
 {
-	float x, y, z;	//3ŸŒ³À•W
-	float rhw;		//2D•ÏŠ·Ï‚İƒtƒ‰ƒO ƒXƒNƒŠ[ƒ“À•W
+	float x, y, z;	//3æ¬¡å…ƒåº§æ¨™
+	float rhw;		//2Då¤‰æ›æ¸ˆã¿ãƒ•ãƒ©ã‚° ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™
 
 	DWORD colorDefuse;
 
-	float u, v;		//UVÀ•W
+	float u, v;		//UVåº§æ¨™
 
 };
 
@@ -26,25 +26,25 @@ class Sprite
 	friend class Direct3D;
 public:
 	
-	//FVF(_“î‚È’¸“_\‘¢‘ÌéŒ¾)
+	//FVF(æŸ”è»Ÿãªé ‚ç‚¹æ§‹é€ ä½“å®£è¨€)
 	static const DWORD SPRITE_FVF = D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1;
 
 private:
 	D3DXVECTOR2 pos;
 
-	//ƒXƒvƒ‰ƒCƒgƒTƒCƒY
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚µã‚¤ã‚º
 	int width;
 	int height;
 	
-	//‰ñ“]’l(ƒ‰ƒWƒAƒ“)
+	//å›è»¢å€¤(ãƒ©ã‚¸ã‚¢ãƒ³)
 	float rotate;
 
 	float alpha;
 public :
 
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Sprite();
-	//~ƒfƒXƒgƒ‰ƒNƒ^
+	//~ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~Sprite();
 
 	void SetPos(float x, float y);

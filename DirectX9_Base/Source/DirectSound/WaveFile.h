@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 
 #pragma comment(lib,"dsound.lib")
@@ -13,22 +13,22 @@
 
 class WaveFile
 {
-	//soundbuffer‹ó‚Í•Ï”‚É©—R‚ÉƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤‚É‚·‚é
+	//soundbufferç©ºã¯å¤‰æ•°ã«è‡ªç”±ã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 	friend class SoundBuffer;
 
 private:
 	WAVEFORMATEX waveFormat;
-	byte*		 waveData;//”gŒ`ƒf[ƒ^
-	int			 dataSize;//”gŒ`ƒf[ƒ^‚ÌƒTƒCƒY
+	byte*		 waveData;//æ³¢å½¢ãƒ‡ãƒ¼ã‚¿
+	int			 dataSize;//æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ã‚º
 
 
 
 public:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	WaveFile();
 	~WaveFile();
 
-	//ƒ[ƒh
+	//ãƒ­ãƒ¼ãƒ‰
 	bool Load(TCHAR* FilePath);
 
 	void Release();

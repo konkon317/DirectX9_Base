@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <Windows.h>
 
@@ -13,19 +13,19 @@
 #include "../Template/Singleton.h"
 
 
-static const TCHAR * WC_BASIC = _T("Basic");	//Šî–{ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX–¼
+static const TCHAR * WC_BASIC = _T("Basic");	//åŸºæœ¬ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹å
 
 class Application :public Singleton<Application>
 {
 	friend class Singleton<Application>;
 
 public:
-	typedef void(*FuncPointer)();//ŠÖ”ƒ|ƒCƒ“ƒ^‚ÌŒ^’è‹`
+	typedef void(*FuncPointer)();//é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®å‹å®šç¾©
 
-//•Ï”
+//å¤‰æ•°
 private:
-	static HINSTANCE hInstance;	//ƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
-	HWND hWnd;					//ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
+	static HINSTANCE hInstance;	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«
+	HWND hWnd;					//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
 
 	static const DWORD FPS;
 	static const DWORD miriSecondPerFrame;
@@ -34,22 +34,22 @@ private:
 
 	FuncPointer updateFunc;
 
-//ŠÖ”
+//é–¢æ•°
 public :
 
-	static bool RegistBasicWindowClass();		//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ì’è‹`‚Æì¬
+	static bool RegistBasicWindowClass();		//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®å®šç¾©ã¨ä½œæˆ
 
-	bool CreateWind(							//@–ß‚è’l@true ¬Œ÷   false ì¬¸”s
-		const TCHAR	*Title,						//@ƒ^ƒCƒgƒ‹
-		int		Width = CW_USEDEFAULT,			//@•
-		int		Height = CW_USEDEFAULT,			//@‚‚³
-		int		X = CW_USEDEFAULT,				//@XÀ•W
-		int		Y = CW_USEDEFAULT,				//@YÀ•W
-		HWND	hParentWnd = NULL,				//@eƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
-		HMENU	hMenu = NULL,					//	ƒƒjƒ…[ƒnƒ“ƒhƒ‹@‚à‚µ‚­‚ÍƒŠƒ\[ƒXID
-		const	TCHAR* ClassName = WC_BASIC,	//	ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX–¼
-		DWORD	Style = (WS_OVERLAPPEDWINDOW^WS_THICKFRAME^WS_MAXIMIZEBOX) | WS_CLIPCHILDREN | WS_VISIBLE,		//	ƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹
-		DWORD	ExStyle = 0						//	ƒEƒBƒ“ƒhƒEŠg’£ƒXƒ^ƒCƒ‹
+	bool CreateWind(							//ã€€æˆ»ã‚Šå€¤ã€€true æˆåŠŸ   false ä½œæˆå¤±æ•—
+		const TCHAR	*Title,						//ã€€ã‚¿ã‚¤ãƒˆãƒ«
+		int		Width = CW_USEDEFAULT,			//ã€€å¹…
+		int		Height = CW_USEDEFAULT,			//ã€€é«˜ã•
+		int		X = CW_USEDEFAULT,				//ã€€Xåº§æ¨™
+		int		Y = CW_USEDEFAULT,				//ã€€Yåº§æ¨™
+		HWND	hParentWnd = NULL,				//ã€€è¦ªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+		HMENU	hMenu = NULL,					//	ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ³ãƒ‰ãƒ«ã€€ã‚‚ã—ãã¯ãƒªã‚½ãƒ¼ã‚¹ID
+		const	TCHAR* ClassName = WC_BASIC,	//	ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹å
+		DWORD	Style = (WS_OVERLAPPEDWINDOW^WS_THICKFRAME^WS_MAXIMIZEBOX) | WS_CLIPCHILDREN | WS_VISIBLE,		//	ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«
+		DWORD	ExStyle = 0						//	ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦æ‹¡å¼µã‚¹ã‚¿ã‚¤ãƒ«
 		);
 
 	HWND GetWindowHandle(){ return hWnd; }
@@ -64,8 +64,8 @@ protected:
 
 
 private:
-	Application();		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	~Application();		//ƒfƒXƒgƒ‰ƒNƒ^‚ÌƒI[ƒo[ƒ[ƒh
+	Application();		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	~Application();		//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 
 
 

@@ -1,32 +1,32 @@
-#include "SoundBuffer.h"
+ï»¿#include "SoundBuffer.h"
 #include "WaveFile.h"
 #include "DirectSound.h"
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 SoundBuffer::SoundBuffer()
 {
 	pSecondaryBuffer = nullptr;
 
 }
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 SoundBuffer::~SoundBuffer()
 {
 	Release();
 }
 
-//ŠJ•úˆ—
+//é–‹æ”¾å‡¦ç†
 void SoundBuffer::Release()
 {
 	if (pSecondaryBuffer != nullptr)
 	{
-		Stop();//ŠJ•ú‚·‚éÛ‚É‚ÍÄ¶’âŽ~‚·‚é
+		Stop();//é–‹æ”¾ã™ã‚‹éš›ã«ã¯å†ç”Ÿåœæ­¢ã™ã‚‹
 
 		pSecondaryBuffer->Release();
 		pSecondaryBuffer = nullptr;
 	}
 }
 
-//Ä¶ŠJŽn
+//å†ç”Ÿé–‹å§‹
 void SoundBuffer::Play(bool isLoop)
 {
 	if (pSecondaryBuffer != nullptr)
@@ -36,7 +36,7 @@ void SoundBuffer::Play(bool isLoop)
 	}
 }
 
-//Ä¶’âŽ~
+//å†ç”Ÿåœæ­¢
 void SoundBuffer::Stop()
 {
 	if (pSecondaryBuffer != nullptr)
@@ -47,57 +47,57 @@ void SoundBuffer::Stop()
 
 
 
-//ƒoƒbƒtƒ@ì¬
+//ãƒãƒƒãƒ•ã‚¡ä½œæˆ
 bool SoundBuffer::Create(WaveFile& waveFile)
 {
 	//desc : description
-	DSBUFFERDESC desc = {};//ƒZƒJƒ“ƒ_ƒŠƒoƒbƒtƒ@ì¬—pÝ’è
+	DSBUFFERDESC desc = {};//ã‚»ã‚«ãƒ³ãƒ€ãƒªãƒãƒƒãƒ•ã‚¡ä½œæˆç”¨è¨­å®š
 
-	//ƒ`ƒƒƒ“ƒlƒ‹”‚Å‚Ì•ªŠò
-	//ƒ‚ƒmƒ‰ƒ‹‚Í1ƒ`ƒƒƒ“ƒlƒ‹
-	//ƒXƒeƒŒƒI‚Í2ƒ`ƒƒƒ“ƒlƒ‹
+	//ãƒãƒ£ãƒ³ãƒãƒ«æ•°ã§ã®åˆ†å²
+	//ãƒ¢ãƒŽãƒ©ãƒ«ã¯1ãƒãƒ£ãƒ³ãƒãƒ«
+	//ã‚¹ãƒ†ãƒ¬ã‚ªã¯2ãƒãƒ£ãƒ³ãƒãƒ«
 
 	if (waveFile.waveFormat.nChannels==1)
-	{//ƒ‚ƒmƒ‰ƒ‹
+	{//ãƒ¢ãƒŽãƒ©ãƒ«
 		desc.dwFlags = DSBCAPS_CTRL3D | DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLFREQUENCY |
 			DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_STATIC;
 
 		desc.guid3DAlgorithm = DS3DALG_NO_VIRTUALIZATION;
 	}
 	else
-	{//ƒXƒeƒŒƒI
+	{//ã‚¹ãƒ†ãƒ¬ã‚ª
 		desc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLFREQUENCY |
 			DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_STATIC | DSBCAPS_CTRLPAN;
-		// |DSBCAPS_CTRFX; ƒGƒtƒFƒNƒg‚ð’Ç‰Á‚·‚é‚ÆDuplicate‚Å‚«‚È‚¢
+		// |DSBCAPS_CTRFX; ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã¨Duplicateã§ããªã„
 
 		desc.guid3DAlgorithm = GUID_NULL;
 	}
 
 	desc.dwSize = sizeof(DSBUFFERDESC);
-	desc.dwBufferBytes = waveFile.dataSize;//‰¹ƒf[ƒ^ƒTƒCƒY
-	desc.lpwfxFormat = &waveFile.waveFormat;//ƒtƒH[ƒ}ƒbƒgŽw’è
+	desc.dwBufferBytes = waveFile.dataSize;//éŸ³ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚º
+	desc.lpwfxFormat = &waveFile.waveFormat;//ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆæŒ‡å®š
 
-	//ƒfƒoƒCƒXŽæ“¾
+	//ãƒ‡ãƒã‚¤ã‚¹å–å¾—
 	DirectSound & directSound = DirectSound::GetInstance();
 
-	//ƒTƒEƒ“ƒhƒoƒbƒtƒ@
+	//ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒƒãƒ•ã‚¡
 	IDirectSoundBuffer* pBuffer = nullptr;
 
-	//ƒvƒ‰ƒCƒ}ƒŠƒoƒbƒtƒ@ì»
+	//ãƒ—ãƒ©ã‚¤ãƒžãƒªãƒãƒƒãƒ•ã‚¡ä½œè£½
 	if (directSound.CreateSoundBuffer(&desc,&pBuffer))
 	{
-		//“n‚³‚ê‚½waveƒf[ƒ^‚É–â‘è‚ª‚ ‚é
-		//‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢‚©
-		//ƒ[ƒhŽ¸”s
-		//‚Ì‰Â”\«
+		//æ¸¡ã•ã‚ŒãŸwaveãƒ‡ãƒ¼ã‚¿ã«å•é¡ŒãŒã‚ã‚‹
+		//åˆæœŸåŒ–ã•ã‚Œã¦ã„ãªã„ã‹
+		//ãƒ­ãƒ¼ãƒ‰å¤±æ•—
+		//ã®å¯èƒ½æ€§
 
 		return false;
 	}
 
-	//ƒTƒEƒ“ƒhƒoƒbƒtƒ@‚©‚çƒZƒJƒ“ƒ_ƒŠƒoƒbƒtƒ@ì¬
-	//IDirectSoundBuffer‚©‚ç IDirectSoundBuffer8‚É•ÏŠ·‚·‚é
+	//ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰ã‚»ã‚«ãƒ³ãƒ€ãƒªãƒãƒƒãƒ•ã‚¡ä½œæˆ
+	//IDirectSoundBufferã‹ã‚‰ IDirectSoundBuffer8ã«å¤‰æ›ã™ã‚‹
 	pBuffer->QueryInterface(IID_IDirectSoundBuffer8,(void **)&pSecondaryBuffer);
-	pBuffer->Release();//ƒZƒJƒ“ƒ_ƒŠƒoƒbƒtƒ@‚ªì¬o—ˆ‚ê‚Îƒoƒbƒtƒ@‚Í”jŠü‚µ‚Ä\‚í‚È‚¢
+	pBuffer->Release();//ã‚»ã‚«ãƒ³ãƒ€ãƒªãƒãƒƒãƒ•ã‚¡ãŒä½œæˆå‡ºæ¥ã‚Œã°ãƒãƒƒãƒ•ã‚¡ã¯ç ´æ£„ã—ã¦æ§‹ã‚ãªã„
 
 
 	unsigned char *block1 = nullptr;
@@ -105,13 +105,13 @@ bool SoundBuffer::Create(WaveFile& waveFile)
 	unsigned long blockSize1 = 0;
 	unsigned long blockSize2 = 0;
 
-	//ƒZƒJƒ“ƒ_ƒŠƒoƒbƒtƒ@‚ðƒƒbƒN‚µ‚Äƒf[ƒ^‚ð‘‚«ž‚Ý
+	//ã‚»ã‚«ãƒ³ãƒ€ãƒªãƒãƒƒãƒ•ã‚¡ã‚’ãƒ­ãƒƒã‚¯ã—ã¦ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã¿
 	pSecondaryBuffer->Lock(0, waveFile.dataSize, (void**)&block1, &blockSize1, (void**)&block2, &blockSize2, DSBLOCK_ENTIREBUFFER);
 
-	//ƒZƒJƒ“ƒ_ƒŠƒoƒbƒtƒ@‚É‰¹ƒf[ƒ^‚ðƒRƒs[
+	//ã‚»ã‚«ãƒ³ãƒ€ãƒªãƒãƒƒãƒ•ã‚¡ã«éŸ³ãƒ‡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼
 	memcpy(block1, waveFile.waveData, waveFile.dataSize);
 
-	//ƒZƒJƒ“ƒ_ƒŠƒoƒbƒtƒ@‚ÌƒƒbƒN‰ðœ
+	//ã‚»ã‚«ãƒ³ãƒ€ãƒªãƒãƒƒãƒ•ã‚¡ã®ãƒ­ãƒƒã‚¯è§£é™¤
 	pSecondaryBuffer->Unlock(block1, blockSize1, block2, 0);
 
 	return true;

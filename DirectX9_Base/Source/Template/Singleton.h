@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <assert.h>
 #include <windows.h>
@@ -19,15 +19,15 @@ public  :
 
 };
 
-//SingletonƒNƒ‰ƒX‚Ìƒeƒ“ƒvƒŒ[ƒg
-//ƒCƒ“ƒXƒ^ƒ“ƒX‚ª“ñ‚ÂˆÈãì‚ç‚ê‚È‚¢‚±‚Æ‚ğ•ÛØ
+//Singletonã‚¯ãƒ©ã‚¹ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
+//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒäºŒã¤ä»¥ä¸Šä½œã‚‰ã‚Œãªã„ã“ã¨ã‚’ä¿è¨¼
 
 template <class T>
 class Singleton
 {
 public :
 	
-	//ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìæ“¾
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®å–å¾—
 	static T& GetInstance()
 	{
 		std::call_once(initFlag, Create);
@@ -43,7 +43,7 @@ protected:
 	/*	char szBuff[256];
 		wsprintf(szBuff, "SINGLETON template %s",typeid(*this).name());
 		std::string st = szBuff;
-		MessageBox(NULL, st.c_str(), TEXT("ì¬"), MB_OK);*/
+		MessageBox(NULL, st.c_str(), TEXT("ä½œæˆ"), MB_OK);*/
 	}
 
 	virtual ~Singleton()
@@ -51,33 +51,33 @@ protected:
 	/*	char szBuff[256];
 		wsprintf(szBuff, "SINGLETON template %s", typeid(*this).name());
 		std::string st = szBuff;
-		MessageBox(NULL, st.c_str(), TEXT("ŠJ•ú"), MB_OK);*/
-	}//ƒfƒXƒgƒ‰ƒNƒ^
+		MessageBox(NULL, st.c_str(), TEXT("é–‹æ”¾"), MB_OK);*/
+	}//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 
 	//
 	static bool IsInstatnceCreated(){ return (pInstance != nullptr); }
 
 private:
-	//ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw‚·ƒ|ƒCƒ“ƒ^
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡ã™ãƒã‚¤ãƒ³ã‚¿
 	static T* pInstance;
 
 	static std::once_flag initFlag;
 
-	//ì¬ŠÖ”
+	//ä½œæˆé–¢æ•°
 	static  void Create()
 	{
 		pInstance = new T;
 		SingletonFinalizer::AddFinalizer(&Singleton<T>::Releace);
 	}
 
-	//ŠJ•úŠÖ”
+	//é–‹æ”¾é–¢æ•°
 	static void Releace()
 	{
 		delete pInstance;
 		pInstance = nullptr;
 	}
 
-	//‘ã“ü‰‰Z‚ÆƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğprivate‚É‚µ‚ÄŠO•”‚©‚çÀs‚Å‚«‚È‚­‚·‚é
+	//ä»£å…¥æ¼”ç®—ã¨ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’privateã«ã—ã¦å¤–éƒ¨ã‹ã‚‰å®Ÿè¡Œã§ããªãã™ã‚‹
 	void operator =(const Singleton& obj){}
 	Singleton(const Singleton &obj){}
 

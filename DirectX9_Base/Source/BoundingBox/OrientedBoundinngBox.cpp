@@ -1,4 +1,4 @@
-
+ï»¿
 #include "OrientedBoundinngBox.h"
 
 
@@ -62,8 +62,8 @@ void OrientedBoundingBox::UpdateInfo(D3DXVECTOR3 newPos, D3DXVECTOR3 newFor, D3D
 	position = v;
 
 
-	//’¸“_À•W
-	//ã”¼•ª
+	//é ‚ç‚¹åº§æ¨™
+	//ä¸ŠåŠåˆ†
 	vertexpos[VERTEX_FRU] = position + (NormDirection[FORWARD] * 0.5*length[FORWARD]) + 
 		(NormDirection[RIGHT] * 0.5*length[RIGHT]) + 
 		(NormDirection[UP] * 0.5*length[UP]);
@@ -80,7 +80,7 @@ void OrientedBoundingBox::UpdateInfo(D3DXVECTOR3 newPos, D3DXVECTOR3 newFor, D3D
 		(NormDirection[RIGHT] * -0.5*length[RIGHT]) +
 		(NormDirection[UP] * 0.5*length[UP]);
 
-	//‰º”¼•ª
+	//ä¸‹åŠåˆ†
 
 	vertexpos[VERTEX_FRD] = position + (NormDirection[FORWARD] * 0.5*length[FORWARD]) +
 		(NormDirection[RIGHT] * 0.5*length[RIGHT]) +
@@ -125,7 +125,7 @@ void OrientedBoundingBox::DrawLine()
 		lineVertex[i].color=0xFF000000;
 	}
 
-	//ã–Ê‚Ì•Ó
+	//ä¸Šé¢ã®è¾º
 	lineVertex[0].v = vertexpos[VERTEX_FLU];
 	lineVertex[1].v = vertexpos[VERTEX_FRU];
 	
@@ -138,7 +138,7 @@ void OrientedBoundingBox::DrawLine()
 	lineVertex[6].v = vertexpos[VERTEX_BLU];
 	lineVertex[7].v = vertexpos[VERTEX_FLU];
 
-	//‰º–Ê‚Ì•Ó
+	//ä¸‹é¢ã®è¾º
 
 	lineVertex[8].v = vertexpos[VERTEX_FLD];
 	lineVertex[9].v = vertexpos[VERTEX_FRD];
@@ -152,7 +152,7 @@ void OrientedBoundingBox::DrawLine()
 	lineVertex[14].v = vertexpos[VERTEX_BLD];
 	lineVertex[15].v = vertexpos[VERTEX_FLD];
 
-	//’Œ
+	//æŸ±
 
 	lineVertex[16].v = vertexpos[VERTEX_FLU];
 	lineVertex[17].v = vertexpos[VERTEX_FLD];
@@ -175,13 +175,13 @@ void OrientedBoundingBox::DrawLine()
 
 bool OrientedBoundingBox::Collision(OrientedBoundingBox& obb1, OrientedBoundingBox& obb2)
 {
-	//Ql
+	//å‚è€ƒ
 	//http://marupeke296.com/COL_3D_No13_OBBvsOBB.html
 
 	D3DXVECTOR3 AE[3];
 	D3DXVECTOR3 BE[3];
 
-	D3DXVECTOR3 Interval = obb1.position - obb2.position;//obb‚Ì’†S“_“¯m‚ğŒ‹‚Ôü•ª‚ğŒvZ
+	D3DXVECTOR3 Interval = obb1.position - obb2.position;//obbã®ä¸­å¿ƒç‚¹åŒå£«ã‚’çµã¶ç·šåˆ†ã‚’è¨ˆç®—
 	
 	for (int i = 0; i < 3;i++)
 	{
@@ -191,132 +191,132 @@ bool OrientedBoundingBox::Collision(OrientedBoundingBox& obb1, OrientedBoundingB
 
 	FLOAT rA, rB, L;
 
-	//•ûŒü²‚ğ•ª—£²‚É obb1
+	//æ–¹å‘è»¸ã‚’åˆ†é›¢è»¸ã« obb1
 
-	//•ª—£² obb1.NormDirection[0] : obb1‚Ì³–Ê•ûŒü‚ÌƒxƒNƒgƒ‹‚É•½s‚È²‚Éobb2‚ğ“Š‰e
+	//åˆ†é›¢è»¸ obb1.NormDirection[0] : obb1ã®æ­£é¢æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã«å¹³è¡Œãªè»¸ã«obb2ã‚’æŠ•å½±
 	rA = obb1.length[0] / 2;
 	rB = LengthSegmentOnSeparateAxis(&obb1.NormDirection[0], &BE[0], &BE[1], &BE[2]);
 	L = fabs(D3DXVec3Dot(&obb1.NormDirection[0], &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
-	//•ª—£² obb1.NormDirection[1] : obb1‚Ì‰E•ûŒü‚ÌƒxƒNƒgƒ‹‚É•½s‚È²‚Éobb2‚ğ“Š‰e
+	//åˆ†é›¢è»¸ obb1.NormDirection[1] : obb1ã®å³æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã«å¹³è¡Œãªè»¸ã«obb2ã‚’æŠ•å½±
 	rA = obb1.length[1] / 2;
 	rB = LengthSegmentOnSeparateAxis(&obb1.NormDirection[1], &BE[0], &BE[1], &BE[2]);
 	L = fabs(D3DXVec3Dot(&obb1.NormDirection[1], &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
-	//•ª—£² obb1.NormDirection[2] : obb1‚Ìã•ûŒü‚ÌƒxƒNƒgƒ‹‚É•½s‚È²‚Éobb2‚ğ“Š‰e
+	//åˆ†é›¢è»¸ obb1.NormDirection[2] : obb1ã®ä¸Šæ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã«å¹³è¡Œãªè»¸ã«obb2ã‚’æŠ•å½±
 	rA = obb1.length[2] / 2;
 	rB = LengthSegmentOnSeparateAxis(&obb1.NormDirection[2], &BE[0], &BE[1], &BE[2]);
 	L = fabs(D3DXVec3Dot(&obb1.NormDirection[2], &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
 
-	//•ûŒü²‚ğ•ª—£²‚É obb2
+	//æ–¹å‘è»¸ã‚’åˆ†é›¢è»¸ã« obb2
 
-	//•ª—£² obb1.NormDirection[0] : obb2‚Ì³–Ê•ûŒü‚ÌƒxƒNƒgƒ‹‚É•½s‚È²‚Éobb2‚ğ“Š‰e
+	//åˆ†é›¢è»¸ obb1.NormDirection[0] : obb2ã®æ­£é¢æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã«å¹³è¡Œãªè»¸ã«obb2ã‚’æŠ•å½±
 	rA= LengthSegmentOnSeparateAxis(&obb2.NormDirection[0], &AE[0], &AE[1], &AE[2]);
 	rB= obb2.length[0] / 2;
 	L = fabs(D3DXVec3Dot(&obb2.NormDirection[0], &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
-	//•ª—£² obb1.NormDirection[0] : obb2‚Ì‰E•ûŒü‚ÌƒxƒNƒgƒ‹‚É•½s‚È²‚Éobb2‚ğ“Š‰e
+	//åˆ†é›¢è»¸ obb1.NormDirection[0] : obb2ã®å³æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã«å¹³è¡Œãªè»¸ã«obb2ã‚’æŠ•å½±
 	rA = LengthSegmentOnSeparateAxis(&obb2.NormDirection[1], &AE[0], &AE[1], &AE[2]);
 	rB = obb2.length[1] / 2;
 	L = fabs(D3DXVec3Dot(&obb2.NormDirection[1], &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
-	//•ª—£² obb1.NormDirection[0] : obb2‚Ìã•ûŒü‚ÌƒxƒNƒgƒ‹‚É•½s‚È²‚Éobb2‚ğ“Š‰e
+	//åˆ†é›¢è»¸ obb1.NormDirection[0] : obb2ã®ä¸Šæ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã«å¹³è¡Œãªè»¸ã«obb2ã‚’æŠ•å½±
 	rA = LengthSegmentOnSeparateAxis(&obb2.NormDirection[1], &AE[0], &AE[1], &AE[2]);
 	rB = obb2.length[2] / 2;
 	L = fabs(D3DXVec3Dot(&obb2.NormDirection[2], &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
 
-	//ŠOÏ‚ğ•ª—£²‚É
+	//å¤–ç©ã‚’åˆ†é›¢è»¸ã«
 
-	//•ª—£²‚Ì—ªÌ‚É‚Â‚¢‚Ä
+	//åˆ†é›¢è»¸ã®ç•¥ç§°ã«ã¤ã„ã¦
 	//C00 : cross obb1.normdirection[0] obb.normdirection[1]
 	//C10 : cross obb1.normdirection[1] obb.normdirection[1]
 
 	D3DXVECTOR3 Cross;
 
-	//•ª—£² c00
+	//åˆ†é›¢è»¸ c00
 	D3DXVec3Cross(&Cross, &obb1.NormDirection[0], &obb2.NormDirection[0]);
-	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[1], &AE[2]);//cross‚Ég—p‚µ‚½”Ô† 0‚Íg—p‚µ‚È‚¢
-	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[1], &BE[2]);//cross‚Ég—p‚µ‚½”Ô† 0‚Íg—p‚µ‚È‚¢
+	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[1], &AE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 0ã¯ä½¿ç”¨ã—ãªã„
+	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[1], &BE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 0ã¯ä½¿ç”¨ã—ãªã„
 	L = fabs(D3DXVec3Dot(&Cross, &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 	
-	//•ª—£² c01
+	//åˆ†é›¢è»¸ c01
 	D3DXVec3Cross(&Cross, &obb1.NormDirection[0], &obb2.NormDirection[1]);
-	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[1], &AE[2]);//cross‚Ég—p‚µ‚½”Ô† 0‚Íg—p‚µ‚È‚¢
-	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[2]);//cross‚Ég—p‚µ‚½”Ô† 1‚Íg—p‚µ‚È‚¢
+	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[1], &AE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 0ã¯ä½¿ç”¨ã—ãªã„
+	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 1ã¯ä½¿ç”¨ã—ãªã„
 	L = fabs(D3DXVec3Dot(&Cross, &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
-	//•ª—£² c01
+	//åˆ†é›¢è»¸ c01
 	D3DXVec3Cross(&Cross, &obb1.NormDirection[0], &obb2.NormDirection[2]);
-	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[1], &AE[2]);//cross‚Ég—p‚µ‚½”Ô† 0‚Íg—p‚µ‚È‚¢
-	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[1]);//cross‚Ég—p‚µ‚½”Ô† 2‚Íg—p‚µ‚È‚¢
+	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[1], &AE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 0ã¯ä½¿ç”¨ã—ãªã„
+	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[1]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 2ã¯ä½¿ç”¨ã—ãªã„
 	L = fabs(D3DXVec3Dot(&Cross, &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
 	//--
 
-	//•ª—£² c10
+	//åˆ†é›¢è»¸ c10
 	D3DXVec3Cross(&Cross, &obb1.NormDirection[1], &obb2.NormDirection[0]);
-	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[2]);//cross‚Ég—p‚µ‚½”Ô† 1‚Íg—p‚µ‚È‚¢
-	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[1], &BE[2]);//cross‚Ég—p‚µ‚½”Ô† 0‚Íg—p‚µ‚È‚¢
+	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 1ã¯ä½¿ç”¨ã—ãªã„
+	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[1], &BE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 0ã¯ä½¿ç”¨ã—ãªã„
 	L = fabs(D3DXVec3Dot(&Cross, &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
-	//•ª—£² c11
+	//åˆ†é›¢è»¸ c11
 	D3DXVec3Cross(&Cross, &obb1.NormDirection[1], &obb2.NormDirection[1]);
-	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[2]);//cross‚Ég—p‚µ‚½”Ô† 1‚Íg—p‚µ‚È‚¢
-	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[2]);//cross‚Ég—p‚µ‚½”Ô† 1‚Íg—p‚µ‚È‚¢
+	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 1ã¯ä½¿ç”¨ã—ãªã„
+	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 1ã¯ä½¿ç”¨ã—ãªã„
 	L = fabs(D3DXVec3Dot(&Cross, &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
-	//•ª—£² c12
+	//åˆ†é›¢è»¸ c12
 	D3DXVec3Cross(&Cross, &obb1.NormDirection[1], &obb2.NormDirection[2]);
-	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[2]);//cross‚Ég—p‚µ‚½”Ô† 1‚Íg—p‚µ‚È‚¢
-	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[1]);//cross‚Ég—p‚µ‚½”Ô† 2‚Íg—p‚µ‚È‚¢
+	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 1ã¯ä½¿ç”¨ã—ãªã„
+	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[1]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 2ã¯ä½¿ç”¨ã—ãªã„
 	L = fabs(D3DXVec3Dot(&Cross, &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
 	//--
 
-	//•ª—£² c20
+	//åˆ†é›¢è»¸ c20
 	D3DXVec3Cross(&Cross, &obb1.NormDirection[2], &obb2.NormDirection[0]);
-	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[1]);//cross‚Ég—p‚µ‚½”Ô† 2‚Íg—p‚µ‚È‚¢
-	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[1], &BE[2]);//cross‚Ég—p‚µ‚½”Ô† 0‚Íg—p‚µ‚È‚¢
+	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[1]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 2ã¯ä½¿ç”¨ã—ãªã„
+	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[1], &BE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 0ã¯ä½¿ç”¨ã—ãªã„
 	L = fabs(D3DXVec3Dot(&Cross, &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
-	//•ª—£² c21
+	//åˆ†é›¢è»¸ c21
 	D3DXVec3Cross(&Cross, &obb1.NormDirection[2], &obb2.NormDirection[1]);
-	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[1]);//cross‚Ég—p‚µ‚½”Ô† 2‚Íg—p‚µ‚È‚¢
-	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[2]);//cross‚Ég—p‚µ‚½”Ô† 1‚Íg—p‚µ‚È‚¢
+	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[1]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 2ã¯ä½¿ç”¨ã—ãªã„
+	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[2]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 1ã¯ä½¿ç”¨ã—ãªã„
 	L = fabs(D3DXVec3Dot(&Cross, &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
-	//•ª—£² c22
+	//åˆ†é›¢è»¸ c22
 	D3DXVec3Cross(&Cross, &obb1.NormDirection[2], &obb2.NormDirection[2]);
-	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[1]);//cross‚Ég—p‚µ‚½”Ô† 2‚Íg—p‚µ‚È‚¢
-	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[1]);//cross‚Ég—p‚µ‚½”Ô† 2‚Íg—p‚µ‚È‚¢
+	rA = LengthSegmentOnSeparateAxis(&Cross, &AE[0], &AE[1]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 2ã¯ä½¿ç”¨ã—ãªã„
+	rB = LengthSegmentOnSeparateAxis(&Cross, &BE[0], &BE[1]);//crossã«ä½¿ç”¨ã—ãŸç•ªå· 2ã¯ä½¿ç”¨ã—ãªã„
 	L = fabs(D3DXVec3Dot(&Cross, &Interval));
-	if (L > rA + rB)return false;//Õ“Ë‚µ‚Ä‚¢‚È‚¢
+	if (L > rA + rB)return false;//è¡çªã—ã¦ã„ãªã„
 
 
-	//•ª—£•½–Ê‚ª‘¶İ‚µ‚È‚¢ = Õ“Ë
+	//åˆ†é›¢å¹³é¢ãŒå­˜åœ¨ã—ãªã„ = è¡çª
 	return true;
 
 }
 
 float OrientedBoundingBox::LengthSegmentOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXVECTOR3* e2, D3DXVECTOR3* e3)
 {
-	// 3‚Â‚Ì“àÏ‚Ìâ‘Î’l‚Ì˜a‚Å“Š‰eü•ª’·‚ğŒvZ
+	// 3ã¤ã®å†…ç©ã®çµ¶å¯¾å€¤ã®å’Œã§æŠ•å½±ç·šåˆ†é•·ã‚’è¨ˆç®—
 
 	FLOAT r1 = fabs(D3DXVec3Dot(Sep, e1));
 	FLOAT r2 = fabs(D3DXVec3Dot(Sep, e2));

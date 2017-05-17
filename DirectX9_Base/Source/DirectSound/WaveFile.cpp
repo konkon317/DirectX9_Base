@@ -1,15 +1,15 @@
-#define _CRT_SECURE_NO_WARNINGS
-//fopen‚Å‚ÌŒx‚ð‚È‚­‚·‚½‚ß
+ï»¿#define _CRT_SECURE_NO_WARNINGS
+//fopenã§ã®è­¦å‘Šã‚’ãªãã™ãŸã‚
 
 #include "WaveFile.h"
 #include <string>
 
 using namespace std;
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 WaveFile::WaveFile()
 {
-	//waveFormat‚ð0‚Å‰Šú‰»
+	//waveFormatã‚’0ã§åˆæœŸåŒ–
 	memset(&waveFormat, 0, sizeof(WAVEFORMATEX));
 
 	waveData = nullptr;
@@ -17,14 +17,14 @@ WaveFile::WaveFile()
 
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 WaveFile::~WaveFile()
 {
 	Release();
 }
 
 
-//ŠJ•úˆ—
+//é–‹æ”¾å‡¦ç†
 void WaveFile::Release()
 {
 	if (waveData != nullptr)
@@ -37,12 +37,12 @@ void WaveFile::Release()
 	}
 }
 
-//Waveƒtƒ@ƒCƒ‹‚Ì“Ç‚Ýž‚Ý
+//Waveãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
 bool WaveFile::Load(TCHAR* FilePath)
 {
 	FILE* fp;
 
-	//ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³
 	if (!(fp = _tfopen(FilePath, _T("rb"))))
 	{
 		return false;
@@ -53,26 +53,26 @@ bool WaveFile::Load(TCHAR* FilePath)
 	unsigned int chunkSize = 0;
 
 	
-	//RFFƒwƒbƒ_[‚Ì\¬
-	//riff "RIFF"‚Ì4•¶Žš@							4byte
-	//size ‘ƒtƒ@ƒCƒ‹ƒTƒCƒY-8ibyte’PˆÊj			4byte
-	//type "WAVE"‚Ì4•¶Žš(‰¹ºƒf[ƒ^‚Ìê‡"WAVE")	4byte 
+	//RFFãƒ˜ãƒƒãƒ€ãƒ¼ã®æ§‹æˆ
+	//riff "RIFF"ã®4æ–‡å­—ã€€							4byte
+	//size ç·ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚º-8ï¼ˆbyteå˜ä½ï¼‰			4byte
+	//type "WAVE"ã®4æ–‡å­—(éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®å ´åˆ"WAVE")	4byte 
 
-	//RIFFƒwƒbƒ_[ƒ`ƒƒƒ“ƒN“Ç‚Ýž‚Ý
+	//RIFFãƒ˜ãƒƒãƒ€ãƒ¼ãƒãƒ£ãƒ³ã‚¯èª­ã¿è¾¼ã¿
 	fread(chunkId, sizeof(char) * 4, 1, fp);
 	fread(&chunkSize, sizeof(unsigned int), 1, fp);
 	fread(type, sizeof(char) * 4, 1, fp);
 
 	string sChunkId(chunkId);
 	string sType(type);
-	//riffŒ`Ž® ƒ^ƒCƒv‚ª
+	//riffå½¢å¼ ã‚¿ã‚¤ãƒ—ãŒ
 	if (!(sChunkId == "RIFF" && sType == "WAVE"))
 	{
-		//Waveƒtƒ@ƒCƒ‹‚Å‚Í‚È‚¢
+		//Waveãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ãªã„
 		return false;
 	}
 
-	//Žqƒ`ƒƒƒ“ƒN‚Ì“Ç‚Ý‚±‚Ý
+	//å­ãƒãƒ£ãƒ³ã‚¯ã®èª­ã¿ã“ã¿
 	bool fmtChunk = false;
 	bool dataChunk = false;
 
@@ -83,54 +83,54 @@ bool WaveFile::Load(TCHAR* FilePath)
 
 		sChunkId = chunkId;
 
-		//ƒtƒH[ƒ}ƒbƒgƒ`ƒƒƒ“ƒN‚Ì“Ç‚Ýž‚Ý
+		//ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆãƒãƒ£ãƒ³ã‚¯ã®èª­ã¿è¾¼ã¿
 		if (sChunkId == "fmt ")
 		{
-			//ƒtƒH[ƒ}ƒbƒgƒ`ƒƒƒ“ƒN‚Ì\¬
-			//id			4byte	ƒ`ƒƒƒ“ƒNŽ¯•ÊŽq
-			//size			4byte	id‚Æsize‚ðœ‚­ƒ`ƒƒƒ“ƒNƒTƒCƒY
-			//format		2byte	”gŒ`ƒf[ƒ^‚ÌƒtƒH[ƒ}ƒbƒg
-			//channels		2byte	Žg—pƒ`ƒƒƒ“ƒlƒ‹”
-			//samplerate	4byte	ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”
-			//bytepersec	4byte	•½‹Ïƒ“ƒf[ƒ^Š„‡
-			//blockalign	2byte	ƒf[ƒ^‚ÌƒuƒƒbƒNƒTƒCƒY
-			//bitswidth		2byte	1ƒTƒ“ƒvƒ‹“–‚½‚è‚Ìƒrƒbƒg”
-			//extended_size	2byte	Šg’£ƒf[ƒ^‚ÌƒTƒCƒY
-			//extended		nbyte	Šg’£ƒf[ƒ^
+			//ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆãƒãƒ£ãƒ³ã‚¯ã®æ§‹æˆ
+			//id			4byte	ãƒãƒ£ãƒ³ã‚¯è­˜åˆ¥å­
+			//size			4byte	idã¨sizeã‚’é™¤ããƒãƒ£ãƒ³ã‚¯ã‚µã‚¤ã‚º
+			//format		2byte	æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆ
+			//channels		2byte	ä½¿ç”¨ãƒãƒ£ãƒ³ãƒãƒ«æ•°
+			//samplerate	4byte	ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°
+			//bytepersec	4byte	å¹³å‡ãƒ³ãƒ‡ãƒ¼ã‚¿å‰²åˆ
+			//blockalign	2byte	ãƒ‡ãƒ¼ã‚¿ã®ãƒ–ãƒ­ãƒƒã‚¯ã‚µã‚¤ã‚º
+			//bitswidth		2byte	1ã‚µãƒ³ãƒ—ãƒ«å½“ãŸã‚Šã®ãƒ“ãƒƒãƒˆæ•°
+			//extended_size	2byte	æ‹¡å¼µãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ã‚º
+			//extended		nbyte	æ‹¡å¼µãƒ‡ãƒ¼ã‚¿
 
 			
 			if (chunkSize >= sizeof(WAVEFORMATEX))
 			{
-				//WAVEFORMATEX‚Ì‚¨‚¨‚«‚³•ª“Ç‚Ýž‚Ý
+				//WAVEFORMATEXã®ãŠãŠãã•åˆ†èª­ã¿è¾¼ã¿
 				fread(&waveFormat, sizeof(WAVEFORMATEX), 1, fp);		
 
-				//ƒ`ƒƒƒ“ƒN‚ÌŽc‚è—Ìˆæ‚Ì‚¨‚¨‚«‚³‚ðŒvŽZ
+				//ãƒãƒ£ãƒ³ã‚¯ã®æ®‹ã‚Šé ˜åŸŸã®ãŠãŠãã•ã‚’è¨ˆç®—
 				int diff = chunkSize - sizeof(WAVEFORMATEX);
 
-				//ŽŸ‚Ìƒ`ƒƒƒ“ƒN‚Ìæ“ª‚Ü‚ÅƒV[ƒN
+				//æ¬¡ã®ãƒãƒ£ãƒ³ã‚¯ã®å…ˆé ­ã¾ã§ã‚·ãƒ¼ã‚¯
 				fseek(fp, diff, SEEK_CUR);
 			
 			}
 			else
 			{			
-				//ƒ`ƒƒƒ“ƒN‚ÌI‚í‚è‚Ü‚Å“Ç‚Ýž‚Þ
+				//ãƒãƒ£ãƒ³ã‚¯ã®çµ‚ã‚ã‚Šã¾ã§èª­ã¿è¾¼ã‚€
 				fread(&waveFormat, chunkSize, 1, fp);
 			}
 
-			fmtChunk = true;//ƒtƒH[ƒ}ƒbƒgƒ`ƒƒƒ“ƒN“Ç‚Ýž‚ÝÏ‚Ý‚ðŽ¦‚·
+			fmtChunk = true;//ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆãƒãƒ£ãƒ³ã‚¯èª­ã¿è¾¼ã¿æ¸ˆã¿ã‚’ç¤ºã™
 		}
-		else if(sChunkId =="data")//ƒf[ƒ^ƒ`ƒƒƒ“ƒN‚Ì“Ç‚Ýž‚Ý
+		else if(sChunkId =="data")//ãƒ‡ãƒ¼ã‚¿ãƒãƒ£ãƒ³ã‚¯ã®èª­ã¿è¾¼ã¿
 		{
-			//ƒf[ƒ^ƒ`ƒƒƒ“ƒN
-			//id				4byte	ƒ`ƒƒƒ“ƒNŽ¯•ÊŽq
-			//size				4byte	id‚Æsize‚ðœ‚­ƒ`ƒƒƒ“ƒNƒTƒCƒY(”gŒ`ƒf[ƒ^‚ÌƒTƒCƒY)
-			//waveformatData	nbyte	”gŒ`ƒf[ƒ^
+			//ãƒ‡ãƒ¼ã‚¿ãƒãƒ£ãƒ³ã‚¯
+			//id				4byte	ãƒãƒ£ãƒ³ã‚¯è­˜åˆ¥å­
+			//size				4byte	idã¨sizeã‚’é™¤ããƒãƒ£ãƒ³ã‚¯ã‚µã‚¤ã‚º(æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ã‚º)
+			//waveformatData	nbyte	æ³¢å½¢ãƒ‡ãƒ¼ã‚¿
 
-			//ƒf[ƒ^ƒTƒCƒY‘‚­ƒEƒz
+			//ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºæ›¸ãã‚¦ãƒ›
 			dataSize = chunkSize;
 			waveData = new byte[chunkSize];
 		
-			//ƒf[ƒ^“Ç‚Ýž‚Ý
+			//ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 			unsigned long readCount = fread(waveData, sizeof(byte), chunkSize, fp);
 			if (readCount!= chunkSize)
 			{
@@ -148,7 +148,7 @@ bool WaveFile::Load(TCHAR* FilePath)
 			fseek(fp, chunkSize, SEEK_CUR);
 		}
 
-		//ƒtƒH[ƒ}ƒbƒgƒ`ƒƒƒ“ƒN‚Æƒf[ƒ^ƒ`ƒƒƒ“ƒN‚Ì—¼•û‚ª“Ç‚Ýž‚ÝÏ‚Ý‚È‚çƒ‹[ƒv‚ð”²‚¯‚é
+		//ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆãƒãƒ£ãƒ³ã‚¯ã¨ãƒ‡ãƒ¼ã‚¿ãƒãƒ£ãƒ³ã‚¯ã®ä¸¡æ–¹ãŒèª­ã¿è¾¼ã¿æ¸ˆã¿ãªã‚‰ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹
 		if (fmtChunk && dataChunk)
 		{
 			break;

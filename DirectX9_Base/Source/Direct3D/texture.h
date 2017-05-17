@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Direct3d.h"
 
@@ -10,14 +10,14 @@ private:
 
 public:
 	
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^ ƒfƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Texture();
 	~Texture();
 
-	//UV‚Ì•ªŠ„”
+	//UVã®åˆ†å‰²æ•°
 	unsigned int divU;
 	unsigned int divV;
-	//UV‚Ì”Ô†
+	//UVã®ç•ªå·
 	unsigned int numU;
 	unsigned int numV;
 

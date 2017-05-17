@@ -1,4 +1,4 @@
-#include "XInput.h"
+ï»¿#include "XInput.h"
 
 int XInput::GamePadState::ButtonCode[14]=
 {
@@ -19,7 +19,7 @@ int XInput::GamePadState::ButtonCode[14]=
 };
 
 
-//ƒCƒ“ƒi[ƒNƒ‰ƒX@ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚¤ãƒ³ãƒŠãƒ¼ã‚¯ãƒ©ã‚¹ã€€ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 XInput::GamePadState::GamePadState()
 {
 	for (int i = 0; i < 14; i++)
@@ -43,29 +43,29 @@ XInput::GamePadState::~GamePadState()
 }
 
 
-//ƒCƒ“ƒi[ƒNƒ‰ƒX@XV
+//ã‚¤ãƒ³ãƒŠãƒ¼ã‚¯ãƒ©ã‚¹ã€€æ›´æ–°
 void XInput::GamePadState::Update(int PadNum)
 {
-	//1ƒtƒŒ[ƒ€‘O‚ÌCounter‚ğ•Û‘¶
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®Counterã‚’ä¿å­˜
 	for (int i = 0; i < 14; i++)
 	{	
 		buttonCountPrev[i] = buttonCount[i];
 	}
 
 
-	//“ü—Íó‘Ô‚Ìæ“¾‚ª‚¤‚Ü‚­‚¢‚Á‚½‚©‚Ç‚¤‚©
+	//å…¥åŠ›çŠ¶æ…‹ã®å–å¾—ãŒã†ã¾ãã„ã£ãŸã‹ã©ã†ã‹
 	DWORD funcResult;
 	
-	//“ü—Íó‘Ô‚Ìæ“¾ (ƒRƒ“ƒgƒ[ƒ‰”Ô†0-3 , ó‘Ô‚ğ•Û‘¶‚µ‚½‚¢\‘¢‘Ì‚ÌƒAƒhƒŒƒX)
+	//å…¥åŠ›çŠ¶æ…‹ã®å–å¾— (ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ç•ªå·0-3 , çŠ¶æ…‹ã‚’ä¿å­˜ã—ãŸã„æ§‹é€ ä½“ã®ã‚¢ãƒ‰ãƒ¬ã‚¹)
 	funcResult = XInputGetState(PadNum,&state);
 
 	if (funcResult == ERROR_SUCCESS)
 	{
-		//¬Œ÷
+		//æˆåŠŸ
 
 		conected = true;
 
-		//ƒ{ƒ^ƒ“‚ÌXV
+		//ãƒœã‚¿ãƒ³ã®æ›´æ–°
 		for (int i = 0; i < 14; i++)
 		{
 			int code = ButtonCode[i];
@@ -79,13 +79,13 @@ void XInput::GamePadState::Update(int PadNum)
 			}
 		}
 
-		//ƒXƒeƒbƒN‚ÌXV
+		//ã‚¹ãƒ†ãƒƒã‚¯ã®æ›´æ–°
 		for (int i = 0; i < 2; i++)
 		{
 			int x = (i == 0) ? state.Gamepad.sThumbLX : state.Gamepad.sThumbRX;
 			int y = (i == 0) ? state.Gamepad.sThumbLY : state.Gamepad.sThumbRY;
 
-			//ƒfƒbƒhƒ][ƒ““à‚Ì”’l‚Í0‚Ö@‚½‚¾‚µ@xy‚Ì‚Ç‚¿‚ç‚©‚ªƒfƒbƒhƒ][ƒ“‚ÌŠO‚È‚ç‚Ç‚¿‚ç‚à•ÏX‚µ‚È‚¢
+			//ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³å†…ã®æ•°å€¤ã¯0ã¸ã€€ãŸã ã—ã€€xyã®ã©ã¡ã‚‰ã‹ãŒãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã®å¤–ãªã‚‰ã©ã¡ã‚‰ã‚‚å¤‰æ›´ã—ãªã„
 			if (x<XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&x>-XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
 				&& y<XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && y>-XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
 			{
@@ -93,7 +93,7 @@ void XInput::GamePadState::Update(int PadNum)
 			}
 
 
-			//X‚Ì“ü—Í’l‚ğ -1~1‚Å
+			//Xã®å…¥åŠ›å€¤ã‚’ -1~1ã§
 			if (x < 0)
 			{
 				stick[i].x = (float)x / (float)32768;
@@ -104,11 +104,11 @@ void XInput::GamePadState::Update(int PadNum)
 			}
 			else
 			{
-				//x=0‚Ìê‡
+				//x=0ã®å ´åˆ
 				stick[i].x = 0;
 			}
 
-			//Y‚Ì“ü—Í’l‚ğ -1~1‚Å
+			//Yã®å…¥åŠ›å€¤ã‚’ -1~1ã§
 			if (y < 0)
 			{
 				stick[i].y = (float)y / (float)32768;
@@ -120,7 +120,7 @@ void XInput::GamePadState::Update(int PadNum)
 			}
 			else
 			{
-				//y=0‚Ìê‡
+				//y=0ã®å ´åˆ
 				stick[i].y = 0;
 			}
 		}
@@ -129,7 +129,7 @@ void XInput::GamePadState::Update(int PadNum)
 		{
 			int x = (i == 0) ? state.Gamepad.bLeftTrigger : state.Gamepad.bRightTrigger;
 
-			if (x > 10)//ƒfƒbƒhƒ][ƒ“‚©‚çŠO‚ê‚Ä‚¢‚é‚©
+			if (x > 10)//ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã‹ã‚‰å¤–ã‚Œã¦ã„ã‚‹ã‹
 			{
 
 				trigger[i] = (float)x / (float)255;
@@ -143,10 +143,10 @@ void XInput::GamePadState::Update(int PadNum)
 	}
 	else
 	{
-		//¸”s
+		//å¤±æ•—
 		conected = false;
 
-		//ƒRƒ“ƒgƒ[ƒ‰‚É‚Ü‚Á‚½‚­G‚Á‚Ä‚¢‚È‚¢‚Ì‚Æ“¯‚¶ó‘Ô‚É‚·‚é
+		//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã«ã¾ã£ãŸãè§¦ã£ã¦ã„ãªã„ã®ã¨åŒã˜çŠ¶æ…‹ã«ã™ã‚‹
 
 		for (int i = 0; i < 14; i++)
 		{
@@ -167,8 +167,8 @@ void XInput::GamePadState::Update(int PadNum)
 }
 
 
-//ƒCƒ“ƒi[ƒNƒ‰ƒX
-//‰Ÿ‚³‚ê‚½uŠÔ‚©
+//ã‚¤ãƒ³ãƒŠãƒ¼ã‚¯ãƒ©ã‚¹
+//æŠ¼ã•ã‚ŒãŸç¬é–“ã‹
 bool XInput::GamePadState::GetButtonDown(int buttonNum)
 {
 	if (buttonNum >= 14 || buttonNum < 0)
@@ -188,8 +188,8 @@ bool XInput::GamePadState::GetButtonDown(int buttonNum)
 }
 
 
-//ƒCƒ“ƒi[ƒNƒ‰ƒX
-//—£‚³‚ê‚½uŠÔ‚©
+//ã‚¤ãƒ³ãƒŠãƒ¼ã‚¯ãƒ©ã‚¹
+//é›¢ã•ã‚ŒãŸç¬é–“ã‹
 bool XInput::GamePadState::GetButtonRelease(int buttonNum)
 {
 	if (buttonNum >= 14 || buttonNum < 0)
@@ -208,8 +208,8 @@ bool XInput::GamePadState::GetButtonRelease(int buttonNum)
 }
 
 
-//ƒCƒ“ƒi[ƒNƒ‰ƒX
-//‰Ÿ‚³‚ê‘±‚¯‚½ƒtƒŒ[ƒ€”
+//ã‚¤ãƒ³ãƒŠãƒ¼ã‚¯ãƒ©ã‚¹
+//æŠ¼ã•ã‚Œç¶šã‘ãŸãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 int  XInput::GamePadState::GetButtonCount(int buttonNum)
 {
 	if (buttonNum >= 14 || buttonNum < 0)
@@ -222,8 +222,8 @@ int  XInput::GamePadState::GetButtonCount(int buttonNum)
 }
 
 
-//ƒCƒ“ƒi[ƒNƒ‰ƒX
-//ƒXƒeƒBƒbƒN‚ÌŒX‚«æ“¾
+//ã‚¤ãƒ³ãƒŠãƒ¼ã‚¯ãƒ©ã‚¹
+//ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å‚¾ãå–å¾—
 Stick XInput::GamePadState::GetStick(int stickNum)
 {
 	if (stickNum >= 0 && stickNum < 2)
@@ -237,7 +237,7 @@ Stick XInput::GamePadState::GetStick(int stickNum)
 	}
 }
 
-//ƒgƒŠƒK[‚Ìó‘Ôæ“¾@‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢‚Æ0 Š®‘S‚É‰Ÿ‚µ‚Ü‚ê‚Ä‚¢‚é‚Æ1  ’†ŠÔ’n‚ğ0~1‚Ì¬”‚Å
+//ãƒˆãƒªã‚¬ãƒ¼ã®çŠ¶æ…‹å–å¾—ã€€æŠ¼ã•ã‚Œã¦ã„ãªã„ã¨0 å®Œå…¨ã«æŠ¼ã—è¾¼ã¾ã‚Œã¦ã„ã‚‹ã¨1  ä¸­é–“åœ°ã‚’0~1ã®å°æ•°ã§
 float XInput::GamePadState::GetTrigger(int triggerNum)
 {
 	if (triggerNum >= 0 && triggerNum < 2)
@@ -252,21 +252,21 @@ float XInput::GamePadState::GetTrigger(int triggerNum)
 }
 
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 XInput::XInput()
 {
 
 
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 XInput::~XInput()
 {
 
 }
 
 
-//‘S‚Ä‚ÌƒRƒ“ƒgƒ[ƒ‰“ü—Í‚Ìó‘Ô‚ğXV
+//å…¨ã¦ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©å…¥åŠ›ã®çŠ¶æ…‹ã‚’æ›´æ–°
 void XInput::Update()
 {
 	for (int i = 0; i < 4; i++)
@@ -276,7 +276,7 @@ void XInput::Update()
 }
 
 
-//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Á‚½uŠÔ‚©
+//ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã£ãŸç¬é–“ã‹
 bool XInput::GetButtonDown(int padNum, int buttonNum)
 {
 	if (padNum < 0 || padNum >= 4)
@@ -287,7 +287,7 @@ bool XInput::GetButtonDown(int padNum, int buttonNum)
 	return state[padNum].GetButtonDown(buttonNum);
 }
 
-//ƒ{ƒ^ƒ“‚ª—£‚³‚ê‚½uŠÔ‚©
+//ãƒœã‚¿ãƒ³ãŒé›¢ã•ã‚ŒãŸç¬é–“ã‹
 bool XInput::GetButtonRelease(int padNum, int buttonNum)
 {
 	if (padNum < 0 || padNum >= 4)
@@ -297,7 +297,7 @@ bool XInput::GetButtonRelease(int padNum, int buttonNum)
 	return state[padNum].GetButtonDown(buttonNum);
 }
 
-//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‘±‚¯‚½ƒtƒŒ[ƒ€”
+//ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œç¶šã‘ãŸãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 int XInput::GetButtonCount(int padNum, int buttonNum)
 {
 	if (padNum < 0 || padNum >= 4)
@@ -307,7 +307,7 @@ int XInput::GetButtonCount(int padNum, int buttonNum)
 	return state[padNum].GetButtonDown(buttonNum);
 }
 
-//ƒXƒeƒBƒbƒN‚ÌŒX‚«
+//ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å‚¾ã
 Stick XInput::GetStick(int padNum, int stickNum)
 {
 	if (padNum < 0 || padNum >= 4)
@@ -320,7 +320,7 @@ Stick XInput::GetStick(int padNum, int stickNum)
 	return state[padNum].GetStick(stickNum);
 }
 
-//ƒgƒŠƒK[‚Ìó‘Ô
+//ãƒˆãƒªã‚¬ãƒ¼ã®çŠ¶æ…‹
 float XInput::GetTrigger(int padNum, int triggerNum)
 {
 	if (padNum < 0 || padNum >= 4)

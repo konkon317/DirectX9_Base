@@ -1,7 +1,7 @@
-#include "sprite.h"
+ï»¿#include "sprite.h"
 
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Sprite::Sprite()
 {
 	pos.x = pos.y = 0.0f;
@@ -12,7 +12,7 @@ Sprite::Sprite()
 	alpha = 1.0f;
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 
 Sprite::~Sprite()
 {
@@ -41,7 +41,7 @@ void Sprite::SetSize(int Width, int Height)
 
 
 
-//‰ñ“]‚ğİ’è ƒ‰ƒWƒAƒ“
+//å›è»¢ã‚’è¨­å®š ãƒ©ã‚¸ã‚¢ãƒ³
 void Sprite::SetRotate(float Rotate)
 {
 	rotate = Rotate;

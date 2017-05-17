@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "../Direct3D/Direct3D.h"
 #include "../Direct3D/Sprite.h"

@@ -1,4 +1,4 @@
-#include "camera.h"
+ï»¿#include "camera.h"
 #include <math.h>
 
 Camera::Camera()
@@ -70,7 +70,7 @@ void Camera::SetUpVector(float x, float y, float z)
 
 void Camera::Move(float front, float right)
 {
-	//ƒJƒƒ‰ƒ‚[ƒh‚ªRELATIVE‚Ì‚Æ‚«‚Ì‚İ
+	//ã‚«ãƒ¡ãƒ©ãƒ¢ãƒ¼ãƒ‰ãŒRELATIVEã®ã¨ãã®ã¿
 	if (cameraMode == CAMERA_MODE::LOOK_AT_REL)
 	{
 		float rad = atan2(relLookAtPoint.z, relLookAtPoint.x);
@@ -90,26 +90,26 @@ void Camera::Move(float front, float right)
 
 void Camera::Rotate(float radYaw, float radPitch)
 {
-	//ƒJƒƒ‰ƒ‚[ƒh‚ªRELATIVE‚Ì‚Æ‚«‚Ì‚İ
+	//ã‚«ãƒ¡ãƒ©ãƒ¢ãƒ¼ãƒ‰ãŒRELATIVEã®ã¨ãã®ã¿
 	if (cameraMode == CAMERA_MODE::LOOK_AT_REL)
 	{
 		double x = relLookAtPoint.x;
 		double y = relLookAtPoint.y;
 		double z = relLookAtPoint.z;
 
-		//z‚Æx‚©‚çƒsƒbƒ`‰ñ“]‚ÌŠp“x‚ğ‹‚ß‚é@iƒ‰ƒWƒAƒ“j
+		//zã¨xã‹ã‚‰ãƒ”ãƒƒãƒå›è»¢ã®è§’åº¦ã‚’æ±‚ã‚ã‚‹ã€€ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
 		double first_radYaw = atan2(relLookAtPoint.z, relLookAtPoint.x);
-		//OŠpŠÖ”‚Ì‰Á–@’è—
+		//ä¸‰è§’é–¢æ•°ã®åŠ æ³•å®šç†
 		float resultZ =static_cast<float>( sin(first_radYaw) * cos(radYaw) + cos(first_radYaw) * sin(radYaw));
 		float resultX = static_cast<float>(cos(first_radYaw) * cos(radYaw) - sin(first_radYaw) * sin(radYaw));
-		//‚±‚±‚Ü‚Åƒˆ[‰ñ“]‚Ìˆ—
+		//ã“ã“ã¾ã§ãƒ¨ãƒ¼å›è»¢ã®å‡¦ç†
 
-		//ˆÈ‰ºƒsƒbƒ`‰ñ“]‚Ìˆ—
-		double pitchX = (sqrt(x*x + z*z));	//x*z•½–Êã‚Å‚ÌŒ¸“_‚©‚ç‚Ì‹——£ //‚È‚ñ‚Ä–½–¼‚µ‚Ä‚æ‚¢‚©‚í‚©‚ç‚È‚©‚Á‚½‚½‚ß‚Æ‚è‚ ‚¦‚¸‚±‚Ì•Ï”–¼‚Å
+		//ä»¥ä¸‹ãƒ”ãƒƒãƒå›è»¢ã®å‡¦ç†
+		double pitchX = (sqrt(x*x + z*z));	//x*zå¹³é¢ä¸Šã§ã®æ¸›ç‚¹ã‹ã‚‰ã®è·é›¢ //ãªã‚“ã¦å‘½åã—ã¦ã‚ˆã„ã‹ã‚ã‹ã‚‰ãªã‹ã£ãŸãŸã‚ã¨ã‚Šã‚ãˆãšã“ã®å¤‰æ•°åã§
 
-		//xAz•½–Ê‚Å‚Ì‹——£‚Æy‚©‚çŠp“x‚ğ‹‚ß‚é
+		//xã€zå¹³é¢ã§ã®è·é›¢ã¨yã‹ã‚‰è§’åº¦ã‚’æ±‚ã‚ã‚‹
 		double first_radPitch = atan2(y, pitchX);
-		//Šp“x‚ÉãŒÀ‰ÁŒ¸‚ğİ’è
+		//è§’åº¦ã«ä¸Šé™åŠ æ¸›ã‚’è¨­å®š
 		double addRadPitch = radPitch;
 		if (addRadPitch + first_radPitch >= (3.1415f * 1 / 5))
 		{
@@ -119,7 +119,7 @@ void Camera::Rotate(float radYaw, float radPitch)
 		{
 			addRadPitch = (-(3.1415 * 1 / 5)) - first_radPitch;
 		}
-		//OŠpŠÖ”‚Ì‰Á–@’è—
+		//ä¸‰è§’é–¢æ•°ã®åŠ æ³•å®šç†
 		float resultY = static_cast<float>(sin(first_radPitch)*cos(addRadPitch) + cos(first_radPitch)*sin(addRadPitch));
 		float resultPitchX = static_cast<float>(cos(first_radPitch)*cos(addRadPitch) - sin(first_radPitch)*sin(addRadPitch));
 
@@ -134,7 +134,7 @@ void Camera::Rotate(float radYaw, float radPitch)
 void Camera::SetViewMatrix()
 {
 	D3DXMATRIXA16 matView;
-	//ƒJƒƒ‰ //ƒrƒ…[s—ñ‚Ìì¬
+	//ã‚«ãƒ¡ãƒ© //ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®ä½œæˆ
 	D3DXMatrixLookAtLH(&matView,GetEyePoint_p(),GetLookAtPoint_p(),GetUpVector_p());
 
 	Direct3D::GetInstance().SetViewMatrix(matView);

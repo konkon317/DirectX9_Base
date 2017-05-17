@@ -1,4 +1,4 @@
-#pragma once 
+ï»¿#pragma once 
 
 #include <typeinfo>
 
@@ -6,7 +6,7 @@
 using namespace std;
 
 
-//ƒV[ƒ“@Šî’êƒNƒ‰ƒX
+//ã‚·ãƒ¼ãƒ³ã€€åŸºåº•ã‚¯ãƒ©ã‚¹
 class Scene
 {
 
@@ -32,7 +32,7 @@ public :
 	virtual void Init(){};
 };
 
-//ƒV[ƒ“ƒNƒŠƒGƒCƒ^[
+//ã‚·ãƒ¼ãƒ³ã‚¯ãƒªã‚¨ã‚¤ã‚¿ãƒ¼
 class SceneCreater
 {
 
@@ -40,7 +40,7 @@ private:
 	
 	int targetScene_TypeHash;		
 
-	//–¾¦“I‚ÉƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚×‚È‚­‚·‚é
+	//æ˜ç¤ºçš„ã«ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã¹ãªãã™ã‚‹
 	
 	SceneCreater(SceneCreater&){};
 	SceneCreater& operator=(SceneCreater&){};

@@ -1,6 +1,6 @@
-#pragma once 
+ï»¿#pragma once 
 
-#define D3D_DEBUG_INFO	//Direct3DƒfƒoƒbƒOƒtƒ‰ƒO
+#define D3D_DEBUG_INFO	//Direct3Dãƒ‡ãƒãƒƒã‚°ãƒ•ãƒ©ã‚°
 
 #define DIRECTINPUT_VERSION 0x0800
 
@@ -33,16 +33,16 @@ class DirectInput :public Singleton<DirectInput>
 	friend class Singleton<DirectInput>;
 private:
 
-	LPDIRECTINPUT8		 pDInput;			//directinput ƒIƒuƒWƒFƒNƒg
-	LPDIRECTINPUTDEVICE8 pKeyDevice;		//ƒL[ƒ{[ƒh—pƒfƒoƒCƒX
-	LPDIRECTINPUTDEVICE8 pMouseDevice;		//ƒ}ƒEƒX—pƒfƒoƒCƒX
+	LPDIRECTINPUT8		 pDInput;			//directinput ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	LPDIRECTINPUTDEVICE8 pKeyDevice;		//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ç”¨ãƒ‡ãƒã‚¤ã‚¹
+	LPDIRECTINPUTDEVICE8 pMouseDevice;		//ãƒã‚¦ã‚¹ç”¨ãƒ‡ãƒã‚¤ã‚¹
 
-	//ƒL[ƒ{[ƒhî•ñ
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±
 	int keyInput[INPUT_BUFFER_SIZE];
 	int keyInputPreview[INPUT_BUFFER_SIZE];
 	
 
-	//ƒ}ƒEƒXî•ñ
+	//ãƒã‚¦ã‚¹æƒ…å ±
 	DIMOUSESTATE2 mouseInput;
 	DIMOUSESTATE2 mouseInputPreview;
 	int mouseButtonCounter[8];
@@ -57,28 +57,28 @@ private:
 
 private:
 
-	HRESULT InitKey();//ƒL[ƒ{[ƒh‚Ì‰Šú‰»
+	HRESULT InitKey();//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®åˆæœŸåŒ–
 	HRESULT InitMouse();
 
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^ƒfƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	DirectInput();
 	~DirectInput();
 
 public:
 
 
-	//‰Šú‰»ˆ—
+	//åˆæœŸåŒ–å‡¦ç†
 	HRESULT Init(HWND hWnd);
 
-	//ƒL[ó‘Ô‚ÌXVˆ—
+	//ã‚­ãƒ¼çŠ¶æ…‹ã®æ›´æ–°å‡¦ç†
 	HRESULT Update();
 
-	//‰ğ•úˆ—
+	//è§£æ”¾å‡¦ç†
 	HRESULT Release();	
 
 	bool Initialized(){ return initialized; }
 
-	//’læ“¾ŠÖ”
+	//å€¤å–å¾—é–¢æ•°
 
 	bool KeyState(int code);
 	bool KeyStatePreview(int code);

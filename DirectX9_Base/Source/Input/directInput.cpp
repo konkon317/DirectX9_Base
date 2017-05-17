@@ -1,6 +1,6 @@
-#include "directInput.h"
+ï»¿#include "directInput.h"
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 DirectInput::DirectInput()
 {
 	pDInput			= nullptr;
@@ -9,7 +9,7 @@ DirectInput::DirectInput()
 
 	initialized = false;
 
-	//\‘¢‘Ì‚Ì‰Šú‰» ‘S‚Ä‚ð0‚Å‰Šú‰»
+	//æ§‹é€ ä½“ã®åˆæœŸåŒ– å…¨ã¦ã‚’0ã§åˆæœŸåŒ–
 	ZeroMemory(&keyInput,sizeof(int)*INPUT_BUFFER_SIZE);
 	ZeroMemory(&keyInputPreview, sizeof(int)*INPUT_BUFFER_SIZE);
 	ZeroMemory(&mouseInput, sizeof(DIMOUSESTATE2));
@@ -26,32 +26,32 @@ DirectInput::DirectInput()
 
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 DirectInput::~DirectInput()
 {
 	Release();
 }
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 HRESULT DirectInput::Init(HWND hwnd)
 {
 	hWnd = hwnd;
 
-	//DirectInputƒIƒuƒWƒFƒNƒg‚Ìì¬
+	//DirectInputã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 	HRESULT hresult = DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (VOID**)&pDInput, NULL);
 	if (FAILED(hresult))
 	{
 		return hresult;
 	}
 
-	//ƒL[ƒ{[ƒh‰Šú‰»ˆ—
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰åˆæœŸåŒ–å‡¦ç†
 	hresult = InitKey();
 	if (FAILED(hresult))
 	{
 		return hresult;
 	}
 
-	//ƒ}ƒEƒX‰Šú‰»
+	//ãƒžã‚¦ã‚¹åˆæœŸåŒ–
 	hresult = InitMouse();
 	if (FAILED(hresult))
 	{
@@ -64,71 +64,71 @@ HRESULT DirectInput::Init(HWND hwnd)
 	
 }
 
-//ƒL[”z—ñ‰Šú‰»
+//ã‚­ãƒ¼é…åˆ—åˆæœŸåŒ–
 HRESULT DirectInput::InitKey()
 {
 	HRESULT hresult;
 
-	//ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ìì¬
+	//ãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 	hresult = pDInput->CreateDevice(GUID_SysKeyboard, &pKeyDevice, NULL);	
 	if (FAILED(hresult))
 	{
 		return hresult;
 	}
 
-	//ƒf[ƒ^ƒtƒH[ƒ}ƒbƒgÝ’è
+	//ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆè¨­å®š
 	hresult = pKeyDevice->SetDataFormat(&c_dfDIKeyboard);
 	if (FAILED(hresult))
 	{
 		return hresult;
 	}
 
-	//‹¦’²ƒ‚[ƒh‚ðÝ’è
+	//å”èª¿ãƒ¢ãƒ¼ãƒ‰ã‚’è¨­å®š
 	hresult = pKeyDevice->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
 	if (FAILED(hresult))
 	{
 		return hresult;
 	}
 
-	//“ü—ÍƒfƒoƒCƒX‚Ö‚ÌƒAƒNƒZƒXŒ ‚ðŽæ“¾
+	//å…¥åŠ›ãƒ‡ãƒã‚¤ã‚¹ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹æ¨©ã‚’å–å¾—
 	pKeyDevice->Acquire();
 
 	return S_OK;
 }
 
-//ƒ}ƒEƒXó‘Ô‚ðŠÇ—‚·‚éƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ð‰Šú‰»
+//ãƒžã‚¦ã‚¹çŠ¶æ…‹ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’åˆæœŸåŒ–
 HRESULT DirectInput::InitMouse()
 {
 	HRESULT hresult;
 
 	hresult = pDInput->CreateDevice(GUID_SysMouse, &pMouseDevice, NULL);
-	//ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ìì¬
+	//ãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 	if (FAILED(hresult))
 	{
 		return hresult;
 	}
 
-	//ƒf[ƒ^ƒtƒH[ƒ}ƒbƒg‚ðì¬
+	//ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã‚’ä½œæˆ
 	hresult = pMouseDevice->SetDataFormat(&c_dfDIMouse2);
 	if (FAILED(hresult))
 	{
 		return hresult;
 	}
-	//‹¦’²ƒ‚[ƒh‚ðÝ’è
+	//å”èª¿ãƒ¢ãƒ¼ãƒ‰ã‚’è¨­å®š
 	hresult = pMouseDevice->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
 	if (FAILED(hresult))
 	{
 		return hresult;
 	}
 
-	//Ž²ƒ‚[ƒh‚ðÝ’è
+	//è»¸ãƒ¢ãƒ¼ãƒ‰ã‚’è¨­å®š
 	DIPROPDWORD diprop;
 	diprop.diph.dwSize = sizeof(diprop);
 	diprop.diph.dwHeaderSize = sizeof(diprop.diph);
 	diprop.diph.dwObj = 0;
 	diprop.diph.dwHow = DIPH_DEVICE;
-	diprop.dwData = DIPROPAXISMODE_REL;	//‘Š‘Î
-	//diprop.dwData = DIPROPAXISMODE_ABS;//â‘Î
+	diprop.dwData = DIPROPAXISMODE_REL;	//ç›¸å¯¾
+	//diprop.dwData = DIPROPAXISMODE_ABS;//çµ¶å¯¾
 
 	hresult = pMouseDevice->SetProperty(DIPROP_AXISMODE, &diprop.diph);
 	if (FAILED(hresult))
@@ -136,7 +136,7 @@ HRESULT DirectInput::InitMouse()
 		return hresult;
 	}
 
-	pMouseDevice->Acquire();//“ü—ÍƒfƒoƒCƒX‚Ö‚ÌƒAƒNƒZƒXŒ ‚ðŽæ“¾
+	pMouseDevice->Acquire();//å…¥åŠ›ãƒ‡ãƒã‚¤ã‚¹ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹æ¨©ã‚’å–å¾—
 
 	RECT rec;
 	GetClientRect(hWnd, &rec);
@@ -156,17 +156,17 @@ HRESULT DirectInput::InitMouse()
 }
 
 
-//ƒAƒbƒvƒf[ƒg
+//ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ
 HRESULT DirectInput::Update()
 {
 	HRESULT hresult = pKeyDevice->Acquire();
 
 	if ((hresult == DI_OK) || (hresult == S_FALSE))
 	{
-		//‘O‰ñ‚ÌƒL[“ü—Íî•ñ‚ð‘Þ”ð
+		//å‰å›žã®ã‚­ãƒ¼å…¥åŠ›æƒ…å ±ã‚’é€€é¿
 		memcpy(keyInputPreview, keyInput, sizeof(int)*INPUT_BUFFER_SIZE);
 
-		//ó‘Ôƒ[ƒN
+		//çŠ¶æ…‹ãƒ¯ãƒ¼ã‚¯
 		BYTE tKeyInputWork[INPUT_BUFFER_SIZE];
 
 		pKeyDevice->GetDeviceState(sizeof(BYTE)*INPUT_BUFFER_SIZE, &tKeyInputWork);
@@ -175,7 +175,7 @@ HRESULT DirectInput::Update()
 		{
 			if (tKeyInputWork[i])
 			{
-				if (keyInput[i] < 2147483647)//int Å‘å’l‚Ü‚Å
+				if (keyInput[i] < 2147483647)//int æœ€å¤§å€¤ã¾ã§
 				{
 					keyInput[i]++;
 				}				
@@ -187,11 +187,11 @@ HRESULT DirectInput::Update()
 		}
 	}
 
-	//ƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“ó‘Ô‚ðŽæ“¾
+	//ãƒžã‚¦ã‚¹ã®ãƒœã‚¿ãƒ³çŠ¶æ…‹ã‚’å–å¾—
 	hresult = pMouseDevice->Acquire();
 	if (hresult == DI_OK || hresult == S_FALSE)
 	{
-		//‘O‰ñ‚Ìƒ}ƒEƒXó‘Ô‚ð‘Þ”ð
+		//å‰å›žã®ãƒžã‚¦ã‚¹çŠ¶æ…‹ã‚’é€€é¿
 		memcpy(&mouseInputPreview, &mouseInput, sizeof(DIMOUSESTATE2));
 
 		pMouseDevice->GetDeviceState(sizeof(DIMOUSESTATE2), &mouseInput);
@@ -200,7 +200,7 @@ HRESULT DirectInput::Update()
 		{
 			if (mouseInput.rgbButtons[i])
 			{
-				if (mouseButtonCounter[i] < 2147483647)//int Å‘å’l‚Ü‚Å
+				if (mouseButtonCounter[i] < 2147483647)//int æœ€å¤§å€¤ã¾ã§
 				{
 					mouseButtonCounter[i]++;
 				}
@@ -212,11 +212,11 @@ HRESULT DirectInput::Update()
 		}
 	}
 
-	//ƒXƒNƒŠ[ƒ“’†@ƒ}ƒEƒXÀ•WŽæ“¾
+	//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ä¸­ã€€ãƒžã‚¦ã‚¹åº§æ¨™å–å¾—
 	POINT worldPos;
-	GetCursorPos(&worldPos);//ƒ[ƒ‹ƒhÀ•W‚ðŽæ“¾
+	GetCursorPos(&worldPos);//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å–å¾—
 	POINT localPos = worldPos;
-	ScreenToClient(hWnd,&localPos);//ƒ[ƒ‹ƒhÀ•W‚ðƒ[ƒJƒ‹À•W‚É•ÏŠ·
+	ScreenToClient(hWnd,&localPos);//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™ã«å¤‰æ›
 
 	mousePosPreview = mousePos;
 	mousePos.Set(localPos.x, localPos.y);
@@ -229,7 +229,7 @@ HRESULT DirectInput::Update()
 	return S_OK;
 }
 
-//‰ð•úˆ—
+//è§£æ”¾å‡¦ç†
 HRESULT  DirectInput::Release()
 {
 	int a = 0;
@@ -256,7 +256,7 @@ HRESULT  DirectInput::Release()
 	return S_OK;
 }
 
-//ƒL[‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚È‚çtrue
+//ã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ãªã‚‰true
 bool DirectInput::KeyState(int code)
 {
 	if (code >= 0 && code < INPUT_BUFFER_SIZE)
@@ -273,7 +273,7 @@ bool DirectInput::KeyState(int code)
 	return false;
 }
 
-//ˆÊ’uƒtƒŒ[ƒ€‘O‚ÌƒL[ó‘Ô
+//ä½ç½®ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®ã‚­ãƒ¼çŠ¶æ…‹
 bool DirectInput::KeyStatePreview(int code)
 {
 	if (code >= 0 && code < INPUT_BUFFER_SIZE)
@@ -290,7 +290,7 @@ bool DirectInput::KeyStatePreview(int code)
 	return false;
 }
 
-//ƒL[‚ª‰Ÿ‚³‚ê‚½uŠÔ‰»
+//ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸçž¬é–“åŒ–
 bool DirectInput::KeyDown(int code)
 {
 	if (code >= 0 && code < INPUT_BUFFER_SIZE)
@@ -300,7 +300,7 @@ bool DirectInput::KeyDown(int code)
 	return false;
 }
 
-//ƒL[‚ª—£‚³‚ê‚½uŠÔ‰»
+//ã‚­ãƒ¼ãŒé›¢ã•ã‚ŒãŸçž¬é–“åŒ–
 bool DirectInput::KeyUp(int code)
 {
 	if (code >= 0 && code < INPUT_BUFFER_SIZE)
@@ -309,7 +309,7 @@ bool DirectInput::KeyUp(int code)
 	}
 	return false;
 }
-//ƒL[‚ª‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚éƒtƒŒ[ƒ€”
+//ã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œç¶šã‘ã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 int DirectInput::KeyCount(int code)
 {
 	if (code >= 0 && code < INPUT_BUFFER_SIZE)
@@ -319,7 +319,7 @@ int DirectInput::KeyCount(int code)
 	return 0;
 }
 
-//ƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“ó‘Ô
+//ãƒžã‚¦ã‚¹ã®ãƒœã‚¿ãƒ³çŠ¶æ…‹
 bool DirectInput::MouseButton(int num)
 { 
 	if (num >= 0 && num < 8)
@@ -332,7 +332,7 @@ bool DirectInput::MouseButton(int num)
 	}
 }
 
-//ƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½uŠÔ‚©
+//ãƒžã‚¦ã‚¹ã®ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸçž¬é–“ã‹
 bool DirectInput::MouseButtonDown(int num)
 {
 	if (num >= 0 && num < 8)
@@ -345,7 +345,7 @@ bool DirectInput::MouseButtonDown(int num)
 	}
 }
 
-//ƒ}ƒEƒXƒ{ƒ^ƒ“‚ª—£‚³‚ê‚½uŠÔ‚©
+//ãƒžã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒé›¢ã•ã‚ŒãŸçž¬é–“ã‹
 bool DirectInput::MouseButtonUP(int num)
 {
 	if (num >= 0 && num < 8)
@@ -358,7 +358,7 @@ bool DirectInput::MouseButtonUP(int num)
 	}
 }
 
-//ƒ}ƒEƒXƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚éƒtƒŒ[ƒ€”
+//ãƒžã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œç¶šã‘ã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 int DirectInput::MouseButtonCount(int num)
 {
 	if (num >= 0 && num < 8)

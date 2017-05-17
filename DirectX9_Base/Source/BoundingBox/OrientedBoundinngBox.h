@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include "../Direct3D/Direct3D.h"
 
-//Ql
+//å‚è€ƒ
 //http://marupeke296.com/COL_3D_No13_OBBvsOBB.html
 
 
@@ -10,7 +10,7 @@ class OrientedBoundingBox
 	//OBB
 
 protected:
-	D3DXVECTOR3 position;//’†S
+	D3DXVECTOR3 position;//ä¸­å¿ƒ
 	D3DXVECTOR3 NormDirection[3];
 
 	FLOAT length[3];

@@ -1,4 +1,4 @@
-#if _DEBUG
+ï»¿#if _DEBUG
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -34,24 +34,24 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	fbxManager->Destroy();
 	*/	
 
-	//ƒEƒBƒ“ƒhƒE‚âƒƒCƒ“ƒ‹[ƒv‚ÌÀs‚ğŠÇ—‚·‚éƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì»
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚„ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—ã®å®Ÿè¡Œã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œè£½
 	Application& App = Application::GetInstance();
 	
-	App.RegistBasicWindowClass();							//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ì“o˜^
-	App.CreateWind(_T("ƒEƒBƒ“ƒhƒEƒ^ƒCƒgƒ‹"), 1024, 780);	//“o˜^‚µ‚½ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğŠî‚ÉƒEƒBƒ“ƒhƒE‚ğì¬
+	App.RegistBasicWindowClass();							//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®ç™»éŒ²
+	App.CreateWind(_T("ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¿ã‚¤ãƒˆãƒ«"), 1024, 780);	//ç™»éŒ²ã—ãŸã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚’åŸºã«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆ
 
-	//ƒfƒoƒCƒX‚ğŠÇ—‚·‚éƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬
+	//ãƒ‡ãƒã‚¤ã‚¹ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆ
 	Direct3D& D3d = Direct3D::GetInstance();
 
-	//•`‰æƒfƒoƒCƒX‚Ìì¬
-	//Application‚Åì¬‚µ‚½ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹‚©‚çA•`‰æ—Ìˆæ‚Ìİ’è‚ğs‚¤
+	//æç”»ãƒ‡ãƒã‚¤ã‚¹ã®ä½œæˆ
+	//Applicationã§ä½œæˆã—ãŸã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«ã‹ã‚‰ã€æç”»é ˜åŸŸã®è¨­å®šã‚’è¡Œã†
 	if (D3d.TryCreate(App.GetWindowHandle()))
 	{
-		MessageBox(NULL, "3DƒfƒoƒCƒXì¬¬Œ÷", TEXT("WinMain"), MB_OK);
+		MessageBox(NULL, "3Dãƒ‡ãƒã‚¤ã‚¹ä½œæˆæˆåŠŸ", TEXT("WinMain"), MB_OK);
 	}
 	else
 	{
-		MessageBox(NULL, "3DƒfƒoƒCƒXì¬¸”s", TEXT("WinMain"), MB_OK);
+		MessageBox(NULL, "3Dãƒ‡ãƒã‚¤ã‚¹ä½œæˆå¤±æ•—", TEXT("WinMain"), MB_OK);
 	}
 
 	DirectSound& DSound = DirectSound::GetInstance();
@@ -65,13 +65,13 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	GameState.Init();
 
-	App.MessageLoop();//ƒƒbƒZ[ƒWƒ‹[ƒv
+	App.MessageLoop();//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ«ãƒ¼ãƒ—
 
-	//ƒƒbƒZ[ƒWƒ‹[ƒv‚ªI—¹‚µ‚½‚Ì‚ÅI—¹ˆ—‚ğ‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğI‚¦‚é
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ«ãƒ¼ãƒ—ãŒçµ‚äº†ã—ãŸã®ã§çµ‚äº†å‡¦ç†ã‚’ã—ã¦ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’çµ‚ãˆã‚‹
 	
 	SceneManager::Finalize();
 	
-	SingletonFinalizer::Finalize();//ƒVƒ“ƒOƒ‹ƒgƒ“‚ÈƒNƒ‰ƒX‚ÌI—¹ˆ—
+	SingletonFinalizer::Finalize();//ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ãªã‚¯ãƒ©ã‚¹ã®çµ‚äº†å‡¦ç†
 
 	
 

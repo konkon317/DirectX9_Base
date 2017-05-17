@@ -1,4 +1,4 @@
-#include "Singleton.h"
+ï»¿#include "Singleton.h"
 
 
 const int MaxFinalizerSize = 256;
@@ -18,11 +18,11 @@ void  SingletonFinalizer::Finalize()
 	char szBuff[256];
 	wsprintf(szBuff, "%d", NumFinalizerSize);
 	std::string st = szBuff;
-	MessageBox(NULL,st.c_str(), TEXT("ŠJ•ú"), MB_OK);
+	MessageBox(NULL,st.c_str(), TEXT("é–‹æ”¾"), MB_OK);
 
 	for (int i = NumFinalizerSize - 1; i >= 0; i--)
 	{
-		(*Finalizers[i])();//ŠÖ”‚ÌÀs
+		(*Finalizers[i])();//é–¢æ•°ã®å®Ÿè¡Œ
 	}
 	NumFinalizerSize = 0;
 }
