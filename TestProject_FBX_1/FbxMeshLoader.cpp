@@ -271,17 +271,20 @@ void FbxMeshLoader::LoadVertexPosition(FbxMesh* pMesh)
 	
 	pVertexPoints_DX = new D3DXVECTOR4[indexCount];
 
-	int index = 0;
+	
+	int i = 0;
 
-	for (int i = 0; i < polygonCount; i++)
+	for (int polygon = 0; polygon < polygonCount; polygon++)
 	{
 		
-		for (int j = 0; j < pPolygonVertexCount[i]; j++)
+		for (int j = 0; j < pPolygonVertexCount[polygon]; j++)
 		{
 
-			int a = ppPolygonVertexIndex[i][j];
-			pVertexPoints_DX[index] = pControlPoints_DX[a];
-			index++;
+			int index = ppPolygonVertexIndex[polygon][j];//コントロール点の番号
+
+
+			pVertexPoints_DX[i] = pControlPoints_DX[index];
+			i++;
 		}
 	}
 
