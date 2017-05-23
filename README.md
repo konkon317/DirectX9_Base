@@ -16,7 +16,7 @@ FBX形式のデータを読み出して、クラスに記憶させるテスト�
 http://marupeke296.com/DXG_No61_WhiteBoxSkinMeshAnimation.html　
   
   
-・参考(References)  
+・参考(References)  
 http://shikemokuthinking.blogspot.jp/  
 http://marupeke296.com/GameMain.html  
 http://k3tec.net/neko_wiki/index.php?DirectX%B9%D6%BA%C20%B2%F3   
