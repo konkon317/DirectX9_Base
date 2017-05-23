@@ -231,17 +231,21 @@ void FbxMeshLoader::LoadVertexPosition(FbxMesh* pMesh)
 
 		for (int j = 0; j < pPolygonVertexCount[i]; j++)
 		{
-			if (pPolygonVertexCount[i] > 3)
-			{
-				flag = true;
-			}
+		
 			ppPolygonVertexIndex[i][j] = pMesh->GetPolygonVertex(i, j);
+		}
+
+		//四角形以上のポリゴンがあった
+		if (pPolygonVertexCount[i] > 3)
+		{
+			flag = true;
 		}
 	}
 
+	//四角形以上のポリゴンが1つ以上あった
 	if (flag)
 	{
-		std::cout << "メッシュロード中" << std::endl;
+		std::cout << "メッシュロード中　四角形以上のポリゴンが含まれていた" << std::endl;
 		WaitKey("多角形ポリゴンが含まれていました");
 	}
 
