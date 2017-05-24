@@ -1,8 +1,6 @@
 ﻿#pragma once
 
-
-#include <fbxsdk.h>
-#include <iostream>
+#include "Global.h"
 
 void ProbeNode(FbxNode* pNode,int depth=0);
 

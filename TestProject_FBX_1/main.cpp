@@ -6,18 +6,8 @@
 
 #endif
 
-
-#include <iostream>
-#include <fbxsdk.h>
-
 #include "fbxUtil.h"
 #include "Global.h"
-
-#include <windows.h>
-
-
-using namespace fbxsdk;
-
 
 #if _DEBUG
 #define new ::new(_NORMAL_BLOCK,__FILE__,__LINE__)
