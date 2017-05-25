@@ -2,6 +2,9 @@
 
 #include "Global.h"
 
-void ProbeNode(FbxNode* pNode,int depth=0);
+class Model;
+
+
+void ProbeNode(FbxNode* pNode,Model* pModel=nullptr,int depth=0);
 
 bool IsMesh(FbxNode* pNode);

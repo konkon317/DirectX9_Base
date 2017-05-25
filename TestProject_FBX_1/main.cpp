@@ -8,6 +8,7 @@
 
 #include "fbxUtil.h"
 #include "Global.h"
+#include "Model.h"
 
 #if _DEBUG
 #define new ::new(_NORMAL_BLOCK,__FILE__,__LINE__)
@@ -131,9 +132,14 @@ int main(int argc, char* argv[])
 	//ノード探査
 	FbxNode* pRootNode = pScene->GetRootNode();
 
+	//モデル
+	Model model;
+
+	
 	if (pRootNode)
 	{		
-		ProbeNode(pRootNode);		
+		//モデルを探査して見つけたメッシュやマテリアルをモデルに追加する
+		ProbeNode(pRootNode,&model);		
 	}
 
 	pRootNode->Destroy();

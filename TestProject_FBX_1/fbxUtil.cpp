@@ -1,8 +1,9 @@
 ﻿#include "fbxUtil.h"
 #include "fbxMeshLoader.h"
+#include "Model.h"
 #include <iomanip>
 
-void ProbeNode(FbxNode* pNode,int depth)
+void ProbeNode(FbxNode* pNode,Model* pModel,int depth)
 {
 	//ノード探査関数
 	if (pNode)
@@ -26,6 +27,12 @@ void ProbeNode(FbxNode* pNode,int depth)
 		{	
 			FbxMeshLoader fbxMeshLoader;
 			fbxMeshLoader.Load(pNode);
+
+			if (pModel != nullptr)
+			{
+				//モデルにメッシュの情報を追加する
+				pModel->AddMeshFromFbxMeshLoader(&fbxMeshLoader);
+			}
 		}
 
 		std::cout << std::endl;
@@ -36,7 +43,7 @@ void ProbeNode(FbxNode* pNode,int depth)
 		
 			for (int i = 0; i < childCount; i++)
 			{
-				ProbeNode(pNode->GetChild(i), depth + 1);
+				ProbeNode(pNode->GetChild(i),pModel, depth + 1);
 			}
 			//std::cout << "<<<<  back ParentNode" << std::endl;
 		}
