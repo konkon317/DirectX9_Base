@@ -4,10 +4,16 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="fbxUtil.cpp" />
     <ClCompile Include="FbxMeshLoader.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="TriangleList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fbxUtil.h" />
     <ClInclude Include="FbxMeshLoader.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="TriangleList.h" />
   </ItemGroup>
 </Project>

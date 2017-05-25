@@ -160,11 +160,35 @@
     <ClCompile Include="FbxMeshLoader.cpp" />
     <ClCompile Include="fbxUtil.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TriangleList.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FbxMeshLoader.h" />
     <ClInclude Include="fbxUtil.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="Mesh.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TriangleList.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
