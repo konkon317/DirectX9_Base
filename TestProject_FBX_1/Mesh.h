@@ -17,6 +17,7 @@ public:
 private:
 	//メンバ変数 private
 
+	TL_List tlList;
 
 public:
 	//メンバ変数 public 
