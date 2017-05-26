@@ -2,6 +2,8 @@
 
 #include "Global.h"
 
+class Mesh;
+
 struct Point2DF
 {
 	float x, y;
@@ -44,6 +46,8 @@ struct ColorRGBA
 
 class FbxMeshLoader
 {
+	friend class Mesh;
+
 private:
 
 	//ロード済みかどうか
