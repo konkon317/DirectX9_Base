@@ -1,4 +1,6 @@
 ﻿#include "TriangleList.h"
+#include "FbxMeshLoader.h"
+
 
 //静的メンバ変数の初期化
 
@@ -97,5 +99,69 @@ bool TriangleList::TryAllocMem_Verticies(int vertexCount)
 	}
 	
 	//成功
+	return true;
+}
+
+
+//--------------
+
+//頂点情報のロード
+bool TriangleList::LoadVerticies(LoadParamator param)
+{
+	if (pVertices == nullptr)
+	{
+		//メモリの確保がされていない
+		return false;
+	}
+
+	if (param.indexCount != vertexCount)
+	{
+		return false;
+	}
+
+	//頂点座標のロード
+	if (param.pVertexPoints_DX != nullptr)
+	{
+		for (int i = 0; i < vertexCount; i++)
+		{
+			pVertices[i].pos.x = param.pVertexPoints_DX[i].x;
+			pVertices[i].pos.y = param.pVertexPoints_DX[i].y;
+			pVertices[i].pos.z = param.pVertexPoints_DX[i].z;
+		}
+	}
+
+	bool b1 = param.ppVertexColor != nullptr &&param.pColorCount_ByVerTexColorSet!=nullptr ;
+	bool b2 = param.VertexColorSetNum > 0;
+	if (b1 && b2)
+	{
+		bool b3 = false;
+		for (int i = 0; i < param.VertexColorSetNum; i++)
+		{
+			if (param.ppVertexColor == nullptr || param.pColorCount_ByVerTexColorSet[i]!=vertexCount)
+			{
+				b3 = true;
+				break;
+			}
+		}
+
+		if (b3 == false)
+		{
+			for (int i = 0; i < vertexCount; i++)
+			{
+				float r = param.ppVertexColor[0][i].r;
+				float g = param.ppVertexColor[0][i].g;
+				float b = param.ppVertexColor[0][i].b;
+				float a = param.ppVertexColor[0][i].a;
+
+				pVertices[i].color = 0x00000000;
+				pVertices[i].color += static_cast<int>(0x000000ff * r) << (8 * 3);
+				pVertices[i].color += static_cast<int>(0x000000ff * g) << (8 * 2);
+				pVertices[i].color += static_cast<int>(0x000000ff * b) << (8 * 1);
+				pVertices[i].color += static_cast<int>(0x000000ff * a) ;
+			}
+		}
+	}
+
+
 	return true;
 }

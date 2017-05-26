@@ -2,6 +2,7 @@
 
 #include "Global.h"
 
+struct ColorRGBA;
 
 
 class TriangleList
@@ -17,6 +18,15 @@ public:
 	//静的定数
 	static const int FVF_TRIANGLE_LIST_VERTEX;
 	static const Vertex DEFAULT_VERTEX;
+
+	struct LoadParamator
+	{
+		int indexCount;
+		D3DXVECTOR4* pVertexPoints_DX;
+		int VertexColorSetNum;
+		int* pColorCount_ByVerTexColorSet;
+		ColorRGBA** ppVertexColor;
+	};
 
 public:
 	//コンストラクタ
@@ -56,7 +66,7 @@ public:
 	//vertcies用のメモリ領域を確保
 	bool TryAllocMem_Verticies(int vertexCount);
 
-
+	bool LoadVerticies(LoadParamator param);
 
 };
 
