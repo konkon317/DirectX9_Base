@@ -46,6 +46,11 @@ private:
 
 public:
 	//メンバ関数 public 
+	//アクセサ　ミューテータなど
+	TriangleList* GetThisPointer() { return this; }
+	
+	
+	//通常のメンバ関数
 	void Release();
 
 
