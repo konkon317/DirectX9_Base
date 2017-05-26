@@ -43,7 +43,7 @@ public:
 
 	void TestFunc();
 
-	void TestShow() { cout << tlList.size(); }
+
 
 
 
