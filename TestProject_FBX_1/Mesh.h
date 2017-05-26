@@ -18,10 +18,12 @@ private:
 	//メンバ変数 private
 
 
+
+
 public:
 	//メンバ変数 public 
 
-
+	TL_List tlList;
 
 private:
 	//メンバ関数 private
@@ -38,6 +40,8 @@ public:
 	//通常のメンバ関数
 	void Release();
 	
+
+	void TestFunc();
 
 
 

@@ -151,9 +151,12 @@ int main(int argc, char* argv[])
 	pScene->Destroy();
 	pManager->Destroy();
 
+	
+
 	WaitKey("プログラムの終了");
 
-	
+	model.TestShow();
+
 	return 1;
 		
 
