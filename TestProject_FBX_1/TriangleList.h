@@ -16,6 +16,7 @@ public:
 
 	//静的定数
 	static const int FVF_TRIANGLE_LIST_VERTEX;
+	static const Vertex DEFAULT_VERTEX;
 
 public:
 	//コンストラクタ
@@ -27,6 +28,11 @@ public:
 private:
 	//メンバ変数 private
 
+
+	Vertex* pVertices;
+
+	int triangleCount;
+	int vertexCount;
 
 public:
 	//メンバ変数 public 
