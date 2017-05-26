@@ -51,3 +51,51 @@ void TriangleList::Release()
 
 
 //--------------
+
+//頂点構造体のインスタンス作成　動的にメモリを確保
+bool TriangleList::TryAllocMem_Verticies(int vertexCount)
+{ 
+	if (pVertices != nullptr)
+	{
+		//割り当て済みなら失敗
+		return false;
+	}
+
+	//頂点数0以下はありえん
+	if (vertexCount <= 0)
+	{
+		return false;
+	}
+
+	//頂点数が3で割り切れる数かを調べる
+	if (vertexCount % 3 == 0)
+	{
+		triangleCount = vertexCount / 3;
+		this->vertexCount = vertexCount;
+	}
+	else
+	{
+		//総長点数が3で割り切れないとトライアングルリストになりえない
+		//失敗
+		return false;
+	}
+
+	//メモリの動的確保
+	pVertices = new Vertex[vertexCount];
+
+	if (pVertices == nullptr)
+	{
+		//失敗
+		//状態を戻してfalseを返す
+		Release();
+		return false;
+	}
+
+	for (int i = 0; i < vertexCount; i++)
+	{
+		pVertices[i] = DEFAULT_VERTEX;
+	}
+	
+	//成功
+	return true;
+}

@@ -53,6 +53,9 @@ public:
 	//通常のメンバ関数
 	void Release();
 
+	//vertcies用のメモリ領域を確保
+	bool TryAllocMem_Verticies(int vertexCount);
+
 
 
 };
