@@ -50,9 +50,11 @@ bool Model::AddMeshFromFbxMeshLoader(FbxMeshLoader* pMeshLoader)
 	//itでやるよりポインターの方が若干やりやすいと感じるため アドレスを取得
 	Mesh* pMesh = it->GetThisPointer();
 
-	
-
-		
+	if (pMesh->Load(pMeshLoader))
+	{
+		meshList.erase(it);
+		return false;
+	}		
 	
 
 	return true;
