@@ -3,6 +3,8 @@
 #include "Global.h"
 #include "TriangleList.h"
 
+#include "FbxMeshLoader.h"
+
 typedef list<TriangleList> TL_List;
 
 class Mesh
@@ -16,7 +18,6 @@ public:
 
 private:
 	//メンバ変数 private
-
 	TL_List tlList;
 
 public:
@@ -35,11 +36,15 @@ public:
 	//アクセサ　ミューテータなど
 	Mesh* GetThisPointer() { return this; }
 
-
-	//通常のメンバ関数
-	void Release();
 	
 
+	//通常のメンバ関数
+
+	//解放関数
+	void Release();
+	
+	//ロード関数
+	bool Load(FbxMeshLoader* pMeshLoader);
 
 
 
