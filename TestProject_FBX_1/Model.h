@@ -39,12 +39,5 @@ public :
 	void Release();
 	bool AddMeshFromFbxMeshLoader(FbxMeshLoader* pMeshLoader);
 
-	void TestShow()
-	{
-		for(Mesh_List::iterator it =meshList.begin();it!=meshList.end();it++)
-		{ 
-			it->TestShow();
-		}
-	}
 
 };

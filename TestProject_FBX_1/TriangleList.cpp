@@ -28,6 +28,7 @@ TriangleList::TriangleList()
 //デストラクタ
 TriangleList::~TriangleList()
 {
+
 	Release();
 }
 
