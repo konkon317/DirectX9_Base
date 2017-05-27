@@ -4,7 +4,7 @@
 #include "../Direct3D/Sprite.h"
 #include "../Direct3D/Texture.h"
 #include "../Direct3D/Camera.h"
-#include "../Direct3D/mesh.h"
+#include "../Direct3D/meshX.h"
 
 #include "../DirectSound/DirectSound.h"
 #include "../DirectSound/WaveFile.h"

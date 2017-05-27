@@ -84,9 +84,6 @@
     <ClCompile Include="Source\Input\XInput.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Direct3D\mesh.cpp">
-      <Filter>Source\Direct3D</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Direct3D\camera.cpp">
       <Filter>Source\Direct3D</Filter>
     </ClCompile>
@@ -116,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="Source\Model3D\TriangleList.cpp">
       <Filter>Source\Model3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\meshX.cpp">
+      <Filter>Source\Direct3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +155,6 @@
     <ClInclude Include="Source\Input\XInput.h">
       <Filter>Source\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Direct3D\mesh.h">
-      <Filter>Source\Direct3D</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Direct3D\camera.h">
       <Filter>Source\Direct3D</Filter>
     </ClInclude>
@@ -190,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="Source\Model3D\TriangleList.h">
       <Filter>Source\Model3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\meshX.h">
+      <Filter>Source\Direct3D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

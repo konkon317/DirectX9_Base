@@ -40,7 +40,7 @@ struct LINE_VERTEX
 
 class Texture;
 class Sprite;
-class Mesh;
+class MeshX;
 
 //-------------------------------
 class Direct3D : public Singleton<Direct3D>
@@ -63,8 +63,8 @@ public:
 	void  SetViewMatrix(D3DXMATRIXA16& mat);
 	void SetupRrojectionMatrix();
 
-	void LoadMesh(Mesh& mesh,TCHAR* path);
-	void DrawMesh(Mesh& mesh, D3DXMATRIXA16& worldMat);
+	void LoadMesh(MeshX& mesh,TCHAR* path);
+	void DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat);
 
 	//スプライトの表示
 	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);

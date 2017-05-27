@@ -5,7 +5,7 @@
 #include "../../Direct3D/Sprite.h"
 #include "../../Direct3D/Texture.h"
 #include "../../Direct3D/Camera.h"
-#include "../../Direct3D/mesh.h"
+#include "../../Direct3D/meshX.h"
 
 #include "../../DirectSound/DirectSound.h"
 #include "../../DirectSound/WaveFile.h"
@@ -30,7 +30,7 @@ private:
 
 	Camera camera;
 
-	Mesh testMesh;
+	MeshX testMesh;
 
 	GameObject3D* pGameObject[2];
 

@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "GameObject.h"
-#include "../Direct3D/mesh.h"
+#include "../Direct3D/meshX.h"
 #include "../BoundingBox/OrientedBoundinngBox.h"
 
 class GameObject3D : public GameObject
@@ -21,7 +21,7 @@ protected:
 	float rotateYaw_Rad;
 
 	//メッシュクラスへのポインタ
-	Mesh* pMesh;
+	MeshX* pMesh;
 
 	OrientedBoundingBox obb;
 
@@ -42,7 +42,7 @@ public :
 
 	void DrawLine();
 
-	void SetMesh(Mesh* pMesh_){ if (pMesh_ != nullptr)pMesh = pMesh_; }
+	void SetMesh(MeshX* pMesh_){ if (pMesh_ != nullptr)pMesh = pMesh_; }
 
 	//正面　上　右方向のベクトルを更新
 	void UpdateVectors();
