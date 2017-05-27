@@ -43,6 +43,9 @@
     <Filter Include="Source\FBX">
       <UniqueIdentifier>{7847d37d-c922-406f-bc9e-049fe75eb3fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Model3D">
+      <UniqueIdentifier>{eac21510-094a-4fd5-8e63-948a0353789f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp">
@@ -81,9 +84,6 @@
     <ClCompile Include="Source\Input\XInput.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Direct3D\mesh.cpp">
-      <Filter>Source\Direct3D</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Direct3D\camera.cpp">
       <Filter>Source\Direct3D</Filter>
     </ClCompile>
@@ -98,6 +98,24 @@
     </ClCompile>
     <ClCompile Include="Source\Scene\Scene\MainScene.cpp">
       <Filter>Source\Scene\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FBX\FbxMeshLoader.cpp">
+      <Filter>Source\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FBX\fbxUtil.cpp">
+      <Filter>Source\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Model3D\Mesh.cpp">
+      <Filter>Source\Model3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Model3D\Model.cpp">
+      <Filter>Source\Model3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Model3D\TriangleList.cpp">
+      <Filter>Source\Model3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\meshX.cpp">
+      <Filter>Source\Direct3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +155,6 @@
     <ClInclude Include="Source\Input\XInput.h">
       <Filter>Source\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Direct3D\mesh.h">
-      <Filter>Source\Direct3D</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Direct3D\camera.h">
       <Filter>Source\Direct3D</Filter>
     </ClInclude>
@@ -157,6 +172,24 @@
     </ClInclude>
     <ClInclude Include="Source\Scene\Scene\MainScene.h">
       <Filter>Source\Scene\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FBX\FbxMeshLoader.h">
+      <Filter>Source\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FBX\fbxUtil.h">
+      <Filter>Source\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Model3D\Mesh.h">
+      <Filter>Source\Model3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Model3D\Model.h">
+      <Filter>Source\Model3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Model3D\TriangleList.h">
+      <Filter>Source\Model3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\meshX.h">
+      <Filter>Source\Direct3D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

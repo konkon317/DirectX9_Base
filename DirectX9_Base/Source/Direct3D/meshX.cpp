@@ -1,13 +1,13 @@
-﻿#include "mesh.h"
+﻿#include "meshX.h"
 
 
-Mesh::Mesh()
+MeshX::MeshX()
 {
 	pMesh = nullptr;
 	
 }
 
-Mesh::~Mesh()
+MeshX::~MeshX()
 {
 	for (unsigned int i = 0; i < numMaterials; i++)
 	{
@@ -23,7 +23,7 @@ Mesh::~Mesh()
 	pMesh->Release();
 }
 
-void Mesh::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate )
+void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate )
 {
 	D3DXMATRIXA16 matWorld;
 
@@ -55,7 +55,7 @@ void Mesh::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D
 
 
 
-void Mesh::Load(TCHAR* path)
+void MeshX::Load(TCHAR* path)
 {
 	Direct3D::GetInstance().LoadMesh(*this, path);
 

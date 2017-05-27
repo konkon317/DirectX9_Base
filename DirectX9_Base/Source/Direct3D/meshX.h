@@ -3,7 +3,7 @@
 #include "Direct3D.h"
 class Camera;
 
-class Mesh
+class MeshX
 {
 
 	friend class Direct3D;
@@ -16,8 +16,8 @@ private:
 	D3DMATERIAL9 *      pMaterials;
 
 public:
-	Mesh();
-	~Mesh();
+	MeshX();
+	~MeshX();
 
 	void DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate);
 	

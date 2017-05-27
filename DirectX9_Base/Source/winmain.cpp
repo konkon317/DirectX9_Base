@@ -17,6 +17,8 @@
 #include "DirectSound/DirectSound.h"
 #include "Game/GameState.h"
 
+#include "Model3D\Model.h"
+
 #include "Scene/Manager/SceneManager.h"
 
 
