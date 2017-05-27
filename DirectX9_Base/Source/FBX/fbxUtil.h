@@ -46,4 +46,6 @@ public :
 	static void ProbeNode(FbxNode* pNode, Model* pModel = nullptr, int depth = 0);
 	
 	static bool IsMesh(FbxNode* pNode);
+
+	static bool ReadModelFromFbx(Model& model, const char* filePath);
 };
