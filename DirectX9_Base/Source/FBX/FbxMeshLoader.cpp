@@ -2,15 +2,10 @@
 
 #include "fbxUtil.h"
 
-#include "Global.h"
-
 
 UvSet::UvSet()
 {
 	pUvBuffer = nullptr;
-
-
-
 }
 
 
@@ -166,8 +161,8 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 			{
 				loaded = true;
 
-				std::cout << std::endl;
-				std::cout << "mesh load "<<std::endl;	
+				/*std::cout << std::endl;
+				std::cout << "mesh load "<<std::endl;	*/
 								
 				//頂点座標
 				LoadVertexPosition(pMesh);
@@ -243,11 +238,11 @@ void FbxMeshLoader::LoadVertexPosition(FbxMesh* pMesh)
 	}
 
 	//四角形以上のポリゴンが1つ以上あった
-	if (flag)
-	{
-		std::cout << "メッシュロード中　四角形以上のポリゴンが含まれていた" << std::endl;
-		WaitKey("多角形ポリゴンが含まれていました");
-	}
+	//if (flag)
+	//{
+	//	std::cout << "メッシュロード中　四角形以上のポリゴンが含まれていた" << std::endl;
+	//	WaitKey("多角形ポリゴンが含まれていました");
+	//}
 
 
 	//頂点座標の数

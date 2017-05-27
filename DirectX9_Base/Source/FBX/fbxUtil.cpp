@@ -1,6 +1,6 @@
 ﻿#include "fbxUtil.h"
 #include "fbxMeshLoader.h"
-#include "Model.h"
+#include "../Model3D/Model.h"
 #include <iomanip>
 
 void ProbeNode(FbxNode* pNode,Model* pModel,int depth)
@@ -9,19 +9,21 @@ void ProbeNode(FbxNode* pNode,Model* pModel,int depth)
 	if (pNode)
 	{
 		int childCount = pNode->GetChildCount();
-		for (int i = 0; i < depth; i++)
-		{
-			std::cout << " " ;
-		}
-		
-		std::cout << "|- ("<<std::setw(4)<<depth<<") " ;		
+	
 
-		std::cout << pNode->GetName() << " : " << childCount << " children. ";
+		//for (int i = 0; i < depth; i++)
+		//{
+		//	std::cout << " " ;
+		//}
+		//
+		//std::cout << "|- ("<<std::setw(4)<<depth<<") " ;		
 
-		if (IsMesh(pNode))
-		{
-			std::cout << " [ Mesh ] ";
-		}			
+		//std::cout << pNode->GetName() << " : " << childCount << " children. ";
+
+		//if (IsMesh(pNode))
+		//{
+		//	std::cout << " [ Mesh ] ";
+		//}			
 
 		if (IsMesh(pNode))
 		{	
@@ -35,7 +37,7 @@ void ProbeNode(FbxNode* pNode,Model* pModel,int depth)
 			}
 		}
 
-		std::cout << std::endl;
+		//std::cout << std::endl;
 
 		if (childCount > 0)
 		{			

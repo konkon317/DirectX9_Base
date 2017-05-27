@@ -1,5 +1,5 @@
 ﻿#include "TriangleList.h"
-#include "FbxMeshLoader.h"
+#include "../FBX/FbxMeshLoader.h"
 
 
 //静的メンバ変数の初期化
