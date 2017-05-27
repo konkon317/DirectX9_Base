@@ -13,6 +13,8 @@
 
 #include "../../Entity/GameObject3D.h"
 
+#include "../../Model3D/Model.h"
+
 #include "../Manager/SceneManager.h"
 
 class MainScene :public Scene
@@ -31,6 +33,8 @@ private:
 	Camera camera;
 
 	MeshX testMesh;
+
+	Model model;
 
 	GameObject3D* pGameObject[2];
 
