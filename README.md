@@ -13,7 +13,7 @@ FBX形式のデータを読み出して、クラスに記憶させるテスト�
 ・TestSkinMeshAnimation  
 スキンメッシュアニメーションのテスト　  
 参考にしたサイト  
-http://marupeke296.com/DXG_No61_WhiteBoxSkinMeshAnimation.html　
+http://marupeke296.com/DXG_No61_WhiteBoxSkinMeshAnimation.html  
   
   
 ・参考(References)  
