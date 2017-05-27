@@ -63,5 +63,6 @@ public :
 	void Release();
 	bool AddMeshFromFbxMeshLoader(FbxMeshLoader* pMeshLoader);
 
-
+	//テスト用のデバッグ関数
+	void Debug_TestShow();
 };

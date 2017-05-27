@@ -73,3 +73,19 @@ bool Mesh::Load(FbxMeshLoader* pMeshLoader)
 
 
 }
+
+
+
+//--------------
+
+void Mesh::Debug_TestShow()
+{
+	int bp = 0;
+	int a = tlList.size();
+	bp = 0;
+
+	for (TL_List::iterator it = tlList.begin(); it !=tlList.end(); it++)
+	{
+		it->Debug_TestShow();
+	}
+}

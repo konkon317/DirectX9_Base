@@ -165,3 +165,19 @@ bool TriangleList::LoadVerticies(LoadParamator param)
 
 	return true;
 }
+
+//--------------
+
+//デバッグ用の関数
+
+void TriangleList::Debug_TestShow()
+{
+	int bp = 0;
+
+	Vertex* p = pVertices;
+	int vc = this->vertexCount;
+	int tc = this->triangleCount;
+	bp = 0;
+
+
+};

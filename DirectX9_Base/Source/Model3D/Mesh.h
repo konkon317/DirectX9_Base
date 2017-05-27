@@ -74,5 +74,8 @@ public:
 
 
 
+	//デバッグ用の関数
+	void Debug_TestShow();
+
 
 };

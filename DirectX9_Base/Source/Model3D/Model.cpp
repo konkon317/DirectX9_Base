@@ -59,3 +59,20 @@ bool Model::AddMeshFromFbxMeshLoader(FbxMeshLoader* pMeshLoader)
 
 	return true;
 }
+
+
+//--------------
+
+//デバッグ用の関数
+
+void Model::Debug_TestShow()
+{
+	int bp = 0;
+	int a = meshList.size();
+	bp = 0;
+
+	for (Mesh_List::iterator it = meshList.begin(); it != meshList.end(); it++)
+	{
+		it->Debug_TestShow();
+	}
+};
