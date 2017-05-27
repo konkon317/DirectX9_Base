@@ -29,6 +29,21 @@ using namespace fbxsdk;
 class Model;
 
 
-void ProbeNode(FbxNode* pNode,Model* pModel=nullptr,int depth=0);
+class FbxUtil
+{
+	//静的メンバだけのクラスとして作る
+	
+	//まずい手法だったら元に戻す
 
-bool IsMesh(FbxNode* pNode);
+private:
+
+	//インスタンスの作成を禁じる
+	FbxUtil() {}
+	FbxUtil(FbxUtil& ref) {}
+	FbxUtil& operator=(FbxUtil& ref) { return (*this); }
+
+public :
+	static void ProbeNode(FbxNode* pNode, Model* pModel = nullptr, int depth = 0);
+	
+	static bool IsMesh(FbxNode* pNode);
+};

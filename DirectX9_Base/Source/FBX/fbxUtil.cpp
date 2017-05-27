@@ -3,7 +3,8 @@
 #include "../Model3D/Model.h"
 #include <iomanip>
 
-void ProbeNode(FbxNode* pNode,Model* pModel,int depth)
+
+void FbxUtil::ProbeNode(FbxNode* pNode,Model* pModel,int depth)
 {
 	//ノード探査関数
 	if (pNode)
@@ -54,7 +55,7 @@ void ProbeNode(FbxNode* pNode,Model* pModel,int depth)
 
 
 
-bool IsMesh(FbxNode* pNode)
+bool FbxUtil::IsMesh(FbxNode* pNode)
 {
 	//ノードがメッシュに繋がっているか
 

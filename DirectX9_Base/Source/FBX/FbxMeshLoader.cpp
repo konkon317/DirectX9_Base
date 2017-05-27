@@ -152,7 +152,7 @@ void FbxMeshLoader::Load(FbxNode* pNode)
 
 	if (loaded == false)
 	{
-		if (IsMesh(pNode))
+		if (FbxUtil::IsMesh(pNode))
 		{
 			//ノードからメッシュデータ取得
 			FbxMesh *pMesh = pNode->GetMesh();
