@@ -2,7 +2,7 @@
 思考錯誤中。(During the trial and error)  
   
 現在3プロジェクト  
-・DirectX9_Base  　
+・DirectX9_Base　  
 DirectX9でゲームを作成するための機能を追加していくプロジェクト  
 メインのプロジェクト  
   
