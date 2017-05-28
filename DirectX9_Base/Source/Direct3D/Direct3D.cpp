@@ -521,7 +521,7 @@ void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldM
 			
 			pDevice3D->SetMaterial(&mtrl);
 
-			pDevice3D->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, triangleList.triangleCount,triangleList.pVertices, sizeof(TriangleList::Vertex));
+			pDevice3D->DrawPrimitiveUP(D3DPT_TRIANGLELIST, triangleList.triangleCount,triangleList.pVertices, sizeof(TriangleList::Vertex));
 
 		}
 	}
