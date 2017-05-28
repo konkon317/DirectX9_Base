@@ -40,7 +40,7 @@ public:
 	struct Vertex
 	{
 		D3DXVECTOR3 pos;
-		DWORD color;
+		D3DCOLOR color;
 	};
 
 	//静的定数
