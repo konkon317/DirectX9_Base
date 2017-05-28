@@ -96,5 +96,8 @@ public:
 
 	bool LoadVerticies(LoadParamator param);
 
+
+	//テスト用のデバッグ関数
+	void Debug_TestShow();
 };
 

@@ -75,7 +75,6 @@ bool Mesh::Load(FbxMeshLoader* pMeshLoader)
 
 }
 
-
 //--------------
 
 //描画関数
@@ -90,5 +89,19 @@ void Mesh::Draw(D3DXMATRIXA16& worldMat)
 		d3d.DrawTriangleList(*it,worldMat);
 	}
 	
+}
+
+//--------------
+
+void Mesh::Debug_TestShow()
+{
+	int bp = 0;
+	int a = tlList.size();
+	bp = 0;
+
+	for (TL_List::iterator it = tlList.begin(); it !=tlList.end(); it++)
+	{
+		it->Debug_TestShow();
+	}
 }
 

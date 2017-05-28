@@ -3,6 +3,8 @@
 #include "../../Input/directInput.h"
 #include "../../Input/XInput.h"
 
+#include "../../FBX/fbxUtil.h"
+
 
 
 MainScene::MainScene()
@@ -34,6 +36,11 @@ MainScene::MainScene()
 
 	pGameObject[0]->rotateF = false;
 	pGameObject[1]->moveF = false;
+
+
+	FbxUtil::ReadModelFromFbx(model, "FBX_FILES/cube4.fbx");
+
+	model.Debug_TestShow();
 }
 
 MainScene::~MainScene()

@@ -75,5 +75,8 @@ public:
 	//描画関数
 	void Draw(D3DXMATRIXA16& worldMat);
 
+	//デバッグ用の関数
+	void Debug_TestShow();
+
 
 };
