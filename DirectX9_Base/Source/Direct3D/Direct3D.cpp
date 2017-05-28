@@ -223,7 +223,7 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 
 			case RENDER_MESH:
 			{
-				d3d.pDevice3D->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+				d3d.pDevice3D->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 				d3d.pDevice3D->SetRenderState(D3DRS_LIGHTING, TRUE);
 				d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
 
@@ -245,9 +245,9 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 
 				ZeroMemory(&light, sizeof(D3DLIGHT9));
 				light.Type = D3DLIGHT_DIRECTIONAL;
-				light.Diffuse.r = 0.0f;
+				light.Diffuse.r = 1.0f;
 				light.Diffuse.g = 1.0f;
-				light.Diffuse.b = 0.0f;
+				light.Diffuse.b = 1.0f;
 				light.Direction = D3DXVECTOR3(0.5f, -1.0f, 0.5f);
 				light.Range = 1000.0f;
 
@@ -508,9 +508,14 @@ void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldM
 	{
 		if (triangleList.triangleCount > 0 && (triangleList.triangleCount * 3 == triangleList.vertexCount))
 		{
-			pDevice3D->SetFVF(TriangleList::FVF_TRIANGLE_LIST_VERTEX);
+			pDevice3D -> SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+			pDevice3D -> SetRenderState(D3DRS_LIGHTING, false);
+			pDevice3D -> SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+			pDevice3D -> SetRenderState(D3DRS_ZWRITEENABLE, true);
 
-			pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
+			//頂点シェーダ
+			pDevice3D->SetVertexShader(NULL);
+			pDevice3D->SetPixelShader(NULL);
 
 			D3DMATERIAL9 mtrl;
 			ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
@@ -518,8 +523,14 @@ void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldM
 			mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
 			mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
 			mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
-			
 			pDevice3D->SetMaterial(&mtrl);
+
+			pDevice3D->SetTexture(0, NULL);
+
+			pDevice3D->SetFVF(TriangleList::FVF_TRIANGLE_LIST_VERTEX);
+			
+
+			pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
 
 			pDevice3D->DrawPrimitiveUP(D3DPT_TRIANGLELIST, triangleList.triangleCount,triangleList.pVertices, sizeof(TriangleList::Vertex));
 

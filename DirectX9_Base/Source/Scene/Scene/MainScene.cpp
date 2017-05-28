@@ -138,6 +138,7 @@ void MainScene::Update()
 void MainScene::Draw()
 {
 	Direct3D::GetInstance().SetRenderState(RENDER_MESH);
+	Direct3D::GetInstance().SetupRrojectionMatrix();
 	camera.SetViewMatrix();
 
 	for (int i = 1; i >= 0; i--)
@@ -157,8 +158,16 @@ void MainScene::Draw()
 		targetValue = (dir == -1) ? 0.0f : 1.0f;
 	}
 
+	static float f = 0.0f;
+
+	f += 0.01f;
+	static D3DXMATRIXA16 mat;
+	D3DXMatrixIdentity(&mat);
+	model.Draw(mat);
+	mat._41 = f;
+
 	Direct3D::GetInstance().SetRenderState(RENDERSTATE::RENDER_ALPHABLEND);
-	Direct3D::DrawSprite(sp, tex, false);
+	//Direct3D::DrawSprite(sp, tex, false);
 }
 
 void MainScene::Init()
