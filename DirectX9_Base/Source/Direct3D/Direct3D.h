@@ -41,6 +41,7 @@ struct LINE_VERTEX
 class Texture;
 class Sprite;
 class MeshX;
+class TriangleList;
 
 //-------------------------------
 class Direct3D : public Singleton<Direct3D>
@@ -65,6 +66,8 @@ public:
 
 	void LoadMesh(MeshX& mesh,TCHAR* path);
 	void DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat);
+
+	void DrawTriangleList(TriangleList& triangleList, D3DXMATRIXA16& worldMat);
 
 	//スプライトの表示
 	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);

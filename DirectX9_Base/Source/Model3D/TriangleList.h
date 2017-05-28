@@ -29,9 +29,12 @@ using namespace fbxsdk;
 
 struct ColorRGBA;
 
+class Direct3D;
 
 class TriangleList
 {
+	friend class Direct3D;
+
 public:
 	//インナークラス(構造体)
 	struct Vertex

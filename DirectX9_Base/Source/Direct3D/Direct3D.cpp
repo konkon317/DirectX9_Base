@@ -3,6 +3,8 @@
 #include "sprite.h"
 #include "meshX.h"
 
+#include "../Model3D/TriangleList.h"
+
 RENDERSTATE Direct3D::currentState;
 
 //コンストラクタ
@@ -497,6 +499,35 @@ void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat)
 			mesh.pMesh->DrawSubset(0);
 		}
 	}
+}
+
+
+void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldMat)
+{
+	if (triangleList.pVertices != nullptr)
+	{
+		if (triangleList.triangleCount > 0 && (triangleList.triangleCount * 3 == triangleList.vertexCount))
+		{
+			pDevice3D->SetFVF(TriangleList::FVF_TRIANGLE_LIST_VERTEX);
+
+			pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
+
+			D3DMATERIAL9 mtrl;
+			ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+			mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
+			mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
+			mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
+			mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
+			
+			pDevice3D->SetMaterial(&mtrl);
+
+			pDevice3D->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, triangleList.triangleCount,triangleList.pVertices, sizeof(TriangleList::Vertex));
+
+		}
+	}
+
+
+
 }
 
 void Direct3D::SetupRrojectionMatrix()
