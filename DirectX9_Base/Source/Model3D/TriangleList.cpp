@@ -11,7 +11,7 @@ const int TriangleList::FVF_TRIANGLE_LIST_VERTEX = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 const TriangleList::Vertex	TriangleList::DEFAULT_VERTEX =
 {
 	D3DXVECTOR3(0.0f,0.0f,0.0f),
-	DWORD(0xffffffff)
+	D3DCOLOR_ARGB(255,255,255,255)
 };
 
 
@@ -153,11 +153,8 @@ bool TriangleList::LoadVerticies(LoadParamator param)
 				float b = param.ppVertexColor[0][i].b;
 				float a = param.ppVertexColor[0][i].a;
 
-				pVertices[i].color = 0x00000000;
-				pVertices[i].color += static_cast<int>(0x000000ff * r) << (8 * 3);
-				pVertices[i].color += static_cast<int>(0x000000ff * g) << (8 * 2);
-				pVertices[i].color += static_cast<int>(0x000000ff * b) << (8 * 1);
-				pVertices[i].color += static_cast<int>(0x000000ff * a) ;
+				pVertices[i].color = 0xffffffff;
+				pVertices[i].color =D3DCOLOR_ARGB( static_cast<int>(255*a), static_cast<int>(255 * r), static_cast<int>(255 * g), static_cast<int>(255 * b));				
 			}
 		}
 	}
@@ -165,3 +162,19 @@ bool TriangleList::LoadVerticies(LoadParamator param)
 
 	return true;
 }
+
+//--------------
+
+//デバッグ用の関数
+
+void TriangleList::Debug_TestShow()
+{
+	int bp = 0;
+
+	Vertex* p = pVertices;
+	int vc = this->vertexCount;
+	int tc = this->triangleCount;
+	bp = 0;
+
+
+};

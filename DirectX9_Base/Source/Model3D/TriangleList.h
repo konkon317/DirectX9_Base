@@ -29,15 +29,18 @@ using namespace fbxsdk;
 
 struct ColorRGBA;
 
+class Direct3D;
 
 class TriangleList
 {
+	friend class Direct3D;
+
 public:
 	//インナークラス(構造体)
 	struct Vertex
 	{
 		D3DXVECTOR3 pos;
-		DWORD color;
+		D3DCOLOR color;
 	};
 
 	//静的定数
@@ -93,5 +96,8 @@ public:
 
 	bool LoadVerticies(LoadParamator param);
 
+
+	//テスト用のデバッグ関数
+	void Debug_TestShow();
 };
 
