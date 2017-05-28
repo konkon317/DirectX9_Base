@@ -59,3 +59,18 @@ bool Model::AddMeshFromFbxMeshLoader(FbxMeshLoader* pMeshLoader)
 
 	return true;
 }
+
+//--------------
+
+//描画関数
+
+void Model::Draw(D3DXMATRIXA16& worldMat)
+{
+
+	for (Mesh_List::iterator it = meshList.begin(); it != meshList.end(); it++)
+	{
+
+		it->Draw(worldMat);
+	}
+
+}

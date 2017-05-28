@@ -63,5 +63,5 @@ public :
 	void Release();
 	bool AddMeshFromFbxMeshLoader(FbxMeshLoader* pMeshLoader);
 
-
+	void Draw(D3DXMATRIXA16& worldMat);
 };

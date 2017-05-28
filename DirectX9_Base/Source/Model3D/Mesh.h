@@ -72,7 +72,8 @@ public:
 	//ロード関数
 	bool Load(FbxMeshLoader* pMeshLoader);
 
-
+	//描画関数
+	void Draw(D3DXMATRIXA16& worldMat);
 
 
 };
