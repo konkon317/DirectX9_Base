@@ -236,8 +236,8 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				ZeroMemory(&light, sizeof(D3DLIGHT9));
 				light.Type = D3DLIGHT_DIRECTIONAL;
 				light.Diffuse.r = 1.0f;
-				light.Diffuse.g = 0.0f;
-				light.Diffuse.b = 0.0f;
+				light.Diffuse.g = 1.0f;
+				light.Diffuse.b = 1.0f;
 				light.Direction = D3DXVECTOR3(-0.5f, -1.0f, 0.5f);
 				light.Range = 1000.0f;
 
@@ -509,7 +509,7 @@ void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldM
 		if (triangleList.triangleCount > 0 && (triangleList.triangleCount * 3 == triangleList.vertexCount))
 		{
 			pDevice3D -> SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-			pDevice3D -> SetRenderState(D3DRS_LIGHTING, false);
+			pDevice3D -> SetRenderState(D3DRS_LIGHTING, true);
 			pDevice3D -> SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 			pDevice3D -> SetRenderState(D3DRS_ZWRITEENABLE, true);
 
