@@ -57,6 +57,11 @@ bool Mesh::Load(FbxMeshLoader* pMeshLoader)
 
 	param.indexCount					= pMeshLoader->indexCount;
 	param.pVertexPoints_DX				= pMeshLoader->pVertexPoints_DX;
+
+	param.normalLayerCount				=pMeshLoader->normalLayerCount;
+	param.ppNormalVector				=pMeshLoader->ppNormalVector;
+	param.pNormalCount					=pMeshLoader->pNormalCounts;
+
 	param.VertexColorSetNum				= pMeshLoader->VertexColorSetMax;
 	param.pColorCount_ByVerTexColorSet	= pMeshLoader->pColorCount_ByVertexColorSet;
 	param.ppVertexColor					= pMeshLoader->ppVertexColor;
