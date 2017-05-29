@@ -2,16 +2,14 @@
 #include "../FBX/FbxMeshLoader.h"
 
 
-//静的メンバ変数の初期化
-
-//頂点構造体宣言
-const int TriangleList::FVF_TRIANGLE_LIST_VERTEX = D3DFVF_XYZ | D3DFVF_DIFFUSE;
-
 //頂点のデフォルト値
 const TriangleList::Vertex	TriangleList::DEFAULT_VERTEX =
 {
 	D3DXVECTOR3(0.0f,0.0f,0.0f),
-	D3DCOLOR_ARGB(255,255,255,255)
+	D3DXVECTOR3(0.0f,0.0f,0.0f),
+	D3DCOLOR_ARGB(255,255,255,255),
+	0.0f,
+	0.0f
 };
 
 
