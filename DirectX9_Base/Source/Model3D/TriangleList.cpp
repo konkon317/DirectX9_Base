@@ -2,16 +2,14 @@
 #include "../FBX/FbxMeshLoader.h"
 
 
-//静的メンバ変数の初期化
-
-//頂点構造体宣言
-const int TriangleList::FVF_TRIANGLE_LIST_VERTEX = D3DFVF_XYZ | D3DFVF_DIFFUSE;
-
 //頂点のデフォルト値
 const TriangleList::Vertex	TriangleList::DEFAULT_VERTEX =
 {
 	D3DXVECTOR3(0.0f,0.0f,0.0f),
-	D3DCOLOR_ARGB(255,255,255,255)
+	D3DXVECTOR3(0.0f,0.0f,0.0f),
+	D3DCOLOR_ARGB(255,255,255,255),
+	0.0f,
+	0.0f
 };
 
 
@@ -130,31 +128,65 @@ bool TriangleList::LoadVerticies(LoadParamator param)
 		}
 	}
 
-	bool b1 = param.ppVertexColor != nullptr &&param.pColorCount_ByVerTexColorSet!=nullptr ;
-	bool b2 = param.VertexColorSetNum > 0;
-	if (b1 && b2)
+	//法線のロード
 	{
-		bool b3 = false;
-		for (int i = 0; i < param.VertexColorSetNum; i++)
+		bool b1 = param.ppNormalVector != nullptr &&param.pNormalCount != nullptr;
+		bool b2 = param.normalLayerCount > 0;
+
+		if (b1&& b2)
 		{
-			if (param.ppVertexColor == nullptr || param.pColorCount_ByVerTexColorSet[i]!=vertexCount)
+			bool b3 = false;
+			for (int i = 0; i < param.normalLayerCount; i++)
 			{
-				b3 = true;
-				break;
+				if (param.ppNormalVector[i] == nullptr || param.pNormalCount[i] != vertexCount)
+				{
+					b3 = true;
+					break;
+				}
 			}
-		}
 
-		if (b3 == false)
-		{
-			for (int i = 0; i < vertexCount; i++)
+			if (b3 == false)
 			{
-				float r = param.ppVertexColor[0][i].r;
-				float g = param.ppVertexColor[0][i].g;
-				float b = param.ppVertexColor[0][i].b;
-				float a = param.ppVertexColor[0][i].a;
+				for (int i = 0; i < vertexCount; i++)
+				{
+					pVertices[i].normal.x = param.ppNormalVector[0][i].x;
+					pVertices[i].normal.y = param.ppNormalVector[0][i].y;
+					pVertices[i].normal.z = param.ppNormalVector[0][i].z;
+					
+				}
+			}
+		}	
+	}
 
-				pVertices[i].color = 0xffffffff;
-				pVertices[i].color =D3DCOLOR_ARGB( static_cast<int>(255*a), static_cast<int>(255 * r), static_cast<int>(255 * g), static_cast<int>(255 * b));				
+
+	//頂点色のロード
+	{
+		bool b1 = param.ppVertexColor != nullptr &&param.pColorCount_ByVerTexColorSet != nullptr;
+		bool b2 = param.VertexColorSetNum > 0;
+		if (b1 && b2)
+		{
+			bool b3 = false;
+			for (int i = 0; i < param.VertexColorSetNum; i++)
+			{
+				if (param.ppVertexColor[i] == nullptr || param.pColorCount_ByVerTexColorSet[i] != vertexCount)
+				{
+					b3 = true;
+					break;
+				}
+			}
+
+			if (b3 == false)
+			{
+				for (int i = 0; i < vertexCount; i++)
+				{
+					float r = param.ppVertexColor[0][i].r;
+					float g = param.ppVertexColor[0][i].g;
+					float b = param.ppVertexColor[0][i].b;
+					float a = param.ppVertexColor[0][i].a;
+
+					pVertices[i].color = 0xffffffff;
+					pVertices[i].color = D3DCOLOR_ARGB(static_cast<int>(255 * a), static_cast<int>(255 * r), static_cast<int>(255 * g), static_cast<int>(255 * b));
+				}
 			}
 		}
 	}

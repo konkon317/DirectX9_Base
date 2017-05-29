@@ -40,17 +40,29 @@ public:
 	struct Vertex
 	{
 		D3DXVECTOR3 pos;
+		D3DXVECTOR3 normal;
 		D3DCOLOR color;
+
+		float u, v;
 	};
 
 	//静的定数
-	static const int FVF_TRIANGLE_LIST_VERTEX;
+
+	//頂点構造体宣言
+	static const DWORD FVF_TRIANGLE_LIST_VERTEX = D3DFVF_XYZ |D3DFVF_NORMAL| D3DFVF_DIFFUSE | D3DFVF_TEX1;
 	static const Vertex DEFAULT_VERTEX;
 
 	struct LoadParamator
 	{
+		//頂点
 		int indexCount;
 		D3DXVECTOR4* pVertexPoints_DX;
+		//法線
+		int normalLayerCount;
+		int* pNormalCount;
+		D3DXVECTOR4 ** ppNormalVector;
+
+		//頂点色
 		int VertexColorSetNum;
 		int* pColorCount_ByVerTexColorSet;
 		ColorRGBA** ppVertexColor;
