@@ -54,8 +54,15 @@ public:
 
 	struct LoadParamator
 	{
+		//頂点
 		int indexCount;
 		D3DXVECTOR4* pVertexPoints_DX;
+		//法線
+		int normalLayerCount;
+		int* pNormalCount;
+		D3DXVECTOR4 ** ppNormalVector;
+
+		//頂点色
 		int VertexColorSetNum;
 		int* pColorCount_ByVerTexColorSet;
 		ColorRGBA** ppVertexColor;
