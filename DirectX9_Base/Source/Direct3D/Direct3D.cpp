@@ -41,6 +41,7 @@ bool Direct3D::TryCreate(HWND hWnd)
 	if (isDeviceCreated == false)//作られていない場合のみ
 	{
 		isDeviceCreated = Create(hWnd);
+		this->hWnd = hWnd;
 	}
 
 	return isDeviceCreated;
@@ -543,9 +544,21 @@ void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldM
 
 void Direct3D::SetupRrojectionMatrix()
 {
+	RECT client;
+	GetClientRect(hWnd, &client);
+	float w = client.right - client.left;
+	float h = client.bottom - client.top;
+
 	D3DXMATRIXA16 matProj;
 
-	D3DXMatrixPerspectiveFovLH(&matProj, 3.0f / 4.0f, 1.0f, 1.0f, 100.0f);
+
+
+	D3DXMatrixPerspectiveFovLH(&matProj,
+		(float)(D3DX_PI/4.0),//視野角
+		w/h,//アスペクト比
+		1.0f,
+		100.0f);
+
 	pDevice3D->SetTransform(D3DTS_PROJECTION, &matProj);
 }
 
