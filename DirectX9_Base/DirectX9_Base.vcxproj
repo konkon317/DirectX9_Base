@@ -37,6 +37,7 @@
     <Import Project="FBX_SDK_desktop_debug.props" />
     <Import Project="DirectX_note.props" />
     <Import Project="DirectX_Desktop.props" />
+    <Import Project="FBX_SDK_note_debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
