@@ -68,38 +68,8 @@ bool Application::RegistBasicWindowClass()
 	//----------
 
 	hInstance = GetModuleHandle(NULL);
-
+	
 	//シンプルウィンドウクラス設定
-	//WNDCLASSEX wcex =
-	//{
-	//	sizeof(WNDCLASSEX),						// cbSize : 構造体のサイズ
-	//	CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS,	// style : ウィンドウスタイル
-	//	(WNDPROC)WndProc,							// ipfnWndProc : ウィンドウプロシージャのアドレス
-	//	0,										// cbClsExtra : 0固定
-	//	0,										// cbWndExtra : 0固定
-	//	hInstance,								// hInstance : WinMainのインスタンスハンドル
-	//	
-	//	(HICON)LoadImage(NULL,					// hIcon : 使用するアイコン
-	//	MAKEINTRESOURCE(IDI_APPLICATION),
-	//	IMAGE_ICON,
-	//	0,
-	//	0,
-	//	LR_DEFAULTSIZE | LR_SHARED),
-
-	//	(HCURSOR)LoadImage(NULL,					// hCursor :  マウスカーソル
-	//	MAKEINTRESOURCE(IDC_ARROW),
-	//	IMAGE_CURSOR,
-	//	0,
-	//	0,
-	//	LR_DEFAULTSIZE | LR_SHARED),
-	//	(HBRUSH)(COLOR_WINDOW + 1)
-	//	/*(HBRUSH)GetStockObject(WHITE_BRUSH)*/,	// hbrBackground : ウィンドウクライアント領域の背景色
-	//	NULL,										// lpszMeueName : メニュー
-	//	WC_BASIC,									// lpszClassName : ウィンドウクラスの名前 CreateWindow()の第一引数と同じ
-	//	NULL										// hIconSm : 使用するアイコン(小)
-	//};
-
-	//上のコメントアウトの部分をわかりやすいように整理
 	WNDCLASSEX wcex;
 	memset(&wcex, 0, sizeof(WNDCLASSEX));						//メモリの確保
 
