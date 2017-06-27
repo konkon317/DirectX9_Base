@@ -66,7 +66,8 @@ bool Mesh::Load(FbxMeshLoader* pMeshLoader)
 	param.pColorCount_ByVerTexColorSet	= pMeshLoader->pColorCount_ByVertexColorSet;
 	param.ppVertexColor					= pMeshLoader->ppVertexColor;
 	
-
+	param.uvSetCount					= pMeshLoader->uvSetCount;
+	param.pUvSetArray					= pMeshLoader->pUvSetArray;
 
 	//ロードに失敗したらfalse を返す
 	if (it->LoadVerticies(param) == false)

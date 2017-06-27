@@ -43,7 +43,7 @@ private:
 	FbxUtil& operator=(FbxUtil& ref) { return (*this); }
 
 public :
-	static void ProbeNode(FbxNode* pNode, Model* pModel = nullptr, int depth = 0);
+	static void ProbeNode(FbxNode* pNode, Model* pModel = nullptr, string filepath = "", int depth = 0);
 	
 	static bool IsMesh(FbxNode* pNode);
 

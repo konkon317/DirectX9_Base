@@ -526,7 +526,7 @@ void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldM
 			mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
 			pDevice3D->SetMaterial(&mtrl);
 
-			pDevice3D->SetTexture(0, NULL);
+			pDevice3D->SetTexture(0, triangleList.pTexture[0].pTexture);
 
 			pDevice3D->SetFVF(TriangleList::FVF_TRIANGLE_LIST_VERTEX);
 			

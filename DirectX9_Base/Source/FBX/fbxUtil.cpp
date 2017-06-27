@@ -4,11 +4,12 @@
 #include <iomanip>
 
 
-void FbxUtil::ProbeNode(FbxNode* pNode,Model* pModel,int depth)
+void FbxUtil::ProbeNode(FbxNode* pNode,Model* pModel,string filepath,int depth)
 {
 	//ノード探査関数
 	if (pNode)
 	{
+		
 		int childCount = pNode->GetChildCount();
 	
 
@@ -29,7 +30,7 @@ void FbxUtil::ProbeNode(FbxNode* pNode,Model* pModel,int depth)
 		if (IsMesh(pNode))
 		{	
 			FbxMeshLoader fbxMeshLoader;
-			fbxMeshLoader.Load(pNode);
+			fbxMeshLoader.Load(pNode,filepath);
 
 			if (pModel != nullptr)
 			{
@@ -46,7 +47,7 @@ void FbxUtil::ProbeNode(FbxNode* pNode,Model* pModel,int depth)
 		
 			for (int i = 0; i < childCount; i++)
 			{
-				ProbeNode(pNode->GetChild(i),pModel, depth + 1);
+				ProbeNode(pNode->GetChild(i),pModel, filepath,depth + 1);
 			}
 			//std::cout << "<<<<  back ParentNode" << std::endl;
 		}
@@ -150,7 +151,7 @@ bool FbxUtil::ReadModelFromFbx(Model& model, const char* filePath)
 	//std::cout << "CreateScene ...";
 	
 	FbxScene* pScene = FbxScene::Create(pManager, "");
-
+	
 	if (pScene == nullptr)
 	{
 		//std::cout << "Failed " << std::endl;
@@ -194,6 +195,7 @@ bool FbxUtil::ReadModelFromFbx(Model& model, const char* filePath)
 	pImporter->Destroy();
 	pImporter = nullptr;
 
+
 	//------------------------------------------------------------------
 	//ノード探査
 	FbxNode* pRootNode = pScene->GetRootNode();
@@ -201,7 +203,7 @@ bool FbxUtil::ReadModelFromFbx(Model& model, const char* filePath)
 	if (pRootNode)
 	{
 		//モデルを探査して見つけたメッシュやマテリアルをモデルに追加する
-		ProbeNode(pRootNode, &model);
+		ProbeNode(pRootNode, &model,filePath);
 	}
 
 	pRootNode->Destroy();

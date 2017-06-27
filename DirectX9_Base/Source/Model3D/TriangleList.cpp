@@ -1,6 +1,8 @@
 ﻿#include "TriangleList.h"
 #include "../FBX/FbxMeshLoader.h"
 
+#include <tchar.h>
+
 
 //頂点のデフォルト値
 const TriangleList::Vertex	TriangleList::DEFAULT_VERTEX =
@@ -186,6 +188,34 @@ bool TriangleList::LoadVerticies(LoadParamator param)
 
 					pVertices[i].color = 0xffffffff;
 					pVertices[i].color = D3DCOLOR_ARGB(static_cast<int>(255 * a), static_cast<int>(255 * r), static_cast<int>(255 * g), static_cast<int>(255 * b));
+				}
+			}
+		}
+	}
+
+	{
+		bool b1 = param.pUvSetArray != nullptr;
+		bool b2 = param.uvSetCount > 0;
+
+		if (b1&&b2)
+		{
+			bool b3 = vertexCount == param.pUvSetArray[0].uvCount;
+			pTexture = new Texture[param.uvSetCount];
+			if (b3)
+			{
+				Direct3D& d3d = Direct3D::GetInstance();
+				
+				string str = param.pUvSetArray[0].texture;
+				TCHAR buf[1024];
+				_stprintf_s(buf, 1024, str.c_str());
+				d3d.LoadTexture(pTexture[0],buf);
+				for (int i = 0; i < param.pUvSetArray[0].uvCount; i++)
+				{
+
+					pVertices[i].u = param.pUvSetArray[0].pUvBuffer[i].x;
+					pVertices[i].v = param.pUvSetArray[0].pUvBuffer[i].y;
+
+
 				}
 			}
 		}

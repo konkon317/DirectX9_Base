@@ -17,6 +17,8 @@
 //list
 #include <list>
 
+#include <string>
+
 //基本入出力
 //#include <iostream>
 //using namespace std;
@@ -48,7 +50,7 @@ public :
 	//std::list<std::string> textures;
 	std::string texture;
 	Point2DF* pUvBuffer;
-
+	int uvCount;
 	UvSet();
 	~UvSet();
 
@@ -142,7 +144,7 @@ public :
 
 	//ロード
 	//ロードしたいメッシュを持つノード
-	void Load(FbxNode* pNode);
+	void Load(FbxNode* pNode,std::string filepath);
 
 	//解放処理
 	void Release();
@@ -156,6 +158,6 @@ private:
 
 	void LoadVertexColor(FbxMesh * pMesh);
 
-	void Asociate_UVSetAndMaterial(FbxNode* pNode);
+	void Asociate_UVSetAndMaterial(FbxNode* pNode,std::string filepath);
 
 };
