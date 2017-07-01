@@ -574,7 +574,7 @@ void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode,std::string filepa
 					if (pTexture)
 					{
 						//テクスチャ名を取得
-						std::string textureName = pTexture->GetRelativeFileName();
+						std::string relPath = pTexture->GetRelativeFileName();
 
 						//UVSet名を取得
 						std::string UVSetName = pTexture->UVSet.Get().Buffer();
@@ -585,7 +585,7 @@ void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode,std::string filepa
 							{
 							
 
-								pUvSetArray[k].texture = textureName;
+								pUvSetArray[k].texture = FbxUtil::MakeTexturePath(filepath, relPath);
 							}
 						}
 					}
@@ -608,8 +608,8 @@ void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode,std::string filepa
 					{
 						//--- テクスチャ名を取得 ---//
 						//std::string textureName = texture->GetName();
-						std::string textureName = pTexture->GetRelativeFileName();
-						std::string tes=pTexture->GetFileName();
+						std::string relPath = pTexture->GetRelativeFileName();
+						
 						//--- UVSet名を取得 ---//
 						std::string UVSetName = pTexture->UVSet.Get().Buffer();
 
@@ -641,7 +641,7 @@ void  FbxMeshLoader::Asociate_UVSetAndMaterial(FbxNode* pNode,std::string filepa
 									}
 								}*/
 
-								pUvSetArray[k].texture = tes;
+								pUvSetArray[k].texture = FbxUtil::MakeTexturePath(filepath,relPath);
 							}
 						}
 					}

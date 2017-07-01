@@ -18,8 +18,9 @@
 
 //基本入出力
 //#include <iostream>
+#include <string>
 
-using namespace std;
+//using namespace std;
 
 //fbx
 #include <fbxsdk.h>
@@ -27,6 +28,7 @@ using namespace fbxsdk;
 
 
 class Model;
+
 
 
 class FbxUtil
@@ -43,9 +45,12 @@ private:
 	FbxUtil& operator=(FbxUtil& ref) { return (*this); }
 
 public :
-	static void ProbeNode(FbxNode* pNode, Model* pModel = nullptr, string filepath = "", int depth = 0);
+	static void ProbeNode(FbxNode* pNode, Model* pModel = nullptr, std::string filepath = "", int depth = 0);
 	
 	static bool IsMesh(FbxNode* pNode);
 
 	static bool ReadModelFromFbx(Model& model, const char* filePath);
+
+	static std::string MakeTexturePath(std::string fbxPath, std::string relPath); 
+	
 };
