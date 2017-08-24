@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{2294bf1e-2cfe-46de-9363-534fc23b7731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Application">
+      <UniqueIdentifier>{cbaf1617-319f-4fd5-a006-2f476fa4c4ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Direct3D">
+      <UniqueIdentifier>{58c5b5e4-34e2-4359-ab67-a090f6168a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Template">
+      <UniqueIdentifier>{efe6d81c-c798-4c66-b4c4-454bafcdca4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{e8a09fa0-a44a-48f3-bcfa-63b97982133e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Other">
+      <UniqueIdentifier>{f93f555b-c049-45ca-82fb-70c09d9d08ca}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Direct3D\Direct3D.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Application\Application.cpp">
+      <Filter>Source\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\winmain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Template\Singleton.cpp">
+      <Filter>Source\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\directInput.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\XInput.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Direct3D\Direct3D.h">
+      <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Application\Application.h">
+      <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Template\Singleton.h">
+      <Filter>Source\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\directInput.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\XInput.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Other\MyVector.h">
+      <Filter>Source\Other</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
