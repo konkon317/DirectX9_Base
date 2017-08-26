@@ -163,6 +163,9 @@
     <ClInclude Include="Source\Other\MyVector.h" />
     <ClInclude Include="Source\Template\Singleton.h" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\Empty.fx" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

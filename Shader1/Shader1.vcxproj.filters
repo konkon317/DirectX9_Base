@@ -19,6 +19,9 @@
     <Filter Include="Source\Other">
       <UniqueIdentifier>{f93f555b-c049-45ca-82fb-70c09d9d08ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{e1a4ced6-1e48-494d-a1bd-919cba07ce35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Direct3D\Direct3D.cpp">
@@ -59,5 +62,10 @@
     <ClInclude Include="Source\Other\MyVector.h">
       <Filter>Source\Other</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\Empty.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
