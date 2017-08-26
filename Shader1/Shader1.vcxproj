@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Application\Application.cpp" />
     <ClCompile Include="Source\Direct3D\Direct3D.cpp" />
+    <ClCompile Include="Source\Direct3D\Effect.cpp" />
     <ClCompile Include="Source\Input\directInput.cpp" />
     <ClCompile Include="Source\Input\XInput.cpp" />
     <ClCompile Include="Source\Template\Singleton.cpp" />
@@ -158,13 +159,11 @@
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h" />
     <ClInclude Include="Source\Direct3D\Direct3D.h" />
+    <ClInclude Include="Source\Direct3D\Effect.h" />
     <ClInclude Include="Source\Input\directInput.h" />
     <ClInclude Include="Source\Input\XInput.h" />
     <ClInclude Include="Source\Other\MyVector.h" />
     <ClInclude Include="Source\Template\Singleton.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Shader\Empty.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -42,6 +42,9 @@
     <ClCompile Include="Source\Input\XInput.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\Effect.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Direct3D\Direct3D.h">
@@ -62,10 +65,8 @@
     <ClInclude Include="Source\Other\MyVector.h">
       <Filter>Source\Other</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Shader\Empty.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
+    <ClInclude Include="Source\Direct3D\Effect.h">
+      <Filter>Source\Direct3D</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
