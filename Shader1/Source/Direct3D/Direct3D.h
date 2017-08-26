@@ -42,6 +42,7 @@ class Texture;
 class Sprite;
 class MeshX;
 class TriangleList;
+class Effect;
 
 //-------------------------------
 class Direct3D : public Singleton<Direct3D>
@@ -75,6 +76,8 @@ public:
 	void SetDrawFunc(FuncPointer pointer);
 
 	void DrawLine(LINE_VERTEX* pVertex, int count);
+
+	HRESULT CreateEffectFromFile(Effect& refEffect, std::string filepath);
 
 private:
 	HWND hWnd;

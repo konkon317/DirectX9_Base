@@ -12,15 +12,19 @@
 #include "Template/Singleton.h"
 #include "Application/Application.h"
 #include "Direct3D/Direct3D.h"
-
-
-
+#include "Direct3D/Effect.h"
 
 #if _DEBUG
 #define new ::new(_NORMAL_BLOCK,__FILE__,__LINE__)
 #endif
 
+
 void Dummy()
+{
+
+}
+
+void DummyDraw()
 {
 
 }
@@ -55,8 +59,11 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		MessageBox(NULL, "3Dデバイス作成失敗", TEXT("WinMain"), MB_OK);
 	}
 		
+	Effect effect;
+	HRESULT result=effect.CreateFromFile("Shader/Empty.fx");
+
 	App.SetUpdateFuncPointer(Dummy);
-	D3d.SetDrawFunc(Dummy);	
+	D3d.SetDrawFunc(DummyDraw);	
 
 	App.MessageLoop();//メッセージループ
 

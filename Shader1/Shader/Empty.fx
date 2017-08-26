@@ -17,6 +17,6 @@ technique BasicTec
    pass P0
    {
       	VertexShader 	= compile vs_2_0 BasicTransform();
-   		PixelShader 	= compile ps_2_0 NoWorkingPixelShader();
+   	PixelShader 	= compile ps_2_0 NoWorkingPixelShader();
    }
 }

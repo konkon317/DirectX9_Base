@@ -5,6 +5,10 @@
 //
 //#include "../Model3D/TriangleList.h"
 
+#include <tchar.h>
+
+#include "Effect.h"
+
 RENDERSTATE Direct3D::currentState;
 
 //コンストラクタ
@@ -50,9 +54,9 @@ bool Direct3D::TryCreate(HWND hWnd)
 bool Direct3D::Create(HWND hWnd)
 {
 	RECT rec;
-	GetClientRect(hWnd,&rec);
-	int Width=rec.right-rec.left;
-	int Height=rec.bottom-rec.top;
+	GetClientRect(hWnd, &rec);
+	int Width = rec.right - rec.left;
+	int Height = rec.bottom - rec.top;
 
 	//Direct3D9オブジェクトの作成
 	pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
@@ -82,25 +86,29 @@ bool Direct3D::Create(HWND hWnd)
 
 	//幾つかの設定でデバイス作成を試みる
 	//HALモードで3Dデバイス作成
-	if (FAILED(pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DParam.hDeviceWindow,
-		D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &D3DParam, &pDevice3D)))
+	//if (FAILED(pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DParam.hDeviceWindow,
+	//	D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &D3DParam, &pDevice3D)))
+	//{
+	//	if (FAILED(pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DParam.hDeviceWindow,
+	//		D3DCREATE_MIXED_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &D3DParam, &pDevice3D)))
+	//	{
+	//		//Refモードで3Dデバイス作成
+	//		if (FAILED(pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_REF, D3DParam.hDeviceWindow,
+	//			D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &D3DParam, &pDevice3D)))
+	//		{
+	//			if (FAILED(pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_REF, D3DParam.hDeviceWindow,
+	//				D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &D3DParam, &pDevice3D)))
+	//			{
+	if (FAILED(pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &D3DParam, &pDevice3D)))
 	{
-		if (FAILED(pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DParam.hDeviceWindow,
-			D3DCREATE_MIXED_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &D3DParam, &pDevice3D)))
+		if (FAILED(pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &D3DParam, &pDevice3D)))
 		{
-			//Refモードで3Dデバイス作成
-			if (FAILED(pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_REF, D3DParam.hDeviceWindow,
-				D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &D3DParam, &pDevice3D)))
-			{
-				if (FAILED(pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_REF, D3DParam.hDeviceWindow,
-					D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &D3DParam, &pDevice3D)))
-				{
-					// 3Dデバイス作成失敗
-					pD3D9->Release();
-					return false;
-				}
-			}
+			// 3Dデバイス作成失敗
+			pD3D9->Release();
+			return false;
 		}
+		//}
+	//}
 	}
 	return true;//どれかで作成成功すればtrueが返る
 
@@ -383,8 +391,7 @@ void Direct3D::TryCallDrawFunc()
 	if (DrawFunc != nullptr)
 	{	
 		
-		DrawFunc();
-		
+		DrawFunc();	
 	
 	}
 	else
@@ -584,4 +591,22 @@ void  Direct3D::DrawLine(LINE_VERTEX* pVertex, int count)
 
 	pDevice3D->SetFVF(D3DFVF_LINE_VERTEX);
 	pDevice3D->DrawPrimitiveUP(D3DPT_LINELIST, count, pVertex, sizeof(LINE_VERTEX));
+}
+
+HRESULT Direct3D::CreateEffectFromFile(Effect& refEffect,std::string filepath)
+{
+	if (refEffect.pEffect != nullptr)return S_FALSE;
+
+	const TCHAR* path = _T(filepath.c_str());
+
+	return D3DXCreateEffectFromFile	(
+		pDevice3D,
+		path,
+		NULL,
+		NULL,
+		D3DXSHADER_DEBUG,		
+		NULL,
+		&refEffect.pEffect,
+		NULL
+	);
 }
