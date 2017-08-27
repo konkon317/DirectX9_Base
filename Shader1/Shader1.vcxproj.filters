@@ -45,6 +45,12 @@
     <ClCompile Include="Source\Direct3D\Effect.cpp">
       <Filter>Source\Direct3D</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\meshX.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\texture.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Direct3D\Direct3D.h">
@@ -66,6 +72,12 @@
       <Filter>Source\Other</Filter>
     </ClInclude>
     <ClInclude Include="Source\Direct3D\Effect.h">
+      <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\meshX.h">
+      <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\texture.h">
       <Filter>Source\Direct3D</Filter>
     </ClInclude>
   </ItemGroup>
