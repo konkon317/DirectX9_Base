@@ -19,6 +19,9 @@
     <Filter Include="Source\Other">
       <UniqueIdentifier>{f93f555b-c049-45ca-82fb-70c09d9d08ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{e1a4ced6-1e48-494d-a1bd-919cba07ce35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Direct3D\Direct3D.cpp">
@@ -39,6 +42,15 @@
     <ClCompile Include="Source\Input\XInput.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\Effect.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\meshX.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\texture.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Direct3D\Direct3D.h">
@@ -58,6 +70,15 @@
     </ClInclude>
     <ClInclude Include="Source\Other\MyVector.h">
       <Filter>Source\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Effect.h">
+      <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\meshX.h">
+      <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\texture.h">
+      <Filter>Source\Direct3D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

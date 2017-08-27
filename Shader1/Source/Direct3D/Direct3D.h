@@ -42,6 +42,7 @@ class Texture;
 class Sprite;
 class MeshX;
 class TriangleList;
+class Effect;
 
 //-------------------------------
 class Direct3D : public Singleton<Direct3D>
@@ -59,13 +60,13 @@ public:
 	static void Render();
 	static void SetRenderState(RENDERSTATE RenderrState);
 
-	/*bool LoadTexture(Texture& texture, TCHAR* FileName);*/
+	bool LoadTexture(Texture& texture, TCHAR* FileName);
 	
 	void SetViewMatrix(D3DXMATRIXA16& mat);
 	void SetupRrojectionMatrix();
 
-	/*void LoadMesh(MeshX& mesh,TCHAR* path);
-	void DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat);*/
+	void LoadMesh(MeshX& mesh,TCHAR* path);
+	void DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat,Effect* pEffect=nullptr);
 
 	//void DrawTriangleList(TriangleList& triangleList, D3DXMATRIXA16& worldMat);
 
@@ -76,11 +77,15 @@ public:
 
 	void DrawLine(LINE_VERTEX* pVertex, int count);
 
+	HRESULT CreateEffectFromFile(Effect& refEffect, std::string filepath);
+
 private:
 	HWND hWnd;
 
 	IDirect3D9*	pD3D9 = nullptr;				//Direct3Dデバイス生成用オブジェクト
 	IDirect3DDevice9* pDevice3D = nullptr;		//Direct3Dのデバイス　スプライトの表示やテクスチャのロード時に必要
+
+
 
 	static RENDERSTATE currentState;
 
