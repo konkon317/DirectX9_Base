@@ -620,7 +620,9 @@ HRESULT Direct3D::CreateEffectFromFile(Effect& refEffect, std::string filepath)
 
 	const TCHAR* path = _T(filepath.c_str());
 
-	return D3DXCreateEffectFromFile(
+	LPD3DXBUFFER pErr = NULL;
+
+	HRESULT hresult =D3DXCreateEffectFromFile(
 		pDevice3D,
 		path,
 		NULL,
@@ -628,6 +630,22 @@ HRESULT Direct3D::CreateEffectFromFile(Effect& refEffect, std::string filepath)
 		D3DXSHADER_DEBUG,
 		NULL,
 		&refEffect.pEffect,
-		NULL
+		&pErr
 	);
+
+	if (FAILED(hresult))
+	{
+		
+		if (hresult == 0x88760b59)
+		{
+			string message = "file not found : " + filepath;
+			MessageBox(NULL, message.c_str(),"Err" , MB_OK);
+		}
+		else
+		{
+			MessageBox(NULL, (LPCTSTR)pErr->GetBufferPointer(), "Err", MB_OK);
+		}
+	}
+
+	return hresult;
 }
