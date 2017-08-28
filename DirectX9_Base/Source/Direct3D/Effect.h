@@ -25,6 +25,12 @@ public :
 		return pEffect->SetMatrix(hParamater, &mat);
 	}
 
+	HRESULT SetTexture(D3DXHANDLE hParamater, LPDIRECT3DTEXTURE9 texture)
+	{
+		if (pEffect == nullptr)return E_FAIL;
+		return pEffect->SetTexture(hParamater, texture);
+	}
+
 	HRESULT SetTechnique(D3DXHANDLE hParamater)
 	{
 		if (pEffect == nullptr)return E_FAIL;
