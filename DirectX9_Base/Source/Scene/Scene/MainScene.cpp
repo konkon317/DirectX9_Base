@@ -17,7 +17,7 @@ MainScene::MainScene()
 	tex.SetDivide(2, 2);
 	tex.SetUVNum(1, 1);
 
-	effect.CreateFromFile("Shader/Empty.fx");
+	effect.CreateFromFile("Shader/BasicShader.fx");
 
 	testMesh.Load(_T("Mesh/iasel/iasel_brackboard.x"));
 

@@ -20,7 +20,7 @@ struct VS_OUTPUT
 
 VS_OUTPUT VS( 
 	float4 LocalPos : POSITION ,
-	float2 Tex      : TEXCOORD 
+	float2 Tex      : TEXCOORD0
 ) 
 {
 	VS_OUTPUT Out =(VS_OUTPUT)0;

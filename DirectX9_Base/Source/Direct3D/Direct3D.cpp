@@ -485,9 +485,7 @@ void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 			pEffect->SetMatrix("matWorldViewProj", matrix);
 
 			pEffect->SetTechnique("BasicTec");
-			pEffect->Begine(&numPass, 0);
-
-			pEffect->BeginePass(0);
+			
 		}
 		else
 		{
@@ -506,8 +504,26 @@ void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 			for (unsigned int i = 0; i < mesh.numMaterials; i++)
 			{
 				pDevice3D->SetMaterial(&mesh.pMaterials[i]);
-				pDevice3D->SetTexture(0, mesh.ppTextures[i]);
+				if (useEffect)
+				{
+					pEffect->SetTexture("Tex", mesh.ppTextures[i]);
+					pEffect->Begine(&numPass, 0);
+
+					pEffect->BeginePass(0);
+				}
+				else
+				{
+					pDevice3D->SetTexture(0, mesh.ppTextures[i]);
+				}
+
+			
 				mesh.pMesh->DrawSubset(i);
+
+				if (useEffect)
+				{
+					pEffect->EndPass();
+					pEffect->End();
+				}
 			}
 		}
 		else
@@ -525,11 +541,7 @@ void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 			mesh.pMesh->DrawSubset(0);
 		}
 
-		if (useEffect)
-		{
-			pEffect->EndPass();
-			pEffect->End();
-		}
+	
 
 	}
 }
