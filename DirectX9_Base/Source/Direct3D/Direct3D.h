@@ -42,6 +42,7 @@ class Texture;
 class Sprite;
 class MeshX;
 class TriangleList;
+class Effect;
 
 //-------------------------------
 class Direct3D : public Singleton<Direct3D>
@@ -65,7 +66,7 @@ public:
 	void SetupRrojectionMatrix();
 
 	void LoadMesh(MeshX& mesh,TCHAR* path);
-	void DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat);
+	void DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect = nullptr);
 
 	void DrawTriangleList(TriangleList& triangleList, D3DXMATRIXA16& worldMat);
 
@@ -75,6 +76,8 @@ public:
 	void SetDrawFunc(FuncPointer pointer);
 
 	void DrawLine(LINE_VERTEX* pVertex, int count);
+
+	HRESULT CreateEffectFromFile(Effect& refEffect, std::string filepath);
 
 private:
 	HWND hWnd;

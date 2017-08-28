@@ -2,6 +2,7 @@
 
 #include "Direct3D.h"
 class Camera;
+class Effect;
 
 class MeshX
 {
@@ -19,7 +20,7 @@ public:
 	MeshX();
 	~MeshX();
 
-	void DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate);
+	void DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate,Effect*pEffect);
 	
 	void Load(TCHAR* path);
 };

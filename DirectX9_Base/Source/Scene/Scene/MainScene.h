@@ -17,6 +17,11 @@
 
 #include "../Manager/SceneManager.h"
 
+
+#include "../../Direct3D/Effect.h"
+
+
+
 class MainScene :public Scene
 {
 private:
@@ -35,6 +40,7 @@ private:
 	MeshX testMesh;
 
 	Model model;
+	Effect effect;
 
 	GameObject3D* pGameObject[2];
 
@@ -45,6 +51,7 @@ public:
 	virtual void Update();// {};
 	virtual void Draw();// {};
 	virtual void Init();// {};
+	
 };
 
 class MainSceneCreater : public SceneCreater

@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "../Direct3D/meshX.h"
 #include "../BoundingBox/OrientedBoundinngBox.h"
+#include "../Direct3D/Effect.h"
 
 class GameObject3D : public GameObject
 { 
@@ -20,6 +21,8 @@ protected:
 	//その他の軸は今のところ使用しない
 	float rotateYaw_Rad;
 
+	Effect* pEffect;
+
 	//メッシュクラスへのポインタ
 	MeshX* pMesh;
 
@@ -32,7 +35,7 @@ public :
 
 	GameObject3D();
 
-	
+	virtual void SetEffectFile(Effect* pEffect) { this->pEffect = pEffect; }
 
 	virtual ~GameObject3D();
 

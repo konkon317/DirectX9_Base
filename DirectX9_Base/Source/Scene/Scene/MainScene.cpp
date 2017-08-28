@@ -7,6 +7,7 @@
 
 
 
+
 MainScene::MainScene()
 {
 	sp.SetSize(100, 100);
@@ -15,6 +16,8 @@ MainScene::MainScene()
 
 	tex.SetDivide(2, 2);
 	tex.SetUVNum(1, 1);
+
+	effect.CreateFromFile("Shader/Empty.fx");
 
 	testMesh.Load(_T("Mesh/iasel/iasel_brackboard.x"));
 
@@ -31,6 +34,8 @@ MainScene::MainScene()
 			pGameObject[i]->SetMesh(&testMesh);
 
 			pGameObject[i]->SetPosition(i * 5.0f, -i * 1.0f, i*0.3f);
+
+			pGameObject[i]->SetEffectFile(&effect);
 		}
 	}
 

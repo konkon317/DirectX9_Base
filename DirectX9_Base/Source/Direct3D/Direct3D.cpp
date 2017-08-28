@@ -2,6 +2,9 @@
 #include "texture.h"
 #include "sprite.h"
 #include "meshX.h"
+#include "Effect.h"
+
+#include <tchar.h>
 
 #include "../Model3D/TriangleList.h"
 
@@ -463,23 +466,45 @@ void Direct3D::LoadMesh(MeshX& mesh,TCHAR* path)
 
 }
 
-void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat)
+void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 {
 	if (mesh.pMesh != nullptr)
 	{
-		pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
+		bool useEffect = (pEffect != nullptr);
 
-		//頂点シェーダ
-		pDevice3D->SetVertexShader(NULL);
+		UINT numPass;
+		if (useEffect)
+		{
+			D3DXMATRIXA16 view;
+			pDevice3D->GetTransform(D3DTS_VIEW, &view);
+			D3DXMATRIXA16 proj;
+			pDevice3D->GetTransform(D3DTS_PROJECTION, &proj);
 
-		//頂点フォーマット
-		pDevice3D->SetFVF(mesh.pMesh->GetFVF());
+			D3DXMATRIXA16 matrix = worldMat*view*proj;
+
+			pEffect->SetMatrix("matWorldViewProj", matrix);
+
+			pEffect->SetTechnique("BasicTec");
+			pEffect->Begine(&numPass, 0);
+
+			pEffect->BeginePass(0);
+		}
+		else
+		{
+
+			pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
+
+			//頂点シェーダ
+			pDevice3D->SetVertexShader(NULL);
+
+			//頂点フォーマット
+			pDevice3D->SetFVF(mesh.pMesh->GetFVF());
+		}
 
 		if (mesh.numMaterials > 0)
 		{
 			for (unsigned int i = 0; i < mesh.numMaterials; i++)
 			{
-
 				pDevice3D->SetMaterial(&mesh.pMaterials[i]);
 				pDevice3D->SetTexture(0, mesh.ppTextures[i]);
 				mesh.pMesh->DrawSubset(i);
@@ -499,9 +524,15 @@ void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat)
 
 			mesh.pMesh->DrawSubset(0);
 		}
+
+		if (useEffect)
+		{
+			pEffect->EndPass();
+			pEffect->End();
+		}
+
 	}
 }
-
 
 void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldMat)
 {
@@ -537,9 +568,6 @@ void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldM
 
 		}
 	}
-
-
-
 }
 
 void Direct3D::SetupRrojectionMatrix()
@@ -583,4 +611,23 @@ void  Direct3D::DrawLine(LINE_VERTEX* pVertex, int count)
 
 	pDevice3D->SetFVF(D3DFVF_LINE_VERTEX);
 	pDevice3D->DrawPrimitiveUP(D3DPT_LINELIST, count, pVertex, sizeof(LINE_VERTEX));
+}
+
+//エフェクトファイルの作成
+HRESULT Direct3D::CreateEffectFromFile(Effect& refEffect, std::string filepath)
+{
+	if (refEffect.pEffect != nullptr)return S_FALSE;
+
+	const TCHAR* path = _T(filepath.c_str());
+
+	return D3DXCreateEffectFromFile(
+		pDevice3D,
+		path,
+		NULL,
+		NULL,
+		D3DXSHADER_DEBUG,
+		NULL,
+		&refEffect.pEffect,
+		NULL
+	);
 }

@@ -1,5 +1,5 @@
 ﻿#include "meshX.h"
-
+#include "Effect.h"
 
 MeshX::MeshX()
 {
@@ -23,7 +23,7 @@ MeshX::~MeshX()
 	pMesh->Release();
 }
 
-void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate )
+void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate ,Effect*pEffect)
 {
 	D3DXMATRIXA16 matWorld;
 
@@ -49,7 +49,7 @@ void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, 
 
 
 	
-	Direct3D::GetInstance().DrawMesh(*this, matWorld);
+	Direct3D::GetInstance().DrawMesh(*this, matWorld,pEffect);
 
 }
 
