@@ -59,13 +59,13 @@ public:
 	static void Render();
 	static void SetRenderState(RENDERSTATE RenderrState);
 
-	/*bool LoadTexture(Texture& texture, TCHAR* FileName);*/
+	bool LoadTexture(Texture& texture, TCHAR* FileName);
 	
 	void SetViewMatrix(D3DXMATRIXA16& mat);
 	void SetupRrojectionMatrix();
 
-	/*void LoadMesh(MeshX& mesh,TCHAR* path);
-	void DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat);*/
+	void LoadMesh(MeshX& mesh, TCHAR* path);
+	void DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat);
 
 	//void DrawTriangleList(TriangleList& triangleList, D3DXMATRIXA16& worldMat);
 

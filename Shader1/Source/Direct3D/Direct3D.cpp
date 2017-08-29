@@ -1,7 +1,7 @@
 ﻿#include "direct3d.h"
-//#include "texture.h"
+#include "texture.h"
 //#include "sprite.h"
-//#include "meshX.h"
+#include "meshX.h"
 //
 //#include "../Model3D/TriangleList.h"
 
@@ -104,6 +104,7 @@ bool Direct3D::Create(HWND hWnd)
 	}
 	return true;//どれかで作成成功すればtrueが返る
 
+	//引数について
 	/*HRESULT CreateDevice
 		(UINT Adapter,			ディスプレイ アダプタを示す序数
 		D3DDEVTYPE DeviceType,	目的のデバイス タイプ
@@ -112,10 +113,6 @@ bool Direct3D::Create(HWND hWnd)
 		D3DPRESENT_PARAMETERS *pPresentationParameters,
 		IDirect3DDevice9** ppReturnedDeviceInterface
 		);*/
-
-
-
-
 }
 
 //描画の反映時に実行
@@ -274,29 +271,29 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 		MessageBox(NULL, "インスタンスが作成されていないので実行できません", TEXT("Direct3D SetRenderState"), MB_OK);
 	}
 }
-//
-//bool Direct3D::LoadTexture(Texture& texture,TCHAR* FileName)
-//{
-//	//画像読み込み
-//	//DirectXやWindowsAPIの関数はHRESULTを結果に返す関数が多い
-//	//FAILEDマクロで失敗したかの判断
-//	//SUCEEDEDマクロで関数が成功したかの判断
-//	if (IsDeviceCreated())
-//	{
-//		if (FAILED(D3DXCreateTextureFromFile(pDevice3D, FileName, &texture.pTexture)))
-//		{
-//			//読み込み失敗（ファイルが無い可能性が高い）
-//			return false;
-//		}
-//
-//		//読み込み成功
-//		return true;
-//	}
-//	else
-//	{
-//		return false;
-//	}
-//}
+
+bool Direct3D::LoadTexture(Texture& texture,TCHAR* FileName)
+{
+	//画像読み込み
+	//DirectXやWindowsAPIの関数はHRESULTを結果に返す関数が多い
+	//FAILEDマクロで失敗したかの判断
+	//SUCEEDEDマクロで関数が成功したかの判断
+	if (IsDeviceCreated())
+	{
+		if (FAILED(D3DXCreateTextureFromFile(pDevice3D, FileName, &texture.pTexture)))
+		{
+			//読み込み失敗（ファイルが無い可能性が高い）
+			return false;
+		}
+
+		//読み込み成功
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 ////スプライトの表示
 //void Direct3D::DrawSprite(Sprite& sprite, Texture& texture, bool isTurn)
@@ -398,110 +395,110 @@ void Direct3D::SetViewMatrix(D3DXMATRIXA16& mat)
 	pDevice3D->SetTransform(D3DTS_VIEW, &mat);
 }
 
-//void Direct3D::LoadMesh(MeshX& mesh,TCHAR* path)
-//{
-//	////LPSTR からLPCWSTRに変換
-//	////https://msdn.microsoft.com/ja-jp/library/ms235631(VS.80).aspx
-//	//LPSTR temp = path;
-//	//size_t origsize = strlen(temp)+1;
-//	//size_t convertedChars = 0;
-//	//wchar_t wcstring[1024];
-//	//ZeroMemory(wcstring, sizeof(wcstring));
-//	//mbstowcs_s(&convertedChars, wcstring, origsize, temp, _TRUNCATE);
-//	//
-//	////	wcscat_s(wcstring, L"(wchar_t *)");
-//	//LPCWSTR path2 = wcstring;
-//
-//
-//	//Xファイルのパスを取得
-//	CHAR dir[_MAX_DIR];
-//	_splitpath_s(path, NULL, 0, dir, _MAX_DIR, NULL, 0, NULL, 0);
-//
-//	LPD3DXBUFFER pBufferMaterial;
-//
-//	if (D3DXLoadMeshFromX(path, D3DXMESH_SYSTEMMEM, pDevice3D, NULL, &pBufferMaterial, NULL, &mesh.numMaterials, &mesh.pMesh) != D3D_OK)
-//	{
-//		return;
-//	}
-//
-//	//マテリアルの準備
-//	if (mesh.numMaterials > 0)
-//	{
-//		mesh.pMaterials = new D3DMATERIAL9[mesh.numMaterials];
-//		mesh.ppTextures = new LPDIRECT3DTEXTURE9[mesh.numMaterials];
-//
-//		D3DXMATERIAL * d3dxMaterials = (D3DXMATERIAL*)pBufferMaterial->GetBufferPointer();
-//
-//		for (unsigned int i = 0; i < mesh.numMaterials; i++)
-//		{
-//			//夫々のマテリアルをバッファからコピーする
-//			mesh.pMaterials[i] = d3dxMaterials[i].MatD3D;
-//			mesh.pMaterials[i].Ambient = mesh.pMaterials[i].Diffuse;
-//
-//			mesh.ppTextures[i] = nullptr;
-//
-//			//テクスチャのファイル名を取り出してロード
-//			if (d3dxMaterials[i].pTextureFilename != nullptr)
-//			{			
-//				//テクスチャファイルパスを作成する
-//				CHAR texturefile[1024];
-//				ZeroMemory(texturefile, sizeof(texturefile));
-//				lstrcat(texturefile, dir);
-//				lstrcat(texturefile, d3dxMaterials[i].pTextureFilename);
-//
-//				if (D3DXCreateTextureFromFile(pDevice3D,texturefile, &mesh.ppTextures[i])!=D3D_OK)
-//				{
-//					mesh.ppTextures[i] = nullptr;
-//				}
-//
-//			}
-//
-//		}
-//	}
-//
-//	pBufferMaterial->Release();
-//
-//}
+void Direct3D::LoadMesh(MeshX& mesh,TCHAR* path)
+{
+	////LPSTR からLPCWSTRに変換
+	////https://msdn.microsoft.com/ja-jp/library/ms235631(VS.80).aspx
+	//LPSTR temp = path;
+	//size_t origsize = strlen(temp)+1;
+	//size_t convertedChars = 0;
+	//wchar_t wcstring[1024];
+	//ZeroMemory(wcstring, sizeof(wcstring));
+	//mbstowcs_s(&convertedChars, wcstring, origsize, temp, _TRUNCATE);
+	//
+	////	wcscat_s(wcstring, L"(wchar_t *)");
+	//LPCWSTR path2 = wcstring;
 
 
-//void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat)
-//{
-//	if (mesh.pMesh != nullptr)
-//	{
-//		pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
-//
-//		//頂点シェーダ
-//		pDevice3D->SetVertexShader(NULL);
-//
-//		//頂点フォーマット
-//		pDevice3D->SetFVF(mesh.pMesh->GetFVF());
-//
-//		if (mesh.numMaterials > 0)
-//		{
-//			for (unsigned int i = 0; i < mesh.numMaterials; i++)
-//			{
-//
-//				pDevice3D->SetMaterial(&mesh.pMaterials[i]);
-//				pDevice3D->SetTexture(0, mesh.ppTextures[i]);
-//				mesh.pMesh->DrawSubset(i);
-//			}
-//		}
-//		else
-//		{
-//			//マテリアルが無かった場合は（そんなケースまずないが）
-//			//適当に作ったマテリアルで表示
-//			D3DMATERIAL9 mtrl;
-//			ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
-//			mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
-//			mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
-//			mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
-//			mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
-//			pDevice3D->SetMaterial(&mtrl);
-//
-//			mesh.pMesh->DrawSubset(0);
-//		}
-//	}
-//}
+	//Xファイルのパスを取得
+	CHAR dir[_MAX_DIR];
+	_splitpath_s(path, NULL, 0, dir, _MAX_DIR, NULL, 0, NULL, 0);
+
+	LPD3DXBUFFER pBufferMaterial;
+
+	if (D3DXLoadMeshFromX(path, D3DXMESH_SYSTEMMEM, pDevice3D, NULL, &pBufferMaterial, NULL, &mesh.numMaterials, &mesh.pMesh) != D3D_OK)
+	{
+		return;
+	}
+
+	//マテリアルの準備
+	if (mesh.numMaterials > 0)
+	{
+		mesh.pMaterials = new D3DMATERIAL9[mesh.numMaterials];
+		mesh.ppTextures = new LPDIRECT3DTEXTURE9[mesh.numMaterials];
+
+		D3DXMATERIAL * d3dxMaterials = (D3DXMATERIAL*)pBufferMaterial->GetBufferPointer();
+
+		for (unsigned int i = 0; i < mesh.numMaterials; i++)
+		{
+			//夫々のマテリアルをバッファからコピーする
+			mesh.pMaterials[i] = d3dxMaterials[i].MatD3D;
+			mesh.pMaterials[i].Ambient = mesh.pMaterials[i].Diffuse;
+
+			mesh.ppTextures[i] = nullptr;
+
+			//テクスチャのファイル名を取り出してロード
+			if (d3dxMaterials[i].pTextureFilename != nullptr)
+			{			
+				//テクスチャファイルパスを作成する
+				CHAR texturefile[1024];
+				ZeroMemory(texturefile, sizeof(texturefile));
+				lstrcat(texturefile, dir);
+				lstrcat(texturefile, d3dxMaterials[i].pTextureFilename);
+
+				if (D3DXCreateTextureFromFile(pDevice3D,texturefile, &mesh.ppTextures[i])!=D3D_OK)
+				{
+					mesh.ppTextures[i] = nullptr;
+				}
+
+			}
+
+		}
+	}
+
+	pBufferMaterial->Release();
+
+}
+
+
+void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat)
+{
+	if (mesh.pMesh != nullptr)
+	{
+		pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
+
+		//頂点シェーダ
+		pDevice3D->SetVertexShader(NULL);
+
+		//頂点フォーマット
+		pDevice3D->SetFVF(mesh.pMesh->GetFVF());
+
+		if (mesh.numMaterials > 0)
+		{
+			for (unsigned int i = 0; i < mesh.numMaterials; i++)
+			{
+
+				pDevice3D->SetMaterial(&mesh.pMaterials[i]);
+				pDevice3D->SetTexture(0, mesh.ppTextures[i]);
+				mesh.pMesh->DrawSubset(i);
+			}
+		}
+		else
+		{
+			//マテリアルが無かった場合は（そんなケースまずないが）
+			//適当に作ったマテリアルで表示
+			D3DMATERIAL9 mtrl;
+			ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+			mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
+			mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
+			mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
+			mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
+			pDevice3D->SetMaterial(&mtrl);
+
+			mesh.pMesh->DrawSubset(0);
+		}
+	}
+}
 
 
 //void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldMat)
