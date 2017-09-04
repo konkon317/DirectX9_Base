@@ -484,6 +484,15 @@ void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 
 			pEffect->SetMatrix("matWorldViewProj", matrix);
 
+			matrix = worldMat;
+			D3DXMatrixInverse(&matrix,NULL, &matrix);
+			D3DXMatrixTranspose(&matrix, &matrix);
+			
+			if (FAILED(pEffect->SetMatrix("matWorldInverseTransverse", matrix)))
+			{
+				int a = 0;
+			}
+
 			pEffect->SetTechnique("BasicTec");
 			
 		}
