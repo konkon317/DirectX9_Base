@@ -9,18 +9,28 @@ MeshX::MeshX()
 
 MeshX::~MeshX()
 {
-	for (unsigned int i = 0; i < numMaterials; i++)
+	if (ppTextures)
 	{
-		if (ppTextures[i])
+		for (unsigned int i = 0; i < numMaterials; i++)
 		{
-			ppTextures[i]->Release();
+			if (ppTextures[i])
+			{
+				ppTextures[i]->Release();
+			}
 		}
+		delete[] ppTextures;
 	}
 
-	delete[] ppTextures;
-	delete[] pMaterials;
+	if (pMaterials)
+	{
+		delete[] pMaterials;
+	}
 	
-	pMesh->Release();
+	if(pMesh)
+	{
+		pMesh->Release(); 
+	}
+	
 }
 
 void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate ,Effect*pEffect)
