@@ -22,14 +22,19 @@
 
 using namespace std;
 
+
+
 //fbx
 #include <fbxsdk.h>
 using namespace fbxsdk;
+
+#include "../Direct3D/texture.h"
 
 
 struct ColorRGBA;
 
 class Direct3D;
+class UvSet;
 
 class TriangleList
 {
@@ -66,6 +71,10 @@ public:
 		int VertexColorSetNum;
 		int* pColorCount_ByVerTexColorSet;
 		ColorRGBA** ppVertexColor;
+
+		//UVSEt
+		int uvSetCount;
+		UvSet*pUvSetArray;
 	};
 
 public:
@@ -83,6 +92,8 @@ private:
 
 	int triangleCount;
 	int vertexCount;
+
+	Texture* pTexture;
 
 public:
 	//メンバ変数 public 

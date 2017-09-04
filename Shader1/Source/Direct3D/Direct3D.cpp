@@ -476,7 +476,7 @@ void Direct3D::DrawMesh(MeshX& mesh,D3DXMATRIXA16& worldMat, Effect* pEffect)
 {
 	if (mesh.pMesh != nullptr)
 	{
-		bool useEffect = (pEffect != nullptr);
+		bool useEffect = (pEffect != nullptr && pEffect->pEffect!=nullptr);
 
 		UINT numPass;
 		if (useEffect)

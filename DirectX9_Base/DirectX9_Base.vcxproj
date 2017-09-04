@@ -90,6 +90,7 @@
     <ClCompile Include="Source\BoundingBox\OrientedBoundinngBox.cpp" />
     <ClCompile Include="Source\Direct3D\camera.cpp" />
     <ClCompile Include="Source\Direct3D\Direct3D.cpp" />
+    <ClCompile Include="Source\Direct3D\Effect.cpp" />
     <ClCompile Include="Source\Direct3D\meshX.cpp" />
     <ClCompile Include="Source\Direct3D\sprite.cpp" />
     <ClCompile Include="Source\Direct3D\texture.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="Source\BoundingBox\OrientedBoundinngBox.h" />
     <ClInclude Include="Source\Direct3D\camera.h" />
     <ClInclude Include="Source\Direct3D\Direct3D.h" />
+    <ClInclude Include="Source\Direct3D\Effect.h" />
     <ClInclude Include="Source\Direct3D\meshX.h" />
     <ClInclude Include="Source\Direct3D\sprite.h" />
     <ClInclude Include="Source\Direct3D\texture.h" />
