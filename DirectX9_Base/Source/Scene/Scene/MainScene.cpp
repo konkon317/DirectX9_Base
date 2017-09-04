@@ -17,9 +17,9 @@ MainScene::MainScene()
 	tex.SetDivide(2, 2);
 	tex.SetUVNum(1, 1);
 
-	effect.CreateFromFile("Shader/BasicShader.fx");
+	effect.CreateFromFile("Shader/lambert.fx");
 
-	testMesh.Load(_T("Mesh/iasel/iasel_brackboard.x"));
+	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
 
 	camera.SetEyePoint(0.0f, 0.0f, -5);
 	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);
