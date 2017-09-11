@@ -17,7 +17,7 @@ MainScene::MainScene()
 	tex.SetDivide(2, 2);
 	tex.SetUVNum(1, 1);
 
-	effect.CreateFromFile("Shader/lambert.fx");
+	effectLambert.CreateFromFile("Shader/lambert.fx");
 
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
 
@@ -35,7 +35,7 @@ MainScene::MainScene()
 
 			pGameObject[i]->SetPosition(i * 5.0f, -i * 1.0f, i*0.3f);
 
-			pGameObject[i]->SetEffectFile(&effect);
+			pGameObject[i]->SetEffectFile(&effectLambert);
 		}
 	}
 
