@@ -398,7 +398,7 @@ void Direct3D::SetViewMatrix(D3DXMATRIXA16& mat)
 	pDevice3D->SetTransform(D3DTS_VIEW, &mat);
 }
 
-void Direct3D::LoadMesh(MeshX& mesh,TCHAR* path)
+void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 {
 	////LPSTR からLPCWSTRに変換
 	////https://msdn.microsoft.com/ja-jp/library/ms235631(VS.80).aspx
@@ -464,7 +464,7 @@ void Direct3D::LoadMesh(MeshX& mesh,TCHAR* path)
 }
 
 
-void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat)
+void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat)
 {
 	if (mesh.pMesh != nullptr)
 	{
@@ -503,7 +503,7 @@ void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat)
 	}
 }
 
-void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
+void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 {
 	if (mesh.pMesh == nullptr)return;
 	if (pEffect == nullptr || pEffect->pEffect == nullptr) return;

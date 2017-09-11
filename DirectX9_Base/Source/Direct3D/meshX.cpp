@@ -59,7 +59,7 @@ void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, 
 
 
 	
-	Direct3D::GetInstance().DrawMesh(*this, matWorld,pEffect);
+	Direct3D::GetInstance().DrawMeshX(*this, matWorld,pEffect);
 
 }
 
@@ -67,6 +67,6 @@ void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, 
 
 void MeshX::Load(TCHAR* path)
 {
-	Direct3D::GetInstance().LoadMesh(*this, path);
+	Direct3D::GetInstance().LoadMeshX(*this, path);
 
 }

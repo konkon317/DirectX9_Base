@@ -65,9 +65,9 @@ public:
 	void  SetViewMatrix(D3DXMATRIXA16& mat);
 	void SetupRrojectionMatrix();
 
-	void LoadMesh(MeshX& mesh,TCHAR* path);
-	void DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat);
-	void DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect);
+	void LoadMeshX(MeshX& mesh,TCHAR* path);
+	void DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat);
+	void DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect);
 
 	void DrawTriangleList(TriangleList& triangleList, D3DXMATRIXA16& worldMat);
 
