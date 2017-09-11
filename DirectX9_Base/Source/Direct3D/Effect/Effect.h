@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../Direct3D.h"
+class EffectParamSetter;
 
 #include <string>
 
@@ -8,7 +9,7 @@ class Effect
 {
 	friend class Direct3D;
 
-private:
+protected:
 
 	ID3DXEffect* pEffect;
 
@@ -17,67 +18,40 @@ public :
 	Effect();
 	~Effect();
 
-	HRESULT CreateFromFile(std::string filePath);
+	virtual HRESULT CreateFromFile(std::string filePath)=0;
 
-	HRESULT SetMatrix(D3DXHANDLE hParamater, const D3DXMATRIX& mat)
-	{
-		if (pEffect == nullptr)return E_FAIL;
-		return pEffect->SetMatrix(hParamater, &mat);
-	}
+	HRESULT SetMatrix(D3DXHANDLE hParamater, const D3DXMATRIX& mat);
 
-	HRESULT SetTexture(D3DXHANDLE hParamater, LPDIRECT3DTEXTURE9 texture)
-	{
-		if (pEffect == nullptr)return E_FAIL;
-		return pEffect->SetTexture(hParamater, texture);
-	}
+
+	HRESULT SetTexture(D3DXHANDLE hParamater, LPDIRECT3DTEXTURE9 texture);
+
 
 	//テクニックのセット
-	HRESULT SetTechnique(D3DXHANDLE hParamater)
-	{
-		if (pEffect == nullptr)return E_FAIL;
-
-		this->SetupParameter_OnSetTechnique(hParamater);
-
-		return pEffect->SetTechnique(hParamater);
-	}
-
+	HRESULT SetTechnique(EffectParamSetter& setter, int tecniqueNum);
 
 	//エフェクト使用の開始
-	HRESULT Begine(UINT*pPasses, DWORD Flag)
-	{
-		if (pEffect == nullptr)return E_FAIL;
+	HRESULT Begine(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum);
 
-		this->SetupParameter_OnBegin();
-		return pEffect->Begin(pPasses,Flag);
-	}
 
 	//パスの開始
-	HRESULT BeginePass(UINT pass) 
-	{
-		if (pEffect == nullptr)return E_FAIL;
+	HRESULT BeginePass(EffectParamSetter& setter, UINT pass);
 
-		this->SetupParameter_OnBeginPass(pass);
-		return pEffect->BeginPass(pass);
-	}
 
 	//パスの終了
-	HRESULT EndPass()
-	{
-		if (pEffect == nullptr)return E_FAIL;
-		return pEffect->EndPass();
-	}
+	HRESULT EndPass();
+
 
 	//エフェクト使用の終了
-	HRESULT End() 
-	{
-		if (pEffect == nullptr)return E_FAIL;
-		return pEffect->End();
-	}	
+	HRESULT End();
+	
 
 protected:
-	//
-	virtual void SetupParameter_OnSetTechnique(D3DXHANDLE hParamater) {};// = 0;
-	virtual void SetupParameter_OnBegin() {};// = 0;
-	virtual void SetupParameter_OnBeginPass(UINT pass) {};// = 0;
+	
+	//テクニックのセット　派生後のクラスでは必ずテクニックのセットまで行うこと
+	virtual HRESULT SetupParameter_OnSetTechnique(EffectParamSetter& setter, int tecniqueNum,D3DXHANDLE& handle) = 0;
+	//Begineに際してのパラメータの設定
+	virtual HRESULT SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag,int subsetNum) = 0;
+	//Begineに際してのパラメータの設定
+	virtual HRESULT SetupParameter_OnBeginPass(EffectParamSetter& setter,UINT pass) = 0;
 		
 };

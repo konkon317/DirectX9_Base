@@ -53,6 +53,11 @@ public :
 	typedef void(*FuncPointer)();//関数ポインタの型定義
 
 public:	
+
+	const IDirect3DDevice9* GetDevice()const
+	{
+		return pDevice3D;
+	}
 	
 	//デバイス作成を試みる
 	bool TryCreate(HWND hWmd);
@@ -79,6 +84,8 @@ public:
 	void DrawLine(LINE_VERTEX* pVertex, int count);
 
 	HRESULT CreateEffectFromFile(Effect& refEffect, std::string filepath);
+
+	HRESULT GetTransForm(_D3DTRANSFORMSTATETYPE type, D3DXMATRIXA16& mat) {	return (pDevice3D) ? pDevice3D->GetTransform(type, &mat) : E_FAIL;}
 
 private:
 	HWND hWnd;

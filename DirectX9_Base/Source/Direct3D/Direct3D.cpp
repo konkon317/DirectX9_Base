@@ -6,6 +6,8 @@
 
 #include <tchar.h>
 
+#include "Effect/EffectParamSetter.h"
+
 #include "../Model3D/TriangleList.h"
 
 RENDERSTATE Direct3D::currentState;
@@ -508,24 +510,14 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 	if (mesh.pMesh == nullptr)return;
 	if (pEffect == nullptr || pEffect->pEffect == nullptr) return;
 
-	D3DXMATRIXA16 view, proj;
-	pDevice3D->GetTransform(D3DTS_VIEW, &view);//ビュー行列の取得
-	pDevice3D->GetTransform(D3DTS_PROJECTION, &proj);//プロジェクション行列の取得
+	static EffectParamSetter effectParamSetter;
 
-	D3DXMATRIXA16 worldViewProj;
-	D3DXMatrixMultiply(&worldViewProj, &worldMat, &view);
-	D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);
+	pDevice3D->SetTransform(D3DTS_WORLD,&worldMat);
 
-	pEffect->SetMatrix("matWorldViewProj", worldViewProj);
+	effectParamSetter.SetMode(EffectParamSetter::MODE::MESH_X);
+	effectParamSetter.SetMeshPointer(&mesh);
 
-	//ノーマル変換の為の行列を求める
-	D3DXMATRIXA16 worldInverseTranspose;
-	D3DXMatrixInverse(&worldInverseTranspose, NULL, &worldMat);//逆行列
-	D3DXMatrixTranspose(&worldInverseTranspose, &worldInverseTranspose);//転置行列
-
-	pEffect->SetMatrix("matWorldInverseTranspose", worldInverseTranspose);
-
-	pEffect->SetTechnique("BasicTec");
+	effectParamSetter.SetTechnique(pEffect, 0);
 
 	//頂点フォーマット
 	pDevice3D->SetFVF(mesh.pMesh->GetFVF());
@@ -534,11 +526,11 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 	if (mesh.numMaterials > 0)
 	{
 		for (unsigned int i = 0; i < mesh.numMaterials; i++)
-		{
-			pEffect->SetTexture("Tex", mesh.ppTextures[i]);
+		{		
+			
+			effectParamSetter.Begin(pEffect, &numPass, 0, i);
 
-			pEffect->Begine(&numPass, 0);
-			pEffect->BeginePass(0);//パスの描画開始
+			effectParamSetter.BeginPass(pEffect, 0);
 
 								   //指定したテクニックの0番目のパスで
 								   //描画
@@ -549,6 +541,8 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 
 		}
 	}
+
+	effectParamSetter.Reset();
 }
 
 void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldMat)
