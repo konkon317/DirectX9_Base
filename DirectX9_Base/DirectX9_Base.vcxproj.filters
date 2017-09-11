@@ -123,6 +123,12 @@
     <ClCompile Include="Source\Direct3D\Effect\Effect.cpp">
       <Filter>Source\Direct3D\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\Effect\EffectParamSetter.cpp">
+      <Filter>Source\Direct3D\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\Effect\EffectLambert.cpp">
+      <Filter>Source\Direct3D\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -198,6 +204,12 @@
       <Filter>Source\Direct3D</Filter>
     </ClInclude>
     <ClInclude Include="Source\Direct3D\Effect\Effect.h">
+      <Filter>Source\Direct3D\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Effect\EffectParamSetter.h">
+      <Filter>Source\Direct3D\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Effect\EffectLambert.h">
       <Filter>Source\Direct3D\Effect</Filter>
     </ClInclude>
   </ItemGroup>
