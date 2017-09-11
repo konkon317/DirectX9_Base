@@ -17,6 +17,11 @@ private:
 	D3DMATERIAL9 *      pMaterials;
 
 public:
+
+	const LPDIRECT3DTEXTURE9* Get_ppTextures() const{ return ppTextures; }
+	const D3DMATERIAL9*       Get_ppMaterials()const { return pMaterials; }
+	DWORD GetNumMaterials() { return numMaterials; }
+
 	MeshX();
 	~MeshX();
 
