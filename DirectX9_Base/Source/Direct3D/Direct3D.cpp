@@ -2,9 +2,11 @@
 #include "texture.h"
 #include "sprite.h"
 #include "meshX.h"
-#include "Effect.h"
+#include "Effect/Effect.h"
 
 #include <tchar.h>
+
+#include "Effect/EffectParamSetter.h"
 
 #include "../Model3D/TriangleList.h"
 
@@ -231,10 +233,7 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_LIGHTING, TRUE);
 				d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
 
-
-				d3d.SetupRrojectionMatrix();
-
-				
+				d3d.SetupRrojectionMatrix();			
 
 				D3DLIGHT9 light;
 				ZeroMemory(&light, sizeof(D3DLIGHT9));
@@ -401,7 +400,7 @@ void Direct3D::SetViewMatrix(D3DXMATRIXA16& mat)
 	pDevice3D->SetTransform(D3DTS_VIEW, &mat);
 }
 
-void Direct3D::LoadMesh(MeshX& mesh,TCHAR* path)
+void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 {
 	////LPSTR からLPCWSTRに変換
 	////https://msdn.microsoft.com/ja-jp/library/ms235631(VS.80).aspx
@@ -466,73 +465,27 @@ void Direct3D::LoadMesh(MeshX& mesh,TCHAR* path)
 
 }
 
-void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
+
+void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat)
 {
 	if (mesh.pMesh != nullptr)
 	{
-		bool useEffect = (pEffect != nullptr);
+		pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
 
-		UINT numPass;
-		if (useEffect)
-		{
-			D3DXMATRIXA16 view;
-			pDevice3D->GetTransform(D3DTS_VIEW, &view);
-			D3DXMATRIXA16 proj;
-			pDevice3D->GetTransform(D3DTS_PROJECTION, &proj);
+		//頂点シェーダ
+		pDevice3D->SetVertexShader(NULL);
 
-			D3DXMATRIXA16 matrix = worldMat*view*proj;
-
-			pEffect->SetMatrix("matWorldViewProj", matrix);
-
-			matrix = worldMat;
-			D3DXMatrixInverse(&matrix,NULL, &matrix);
-			D3DXMatrixTranspose(&matrix, &matrix);
-			
-			if (FAILED(pEffect->SetMatrix("matWorldInverseTransverse", matrix)))
-			{
-				int a = 0;
-			}
-
-			pEffect->SetTechnique("BasicTec");
-			
-		}
-		else
-		{
-
-			pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
-
-			//頂点シェーダ
-			pDevice3D->SetVertexShader(NULL);
-
-			//頂点フォーマット
-			pDevice3D->SetFVF(mesh.pMesh->GetFVF());
-		}
+		//頂点フォーマット
+		pDevice3D->SetFVF(mesh.pMesh->GetFVF());
 
 		if (mesh.numMaterials > 0)
 		{
 			for (unsigned int i = 0; i < mesh.numMaterials; i++)
 			{
+
 				pDevice3D->SetMaterial(&mesh.pMaterials[i]);
-				if (useEffect)
-				{
-					pEffect->SetTexture("Tex", mesh.ppTextures[i]);
-					pEffect->Begine(&numPass, 0);
-
-					pEffect->BeginePass(0);
-				}
-				else
-				{
-					pDevice3D->SetTexture(0, mesh.ppTextures[i]);
-				}
-
-			
+				pDevice3D->SetTexture(0, mesh.ppTextures[i]);
 				mesh.pMesh->DrawSubset(i);
-
-				if (useEffect)
-				{
-					pEffect->EndPass();
-					pEffect->End();
-				}
 			}
 		}
 		else
@@ -549,10 +502,47 @@ void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 
 			mesh.pMesh->DrawSubset(0);
 		}
-
-	
-
 	}
+}
+
+void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
+{
+	if (mesh.pMesh == nullptr)return;
+	if (pEffect == nullptr || pEffect->pEffect == nullptr) return;
+
+	static EffectParamSetter effectParamSetter;
+
+	pDevice3D->SetTransform(D3DTS_WORLD,&worldMat);
+
+	effectParamSetter.SetMode(EffectParamSetter::MODE::MESH_X);
+	effectParamSetter.SetMeshPointer(&mesh);
+
+	effectParamSetter.SetTechnique(pEffect, 0);
+
+	//頂点フォーマット
+	pDevice3D->SetFVF(mesh.pMesh->GetFVF());
+
+	UINT numPass;
+	if (mesh.numMaterials > 0)
+	{
+		for (unsigned int i = 0; i < mesh.numMaterials; i++)
+		{		
+			
+			effectParamSetter.Begin(pEffect, &numPass, 0, i);
+
+			effectParamSetter.BeginPass(pEffect, 0);
+
+								   //指定したテクニックの0番目のパスで
+								   //描画
+			mesh.pMesh->DrawSubset(i);
+
+			pEffect->EndPass();//パスの描画終了
+			pEffect->End();
+
+		}
+	}
+
+	effectParamSetter.Reset();
 }
 
 void Direct3D::DrawTriangleList(TriangleList& triangleList,D3DXMATRIXA16& worldMat)

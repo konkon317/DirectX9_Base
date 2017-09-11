@@ -18,9 +18,8 @@
 #include "../Manager/SceneManager.h"
 
 
-#include "../../Direct3D/Effect.h"
-
-
+#include "../../Direct3D/Effect/EffectLambert.h"
+#include "../../Direct3D/Effect/EffectBasic.h"
 
 class MainScene :public Scene
 {
@@ -40,7 +39,8 @@ private:
 	MeshX testMesh;
 
 	Model model;
-	Effect effect;
+	EffectLambert effectLambert;
+	EffectBasic effectBasic;
 
 	GameObject3D* pGameObject[2];
 

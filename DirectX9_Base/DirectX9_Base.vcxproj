@@ -90,7 +90,19 @@
     <ClCompile Include="Source\BoundingBox\OrientedBoundinngBox.cpp" />
     <ClCompile Include="Source\Direct3D\camera.cpp" />
     <ClCompile Include="Source\Direct3D\Direct3D.cpp" />
-    <ClCompile Include="Source\Direct3D\Effect.cpp" />
+    <ClCompile Include="Source\Direct3D\Effect\Effect.cpp" />
+    <ClCompile Include="Source\Direct3D\Effect\EffectBasic.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\Effect\EffectLambert.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\Effect\EffectParamSetter.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Direct3D\meshX.cpp" />
     <ClCompile Include="Source\Direct3D\sprite.cpp" />
     <ClCompile Include="Source\Direct3D\texture.cpp" />
@@ -116,7 +128,16 @@
     <ClInclude Include="Source\BoundingBox\OrientedBoundinngBox.h" />
     <ClInclude Include="Source\Direct3D\camera.h" />
     <ClInclude Include="Source\Direct3D\Direct3D.h" />
-    <ClInclude Include="Source\Direct3D\Effect.h" />
+    <ClInclude Include="Source\Direct3D\Effect\Effect.h" />
+    <ClInclude Include="Source\Direct3D\Effect\EffectBasic.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Effect\EffectLambert.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Effect\EffectParamSetter.h" />
     <ClInclude Include="Source\Direct3D\meshX.h" />
     <ClInclude Include="Source\Direct3D\sprite.h" />
     <ClInclude Include="Source\Direct3D\texture.h" />

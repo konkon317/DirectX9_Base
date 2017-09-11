@@ -1,5 +1,5 @@
 float4x4 matWorldViewProj;
-float4x4 matWorldInverseTransverse;
+float4x4 matWorldInverseTranspose;
 
 float3 vLightDir={1.0f,-1.0f,1.0f};
 
@@ -41,7 +41,7 @@ VS_OUTPUT VS(
 	Out.Pos=mul( LocalPos, matWorldViewProj );
 
 	float3 L = -vLightDir;
-	float3 N = normalize(mul(Normal,(float3x3)matWorldInverseTransverse));
+	float3 N = normalize(mul(Normal,(float3x3)matWorldInverseTranspose));
 
 	Out.diffuseRate = K_d * (max(0,dot(N,L)));
 	

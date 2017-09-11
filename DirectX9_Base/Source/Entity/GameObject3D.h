@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "../Direct3D/meshX.h"
 #include "../BoundingBox/OrientedBoundinngBox.h"
-#include "../Direct3D/Effect.h"
+#include "../Direct3D/Effect/Effect.h"
 
 class GameObject3D : public GameObject
 { 
