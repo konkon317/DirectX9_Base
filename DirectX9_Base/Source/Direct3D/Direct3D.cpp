@@ -231,10 +231,7 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_LIGHTING, TRUE);
 				d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
 
-
-				d3d.SetupRrojectionMatrix();
-
-				
+				d3d.SetupRrojectionMatrix();			
 
 				D3DLIGHT9 light;
 				ZeroMemory(&light, sizeof(D3DLIGHT9));
@@ -466,73 +463,27 @@ void Direct3D::LoadMesh(MeshX& mesh,TCHAR* path)
 
 }
 
-void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
+
+void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat)
 {
 	if (mesh.pMesh != nullptr)
 	{
-		bool useEffect = (pEffect != nullptr);
+		pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
 
-		UINT numPass;
-		if (useEffect)
-		{
-			D3DXMATRIXA16 view;
-			pDevice3D->GetTransform(D3DTS_VIEW, &view);
-			D3DXMATRIXA16 proj;
-			pDevice3D->GetTransform(D3DTS_PROJECTION, &proj);
+		//頂点シェーダ
+		pDevice3D->SetVertexShader(NULL);
 
-			D3DXMATRIXA16 matrix = worldMat*view*proj;
-
-			pEffect->SetMatrix("matWorldViewProj", matrix);
-
-			matrix = worldMat;
-			D3DXMatrixInverse(&matrix,NULL, &matrix);
-			D3DXMatrixTranspose(&matrix, &matrix);
-			
-			if (FAILED(pEffect->SetMatrix("matWorldInverseTransverse", matrix)))
-			{
-				int a = 0;
-			}
-
-			pEffect->SetTechnique("BasicTec");
-			
-		}
-		else
-		{
-
-			pDevice3D->SetTransform(D3DTS_WORLD, &worldMat);
-
-			//頂点シェーダ
-			pDevice3D->SetVertexShader(NULL);
-
-			//頂点フォーマット
-			pDevice3D->SetFVF(mesh.pMesh->GetFVF());
-		}
+		//頂点フォーマット
+		pDevice3D->SetFVF(mesh.pMesh->GetFVF());
 
 		if (mesh.numMaterials > 0)
 		{
 			for (unsigned int i = 0; i < mesh.numMaterials; i++)
 			{
+
 				pDevice3D->SetMaterial(&mesh.pMaterials[i]);
-				if (useEffect)
-				{
-					pEffect->SetTexture("Tex", mesh.ppTextures[i]);
-					pEffect->Begine(&numPass, 0);
-
-					pEffect->BeginePass(0);
-				}
-				else
-				{
-					pDevice3D->SetTexture(0, mesh.ppTextures[i]);
-				}
-
-			
+				pDevice3D->SetTexture(0, mesh.ppTextures[i]);
 				mesh.pMesh->DrawSubset(i);
-
-				if (useEffect)
-				{
-					pEffect->EndPass();
-					pEffect->End();
-				}
 			}
 		}
 		else
@@ -549,9 +500,54 @@ void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 
 			mesh.pMesh->DrawSubset(0);
 		}
+	}
+}
 
-	
+void Direct3D::DrawMesh(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
+{
+	if (mesh.pMesh == nullptr)return;
+	if (pEffect == nullptr || pEffect->pEffect == nullptr) return;
 
+	D3DXMATRIXA16 view, proj;
+	pDevice3D->GetTransform(D3DTS_VIEW, &view);//ビュー行列の取得
+	pDevice3D->GetTransform(D3DTS_PROJECTION, &proj);//プロジェクション行列の取得
+
+	D3DXMATRIXA16 worldViewProj;
+	D3DXMatrixMultiply(&worldViewProj, &worldMat, &view);
+	D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);
+
+	pEffect->SetMatrix("matWorldViewProj", worldViewProj);
+
+	//ノーマル変換の為の行列を求める
+	D3DXMATRIXA16 worldInverseTranspose;
+	D3DXMatrixInverse(&worldInverseTranspose, NULL, &worldMat);//逆行列
+	D3DXMatrixTranspose(&worldInverseTranspose, &worldInverseTranspose);//転置行列
+
+	pEffect->SetMatrix("matWorldInverseTranspose", worldInverseTranspose);
+
+	pEffect->SetTechnique("BasicTec");
+
+	//頂点フォーマット
+	pDevice3D->SetFVF(mesh.pMesh->GetFVF());
+
+	UINT numPass;
+	if (mesh.numMaterials > 0)
+	{
+		for (unsigned int i = 0; i < mesh.numMaterials; i++)
+		{
+			pEffect->SetTexture("Tex", mesh.ppTextures[i]);
+
+			pEffect->Begine(&numPass, 0);
+			pEffect->BeginePass(0);//パスの描画開始
+
+								   //指定したテクニックの0番目のパスで
+								   //描画
+			mesh.pMesh->DrawSubset(i);
+
+			pEffect->EndPass();//パスの描画終了
+			pEffect->End();
+
+		}
 	}
 }
 
