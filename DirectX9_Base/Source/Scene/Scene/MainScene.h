@@ -19,6 +19,7 @@
 
 
 #include "../../Direct3D/Effect/EffectLambert.h"
+#include "../../Direct3D/Effect/EffectBasic.h"
 
 class MainScene :public Scene
 {
@@ -39,6 +40,7 @@ private:
 
 	Model model;
 	EffectLambert effectLambert;
+	EffectBasic effectBasic;
 
 	GameObject3D* pGameObject[2];
 
