@@ -17,7 +17,8 @@ MainScene::MainScene()
 	tex.SetDivide(2, 2);
 	tex.SetUVNum(1, 1);
 
-	effect.CreateFromFile("Shader/lambert.fx");
+	effectLambert.CreateFromFile("Shader/lambert.fx");
+	effectBasic.CreateFromFile("Shader/BasicShader.fx");
 
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
 
@@ -35,7 +36,7 @@ MainScene::MainScene()
 
 			pGameObject[i]->SetPosition(i * 5.0f, -i * 1.0f, i*0.3f);
 
-			pGameObject[i]->SetEffectFile(&effect);
+			pGameObject[i]->SetEffectFile(&effectBasic);
 		}
 	}
 
@@ -92,6 +93,29 @@ void MainScene::Update()
 
 		int a = 0;
 	}
+
+	Effect* pEffect = nullptr;
+	if (di.KeyDown(DIK_P))
+	{
+		pEffect = &this->effectBasic;
+	}
+	if (di.KeyDown(DIK_O))
+	{
+		pEffect = &this->effectLambert;
+	}
+
+	if (pEffect != nullptr)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			if (pGameObject != nullptr)
+			{
+				pGameObject[i]->SetEffectFile(pEffect);
+			}
+		}
+	}
+
+
 
 	float f = 0.0f;
 	float r = 0.0f;
