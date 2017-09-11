@@ -2,7 +2,7 @@
 #include "texture.h"
 #include "sprite.h"
 #include "meshX.h"
-#include "Effect.h"
+#include "Effect/Effect.h"
 
 #include <tchar.h>
 

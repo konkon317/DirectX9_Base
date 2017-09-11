@@ -1,5 +1,5 @@
 ﻿#include "meshX.h"
-#include "Effect.h"
+#include "Effect/Effect.h"
 
 MeshX::MeshX()
 {

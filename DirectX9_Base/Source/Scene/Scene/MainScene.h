@@ -18,7 +18,7 @@
 #include "../Manager/SceneManager.h"
 
 
-#include "../../Direct3D/Effect.h"
+#include "../../Direct3D/Effect/Effect.h"
 
 
 
