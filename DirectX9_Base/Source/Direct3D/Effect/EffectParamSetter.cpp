@@ -5,20 +5,6 @@
 
 #include "../meshX.h"
 
-
-HRESULT EffectParamSetter:: SetTechnique(Effect* pEffect, int techniqueNum)
-{ 
-	return (pEffect != nullptr) ? pEffect->SetTechnique(*this, techniqueNum) : E_FAIL; 
-}
-HRESULT EffectParamSetter::Begin(Effect* pEffect, UINT*pPasses, DWORD Flag, int subsetNum)
-{ 
-	return (pEffect != nullptr) ? pEffect->Begine(*this, pPasses, Flag, subsetNum) : E_FAIL; 
-}
-HRESULT EffectParamSetter::BeginPass(Effect* pEffect, UINT pass)
-{
-	return (pEffect != nullptr) ? pEffect->BeginePass(*this, pass) : E_FAIL; 
-}
-
 //==============================================================================================================
 //EffectLambert用の関数
 
