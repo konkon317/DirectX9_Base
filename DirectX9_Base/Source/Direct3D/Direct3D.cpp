@@ -517,8 +517,8 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 	effectParamSetter.SetMode(EffectParamSetter::MODE::MESH_X);
 	effectParamSetter.SetMeshPointer(&mesh);
 
-	effectParamSetter.SetTechnique(pEffect, 0);
-
+	pEffect->SetTechnique(effectParamSetter, 0);
+	
 	//頂点フォーマット
 	pDevice3D->SetFVF(mesh.pMesh->GetFVF());
 
@@ -528,10 +528,8 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 		for (unsigned int i = 0; i < mesh.numMaterials; i++)
 		{		
 			
-			effectParamSetter.Begin(pEffect, &numPass, 0, i);
-
-			effectParamSetter.BeginPass(pEffect, 0);
-
+			pEffect->Begine(effectParamSetter, &numPass, 0, i);
+			pEffect->BeginePass(effectParamSetter, 0);			
 								   //指定したテクニックの0番目のパスで
 								   //描画
 			mesh.pMesh->DrawSubset(i);
