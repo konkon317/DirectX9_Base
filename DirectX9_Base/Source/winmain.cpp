@@ -29,6 +29,7 @@
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_crtBreakAlloc=(34945);
 
 	/*
 	fbxsdk::FbxManager* fbxManager = fbxsdk::FbxManager::Create();
@@ -75,6 +76,6 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	
 	SingletonFinalizer::Finalize();//シングルトンなクラスの終了処理
 
-	
-
+	//_CrtDumpMemoryLeaks();
+	return 0;
 }
