@@ -98,7 +98,7 @@ HRESULT  EffectParamSetter::OnBeginPass(EffectLambert* pEffect, UINT pass)
 
 
 //==============================================================================================================
-//EffectLambert用の関数
+//EffectBasic用の関数
 
 HRESULT  EffectParamSetter::OnSetTechnique(EffectBasic* pEffect, int techniqueNum, D3DXHANDLE& tecHandle)
 {
