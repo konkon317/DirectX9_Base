@@ -104,6 +104,10 @@ void MainScene::Update()
 	{
 		pEffect = &this->effectLambert;
 	}
+	if (di.KeyDown(DIK_I))
+	{
+		pEffect = &this->effectPhong;
+	}
 
 	if (pEffect != nullptr)
 	{
