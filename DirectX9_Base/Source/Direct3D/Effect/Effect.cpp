@@ -41,6 +41,13 @@ HRESULT  Effect::SetTexture(D3DXHANDLE hParamater, LPDIRECT3DTEXTURE9 texture)
 	return pEffect->SetTexture(hParamater, texture);
 }
 
+HRESULT Effect::SetVector4(D3DXHANDLE hPramater,const D3DXVECTOR4& vec4)
+{
+	if (pEffect == nullptr)return E_FAIL;
+
+	return pEffect->SetVector(hPramater, &vec4);
+}
+
 //テクニックのセット
 HRESULT  Effect::SetTechnique(EffectParamSetter& setter, int tecniqueNum)
 {
@@ -105,3 +112,4 @@ HRESULT Effect::End()
 	if (pEffect == nullptr)return E_FAIL;
 	return pEffect->End();
 }
+
