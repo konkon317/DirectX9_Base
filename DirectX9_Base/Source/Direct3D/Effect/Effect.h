@@ -25,6 +25,8 @@ public :
 
 	HRESULT SetTexture(D3DXHANDLE hParamater, LPDIRECT3DTEXTURE9 texture);
 
+	HRESULT SetVector4(D3DXHANDLE hParameter,const D3DXVECTOR4& vec4 );
+
 
 	//テクニックのセット
 	HRESULT SetTechnique(EffectParamSetter& setter, int tecniqueNum);

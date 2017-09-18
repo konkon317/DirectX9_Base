@@ -8,6 +8,7 @@ class EffectLambert :public Effect
 	D3DXHANDLE H_matWorldInverseTranspose;
 	D3DXHANDLE H_TecBasic;
 	D3DXHANDLE H_TexMain;
+	D3DXHANDLE H_VecLightDirection;
 
 public :
 
@@ -20,6 +21,8 @@ public :
 	HRESULT SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum);
 	
 	HRESULT SetupParameter_OnBeginPass(EffectParamSetter& setter, UINT pass);
+
+	
 	
 
 	//パラメータ設定関数
@@ -31,6 +34,7 @@ public :
 
 	void SetTextureMain(LPDIRECT3DTEXTURE9 pTexture);
 
+	void SetVectorLightDirection(const D3DXVECTOR4& v);
 
 
 
