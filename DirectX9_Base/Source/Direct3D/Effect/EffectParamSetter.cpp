@@ -31,18 +31,31 @@ HRESULT  EffectParamSetter::OnSetTechnique(EffectLambert* pEffect, int technique
 	
 	h = d3d.GetTransForm(D3DTS_WORLD, worldMat);
 
+	//ワールド変換行列-----------------
 	D3DXMATRIXA16 worldViewProj;
 	D3DXMatrixMultiply(&worldViewProj, &worldMat, &view);
 	D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);
 
-	//ノーマル変換の為の行列を求める
-	D3DXMATRIXA16 worldInverseTranspose;
-	D3DXMatrixInverse(&worldInverseTranspose, NULL, &worldMat);//逆行列
-	D3DXMatrixTranspose(&worldInverseTranspose, &worldInverseTranspose);//転置行列
-
-	//シェーダに行列を設定
 	pEffect->SetMatrixWorldViewProj(worldViewProj);
-	pEffect->SetMatrixWorldInverseTranspose(worldInverseTranspose);
+
+
+	//光源　向き-----------------------
+
+	//ノーマル変換の為の行列を求める
+	//ライトの向きを計算　
+	//シェーダでの光量計算に使用
+	
+	//各ポリゴンの法線をそれぞれ変換するのではなく
+	//光の向きを変換することによりシェーダでの計算量を減らす
+
+	D3DXMATRIXA16 worldInverse;
+	D3DXMatrixInverse(&worldInverse, NULL, &worldMat);//逆行列
+	D3DXVECTOR4 lightVec = D3DXVECTOR4(1, -1, 1, 0);
+	D3DXVec4Transform(&lightVec,&lightVec,&worldInverse);
+	D3DXVec3Normalize((D3DXVECTOR3*)&lightVec, (D3DXVECTOR3*)&lightVec);
+	
+	pEffect->SetVectorLightDirection(lightVec);
+
 
 	return S_OK;
 }

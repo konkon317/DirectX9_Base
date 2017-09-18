@@ -16,6 +16,8 @@ HRESULT EffectLambert::CreateFromFile(std::string filePath)
 	H_matWorldInverseTranspose = pEffect->GetParameterByName(NULL, "matWorldInverseTranspose");
 
 	H_TexMain = pEffect->GetParameterByName(NULL, "Tex");
+
+	H_VecLightDirection = pEffect->GetParameterByName(NULL, "vLightDir");
 	return S_OK;
 }
 
@@ -66,4 +68,9 @@ void EffectLambert::SetMatrixWorldInverseTranspose(D3DXMATRIXA16& mat)
 void EffectLambert::SetTextureMain(LPDIRECT3DTEXTURE9 pTexture)
 {
 	Effect::SetTexture(H_TexMain, pTexture);
+}
+
+void EffectLambert::SetVectorLightDirection(const D3DXVECTOR4& v)
+{
+	Effect::SetVector4(H_VecLightDirection, v);
 }
