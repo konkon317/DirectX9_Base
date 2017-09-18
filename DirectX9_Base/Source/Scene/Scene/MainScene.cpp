@@ -19,6 +19,7 @@ MainScene::MainScene()
 
 	effectLambert.CreateFromFile("Shader/lambert.fx");
 	effectBasic.CreateFromFile("Shader/BasicShader.fx");
+	effectPhong.CreateFromFile("Shader/phong.fx");
 
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
 
@@ -36,7 +37,7 @@ MainScene::MainScene()
 
 			pGameObject[i]->SetPosition(i * 5.0f, -i * 1.0f, i*0.3f);
 
-			pGameObject[i]->SetEffectFile(&effectBasic);
+			pGameObject[i]->SetEffectFile(&effectPhong);
 		}
 	}
 
