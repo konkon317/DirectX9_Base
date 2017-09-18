@@ -31,18 +31,44 @@ HRESULT  EffectParamSetter::OnSetTechnique(EffectLambert* pEffect, int technique
 	
 	h = d3d.GetTransForm(D3DTS_WORLD, worldMat);
 
+	//ワールド変換行列-----------------
 	D3DXMATRIXA16 worldViewProj;
 	D3DXMatrixMultiply(&worldViewProj, &worldMat, &view);
 	D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);
 
-	//ノーマル変換の為の行列を求める
-	D3DXMATRIXA16 worldInverseTranspose;
-	D3DXMatrixInverse(&worldInverseTranspose, NULL, &worldMat);//逆行列
-	D3DXMatrixTranspose(&worldInverseTranspose, &worldInverseTranspose);//転置行列
-
-	//シェーダに行列を設定
 	pEffect->SetMatrixWorldViewProj(worldViewProj);
-	pEffect->SetMatrixWorldInverseTranspose(worldInverseTranspose);
+
+
+	//光源　向き-----------------------
+
+	//ノーマル変換の為の行列を求める
+	//ライトの向きを計算　
+	//シェーダでの光量計算に使用
+	
+	//各ポリゴンの法線をそれぞれ変換するのではなく
+	//光の向きを変換することによりシェーダでの計算量を減らす
+
+	D3DXMATRIXA16 worldInverse;
+	D3DXMatrixInverse(&worldInverse, NULL, &worldMat);//逆行列
+	D3DXVECTOR4 lightVec = D3DXVECTOR4(1, -1, 1, 0);
+	D3DXVec4Transform(&lightVec,&lightVec,&worldInverse);
+	D3DXVec3Normalize((D3DXVECTOR3*)&lightVec, (D3DXVECTOR3*)&lightVec);
+	
+	pEffect->SetVectorLightDirection(lightVec);
+
+	//--------------------------------
+	//アンビエント色
+	DWORD d;
+	D3DXVECTOR4 col;
+	d3d.GetRenderState(D3DRS_AMBIENT, &d);
+
+	col.x = static_cast<float>((0x00ff0000 & d) >> (8 * 2)) / 255;
+	col.y = static_cast<float>((0x0000ff00 & d) >> (8 * 1)) / 255;
+	col.z = static_cast<float>((0x000000ff & d) >> (8 * 0)) / 255;
+	col.w = 1.0f;// static_cast<float>((0xff000000 & d) >> (8 * 3)) / 255;
+	pEffect->SetVector4("I_a", col);
+
+
 
 	return S_OK;
 }
@@ -60,7 +86,27 @@ HRESULT  EffectParamSetter::OnBegin(EffectLambert* pEffect, UINT*pPasses, DWORD 
 				if (subsetNum >= 0 && subsetNum < pMesh->GetNumMaterials())
 				{
 					pEffect->SetTextureMain(pMesh->Get_ppTextures()[subsetNum]);
+
+					D3DMATERIAL9 mat = pMesh->Get_ppMaterials()[subsetNum];			
+					
+
+					D3DXVECTOR4 amb;
+					amb.x = mat.Ambient.r;
+					amb.y = mat.Ambient.g;
+					amb.z = mat.Ambient.b;
+					amb.w = mat.Ambient.a;//*col.a*/;
+
+					pEffect->SetVector4("K_a", amb);
+
+					D3DXVECTOR4 dif;
+					dif.x = mat.Diffuse.r;
+					dif.y = mat.Diffuse.g;
+					dif.z = mat.Diffuse.b;
+					dif.w = mat.Diffuse.a;
+					pEffect->SetVector4("K_d", dif);
 				}
+
+
 			}
 			else
 			{
@@ -85,7 +131,7 @@ HRESULT  EffectParamSetter::OnBeginPass(EffectLambert* pEffect, UINT pass)
 
 
 //==============================================================================================================
-//EffectLambert用の関数
+//EffectBasic用の関数
 
 HRESULT  EffectParamSetter::OnSetTechnique(EffectBasic* pEffect, int techniqueNum, D3DXHANDLE& tecHandle)
 {

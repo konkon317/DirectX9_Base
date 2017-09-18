@@ -86,6 +86,7 @@ public:
 	HRESULT CreateEffectFromFile(Effect& refEffect, std::string filepath);
 
 	HRESULT GetTransForm(_D3DTRANSFORMSTATETYPE type, D3DXMATRIXA16& mat) {	return (pDevice3D) ? pDevice3D->GetTransform(type, &mat) : E_FAIL;}
+	HRESULT GetRenderState(D3DRENDERSTATETYPE type,DWORD* d) {return  (pDevice3D) ? pDevice3D->GetRenderState(type,d): E_FAIL;}
 
 private:
 	HWND hWnd;
