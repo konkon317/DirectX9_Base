@@ -56,6 +56,19 @@ HRESULT  EffectParamSetter::OnSetTechnique(EffectLambert* pEffect, int technique
 	
 	pEffect->SetVectorLightDirection(lightVec);
 
+	//--------------------------------
+	//アンビエント色
+	DWORD d;
+	D3DXVECTOR4 col;
+	d3d.GetRenderState(D3DRS_AMBIENT, &d);
+
+	col.x = static_cast<float>((0x00ff0000 & d) >> (8 * 2)) / 255;
+	col.y = static_cast<float>((0x0000ff00 & d) >> (8 * 1)) / 255;
+	col.z = static_cast<float>((0x000000ff & d) >> (8 * 0)) / 255;
+	col.w = 1.0f;// static_cast<float>((0xff000000 & d) >> (8 * 3)) / 255;
+	pEffect->SetVector4("I_a", col);
+
+
 
 	return S_OK;
 }
@@ -73,7 +86,27 @@ HRESULT  EffectParamSetter::OnBegin(EffectLambert* pEffect, UINT*pPasses, DWORD 
 				if (subsetNum >= 0 && subsetNum < pMesh->GetNumMaterials())
 				{
 					pEffect->SetTextureMain(pMesh->Get_ppTextures()[subsetNum]);
+
+					D3DMATERIAL9 mat = pMesh->Get_ppMaterials()[subsetNum];			
+					
+
+					D3DXVECTOR4 amb;
+					amb.x = mat.Ambient.r;
+					amb.y = mat.Ambient.g;
+					amb.z = mat.Ambient.b;
+					amb.w = mat.Ambient.a;//*col.a*/;
+
+					pEffect->SetVector4("K_a", amb);
+
+					D3DXVECTOR4 dif;
+					dif.x = mat.Diffuse.r;
+					dif.y = mat.Diffuse.g;
+					dif.z = mat.Diffuse.b;
+					dif.w = mat.Diffuse.a;
+					pEffect->SetVector4("K_d", dif);
 				}
+
+
 			}
 			else
 			{
