@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include<vector>
 
 #include "../../Direct3D/Direct3D.h"
 #include "../../Direct3D/Sprite.h"
@@ -46,6 +47,9 @@ private:
 	EffectPhong effectPhong2;
 
 	GameObject3D* pGameObject[2];
+
+	std::vector<Effect* > EffectPointerList;
+	int currentEffectIndex;
 
 public:
 	MainScene();

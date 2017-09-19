@@ -61,7 +61,7 @@ float4 PS( VS_OUTPUT  In) : COLOR0
 {
    float4 color= tex2D(Samp,In.Tex);
    
-   color= //color*
+   color= color*
 ((I_a*K_a)+(I_d*In.diffuseRate)+In.phong);
 
    return color;
