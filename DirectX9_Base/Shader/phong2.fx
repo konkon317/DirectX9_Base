@@ -70,7 +70,7 @@ float4 PS( VS_OUTPUT  In) : COLOR0
 	float3 H=normalize(In.E+L);
 	float3 N= normalize(In.N);
    
-   	color=//color* 
+   	color=color* 
 		((I_a*K_a)+
 		(I_d*In.diffuseRate)+
 		(pow(max(0,dot(N,H)),10))
