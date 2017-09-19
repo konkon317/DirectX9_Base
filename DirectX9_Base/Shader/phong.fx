@@ -49,7 +49,7 @@ VS_OUTPUT VS(
 
 	Out.diffuseRate = K_d * (max(0,dot(N,L)));
 
-	Out.phong =pow(max(0,dot(L,R)),5);
+	Out.phong =pow(max(0,dot(L,R)),10);
 	Out.phong.a=1.0f;
 	
 	Out.Tex =Tex;	
@@ -61,7 +61,8 @@ float4 PS( VS_OUTPUT  In) : COLOR0
 {
    float4 color= tex2D(Samp,In.Tex);
    
-   color= color*((I_a*K_a)+(I_d*In.diffuseRate)+In.phong);
+   color= //color*
+((I_a*K_a)+(I_d*In.diffuseRate)+In.phong);
 
    return color;
 }
