@@ -20,6 +20,7 @@ MainScene::MainScene()
 	effectLambert.CreateFromFile("Shader/lambert.fx");
 	effectBasic.CreateFromFile("Shader/BasicShader.fx");
 	effectPhong.CreateFromFile("Shader/phong.fx");
+	effectPhong2.CreateFromFile("Shader/phong2.fx");
 
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
 
@@ -107,6 +108,10 @@ void MainScene::Update()
 	if (di.KeyDown(DIK_I))
 	{
 		pEffect = &this->effectPhong;
+	}
+	if (di.KeyDown(DIK_U))
+	{
+		pEffect = &this->effectPhong2;
 	}
 
 	if (pEffect != nullptr)
