@@ -1,7 +1,7 @@
-﻿#include "EffectLambert.h"
+﻿#include "EffectPhong.h"
 #include "EffectParamSetter.h"
 
-HRESULT EffectLambert::CreateFromFile(std::string filePath)
+HRESULT EffectPhong::CreateFromFile(std::string filePath)
 {
 
 	HRESULT h = Effect::CreateFromFile(filePath);
@@ -11,17 +11,18 @@ HRESULT EffectLambert::CreateFromFile(std::string filePath)
 		return h;
 	}
 
-	H_TecBasic= pEffect->GetTechniqueByName("BasicTec");
+	H_TecBasic = pEffect->GetTechniqueByName("BasicTec");
 	H_matWorldViewProj = pEffect->GetParameterByName(NULL, "matWorldViewProj");
 	H_matWorldInverseTranspose = pEffect->GetParameterByName(NULL, "matWorldInverseTranspose");
 
 	H_TexMain = pEffect->GetParameterByName(NULL, "Tex");
 
 	H_VecLightDirection = pEffect->GetParameterByName(NULL, "vLightDir");
+	H_VecEye = pEffect->GetParameterByName(NULL, "vEyePos");
 	return S_OK;
 }
 
-HRESULT EffectLambert::GetTeqniqueHandle(int n, D3DXHANDLE&handle)
+HRESULT EffectPhong::GetTeqniqueHandle(int n, D3DXHANDLE&handle)
 {
 
 	HRESULT h = E_FAIL;
@@ -40,37 +41,41 @@ HRESULT EffectLambert::GetTeqniqueHandle(int n, D3DXHANDLE&handle)
 	return h;
 }
 
-HRESULT EffectLambert::SetupParameter_OnSetTechnique(EffectParamSetter& setter, int tecniqueNum, D3DXHANDLE& tecHandle)
+HRESULT EffectPhong::SetupParameter_OnSetTechnique(EffectParamSetter& setter, int tecniqueNum, D3DXHANDLE& tecHandle)
 {
 	return setter.OnSetTechnique(this, tecniqueNum, tecHandle);
 }
 
-HRESULT EffectLambert::SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum)
+HRESULT EffectPhong::SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum)
 {
 	return setter.OnBegin(this, pPasses, Flag, subsetNum);
 }
-HRESULT EffectLambert::SetupParameter_OnBeginPass(EffectParamSetter& setter, UINT pass)
+HRESULT EffectPhong::SetupParameter_OnBeginPass(EffectParamSetter& setter, UINT pass)
 {
 	return setter.OnBeginPass(this, pass);
 }
 
 //パラメータ設定関数
-void EffectLambert::SetMatrixWorldViewProj(D3DXMATRIXA16& mat)
+void EffectPhong::SetMatrixWorldViewProj(D3DXMATRIXA16& mat)
 {
 	Effect::SetMatrix(H_matWorldViewProj, mat);
 }
 
-void EffectLambert::SetMatrixWorldInverseTranspose(D3DXMATRIXA16& mat)
+void EffectPhong::SetMatrixWorldInverseTranspose(D3DXMATRIXA16& mat)
 {
 	Effect::SetMatrix(H_matWorldInverseTranspose, mat);
 }
 
-void EffectLambert::SetTextureMain(LPDIRECT3DTEXTURE9 pTexture)
+void EffectPhong::SetTextureMain(LPDIRECT3DTEXTURE9 pTexture)
 {
 	Effect::SetTexture(H_TexMain, pTexture);
 }
 
-void EffectLambert::SetVectorLightDirection(const D3DXVECTOR4& v)
+void EffectPhong::SetVectorLightDirection(const D3DXVECTOR4& v)
 {
 	Effect::SetVector4(H_VecLightDirection, v);
+}
+void EffectPhong::SetVectorEye(const D3DXVECTOR4& v)
+{
+	Effect::SetVector4(H_VecEye, v);
 }

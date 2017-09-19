@@ -19,6 +19,14 @@ MainScene::MainScene()
 
 	effectLambert.CreateFromFile("Shader/lambert.fx");
 	effectBasic.CreateFromFile("Shader/BasicShader.fx");
+	effectPhong.CreateFromFile("Shader/phong.fx");
+	effectPhong2.CreateFromFile("Shader/phong2.fx");
+
+	EffectPointerList.push_back(&effectLambert);
+	EffectPointerList.push_back(&effectBasic);
+	EffectPointerList.push_back(&effectPhong);
+	EffectPointerList.push_back(&effectPhong2);
+	currentEffectIndex=0;
 
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
 
@@ -36,7 +44,11 @@ MainScene::MainScene()
 
 			pGameObject[i]->SetPosition(i * 5.0f, -i * 1.0f, i*0.3f);
 
-			pGameObject[i]->SetEffectFile(&effectBasic);
+			if (EffectPointerList.size() >= 0)
+			{
+				Effect* pEffect = EffectPointerList[currentEffectIndex];
+				pGameObject[i]->SetEffectFile(pEffect);
+			}
 		}
 	}
 
@@ -95,14 +107,33 @@ void MainScene::Update()
 	}
 
 	Effect* pEffect = nullptr;
+
 	if (di.KeyDown(DIK_P))
 	{
-		pEffect = &this->effectBasic;
+		if (EffectPointerList.size() > 0)
+		{
+			currentEffectIndex++;
+			if (currentEffectIndex >= EffectPointerList.size())
+			{
+				currentEffectIndex = 0;
+			}
+		}
+		pEffect= EffectPointerList[currentEffectIndex];
 	}
 	if (di.KeyDown(DIK_O))
 	{
-		pEffect = &this->effectLambert;
+		if (EffectPointerList.size() > 0)
+		{
+			currentEffectIndex--;
+			if (currentEffectIndex <0)
+			{
+				currentEffectIndex = EffectPointerList.size()-1;
+			}
+		}
+		pEffect = EffectPointerList[currentEffectIndex];
 	}
+
+
 
 	if (pEffect != nullptr)
 	{
