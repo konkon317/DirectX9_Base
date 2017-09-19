@@ -47,6 +47,12 @@ void TriangleList::Release()
 		pVertices = nullptr;
 	}
 
+	if (pTexture != nullptr)
+	{
+		delete[]	pTexture;
+
+	}
+
 	triangleCount = 0;
 	vertexCount = 0;
 }
