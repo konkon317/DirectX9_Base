@@ -43,6 +43,7 @@ private:
 	EffectLambert effectLambert;
 	EffectBasic effectBasic;
 	EffectPhong effectPhong;
+	EffectPhong effectPhong2;
 
 	GameObject3D* pGameObject[2];
 
