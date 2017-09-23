@@ -21,11 +21,13 @@ MainScene::MainScene()
 	effectBasic.CreateFromFile("Shader/BasicShader.fx");
 	effectPhong.CreateFromFile("Shader/phong.fx");
 	effectPhong2.CreateFromFile("Shader/phong2.fx");
+	effectCookTorrance.CreateFromFile("Shader/CookTorrance.fx");
 
 	EffectPointerList.push_back(&effectLambert);
 	EffectPointerList.push_back(&effectBasic);
 	EffectPointerList.push_back(&effectPhong);
 	EffectPointerList.push_back(&effectPhong2);
+	EffectPointerList.push_back(&effectCookTorrance);
 	currentEffectIndex=0;
 
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
