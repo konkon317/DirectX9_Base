@@ -35,7 +35,7 @@ MainScene::MainScene()
 	camera.SetEyePoint(0.0f, 0.0f, -5);
 	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		pGameObject[i] = nullptr;
 		pGameObject[i] = new GameObject3D();
@@ -139,7 +139,7 @@ void MainScene::Update()
 
 	if (pEffect != nullptr)
 	{
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			if (pGameObject != nullptr)
 			{
@@ -203,7 +203,7 @@ void MainScene::Draw()
 	Direct3D::GetInstance().SetupRrojectionMatrix();
 	camera.SetViewMatrix();
 
-	for (int i = 1; i >= 0; i--)
+	for (int i = 2; i >= 0; i--)
 	{
 
 		pGameObject[i]->Draw();
