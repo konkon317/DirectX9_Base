@@ -134,7 +134,7 @@ void Direct3D::Render()
 		{
 			if (SUCCEEDED(d3d.pDevice3D->BeginScene()))
 			{
-				DWORD ClearColor =/* (pathed) ? 0x11111111 :*/ 0xFFFFFFFF;//背景クリア色
+				DWORD ClearColor =/* (pathed) ? 0x11111111 :*/ /*0xFFFFFFFF*/ 0x00000000;//背景クリア色
 
 				//背景クリア
 				d3d.pDevice3D->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER, ClearColor, 1.0f, 0);
