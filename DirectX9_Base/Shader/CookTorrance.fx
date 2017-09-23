@@ -31,7 +31,7 @@ struct VS_OUTPUT
 	float3 N	: TEXCOORD1;
 	float3 X	: TEXCOORD2;
 
-	float4 diffuseRate : 	COLOR0;
+	float4 Color : 	COLOR0;
 };
 
 VS_OUTPUT VS( 
@@ -50,7 +50,7 @@ VS_OUTPUT VS(
 	float3 N = normalize(Normal.xyz);
 
 	//拡散光
-	Out.diffuseRate = K_d * (max(0,dot(N,L)));
+	Out.Color =(I_a*K_a)+ (K_d * I_d*(max(0,dot(N,L))));
 
 	//鏡面反射用のベクトル
 	Out.X= LocalPos.xyz;
@@ -82,7 +82,7 @@ float4 PS( VS_OUTPUT  In) : COLOR0
 
 	//マイクロファセットの分布関数
 	//Beckmann分布関数
-	const float m = 0.2f;//荒さ
+	const float m = 0.35f;//荒さ
 	float NH2 =  NH*NH;
 	float D = exp(-(1 - NH2) / (NH2*m*m)) /
 				 (4 * m *m * NH2 * NH2);
@@ -91,23 +91,27 @@ float4 PS( VS_OUTPUT  In) : COLOR0
 	float G = min(1,min(2 * NH*NV / VH, 2 * NH*NL / VH));
 
 	//フレネル
-	float n = 20.0f;//複素屈折率の実数部
+	float n = 3.0f;//複素屈折率の実数部
 	float g = sqrt(n*n + LH*LH - 1);
 	float gpc = g + LH;
 	float gnc = g - LH;
 	float cgpc = LH*gpc - 1;
 	float cgnc = LH*gnc + 1;
 	float F = 0.5f* ((gnc * gnc) / (gpc*gpc)) *(1 + (cgpc*cgpc) / (cgnc*cgnc));
+	float F0 =((n-1)*(n-1))/((n+1)*(n+1));
 
 	//金属の色
-	float4 ks=(2.0f*0.484f, 2.0f*0.433f, 2.0f*0.185f, 1.0f);
-	
+	float4 light_color ={0.296f,0.304f,1.000f,1.0f};
+	float4 ks = {light_color.x*0.484f,
+							 light_color.y*0.433f,
+							 light_color.z*0.185f,
+								1.0f};
+	ks = ks+(light_color-ks)*max(0,F-F0)/(1-F0);
+		ks=ks*max(0,(F*G*D/NV));
    
-   	color=color* 
-		((I_a*K_a)+
-		(I_d*In.diffuseRate)
-		)
-		+	ks*max(0,F*G*D/NV);
+   	color=color* In.Color;
+
+	color=color+ks;
 
 
    return color;
