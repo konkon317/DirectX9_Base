@@ -172,7 +172,7 @@ HRESULT  EffectParamSetter::OnSetTechnique(EffectPhong* pEffect, int techniqueNu
 
 	D3DXMATRIXA16 worldInverse;
 	D3DXMatrixInverse(&worldInverse, NULL, &worldMat);//逆行列
-	D3DXVECTOR4 lightVec = D3DXVECTOR4(1, -1, 1, 0);
+	D3DXVECTOR4 lightVec = D3DXVECTOR4(1, -1,1, 0);
 	D3DXVec4Transform(&lightVec, &lightVec, &worldInverse);
 	D3DXVec3Normalize((D3DXVECTOR3*)&lightVec, (D3DXVECTOR3*)&lightVec);
 
