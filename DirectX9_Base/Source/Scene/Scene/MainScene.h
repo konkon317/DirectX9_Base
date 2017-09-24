@@ -45,8 +45,9 @@ private:
 	EffectBasic effectBasic;
 	EffectPhong effectPhong;
 	EffectPhong effectPhong2;
+	EffectPhong effectCookTorrance;
 
-	GameObject3D* pGameObject[2];
+	GameObject3D* pGameObject[3];
 
 	std::vector<Effect* > EffectPointerList;
 	int currentEffectIndex;
