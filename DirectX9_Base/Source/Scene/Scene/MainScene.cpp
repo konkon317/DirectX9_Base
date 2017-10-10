@@ -21,11 +21,13 @@ MainScene::MainScene()
 	effectBasic.CreateFromFile("Shader/BasicShader.fx");
 	effectPhong.CreateFromFile("Shader/phong.fx");
 	effectPhong2.CreateFromFile("Shader/phong2.fx");
+	effectCookTorrance.CreateFromFile("Shader/CookTorrance.fx");
 
 	EffectPointerList.push_back(&effectLambert);
 	EffectPointerList.push_back(&effectBasic);
 	EffectPointerList.push_back(&effectPhong);
 	EffectPointerList.push_back(&effectPhong2);
+	EffectPointerList.push_back(&effectCookTorrance);
 	currentEffectIndex=0;
 
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
@@ -33,7 +35,7 @@ MainScene::MainScene()
 	camera.SetEyePoint(0.0f, 0.0f, -5);
 	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		pGameObject[i] = nullptr;
 		pGameObject[i] = new GameObject3D();
@@ -42,7 +44,7 @@ MainScene::MainScene()
 		{
 			pGameObject[i]->SetMesh(&testMesh);
 
-			pGameObject[i]->SetPosition(i * 5.0f, -i * 1.0f, i*0.3f);
+			pGameObject[i]->SetPosition(i * 5.0f, i * 1.0f, i*0.3f);
 
 			if (EffectPointerList.size() >= 0)
 			{
@@ -137,7 +139,7 @@ void MainScene::Update()
 
 	if (pEffect != nullptr)
 	{
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			if (pGameObject != nullptr)
 			{
@@ -201,7 +203,7 @@ void MainScene::Draw()
 	Direct3D::GetInstance().SetupRrojectionMatrix();
 	camera.SetViewMatrix();
 
-	for (int i = 1; i >= 0; i--)
+	for (int i = 2; i >= 0; i--)
 	{
 
 		pGameObject[i]->Draw();
