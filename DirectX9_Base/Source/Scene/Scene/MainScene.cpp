@@ -30,7 +30,7 @@ MainScene::MainScene()
 	EffectPointerList.push_back(&effectCookTorrance);
 	currentEffectIndex=0;
 
-	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
+	testMesh.Load(_T("Mesh/iasel/iasel.x"));
 
 	camera.SetEyePoint(0.0f, 0.0f, -5);
 	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);
@@ -172,7 +172,7 @@ void MainScene::Update()
 	camera.Move(f, r);
 
 	float x = static_cast<float>(di.MousePositionDelta().X());
-	x /= 800.0f / 2;
+	x /= 800.0f / 3.5;
 	x *= -1;
 	float y = static_cast<float>(di.MousePositionDelta().Y());
 	y /= 600.0f / 2;
