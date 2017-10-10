@@ -31,7 +31,7 @@ void GameObject3D::Update()
 	if (moveF)
 	position.x += 0.01f;
 	if (rotateF)
-	SetRotateYaw(rotateYaw_Rad + D3DX_PI*0.1f);
+	SetRotateYaw(rotateYaw_Rad + D3DX_PI*0.01f);
 
 	obb.UpdateInfo(position, forwardVector, rightVector, upVector);
 }
