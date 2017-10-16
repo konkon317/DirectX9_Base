@@ -57,7 +57,7 @@ void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, 
 	D3DXMatrixMultiply(&mat_temp, &mat_scale, &mat_rotate);   //一時行列に拡大率 回転を合成したものを代入
 	D3DXMatrixMultiply(&matWorld, &mat_temp, &mat_transform); //一時行列と座標を合成
 
-
+	
 	
 	Direct3D::GetInstance().DrawMeshX(*this, matWorld,pEffect);
 

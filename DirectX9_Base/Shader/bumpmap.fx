@@ -89,7 +89,7 @@ float4 PS(VS_OUTPUT In) : COLOR
 	float4 diffuse=(K_d * I_d*(max(0,dot(N,L))));
 	float highLight= pow(max(0,dot(R,L)),8);
 	
-	return  C*( amb + diffuse + highLight);
+	return  C*( amb + diffuse+ highLight );
 							
 	
 }

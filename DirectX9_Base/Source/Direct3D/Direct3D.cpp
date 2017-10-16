@@ -277,6 +277,17 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 	}
 }
 
+void  Direct3D::CreateVertexDecle(D3DVERTEXELEMENT9* elements, IDirect3DVertexDeclaration9** ppVertexDelc_Dest)
+{
+	pDevice3D->CreateVertexDeclaration(elements, ppVertexDelc_Dest);
+
+}
+
+void Direct3D::CloneMesh(LPD3DXMESH& fromMesh, LPD3DXMESH& destMesh, D3DVERTEXELEMENT9* delcArray)
+{
+	fromMesh->CloneMesh(fromMesh->GetOptions(), delcArray, pDevice3D, &destMesh);
+}
+
 bool Direct3D::LoadTexture(Texture& texture,TCHAR* FileName)
 {
 	//画像読み込み
@@ -432,6 +443,13 @@ void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 		mesh.pMaterials = new D3DMATERIAL9[mesh.numMaterials];
 		mesh.ppTextures = new LPDIRECT3DTEXTURE9[mesh.numMaterials];
 
+		mesh.ppTextureFileNames = new TCHAR*[mesh.numMaterials];
+
+		for (int i = 0; i < mesh.numMaterials; i++)
+		{
+			mesh.ppTextureFileNames[i] = nullptr;
+		}
+
 		D3DXMATERIAL * d3dxMaterials = (D3DXMATERIAL*)pBufferMaterial->GetBufferPointer();
 
 		for (unsigned int i = 0; i < mesh.numMaterials; i++)
@@ -447,6 +465,12 @@ void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 			{			
 				//テクスチャファイルパスを作成する
 				CHAR texturefile[1024];
+
+				mesh.ppTextureFileNames[i] = new TCHAR[1 + lstrlen(d3dxMaterials[i].pTextureFilename)];
+
+				ZeroMemory(mesh.ppTextureFileNames[i], sizeof(TCHAR)* (1 + lstrlen(d3dxMaterials[i].pTextureFilename)));
+				lstrcat(mesh.ppTextureFileNames[i], d3dxMaterials[i].pTextureFilename);
+
 				ZeroMemory(texturefile, sizeof(texturefile));
 				lstrcat(texturefile, dir);
 				lstrcat(texturefile, d3dxMaterials[i].pTextureFilename);
@@ -657,4 +681,24 @@ HRESULT Direct3D::CreateEffectFromFile(Effect& refEffect, std::string filepath)
 	}
 
 	return hresult;
+}
+
+void Direct3D::LoadNormalTextures(LPDIRECT3DTEXTURE9& pDestTarget,TCHAR* filepath_HeightMap)
+{
+	LPDIRECT3DTEXTURE9 pHeightTexture;
+	D3DSURFACE_DESC desc;
+
+	if (SUCCEEDED(D3DXCreateTextureFromFile(pDevice3D, filepath_HeightMap, &pHeightTexture)))
+	{
+		pHeightTexture->GetLevelDesc(0, &desc);
+
+		//テクスチャ生成
+		HRESULT hr = D3DXCreateTexture(pDevice3D, desc.Width, desc.Height, 0, 0, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &pDestTarget);
+		if (SUCCEEDED(hr))
+		{
+			D3DXComputeNormalMap(pDestTarget, pHeightTexture, NULL, 0, D3DX_CHANNEL_RED, 3.0f);			
+		}
+		pHeightTexture->Release();
+		
+	}
 }

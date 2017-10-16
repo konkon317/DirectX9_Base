@@ -6,7 +6,7 @@ class Effect;
 class EffectLambert;
 class EffectBasic;
 class EffectPhong;
-
+class EffectPhongAndNormal;
 class MeshX;
 
 class EffectParamSetter
@@ -37,6 +37,10 @@ public :
 	HRESULT OnSetTechnique(EffectPhong* pEffect, int techniqueNum, D3DXHANDLE& tecHandle);
 	HRESULT OnBegin(EffectPhong* pEffect, UINT*pPasses, DWORD Flag, int subsetNum);
 	HRESULT OnBeginPass(EffectPhong* pEffect, UINT pass);
+	//EffectPhongAndNormal用
+	HRESULT OnSetTechnique(EffectPhongAndNormal* pEffect, int techniqueNum, D3DXHANDLE& tecHandle);
+	HRESULT OnBegin(EffectPhongAndNormal* pEffect, UINT*pPasses, DWORD Flag, int subsetNum);
+	HRESULT OnBeginPass(EffectPhongAndNormal* pEffect, UINT pass);
 
 
 	//EffectBasic用

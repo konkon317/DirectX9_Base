@@ -66,6 +66,7 @@ public:
 	static void SetRenderState(RENDERSTATE RenderrState);
 
 	bool LoadTexture(Texture& texture, TCHAR* FileName);
+	void LoadNormalTextures(LPDIRECT3DTEXTURE9& pDestTarget, TCHAR* filepath_HeightMap);
 	
 	void  SetViewMatrix(D3DXMATRIXA16& mat);
 	void SetupRrojectionMatrix();
@@ -75,6 +76,10 @@ public:
 	void DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect);
 
 	void DrawTriangleList(TriangleList& triangleList, D3DXMATRIXA16& worldMat);
+
+	void CreateVertexDecle(D3DVERTEXELEMENT9* elements, IDirect3DVertexDeclaration9** ppVertexDelc_Dest);
+
+	void CloneMesh(LPD3DXMESH& formMesh, LPD3DXMESH& destMesh, D3DVERTEXELEMENT9* delcArray);
 
 	//スプライトの表示
 	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);
@@ -111,6 +116,8 @@ private:
 	
 
 	void ReleaseDevice();
+
+	
 
 	
 };
