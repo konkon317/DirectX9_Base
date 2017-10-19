@@ -13,6 +13,7 @@ MainScene::MainScene()
 	sp.SetSize(100, 100);
 	sp.SetPos(500, 500);
 	tex.Load("test.bmp");
+	ramp.Load("Ramp.png");
 
 	tex.SetDivide(2, 2);
 	tex.SetUVNum(1, 1);
@@ -23,6 +24,8 @@ MainScene::MainScene()
 	effectPhong2.CreateFromFile("Shader/phong2.fx");
 	effectCookTorrance.CreateFromFile("Shader/CookTorrance.fx");
 	effectPhongAndNormal.CreateFromFile("Shader/bumpmap.fx");
+
+	effectPhongAndNormal.SetTexture("RampMap",ramp.getTexture() );
 
 	EffectPointerList.push_back(&effectLambert);
 	EffectPointerList.push_back(&effectBasic);

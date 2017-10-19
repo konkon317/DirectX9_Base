@@ -26,5 +26,6 @@ public:
 
 	bool Load(TCHAR* FileName);
 
+	IDirect3DTexture9* getTexture() const{ return pTexture; }
 
 };

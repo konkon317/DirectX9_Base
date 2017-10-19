@@ -30,6 +30,7 @@ class MainScene :public Scene
 private:
 
 	Texture tex;
+	Texture ramp;
 	Sprite sp;
 
 	float spriteRotate;

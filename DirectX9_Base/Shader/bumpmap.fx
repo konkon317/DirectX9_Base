@@ -34,6 +34,18 @@ sampler NormalSamp = sampler_state
     AddressV = Wrap;//整数区切りごとにテクスチャを繰り返し
 };
 
+texture RampMap;
+sampler RampSamp = sampler_state
+{
+	Texture = <RampMap>;
+	MinFilter  = LINEAR;
+	MagFilter  = LINEAR;
+	MipFilter  = NONE;
+
+	AddressU =Clamp;
+	AddressV =Clamp;
+};
+
 struct VS_OUTPUT
 {
 	float4 Pos 	: POSITION;	//頂点座標
@@ -88,8 +100,11 @@ float4 PS(VS_OUTPUT In) : COLOR
 	float4 amb 		=(I_a*K_a);
 	float4 diffuse=(K_d * I_d*(max(0,dot(N,L))));
 	float highLight= pow(max(0,dot(R,L)),8);
+
+	float2 rampUV={ diffuse.x+ highLight+0.1,0};
+	float v=tex2D(RampSamp,rampUV).x;
 	
-	return  C*( amb + diffuse+ highLight );
+	return  C*( amb + v );
 							
 	
 }
