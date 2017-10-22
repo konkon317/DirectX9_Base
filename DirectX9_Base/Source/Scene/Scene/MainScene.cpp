@@ -22,15 +22,18 @@ MainScene::MainScene()
 	effectPhong.CreateFromFile("Shader/phong.fx");
 	effectPhong2.CreateFromFile("Shader/phong2.fx");
 	effectCookTorrance.CreateFromFile("Shader/CookTorrance.fx");
+	effectPhongAndNormal.CreateFromFile("Shader/bumpmap.fx");
 
 	EffectPointerList.push_back(&effectLambert);
 	EffectPointerList.push_back(&effectBasic);
 	EffectPointerList.push_back(&effectPhong);
 	EffectPointerList.push_back(&effectPhong2);
 	EffectPointerList.push_back(&effectCookTorrance);
+	EffectPointerList.push_back(&effectPhongAndNormal);
+
 	currentEffectIndex=0;
 
-	testMesh.Load(_T("Mesh/iasel/iasel.x"));
+	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
 
 	camera.SetEyePoint(0.0f, 0.0f, -5);
 	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);
