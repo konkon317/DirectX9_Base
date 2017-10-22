@@ -66,6 +66,7 @@ public:
 	static void SetRenderState(RENDERSTATE RenderrState);
 
 	bool LoadTexture(Texture& texture, TCHAR* FileName);
+	void LoadNormalTextures(LPDIRECT3DTEXTURE9& pDestTarget, TCHAR* filepath_HeightMap);
 	
 	void  SetViewMatrix(D3DXMATRIXA16& mat);
 	void SetupRrojectionMatrix();

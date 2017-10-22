@@ -658,3 +658,22 @@ HRESULT Direct3D::CreateEffectFromFile(Effect& refEffect, std::string filepath)
 
 	return hresult;
 }
+void Direct3D::LoadNormalTextures(LPDIRECT3DTEXTURE9& pDestTarget,TCHAR* filepath_HeightMap)
+{
+	LPDIRECT3DTEXTURE9 pHeightTexture;
+	D3DSURFACE_DESC desc;
+
+	if (SUCCEEDED(D3DXCreateTextureFromFile(pDevice3D, filepath_HeightMap, &pHeightTexture)))
+	{
+		pHeightTexture->GetLevelDesc(0, &desc);
+
+		//テクスチャ生成
+		HRESULT hr = D3DXCreateTexture(pDevice3D, desc.Width, desc.Height, 0, 0, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &pDestTarget);
+		if (SUCCEEDED(hr))
+		{
+			D3DXComputeNormalMap(pDestTarget, pHeightTexture, NULL, 0, D3DX_CHANNEL_RED, 3.0f);			
+		}
+		pHeightTexture->Release();
+		
+	}
+}
