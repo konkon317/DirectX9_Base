@@ -13,8 +13,12 @@ protected:
 	LPD3DXMESH pMesh;
 	DWORD	   numMaterials;//マテリアルの個数
 
+
+
 	LPDIRECT3DTEXTURE9* ppTextures;
 	D3DMATERIAL9 *      pMaterials;
+
+	TCHAR ** ppTextureFileNames;
 
 public:
 

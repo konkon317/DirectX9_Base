@@ -437,6 +437,13 @@ void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 		mesh.pMaterials = new D3DMATERIAL9[mesh.numMaterials];
 		mesh.ppTextures = new LPDIRECT3DTEXTURE9[mesh.numMaterials];
 
+		mesh.ppTextureFileNames = new TCHAR*[mesh.numMaterials];
+
+		for (int i = 0; i < mesh.numMaterials; i++)
+		{
+			mesh.ppTextureFileNames[i] = nullptr;
+		}
+
 		D3DXMATERIAL * d3dxMaterials = (D3DXMATERIAL*)pBufferMaterial->GetBufferPointer();
 
 		for (unsigned int i = 0; i < mesh.numMaterials; i++)
@@ -452,6 +459,12 @@ void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 			{			
 				//テクスチャファイルパスを作成する
 				CHAR texturefile[1024];
+
+				mesh.ppTextureFileNames[i] = new TCHAR[1 + lstrlen(d3dxMaterials[i].pTextureFilename)];
+
+				ZeroMemory(mesh.ppTextureFileNames[i], sizeof(TCHAR)* (1 + lstrlen(d3dxMaterials[i].pTextureFilename)));
+				lstrcat(mesh.ppTextureFileNames[i], d3dxMaterials[i].pTextureFilename);
+
 				ZeroMemory(texturefile, sizeof(texturefile));
 				lstrcat(texturefile, dir);
 				lstrcat(texturefile, d3dxMaterials[i].pTextureFilename);
