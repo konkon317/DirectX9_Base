@@ -138,6 +138,9 @@
     <ClCompile Include="Source\Direct3D\MeshXWithHeight.cpp">
       <Filter>Source\Direct3D</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\Effect\EffectPhongAndNormal.cpp">
+      <Filter>Source\Direct3D\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -229,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="Source\Direct3D\MeshXWithHeight.h">
       <Filter>Source\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Effect\EffectPhongAndNormal.h">
+      <Filter>Source\Direct3D\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
