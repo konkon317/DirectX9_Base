@@ -65,7 +65,7 @@ MainScene::MainScene()
 
 MainScene::~MainScene()
 {
-	for (int i = 1; i >= 0; i--)
+	for (int i = 2; i >= 0; i--)
 	{
 		if (pGameObject[i] != nullptr)
 		{
