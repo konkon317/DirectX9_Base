@@ -277,6 +277,12 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 	}
 }
 
+void  Direct3D::CreateVertexDecle(D3DVERTEXELEMENT9* elements, IDirect3DVertexDeclaration9** ppVertexDelc_Dest)
+{
+	pDevice3D->CreateVertexDeclaration(elements, ppVertexDelc_Dest);
+
+}
+
 void Direct3D::CloneMesh(LPD3DXMESH& fromMesh, LPD3DXMESH& destMesh, D3DVERTEXELEMENT9* delcArray)
 {
 	fromMesh->CloneMesh(fromMesh->GetOptions(), delcArray, pDevice3D, &destMesh);
@@ -676,6 +682,7 @@ HRESULT Direct3D::CreateEffectFromFile(Effect& refEffect, std::string filepath)
 
 	return hresult;
 }
+
 void Direct3D::LoadNormalTextures(LPDIRECT3DTEXTURE9& pDestTarget,TCHAR* filepath_HeightMap)
 {
 	LPDIRECT3DTEXTURE9 pHeightTexture;
