@@ -77,6 +77,7 @@ public:
 
 	void DrawTriangleList(TriangleList& triangleList, D3DXMATRIXA16& worldMat);
 
+	void CloneMesh(LPD3DXMESH& formMesh, LPD3DXMESH& destMesh, D3DVERTEXELEMENT9* delcArray);
 	//スプライトの表示
 	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);
 	static void DrawSprite(Sprite& sprite, bool isTurn = false);

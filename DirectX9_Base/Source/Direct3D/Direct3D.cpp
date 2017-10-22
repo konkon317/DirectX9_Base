@@ -277,6 +277,11 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 	}
 }
 
+void Direct3D::CloneMesh(LPD3DXMESH& fromMesh, LPD3DXMESH& destMesh, D3DVERTEXELEMENT9* delcArray)
+{
+	fromMesh->CloneMesh(fromMesh->GetOptions(), delcArray, pDevice3D, &destMesh);
+}
+
 bool Direct3D::LoadTexture(Texture& texture,TCHAR* FileName)
 {
 	//画像読み込み
