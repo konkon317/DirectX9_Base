@@ -7,6 +7,7 @@
 #include "../../Direct3D/Texture.h"
 #include "../../Direct3D/Camera.h"
 #include "../../Direct3D/meshX.h"
+#include "../../Direct3D/MeshXWithHeight.h"
 
 #include "../../DirectSound/DirectSound.h"
 #include "../../DirectSound/WaveFile.h"
@@ -22,6 +23,7 @@
 #include "../../Direct3D/Effect/EffectLambert.h"
 #include "../../Direct3D/Effect/EffectBasic.h"
 #include "../../Direct3D//Effect/EffectPhong.h"
+#include "../../Direct3D//Effect/EffectPhongAndNormal.h"
 
 class MainScene :public Scene
 {
@@ -38,7 +40,7 @@ private:
 
 	Camera camera;
 
-	MeshX testMesh;
+	MeshXWithHeight testMesh;
 
 	Model model;
 	EffectLambert effectLambert;
@@ -46,6 +48,7 @@ private:
 	EffectPhong effectPhong;
 	EffectPhong effectPhong2;
 	EffectPhong effectCookTorrance;
+	EffectPhongAndNormal  effectPhongAndNormal;
 
 	GameObject3D* pGameObject[3];
 

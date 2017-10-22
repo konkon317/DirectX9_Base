@@ -107,7 +107,9 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\Effect\EffectPhongAndNormal.cpp" />
     <ClCompile Include="Source\Direct3D\meshX.cpp" />
+    <ClCompile Include="Source\Direct3D\MeshXWithHeight.cpp" />
     <ClCompile Include="Source\Direct3D\sprite.cpp" />
     <ClCompile Include="Source\Direct3D\texture.cpp" />
     <ClCompile Include="Source\DirectSound\DirectSound.cpp" />
@@ -143,7 +145,9 @@
     </ClInclude>
     <ClInclude Include="Source\Direct3D\Effect\EffectParamSetter.h" />
     <ClInclude Include="Source\Direct3D\Effect\EffectPhong.h" />
+    <ClInclude Include="Source\Direct3D\Effect\EffectPhongAndNormal.h" />
     <ClInclude Include="Source\Direct3D\meshX.h" />
+    <ClInclude Include="Source\Direct3D\MeshXWithHeight.h" />
     <ClInclude Include="Source\Direct3D\sprite.h" />
     <ClInclude Include="Source\Direct3D\texture.h" />
     <ClInclude Include="Source\DirectSound\DirectSound.h" />
