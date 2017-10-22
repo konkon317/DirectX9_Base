@@ -9,7 +9,7 @@ class MeshX
 
 	friend class Direct3D;
 
-private:
+protected:
 	LPD3DXMESH pMesh;
 	DWORD	   numMaterials;//マテリアルの個数
 
@@ -23,9 +23,9 @@ public:
 	DWORD GetNumMaterials() { return numMaterials; }
 
 	MeshX();
-	~MeshX();
+	virtual ~MeshX();
 
-	void DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate,Effect*pEffect);
+	virtual void DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate,Effect*pEffect);
 	
-	void Load(TCHAR* path);
+	virtual void Load(TCHAR* path);
 };
