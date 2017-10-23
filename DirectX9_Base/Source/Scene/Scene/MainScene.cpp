@@ -22,7 +22,7 @@ MainScene::MainScene()
 	effectPhong.CreateFromFile("Shader/phong.fx");
 	effectPhong2.CreateFromFile("Shader/phong2.fx");
 	effectCookTorrance.CreateFromFile("Shader/CookTorrance.fx");
-	effectPhongAndNormal.CreateFromFile("Shader/bumpmap.fx");
+	effectPhongAndNormal.CreateFromFile("Shader/ProjectedTextureShadow.fx");
 
 	EffectPointerList.push_back(&effectLambert);
 	EffectPointerList.push_back(&effectBasic);
@@ -35,6 +35,11 @@ MainScene::MainScene()
 
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
 	mapMesh.Load(_T("Mesh/map/map.x"));
+
+	if (SUCCEEDED(shadowTexture.Create(256)))
+	{
+		int a = 0;
+	}
 
 	camera.SetEyePoint(0.0f, 0.0f, -5);
 	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);

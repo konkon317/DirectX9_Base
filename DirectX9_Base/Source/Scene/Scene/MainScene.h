@@ -19,6 +19,8 @@
 
 #include "../Manager/SceneManager.h"
 
+#include "../../Direct3D/ShadowMapTexture.h"
+
 
 #include "../../Direct3D/Effect/EffectLambert.h"
 #include "../../Direct3D/Effect/EffectBasic.h"
@@ -50,6 +52,8 @@ private:
 	EffectPhong effectPhong2;
 	EffectPhong effectCookTorrance;
 	EffectPhongAndNormal  effectPhongAndNormal;
+
+	ShadowMapTexture shadowTexture;
 
 	GameObject3D* pGameObject[3];
 
