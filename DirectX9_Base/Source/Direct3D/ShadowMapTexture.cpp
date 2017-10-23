@@ -85,3 +85,19 @@ HRESULT ShadowMapTexture::Create(int size)
 		return E_FAIL;
 	}
 }
+
+void ShadowMapTexture::SetRenderTarget()
+{
+	if (Created())
+	{
+		Direct3D&d3d = Direct3D::GetInstance();
+		d3d.ChangeRenderTarget(shadowSurf);
+		d3d.ChangeDepthStencilSurface(shadowTexZ);
+		D3DVIEWPORT9 viewport = { 0, 0, size, size, 0.0f, 1.0f };
+
+		d3d.ChangeViewPort(viewport);
+
+		d3d.Clear(0L, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0L);
+			
+	}
+}

@@ -245,36 +245,41 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 				d3d.pDevice3D->SetRenderState(D3DRS_LIGHTING, TRUE);
 				d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
-
+				
 				d3d.SetupRrojectionMatrix();			
 
-				D3DLIGHT9 light;
-				ZeroMemory(&light, sizeof(D3DLIGHT9));
-				light.Type = D3DLIGHT_DIRECTIONAL;
-				light.Diffuse.r = 1.0f;
-				light.Diffuse.g = 1.0f;
-				light.Diffuse.b = 1.0f;
-				light.Direction = D3DXVECTOR3(-0.5f, -1.0f, 0.5f);
-				light.Range = 1000.0f;
+				d3d.useMeshMaterial = true;
 
-				d3d.pDevice3D->SetLight(0, &light);
 
-				ZeroMemory(&light, sizeof(D3DLIGHT9));
-				light.Type = D3DLIGHT_DIRECTIONAL;
-				light.Diffuse.r = 1.0f;
-				light.Diffuse.g = 1.0f;
-				light.Diffuse.b = 1.0f;
-				light.Direction = D3DXVECTOR3(0.5f, -1.0f, 0.5f);
-				light.Range = 1000.0f;
-
-				d3d.pDevice3D->SetLight(1, &light);
-
-				d3d.pDevice3D->LightEnable(0, TRUE);
-				d3d.pDevice3D->LightEnable(1, TRUE);
-
+				
 				d3d.pDevice3D->SetRenderState(D3DRS_AMBIENT, 0x00444444);
+		
 			}
 			break;
+
+			case RENDER_SHADOW_MAP:
+				{
+					d3d.pDevice3D->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+					d3d.pDevice3D->SetRenderState(D3DRS_LIGHTING, TRUE);
+					d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
+					d3d.SetupRrojectionMatrix();
+
+					d3d.useMeshMaterial = false;
+
+					D3DMATERIAL9 mtrl;
+
+					ZeroMemory(&mtrl, sizeof(mtrl));
+					mtrl.Ambient.r = 1.0f;
+					mtrl.Ambient.g = 1.0f;
+					mtrl.Ambient.b = 1.0f;
+
+					d3d.pDevice3D->SetMaterial(&mtrl);					
+
+					d3d.pDevice3D->SetRenderState(D3DRS_AMBIENT, 0xffffff);
+					d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+					d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+				}
+				break;
 			
 
 			}
@@ -424,6 +429,11 @@ void Direct3D::SetViewMatrix(D3DXMATRIXA16& mat)
 	pDevice3D->SetTransform(D3DTS_VIEW, &mat);
 }
 
+void Direct3D::SetProjectionMatrix(D3DXMATRIXA16& mat)
+{
+	pDevice3D->SetTransform(D3DTS_PROJECTION, &mat);
+}
+
 void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 {
 	////LPSTR からLPCWSTRに変換
@@ -519,27 +529,34 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat)
 		{
 			for (unsigned int i = 0; i < mesh.numMaterials; i++)
 			{
+				if (useMeshMaterial)
+				{
+					pDevice3D->SetMaterial(&mesh.pMaterials[i]);
+					pDevice3D->SetTexture(0, mesh.ppTextures[i]);
+				}
 
-				pDevice3D->SetMaterial(&mesh.pMaterials[i]);
-				pDevice3D->SetTexture(0, mesh.ppTextures[i]);
 				mesh.pMesh->DrawSubset(i);
 			}
 		}
 		else
 		{
-			//マテリアルが無かった場合は（そんなケースまずないが）
-			//適当に作ったマテリアルで表示
-			D3DMATERIAL9 mtrl;
-			ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
-			mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
-			mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
-			mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
-			mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
-			pDevice3D->SetMaterial(&mtrl);
+			if (useMeshMaterial)
+			{
+				//マテリアルが無かった場合は（そんなケースまずないが）
+				//適当に作ったマテリアルで表示
+				D3DMATERIAL9 mtrl;
+				ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+				mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
+				mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
+				mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
+				mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
+				pDevice3D->SetMaterial(&mtrl);
+			}
 
 			mesh.pMesh->DrawSubset(0);
 		}
 	}
+	
 }
 
 void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
@@ -749,4 +766,19 @@ void Direct3D::ChangeDepthStencilSurface(LPDIRECT3DSURFACE9 pZbuffer)
 void Direct3D::ChangeViewPort(D3DVIEWPORT9& ViewPort)
 {
 	pDevice3D->SetViewport(&ViewPort);
+}
+
+void  Direct3D::SetLight(DWORD index, D3DLIGHT9& light)
+{
+	pDevice3D->SetLight(index, &light);
+}
+void  Direct3D::LightEnable(DWORD index, BOOL enable)
+{
+	pDevice3D->LightEnable(index, enable);
+}
+
+void Direct3D::Test()
+{
+	pDevice3D->SetRenderState(D3DRS_LIGHTING, FALSE);
+	
 }

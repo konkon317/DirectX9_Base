@@ -108,6 +108,8 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Source\Direct3D\Effect\EffectPhongAndNormal.cpp" />
+    <ClCompile Include="Source\Direct3D\Effect\ProjectedTextureShadow.cpp" />
+    <ClCompile Include="Source\Direct3D\Light.cpp" />
     <ClCompile Include="Source\Direct3D\meshX.cpp" />
     <ClCompile Include="Source\Direct3D\MeshXWithHeight.cpp" />
     <ClCompile Include="Source\Direct3D\ShadowMapTexture.cpp" />
@@ -147,6 +149,8 @@
     <ClInclude Include="Source\Direct3D\Effect\EffectParamSetter.h" />
     <ClInclude Include="Source\Direct3D\Effect\EffectPhong.h" />
     <ClInclude Include="Source\Direct3D\Effect\EffectPhongAndNormal.h" />
+    <ClInclude Include="Source\Direct3D\Effect\ProjectedTextureShadow.h" />
+    <ClInclude Include="Source\Direct3D\Light.h" />
     <ClInclude Include="Source\Direct3D\meshX.h" />
     <ClInclude Include="Source\Direct3D\MeshXWithHeight.h" />
     <ClInclude Include="Source\Direct3D\ShadowMapTexture.h" />

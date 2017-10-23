@@ -70,8 +70,14 @@ void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, 
 	D3DXMatrixMultiply(&matWorld, &mat_temp, &mat_transform); //一時行列と座標を合成
 
 	
-	
-	Direct3D::GetInstance().DrawMeshX(*this, matWorld,pEffect);
+	if (pEffect)
+	{
+		Direct3D::GetInstance().DrawMeshX(*this, matWorld, pEffect);
+	}
+	else
+	{
+		Direct3D::GetInstance().DrawMeshX(*this, matWorld);
+	}
 
 }
 

@@ -22,4 +22,8 @@ public :
 
 	HRESULT Create(int size);
 
+	void SetRenderTarget();
+
+	LPDIRECT3DTEXTURE9& ShadowTex(){ return shadowTex; }
+
 };

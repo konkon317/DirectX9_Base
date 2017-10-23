@@ -27,7 +27,8 @@ enum RENDERSTATE
 	RENDER_HALFADD,		//半加算合成
 	RENDER_ADD,		//加算合成
 
-	RENDER_MESH
+	RENDER_MESH,
+	RENDER_SHADOW_MAP,
 };
 
 
@@ -70,6 +71,7 @@ public:
 	void LoadNormalTextures(LPDIRECT3DTEXTURE9& pDestTarget, TCHAR* filepath_HeightMap);
 	
 	void  SetViewMatrix(D3DXMATRIXA16& mat);
+	void SetProjectionMatrix(D3DXMATRIXA16& mat);
 	void SetupRrojectionMatrix();
 
 	void LoadMeshX(MeshX& mesh,TCHAR* path);
@@ -106,12 +108,23 @@ public:
 
 
 	HRESULT CallCreateShadowMap(ShadowMapTexture& tex);
+
+	bool  UseMeshMaterial() { return useMeshMaterial; }
+
+	void SetLight(DWORD index, D3DLIGHT9& light);
+	void LightEnable(DWORD index, BOOL enable);
+
+
+
+	void Test();
 private:
 	HWND hWnd;
 
 	IDirect3D9*	pD3D9 = nullptr;				//Direct3Dデバイス生成用オブジェクト
 	IDirect3DDevice9* pDevice3D = nullptr;		//Direct3Dのデバイス　スプライトの表示やテクスチャのロード時に必要
 	
+	bool useMeshMaterial;
+
 	LPDIRECT3DSURFACE9 pDefaultBackBuffer;
 	LPDIRECT3DSURFACE9 pDefaultZBuffer;
 	D3DVIEWPORT9 DefaultViewPort;

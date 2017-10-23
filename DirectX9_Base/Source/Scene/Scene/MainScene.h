@@ -20,16 +20,19 @@
 #include "../Manager/SceneManager.h"
 
 #include "../../Direct3D/ShadowMapTexture.h"
-
+#include "../../Direct3D/Light.h"
 
 #include "../../Direct3D/Effect/EffectLambert.h"
 #include "../../Direct3D/Effect/EffectBasic.h"
 #include "../../Direct3D//Effect/EffectPhong.h"
 #include "../../Direct3D//Effect/EffectPhongAndNormal.h"
+#include "../../Direct3D/Effect/ProjectedTextureShadow.h"
 
 class MainScene :public Scene
 {
 private:
+
+	Light light;
 
 	Texture tex;
 	Sprite sp;
@@ -52,6 +55,7 @@ private:
 	EffectPhong effectPhong2;
 	EffectPhong effectCookTorrance;
 	EffectPhongAndNormal  effectPhongAndNormal;
+	EffectProjectedTextureShadow effectProjectedShadow;
 
 	ShadowMapTexture shadowTexture;
 

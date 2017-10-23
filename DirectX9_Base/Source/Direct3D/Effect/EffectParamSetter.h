@@ -7,6 +7,7 @@ class EffectLambert;
 class EffectBasic;
 class EffectPhong;
 class EffectPhongAndNormal;
+class EffectProjectedTextureShadow;
 class MeshX;
 
 class EffectParamSetter
@@ -41,6 +42,10 @@ public :
 	HRESULT OnSetTechnique(EffectPhongAndNormal* pEffect, int techniqueNum, D3DXHANDLE& tecHandle);
 	HRESULT OnBegin(EffectPhongAndNormal* pEffect, UINT*pPasses, DWORD Flag, int subsetNum);
 	HRESULT OnBeginPass(EffectPhongAndNormal* pEffect, UINT pass);
+	//EffectProjectedTextureShadow用
+	HRESULT OnSetTechnique(EffectProjectedTextureShadow* pEffect, int techniqueNum, D3DXHANDLE& tecHandle);
+	HRESULT OnBegin(EffectProjectedTextureShadow* pEffect, UINT*pPasses, DWORD Flag, int subsetNum);
+	HRESULT OnBeginPass(EffectProjectedTextureShadow* pEffect, UINT pass);
 
 
 	//EffectBasic用
