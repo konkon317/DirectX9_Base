@@ -34,6 +34,7 @@ MainScene::MainScene()
 	currentEffectIndex=0;
 
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
+	mapMesh.Load(_T("Mesh/map/map.x"));
 
 	camera.SetEyePoint(0.0f, 0.0f, -5);
 	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);
@@ -206,6 +207,14 @@ void MainScene::Draw()
 	Direct3D::GetInstance().SetupRrojectionMatrix();
 	camera.SetViewMatrix();
 
+	{
+		D3DXMATRIXA16 trans, scale, matidentity;
+		D3DXMatrixIdentity(&matidentity);
+		D3DXMatrixTranslation(&trans, 0, -10, 0);
+		D3DXMatrixScaling(&scale, 5, 5, 5);
+		mapMesh.DrawMatrice(trans, scale, matidentity, &effectPhong2);
+	}
+
 	for (int i = 2; i >= 0; i--)
 	{
 
@@ -228,7 +237,7 @@ void MainScene::Draw()
 	f += 0.01f;
 	static D3DXMATRIXA16 mat;
 	D3DXMatrixIdentity(&mat);
-	model.Draw(mat);
+	//model.Draw(mat);
 	mat._41 = f;
 
 	Direct3D::GetInstance().SetRenderState(RENDERSTATE::RENDER_ALPHABLEND);

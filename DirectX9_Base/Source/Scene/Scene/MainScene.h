@@ -41,6 +41,7 @@ private:
 	Camera camera;
 
 	MeshXWithHeight testMesh;
+	MeshX mapMesh;
 
 	Model model;
 	EffectLambert effectLambert;
