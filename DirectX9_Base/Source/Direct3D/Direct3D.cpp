@@ -21,6 +21,10 @@ Direct3D::Direct3D()
 	pDevice3D = nullptr;
 	isDeviceCreated = false;
 	DrawFunc = nullptr;
+
+	pDefaultBackBuffer=nullptr;
+	pDefaultZBuffer=nullptr;
+	ZeroMemory(& DefaultViewPort,sizeof(DefaultViewPort));
 }
 
 void Direct3D::ReleaseDevice()
@@ -109,6 +113,13 @@ bool Direct3D::Create(HWND hWnd)
 			}
 		}
 	}
+	
+	//初期の状態のレンダーターゲットやステンシルバッファ、ビューポートを
+	//デフォルトのものとして保持
+	pDevice3D->GetRenderTarget(0, &pDefaultBackBuffer);
+	pDevice3D->GetDepthStencilSurface(&pDefaultZBuffer);
+	pDevice3D->GetViewport(&DefaultViewPort);
+
 	return true;//どれかで作成成功すればtrueが返る
 
 	/*HRESULT CreateDevice
@@ -708,4 +719,34 @@ void Direct3D::LoadNormalTextures(LPDIRECT3DTEXTURE9& pDestTarget,TCHAR* filepat
 HRESULT Direct3D::CallCreateShadowMap(ShadowMapTexture& tex)
 { 
 	return ShadowMapTexture::Create(pDevice3D, tex);
+}
+
+void  Direct3D::Clear(DWORD count, const D3DRECT* pRect, DWORD Flag, D3DCOLOR clearColor, float z, DWORD stencil)
+{
+	pDevice3D->Clear(count, pRect, Flag, clearColor, z, stencil);
+}
+
+void Direct3D::ChangeRenderTarget_Default()
+{
+	pDevice3D->SetRenderTarget(0,pDefaultBackBuffer);
+}
+void Direct3D::ChangeDepthStencilSurfac_Default()
+{
+	pDevice3D->SetDepthStencilSurface(pDefaultZBuffer);
+}
+void Direct3D::ChangeViewPort_Default()
+{
+	pDevice3D->SetViewport(&DefaultViewPort);
+}
+void Direct3D::ChangeRenderTarget(LPDIRECT3DSURFACE9 pTarget)
+{
+	pDevice3D->SetRenderTarget(0, pTarget);
+}
+void Direct3D::ChangeDepthStencilSurface(LPDIRECT3DSURFACE9 pZbuffer)
+{
+	pDevice3D->SetDepthStencilSurface(pZbuffer);
+}
+void Direct3D::ChangeViewPort(D3DVIEWPORT9& ViewPort)
+{
+	pDevice3D->SetViewport(&ViewPort);
 }
