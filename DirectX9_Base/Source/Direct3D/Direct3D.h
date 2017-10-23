@@ -76,7 +76,7 @@ public:
 
 	void LoadMeshX(MeshX& mesh,TCHAR* path);
 	void DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat);
-	void DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect);
+	void DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect, LPDIRECT3DVERTEXDECLARATION9* pDecle=nullptr);
 
 	void DrawTriangleList(TriangleList& triangleList, D3DXMATRIXA16& worldMat);
 

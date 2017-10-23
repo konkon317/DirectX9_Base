@@ -10,6 +10,8 @@
 
 MainScene::MainScene()
 {
+	first = true;
+
 	sp.SetSize(100, 100);
 	sp.SetPos(500, 500);
 	tex.Load("test.bmp");
@@ -42,7 +44,7 @@ MainScene::MainScene()
 		int a = 0;
 	}
 
-	camera.SetEyePoint(0.0f, 0.0f, -5);
+	camera.SetEyePoint(0.0f, 5.0f, -5);
 	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);
 
 	for (int i = 0; i < 3; i++)
@@ -235,6 +237,7 @@ void MainScene::Draw()
 		D3DXMatrixLookAtLH(&view, &eye, &lookat, &up);
 		d3d.SetViewMatrix(view);
 
+		effectProjectedShadow.SetLightView(view);
 	}
 	
 
@@ -264,7 +267,7 @@ void MainScene::Draw()
 	d3d.Clear(0L, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0L);
 
 	d3d.SetupRrojectionMatrix();
-	//camera.SetViewMatrix();
+	camera.SetViewMatrix();
 
 
 
@@ -274,17 +277,32 @@ void MainScene::Draw()
 	}
 
 	{
+		
+		
+		if (first)
+		{
+			D3DVERTEXELEMENT9 decl[] =
+			{
+				{ 0,  0, D3DDECLTYPE_FLOAT3,   D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
+				{ 0, 12, D3DDECLTYPE_FLOAT3,   D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,	0 },
+				{ 0, 24, D3DDECLTYPE_FLOAT2,   D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
+				D3DDECL_END()
+			};
+			d3d.CreateVertexDecle(decl, &decle);
+			first = false;
+		}
+
 		//d3d.Test();
 		D3DXMATRIXA16 trans, scale, matidentity;
 		D3DXMatrixIdentity(&matidentity);
-		D3DXMatrixTranslation(&trans, 0, 0, 0);
-		D3DXMatrixScaling(&scale, 1, 1, 1);
+		D3DXMatrixTranslation(&trans, 0,-10, 0);
+		D3DXMatrixScaling(&scale, 10, 10, 10);
 		D3DXVECTOR4 lightPos = -light.GetDir();
 		lightPos.w = lightPos.w*-1;
 		effectProjectedShadow.SetVectorLightPos(lightPos);
 		effectProjectedShadow.SetShadowMap(shadowTexture.ShadowTex());
 
-		mapMesh.DrawMatrice(trans, scale, matidentity, &effectProjectedShadow);
+		mapMesh.DrawMatrice(trans, scale, matidentity, &effectProjectedShadow,&decle);
 	}
 }
 

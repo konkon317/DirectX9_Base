@@ -11,6 +11,8 @@ class EffectProjectedTextureShadow :public Effect
 	D3DXHANDLE H_TexMain;
 	D3DXHANDLE H_TexShadowMap;
 
+	D3DXMATRIXA16 lightView;
+
 public:
 
 	HRESULT CreateFromFile(std::string filePath);
@@ -30,6 +32,9 @@ public:
 	void SetVectorLightPos(const D3DXVECTOR4& v);
 	void SetTextureMain(LPDIRECT3DTEXTURE9 pTexture);
 	void SetShadowMap(LPDIRECT3DTEXTURE9 pTexture);
+
+	void SetLightView(D3DXMATRIXA16& mat) { lightView = mat; }
+	D3DXMATRIXA16& getlightView(){ return lightView; };
 
 	HRESULT GetTeqniqueHandle(int n, D3DXHANDLE&handle);
 };

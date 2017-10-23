@@ -443,12 +443,16 @@ HRESULT  EffectParamSetter::OnSetTechnique(EffectProjectedTextureShadow* pEffect
 	
 	D3DXMatrixMultiply(&worldViewProj, &worldMat, &view);
 	D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);
-	/*D3DXMatrixMultiply(&worldViewProj, &view,&proj);
-	D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);*/
+	//D3DXMatrixMultiply(&worldViewProj, &view,&proj);
+//	D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);
 	pEffect->SetMatrixWorldViewProj(worldViewProj);
 
+	D3DXMATRIXA16 lightView = pEffect->getlightView();
+
 	D3DXMATRIXA16 worldViewProjTex;
-	D3DXMatrixMultiply(&worldViewProjTex, &worldViewProj, &mt);
+	D3DXMatrixMultiply(&worldViewProjTex, &worldMat,&lightView);
+	D3DXMatrixMultiply(&worldViewProjTex, &worldViewProjTex, &proj);
+	D3DXMatrixMultiply(&worldViewProjTex, &worldViewProjTex, &mt);
 	pEffect->SetMatrixWorldViewProjTex(worldViewProjTex);
 
 	return S_OK;

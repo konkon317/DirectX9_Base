@@ -43,6 +43,8 @@ private:
 	SoundBuffer BGM_Buffer;
 	SoundBuffer BGM_Buffer2;
 
+	LPDIRECT3DVERTEXDECLARATION9 decle;
+
 	Camera camera;
 
 	MeshXWithHeight testMesh;
@@ -63,6 +65,8 @@ private:
 
 	std::vector<Effect* > EffectPointerList;
 	int currentEffectIndex;
+
+	bool first;
 
 public:
 	MainScene();

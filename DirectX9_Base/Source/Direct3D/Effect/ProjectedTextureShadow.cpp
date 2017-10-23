@@ -68,7 +68,10 @@ void EffectProjectedTextureShadow::SetMatrixWorldViewProj(D3DXMATRIXA16& mat)
 
 void EffectProjectedTextureShadow::SetMatrixWorldViewProjTex(D3DXMATRIXA16& mat)
 {
-	Effect::SetMatrix(H_matWorldViewProjTex, mat);
+	if (FAILED(Effect::SetMatrix(H_matWorldViewProjTex, mat)))
+	{
+		int a = 0;
+	}
 }
 
 void EffectProjectedTextureShadow::SetTextureMain(LPDIRECT3DTEXTURE9 pTexture)
