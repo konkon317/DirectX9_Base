@@ -43,6 +43,7 @@ class Sprite;
 class MeshX;
 class TriangleList;
 class Effect;
+class ShadowMapTexture;
 
 //-------------------------------
 class Direct3D : public Singleton<Direct3D>
@@ -92,8 +93,8 @@ public:
 
 	HRESULT GetTransForm(_D3DTRANSFORMSTATETYPE type, D3DXMATRIXA16& mat) {	return (pDevice3D) ? pDevice3D->GetTransform(type, &mat) : E_FAIL;}
 	HRESULT GetRenderState(D3DRENDERSTATETYPE type,DWORD* d) {return  (pDevice3D) ? pDevice3D->GetRenderState(type,d): E_FAIL;}
-
-private:
+	
+	HRESULT CallCreateShadowMap(ShadowMapTexture& tex);private:
 	HWND hWnd;
 
 	IDirect3D9*	pD3D9 = nullptr;				//Direct3Dデバイス生成用オブジェクト

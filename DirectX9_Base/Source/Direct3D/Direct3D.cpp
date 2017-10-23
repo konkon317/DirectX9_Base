@@ -8,6 +8,8 @@
 
 #include "Effect/EffectParamSetter.h"
 
+#include "ShadowMapTexture.h"
+
 #include "../Model3D/TriangleList.h"
 
 RENDERSTATE Direct3D::currentState;
@@ -701,4 +703,9 @@ void Direct3D::LoadNormalTextures(LPDIRECT3DTEXTURE9& pDestTarget,TCHAR* filepat
 		pHeightTexture->Release();
 		
 	}
+}
+
+HRESULT Direct3D::CallCreateShadowMap(ShadowMapTexture& tex)
+{ 
+	return ShadowMapTexture::Create(pDevice3D, tex);
 }

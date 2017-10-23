@@ -141,6 +141,9 @@
     <ClCompile Include="Source\Direct3D\Effect\EffectPhongAndNormal.cpp">
       <Filter>Source\Direct3D\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\ShadowMapTexture.cpp">
+      <Filter>Source\Direct3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="Source\Direct3D\Effect\EffectPhongAndNormal.h">
       <Filter>Source\Direct3D\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\ShadowMapTexture.h">
+      <Filter>Source\Direct3D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
