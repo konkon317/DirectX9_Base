@@ -738,6 +738,31 @@ void  Direct3D::Clear(DWORD count, const D3DRECT* pRect, DWORD Flag, D3DCOLOR cl
 	pDevice3D->Clear(count, pRect, Flag, clearColor, z, stencil);
 }
 
+void Direct3D::ChangeRenderTarget_Default()
+{
+	pDevice3D->SetRenderTarget(0,pDefaultBackBuffer);
+}
+void Direct3D::ChangeDepthStencilSurfac_Default()
+{
+	pDevice3D->SetDepthStencilSurface(pDefaultZBuffer);
+}
+void Direct3D::ChangeViewPort_Default()
+{
+	pDevice3D->SetViewport(&DefaultViewPort);
+}
+void Direct3D::ChangeRenderTarget(LPDIRECT3DSURFACE9 pTarget)
+{
+	pDevice3D->SetRenderTarget(0, pTarget);
+}
+void Direct3D::ChangeDepthStencilSurface(LPDIRECT3DSURFACE9 pZbuffer)
+{
+	pDevice3D->SetDepthStencilSurface(pZbuffer);
+}
+void Direct3D::ChangeViewPort(D3DVIEWPORT9& ViewPort)
+{
+	pDevice3D->SetViewport(&ViewPort);
+}
+
 void  Direct3D::SetLight(DWORD index, D3DLIGHT9& light)
 {
 	pDevice3D->SetLight(index, &light);
