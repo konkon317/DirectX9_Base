@@ -234,34 +234,15 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 				d3d.pDevice3D->SetRenderState(D3DRS_LIGHTING, TRUE);
 				d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
-
+				
 				d3d.SetupRrojectionMatrix();			
 
-				D3DLIGHT9 light;
-				ZeroMemory(&light, sizeof(D3DLIGHT9));
-				light.Type = D3DLIGHT_DIRECTIONAL;
-				light.Diffuse.r = 1.0f;
-				light.Diffuse.g = 1.0f;
-				light.Diffuse.b = 1.0f;
-				light.Direction = D3DXVECTOR3(-0.5f, -1.0f, 0.5f);
-				light.Range = 1000.0f;
+				d3d.useMeshMaterial = true;
 
-				d3d.pDevice3D->SetLight(0, &light);
 
-				ZeroMemory(&light, sizeof(D3DLIGHT9));
-				light.Type = D3DLIGHT_DIRECTIONAL;
-				light.Diffuse.r = 1.0f;
-				light.Diffuse.g = 1.0f;
-				light.Diffuse.b = 1.0f;
-				light.Direction = D3DXVECTOR3(0.5f, -1.0f, 0.5f);
-				light.Range = 1000.0f;
-
-				d3d.pDevice3D->SetLight(1, &light);
-
-				d3d.pDevice3D->LightEnable(0, TRUE);
-				d3d.pDevice3D->LightEnable(1, TRUE);
-
+				
 				d3d.pDevice3D->SetRenderState(D3DRS_AMBIENT, 0x00444444);
+		
 			}
 			break;
 			
