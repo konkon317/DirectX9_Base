@@ -15,7 +15,7 @@ HRESULT EffectProjectedTextureShadow::CreateFromFile(std::string filePath)
 	H_TecBasic = pEffect->GetTechniqueByName("BasicTec");
 	H_matWorldViewProj = pEffect->GetParameterByName(NULL, "matWorldViewProj");
 	H_matWorldViewProjTex = pEffect->GetParameterByName(NULL, "matWorldViewProjTex");
-	H_VecLightPos = pEffect->GetParameterByName(NULL, "vLightDir");
+	H_VecLightPos = pEffect->GetParameterByName(NULL, "vLightPos");
 
 	H_TexMain = pEffect->GetParameterByName(NULL, "DecaleMap");
 	H_TexShadowMap = pEffect->GetParameterByName(NULL, "ShadowMap");
@@ -58,7 +58,16 @@ HRESULT EffectProjectedTextureShadow::SetupParameter_OnBeginPass(EffectParamSett
 //ÉpÉâÉÅÅ[É^ê›íËä÷êî
 void EffectProjectedTextureShadow::SetVectorLightPos(const D3DXVECTOR4& v)
 {
-	Effect::SetVector4(H_VecLightPos, v);
+	HRESULT h = Effect::SetVector4(H_VecLightPos, v);
+	if (SUCCEEDED(h))
+	{
+		int a = 0;
+	}
+
+	if(FAILED(h))
+	{
+		int a = 0;
+	}
 }
 
 void EffectProjectedTextureShadow::SetMatrixWorldViewProj(D3DXMATRIXA16& mat)

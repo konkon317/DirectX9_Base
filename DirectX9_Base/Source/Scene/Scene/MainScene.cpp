@@ -39,7 +39,7 @@ MainScene::MainScene()
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
 	mapMesh.Load(_T("Mesh/map/map.x"));
 
-	if (SUCCEEDED(shadowTexture.Create(256)))
+	if (SUCCEEDED(shadowTexture.Create(2048)))
 	{
 		int a = 0;
 	}
@@ -72,7 +72,7 @@ MainScene::MainScene()
 
 	FbxUtil::ReadModelFromFbx(model, "FBX_FILES/cube4.fbx");
 
-	D3DXVECTOR4 lightDir(-3,- 9, -6, 1);
+	D3DXVECTOR4 lightDir(-15,- 45, -30, 1);
 	light.Init(lightDir, 0);
 
 	model.Debug_TestShow();
@@ -222,8 +222,9 @@ void MainScene::Draw()
 
 	{
 		D3DXMATRIXA16 projmat;
-		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI / 2.5, 1, 0.1f, 10.0f);
+		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI / 2.5, 1, 0.1f, 1000.0f);
 		d3d.SetProjectionMatrix(projmat);
+		effectProjectedShadow.SetLightProj(projmat);
 	}
 
 
@@ -295,14 +296,14 @@ void MainScene::Draw()
 		//d3d.Test();
 		D3DXMATRIXA16 trans, scale, matidentity;
 		D3DXMatrixIdentity(&matidentity);
-		D3DXMatrixTranslation(&trans, 0,-10, 0);
+		D3DXMatrixTranslation(&trans, 10,-10,10);
 		D3DXMatrixScaling(&scale, 10, 10, 10);
 		D3DXVECTOR4 lightPos = -light.GetDir();
 		lightPos.w = lightPos.w*-1;
 		effectProjectedShadow.SetVectorLightPos(lightPos);
 		effectProjectedShadow.SetShadowMap(shadowTexture.ShadowTex());
 
-		mapMesh.DrawMatrice(trans, scale, matidentity, &effectProjectedShadow,&decle);
+		mapMesh.DrawMatrice(trans, scale, matidentity,&effectProjectedShadow,nullptr);
 	}
 }
 
