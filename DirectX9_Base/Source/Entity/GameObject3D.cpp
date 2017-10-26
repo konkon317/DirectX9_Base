@@ -52,7 +52,15 @@ void GameObject3D::Draw()
 
 		D3DXMatrixRotationY(&mat_rotate, -rotateYaw_Rad + D3DX_PI);	//回転　（y軸中心）		
 
-		pMesh->DrawMatrice(mat_transform, mat_scale, mat_rotate,pEffect);
+		if (Direct3D::GetInstance().UseMeshMaterial())
+		{
+			pMesh->DrawMatrice(mat_transform, mat_scale, mat_rotate, pEffect);
+		}
+		else
+		{
+			pMesh->DrawMatrice(mat_transform, mat_scale, mat_rotate);
+		}
+
 
 		//以下実験
 
