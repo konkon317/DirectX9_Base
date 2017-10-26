@@ -10,7 +10,7 @@
 
 MainScene::MainScene()
 {
-	first = true;
+	
 
 	sp.SetSize(100, 100);
 	sp.SetPos(500, 500);
@@ -279,19 +279,7 @@ void MainScene::Draw()
 
 	{
 		
-		
-		if (first)
-		{
-			D3DVERTEXELEMENT9 decl[] =
-			{
-				{ 0,  0, D3DDECLTYPE_FLOAT3,   D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
-				{ 0, 12, D3DDECLTYPE_FLOAT3,   D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,	0 },
-				{ 0, 24, D3DDECLTYPE_FLOAT2,   D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
-				D3DDECL_END()
-			};
-			d3d.CreateVertexDecle(decl, &decle);
-			first = false;
-		}
+
 
 		//d3d.Test();
 		D3DXMATRIXA16 trans, scale, matidentity;
@@ -303,7 +291,7 @@ void MainScene::Draw()
 		effectProjectedShadow.SetVectorLightPos(lightPos);
 		effectProjectedShadow.SetShadowMap(shadowTexture.ShadowTex());
 
-		mapMesh.DrawMatrice(trans, scale, matidentity,&effectProjectedShadow,nullptr);
+		mapMesh.DrawMatrice(trans, scale, matidentity,&effectProjectedShadow);
 	}
 }
 

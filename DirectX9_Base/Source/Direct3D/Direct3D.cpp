@@ -559,7 +559,7 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat)
 	
 }
 
-void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect, LPDIRECT3DVERTEXDECLARATION9* pDecle)
+void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 {
 	if (mesh.pMesh == nullptr)return;
 	if (pEffect == nullptr || pEffect->pEffect == nullptr) return;
@@ -573,15 +573,9 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect, 
 
 	pEffect->SetTechnique(effectParamSetter, 0);
 	
-	if (pDecle==nullptr)
-	{
-		//頂点フォーマット
-		pDevice3D->SetFVF(mesh.pMesh->GetFVF());
-	}
-	else
-	{
-		pDevice3D->SetVertexDeclaration(*pDecle);
-	}
+	
+	pDevice3D->SetFVF(mesh.pMesh->GetFVF());
+
 
 	UINT numPass;
 	if (mesh.numMaterials > 0)

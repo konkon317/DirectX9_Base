@@ -45,7 +45,7 @@ MeshX::~MeshX()
 	
 }
 
-void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate ,Effect*pEffect, LPDIRECT3DVERTEXDECLARATION9* pDecle)
+void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate ,Effect*pEffect)
 {
 	D3DXMATRIXA16 matWorld;
 

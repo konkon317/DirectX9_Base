@@ -32,7 +32,7 @@ class MainScene :public Scene
 {
 private:
 
-	Light light;
+
 
 	Texture tex;
 	Sprite sp;
@@ -42,8 +42,6 @@ private:
 	WaveFile BGM_Wave;
 	SoundBuffer BGM_Buffer;
 	SoundBuffer BGM_Buffer2;
-
-	LPDIRECT3DVERTEXDECLARATION9 decle;
 
 	Camera camera;
 
@@ -66,7 +64,7 @@ private:
 	std::vector<Effect* > EffectPointerList;
 	int currentEffectIndex;
 
-	bool first;
+	Light light;
 
 public:
 	MainScene();
