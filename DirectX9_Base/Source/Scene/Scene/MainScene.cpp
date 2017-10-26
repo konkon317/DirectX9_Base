@@ -10,6 +10,8 @@
 
 MainScene::MainScene()
 {
+	
+
 	sp.SetSize(100, 100);
 	sp.SetPos(500, 500);
 	tex.Load("test.bmp");
@@ -23,6 +25,7 @@ MainScene::MainScene()
 	effectPhong2.CreateFromFile("Shader/phong2.fx");
 	effectCookTorrance.CreateFromFile("Shader/CookTorrance.fx");
 	effectPhongAndNormal.CreateFromFile("Shader/bumpmap.fx");
+	effectProjectedShadow.CreateFromFile("Shader/ProjectedTextureShadow.fx");
 
 	EffectPointerList.push_back(&effectLambert);
 	EffectPointerList.push_back(&effectBasic);
@@ -34,8 +37,14 @@ MainScene::MainScene()
 	currentEffectIndex=0;
 
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
+	mapMesh.Load(_T("Mesh/map/map.x"));
 
-	camera.SetEyePoint(0.0f, 0.0f, -5);
+	if (SUCCEEDED(shadowTexture.Create(2048)))
+	{
+		int a = 0;
+	}
+
+	camera.SetEyePoint(0.0f, 5.0f, -5);
 	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);
 
 	for (int i = 0; i < 3; i++)
@@ -62,6 +71,9 @@ MainScene::MainScene()
 
 
 	FbxUtil::ReadModelFromFbx(model, "FBX_FILES/cube4.fbx");
+
+	D3DXVECTOR4 lightDir(-15,- 45, -30, 1);
+	light.Init(lightDir, 0);
 
 	model.Debug_TestShow();
 }
@@ -202,9 +214,41 @@ void MainScene::Update()
 
 void MainScene::Draw()
 {
-	Direct3D::GetInstance().SetRenderState(RENDER_MESH);
-	Direct3D::GetInstance().SetupRrojectionMatrix();
-	camera.SetViewMatrix();
+	Direct3D& d3d = Direct3D::GetInstance();
+	d3d.SetRenderState(RENDER_SHADOW_MAP);
+	//d3d.SetupRrojectionMatrix();
+
+	shadowTexture.SetRenderTarget();
+
+	{
+		D3DXMATRIXA16 projmat;
+		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI / 2.5, 1, 0.1f, 1000.0f);
+		d3d.SetProjectionMatrix(projmat);
+		effectProjectedShadow.SetLightProj(projmat);
+	}
+
+
+	{
+		D3DXVECTOR4 lightDir = light.GetDir();
+		D3DXVECTOR3  eye = D3DXVECTOR3(-lightDir.x, -lightDir.y, -lightDir.z);
+		D3DXVECTOR3 lookat = D3DXVECTOR3(0, -10, 0);
+		D3DXVECTOR3 up = D3DXVECTOR3(0, 1, 0);
+
+		D3DXMATRIXA16 view;
+		D3DXMatrixLookAtLH(&view, &eye, &lookat, &up);
+		d3d.SetViewMatrix(view);
+
+		effectProjectedShadow.SetLightView(view);
+	}
+	
+
+	//{
+	//	D3DXMATRIXA16 trans, scale, matidentity;
+	//	D3DXMatrixIdentity(&matidentity);
+	//	D3DXMatrixTranslation(&trans, 0, -10, 0);
+	//	D3DXMatrixScaling(&scale, 5, 5, 5);
+	//	mapMesh.DrawMatrice(trans, scale, matidentity);
+	//}
 
 	for (int i = 2; i >= 0; i--)
 	{
@@ -213,26 +257,42 @@ void MainScene::Draw()
 	}
 
 	
-	static int dir = -1;
-	static float targetValue=0;
 
-	sp.SetAlpha(sp.GetAlpha() + (0.01f*dir));
-	if (sp.GetAlpha() == targetValue)
+	//通常の描画
+	d3d.SetRenderState(RENDER_MESH);
+
+	d3d.ChangeDepthStencilSurfac_Default();
+	d3d.ChangeRenderTarget_Default();
+	d3d.ChangeViewPort_Default();
+
+	d3d.Clear(0L, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0L);
+
+	d3d.SetupRrojectionMatrix();
+	camera.SetViewMatrix();
+
+
+
+	for (int i = 2; i >= 0; i--)
 	{
-		dir *= -1;
-		targetValue = (dir == -1) ? 0.0f : 1.0f;
+		pGameObject[i]->Draw();
 	}
 
-	static float f = 0.0f;
+	{
+		
 
-	f += 0.01f;
-	static D3DXMATRIXA16 mat;
-	D3DXMatrixIdentity(&mat);
-	model.Draw(mat);
-	mat._41 = f;
 
-	Direct3D::GetInstance().SetRenderState(RENDERSTATE::RENDER_ALPHABLEND);
-	//Direct3D::DrawSprite(sp, tex, false);
+		//d3d.Test();
+		D3DXMATRIXA16 trans, scale, matidentity;
+		D3DXMatrixIdentity(&matidentity);
+		D3DXMatrixTranslation(&trans, 10,-10,10);
+		D3DXMatrixScaling(&scale, 10, 10, 10);
+		D3DXVECTOR4 lightPos = -light.GetDir();
+		lightPos.w = lightPos.w*-1;
+		effectProjectedShadow.SetVectorLightPos(lightPos);
+		effectProjectedShadow.SetShadowMap(shadowTexture.ShadowTex());
+
+		mapMesh.DrawMatrice(trans, scale, matidentity,&effectProjectedShadow);
+	}
 }
 
 void MainScene::Init()

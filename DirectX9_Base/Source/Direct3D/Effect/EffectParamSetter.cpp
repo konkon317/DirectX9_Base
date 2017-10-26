@@ -4,6 +4,7 @@
 #include "EffectLambert.h"
 #include "EffectBasic.h"
 #include "Effect.h"
+#include "ProjectedTextureShadow.h"
 
 #include "../meshX.h"
 #include "../meshXWithHeight.h"
@@ -406,6 +407,96 @@ HRESULT  EffectParamSetter::OnBeginPass(EffectPhongAndNormal* pEffect, UINT pass
 
 
 //==============================================================================================================
+
+//EffectProjectedTextureShadow用の関数
+
+HRESULT  EffectParamSetter::OnSetTechnique(EffectProjectedTextureShadow* pEffect, int techniqueNum, D3DXHANDLE& tecHandle)
+{
+	D3DXMATRIXA16 mt = D3DXMATRIXA16
+		(   0.5f,  0.0f, 0.0f, 0.0f,
+			0.0f, -0.5f, 0.0f, 0.0f,
+			0.0f,  0.0f, 1.0f, 0.0f,
+			0.5f,  0.5f, 0.0f, 1.0f);
+
+
+	HRESULT h = pEffect->GetTeqniqueHandle(techniqueNum, tecHandle);
+	if (FAILED(h))
+		return h;
+
+
+	Direct3D& d3d = Direct3D::GetInstance();
+
+	D3DXMATRIXA16 view, proj, worldMat;
+
+	h = d3d.GetTransForm(D3DTS_VIEW, view);
+	if (FAILED(h))
+		return h;
+
+	h = d3d.GetTransForm(D3DTS_PROJECTION, proj);
+	if (FAILED(h))
+		return h;
+
+	h = d3d.GetTransForm(D3DTS_WORLD, worldMat);
+
+	//ワールド変換行列-----------------
+	D3DXMATRIXA16 worldViewProj;
+	
+	D3DXMatrixMultiply(&worldViewProj, &worldMat, &view);
+	D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);
+	//D3DXMatrixMultiply(&worldViewProj, &view,&proj);
+//	D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);
+	pEffect->SetMatrixWorldViewProj(worldViewProj);
+
+	D3DXMATRIXA16 lightView = pEffect->getlightView();
+	D3DXMATRIXA16 lightProj = pEffect->getlightProj();
+
+	D3DXMATRIXA16 worldViewProjTex;
+	D3DXMatrixMultiply(&worldViewProjTex, &worldMat,&lightView);
+	D3DXMatrixMultiply(&worldViewProjTex, &worldViewProjTex, &lightProj);
+	D3DXMatrixMultiply(&worldViewProjTex, &worldViewProjTex, &mt);
+	pEffect->SetMatrixWorldViewProjTex(worldViewProjTex);
+
+	return S_OK;
+}
+
+HRESULT  EffectParamSetter::OnBegin(EffectProjectedTextureShadow* pEffect, UINT*pPasses, DWORD Flag, int subsetNum)
+{
+	HRESULT h = S_OK;
+	switch (mode)
+	{
+		case EffectParamSetter::NONE:
+			break;
+		case EffectParamSetter::MESH_X:
+			if (pMesh != nullptr)
+			{
+			
+				if (subsetNum >= 0 && subsetNum < pMesh->GetNumMaterials())
+				{
+					pEffect->SetTextureMain(pMesh->Get_ppTextures()[subsetNum]);					
+				}
+			}
+			else
+			{
+				h = E_FAIL;
+			}
+
+			break;
+		default:
+			h = E_FAIL;
+			break;
+	}
+	return h;
+}
+
+HRESULT  EffectParamSetter::OnBeginPass(EffectProjectedTextureShadow* pEffect, UINT pass)
+{
+
+	return S_OK;
+}
+
+
+//==============================================================================================================
+
 //EffectBasic用の関数
 
 HRESULT  EffectParamSetter::OnSetTechnique(EffectBasic* pEffect, int techniqueNum, D3DXHANDLE& tecHandle)
