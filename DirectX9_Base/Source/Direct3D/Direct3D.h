@@ -95,6 +95,10 @@ public:
 	HRESULT GetRenderState(D3DRENDERSTATETYPE type,DWORD* d) {return  (pDevice3D) ? pDevice3D->GetRenderState(type,d): E_FAIL;}
 	
 	HRESULT CallCreateShadowMap(ShadowMapTexture& tex);
+
+	void SetLight(DWORD index, D3DLIGHT9& light);
+	void LightEnable(DWORD index, BOOL enable);
+
 private:
 	HWND hWnd;
 

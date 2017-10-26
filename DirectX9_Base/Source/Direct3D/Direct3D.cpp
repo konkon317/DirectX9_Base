@@ -709,3 +709,11 @@ HRESULT Direct3D::CallCreateShadowMap(ShadowMapTexture& tex)
 { 
 	return ShadowMapTexture::Create(pDevice3D, tex);
 }
+void  Direct3D::SetLight(DWORD index, D3DLIGHT9& light)
+{
+	pDevice3D->SetLight(index, &light);
+}
+void  Direct3D::LightEnable(DWORD index, BOOL enable)
+{
+	pDevice3D->LightEnable(index, enable);
+}
