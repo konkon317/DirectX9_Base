@@ -29,7 +29,7 @@ public:
 	MeshX();
 	virtual ~MeshX();
 
-	virtual void DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate,Effect*pEffect);
+	virtual void DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate,Effect*pEffect=nullptr);
 	
 	virtual void Load(TCHAR* path);
 };
