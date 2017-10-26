@@ -22,4 +22,6 @@ public :
 
 	HRESULT Create(int size);
 
+	void SetRenderTarget();
+
 };
