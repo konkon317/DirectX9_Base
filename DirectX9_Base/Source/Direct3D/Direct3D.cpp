@@ -245,6 +245,30 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 		
 			}
 			break;
+
+			case RENDER_SHADOW_MAP:
+				{
+					d3d.pDevice3D->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+					d3d.pDevice3D->SetRenderState(D3DRS_LIGHTING, TRUE);
+					d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
+					d3d.SetupRrojectionMatrix();
+
+					d3d.useMeshMaterial = false;
+
+					D3DMATERIAL9 mtrl;
+
+					ZeroMemory(&mtrl, sizeof(mtrl));
+					mtrl.Ambient.r = 1.0f;
+					mtrl.Ambient.g = 1.0f;
+					mtrl.Ambient.b = 1.0f;
+
+					d3d.pDevice3D->SetMaterial(&mtrl);					
+
+					d3d.pDevice3D->SetRenderState(D3DRS_AMBIENT, 0xffffff);
+					d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+					d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+				}
+				break;
 			
 
 			}
