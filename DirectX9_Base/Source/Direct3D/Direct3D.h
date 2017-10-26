@@ -96,6 +96,8 @@ public:
 	
 	HRESULT CallCreateShadowMap(ShadowMapTexture& tex);
 
+	bool  UseMeshMaterial() { return useMeshMaterial; }
+
 	void SetLight(DWORD index, D3DLIGHT9& light);
 	void LightEnable(DWORD index, BOOL enable);
 
@@ -104,6 +106,8 @@ private:
 
 	IDirect3D9*	pD3D9 = nullptr;				//Direct3Dデバイス生成用オブジェクト
 	IDirect3DDevice9* pDevice3D = nullptr;		//Direct3Dのデバイス　スプライトの表示やテクスチャのロード時に必要
+	
+	bool useMeshMaterial;
 
 	static RENDERSTATE currentState;
 

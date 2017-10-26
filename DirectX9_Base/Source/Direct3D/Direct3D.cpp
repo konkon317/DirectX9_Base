@@ -489,27 +489,34 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat)
 		{
 			for (unsigned int i = 0; i < mesh.numMaterials; i++)
 			{
+				if (useMeshMaterial)
+				{
+					pDevice3D->SetMaterial(&mesh.pMaterials[i]);
+					pDevice3D->SetTexture(0, mesh.ppTextures[i]);
+				}
 
-				pDevice3D->SetMaterial(&mesh.pMaterials[i]);
-				pDevice3D->SetTexture(0, mesh.ppTextures[i]);
 				mesh.pMesh->DrawSubset(i);
 			}
 		}
 		else
 		{
-			//マテリアルが無かった場合は（そんなケースまずないが）
-			//適当に作ったマテリアルで表示
-			D3DMATERIAL9 mtrl;
-			ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
-			mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
-			mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
-			mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
-			mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
-			pDevice3D->SetMaterial(&mtrl);
+			if (useMeshMaterial)
+			{
+				//マテリアルが無かった場合は（そんなケースまずないが）
+				//適当に作ったマテリアルで表示
+				D3DMATERIAL9 mtrl;
+				ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+				mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
+				mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
+				mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
+				mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
+				pDevice3D->SetMaterial(&mtrl);
+			}
 
 			mesh.pMesh->DrawSubset(0);
 		}
 	}
+	
 }
 
 void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
