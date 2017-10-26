@@ -110,6 +110,10 @@ private:
 	
 	bool useMeshMaterial;
 
+	LPDIRECT3DSURFACE9 pDefaultBackBuffer;
+	LPDIRECT3DSURFACE9 pDefaultZBuffer;
+	D3DVIEWPORT9 DefaultViewPort;
+
 	static RENDERSTATE currentState;
 
 	//デバイス作成

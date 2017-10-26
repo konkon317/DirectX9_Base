@@ -21,6 +21,10 @@ Direct3D::Direct3D()
 	pDevice3D = nullptr;
 	isDeviceCreated = false;
 	DrawFunc = nullptr;
+
+	pDefaultBackBuffer=nullptr;
+	pDefaultZBuffer=nullptr;
+	ZeroMemory(& DefaultViewPort,sizeof(DefaultViewPort));
 }
 
 void Direct3D::ReleaseDevice()
@@ -109,6 +113,13 @@ bool Direct3D::Create(HWND hWnd)
 			}
 		}
 	}
+	
+	//初期の状態のレンダーターゲットやステンシルバッファ、ビューポートを
+	//デフォルトのものとして保持
+	pDevice3D->GetRenderTarget(0, &pDefaultBackBuffer);
+	pDevice3D->GetDepthStencilSurface(&pDefaultZBuffer);
+	pDevice3D->GetViewport(&DefaultViewPort);
+
 	return true;//どれかで作成成功すればtrueが返る
 
 	/*HRESULT CreateDevice
