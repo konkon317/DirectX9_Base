@@ -83,6 +83,8 @@ public:
 
 	void CloneMesh(LPD3DXMESH& formMesh, LPD3DXMESH& destMesh, D3DVERTEXELEMENT9* delcArray);
 
+	void Clear(DWORD count, const D3DRECT* pRect, DWORD Flag, D3DCOLOR clearColor, float z, DWORD stencil);
+
 	//スプライトの表示
 	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);
 	static void DrawSprite(Sprite& sprite, bool isTurn = false);

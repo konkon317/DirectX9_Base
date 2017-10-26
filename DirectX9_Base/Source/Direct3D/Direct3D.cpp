@@ -732,6 +732,12 @@ HRESULT Direct3D::CallCreateShadowMap(ShadowMapTexture& tex)
 { 
 	return ShadowMapTexture::Create(pDevice3D, tex);
 }
+
+void  Direct3D::Clear(DWORD count, const D3DRECT* pRect, DWORD Flag, D3DCOLOR clearColor, float z, DWORD stencil)
+{
+	pDevice3D->Clear(count, pRect, Flag, clearColor, z, stencil);
+}
+
 void  Direct3D::SetLight(DWORD index, D3DLIGHT9& light)
 {
 	pDevice3D->SetLight(index, &light);
