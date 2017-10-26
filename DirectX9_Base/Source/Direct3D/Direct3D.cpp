@@ -429,6 +429,11 @@ void Direct3D::SetViewMatrix(D3DXMATRIXA16& mat)
 	pDevice3D->SetTransform(D3DTS_VIEW, &mat);
 }
 
+void Direct3D::SetProjectionMatrix(D3DXMATRIXA16& mat)
+{
+	pDevice3D->SetTransform(D3DTS_PROJECTION, &mat);
+}
+
 void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 {
 	////LPSTR からLPCWSTRに変換
