@@ -77,8 +77,9 @@ HRESULT ShadowMapTexture::Create(int size)
 		if (FAILED(hr))
 		{
 			this->Release();
-			return hr;
+			
 		}
+		return hr;
 	}	
 	else
 	{
