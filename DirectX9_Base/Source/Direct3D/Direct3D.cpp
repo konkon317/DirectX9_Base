@@ -8,6 +8,8 @@
 
 #include "Effect/EffectParamSetter.h"
 
+#include "ShadowMapTexture.h"
+
 #include "../Model3D/TriangleList.h"
 
 RENDERSTATE Direct3D::currentState;
@@ -19,6 +21,10 @@ Direct3D::Direct3D()
 	pDevice3D = nullptr;
 	isDeviceCreated = false;
 	DrawFunc = nullptr;
+
+	pDefaultBackBuffer=nullptr;
+	pDefaultZBuffer=nullptr;
+	ZeroMemory(& DefaultViewPort,sizeof(DefaultViewPort));
 }
 
 void Direct3D::ReleaseDevice()
@@ -107,6 +113,13 @@ bool Direct3D::Create(HWND hWnd)
 			}
 		}
 	}
+	
+	//初期の状態のレンダーターゲットやステンシルバッファ、ビューポートを
+	//デフォルトのものとして保持
+	pDevice3D->GetRenderTarget(0, &pDefaultBackBuffer);
+	pDevice3D->GetDepthStencilSurface(&pDefaultZBuffer);
+	pDevice3D->GetViewport(&DefaultViewPort);
+
 	return true;//どれかで作成成功すればtrueが返る
 
 	/*HRESULT CreateDevice
@@ -232,36 +245,41 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 				d3d.pDevice3D->SetRenderState(D3DRS_LIGHTING, TRUE);
 				d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
-
+				
 				d3d.SetupRrojectionMatrix();			
 
-				D3DLIGHT9 light;
-				ZeroMemory(&light, sizeof(D3DLIGHT9));
-				light.Type = D3DLIGHT_DIRECTIONAL;
-				light.Diffuse.r = 1.0f;
-				light.Diffuse.g = 1.0f;
-				light.Diffuse.b = 1.0f;
-				light.Direction = D3DXVECTOR3(-0.5f, -1.0f, 0.5f);
-				light.Range = 1000.0f;
+				d3d.useMeshMaterial = true;
 
-				d3d.pDevice3D->SetLight(0, &light);
 
-				ZeroMemory(&light, sizeof(D3DLIGHT9));
-				light.Type = D3DLIGHT_DIRECTIONAL;
-				light.Diffuse.r = 1.0f;
-				light.Diffuse.g = 1.0f;
-				light.Diffuse.b = 1.0f;
-				light.Direction = D3DXVECTOR3(0.5f, -1.0f, 0.5f);
-				light.Range = 1000.0f;
-
-				d3d.pDevice3D->SetLight(1, &light);
-
-				d3d.pDevice3D->LightEnable(0, TRUE);
-				d3d.pDevice3D->LightEnable(1, TRUE);
-
+				
 				d3d.pDevice3D->SetRenderState(D3DRS_AMBIENT, 0x00444444);
+		
 			}
 			break;
+
+			case RENDER_SHADOW_MAP:
+				{
+					d3d.pDevice3D->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+					d3d.pDevice3D->SetRenderState(D3DRS_LIGHTING, TRUE);
+					d3d.pDevice3D->SetRenderState(D3DRS_ZENABLE, TRUE);
+					d3d.SetupRrojectionMatrix();
+
+					d3d.useMeshMaterial = false;
+
+					D3DMATERIAL9 mtrl;
+
+					ZeroMemory(&mtrl, sizeof(mtrl));
+					mtrl.Ambient.r = 1.0f;
+					mtrl.Ambient.g = 1.0f;
+					mtrl.Ambient.b = 1.0f;
+
+					d3d.pDevice3D->SetMaterial(&mtrl);					
+
+					d3d.pDevice3D->SetRenderState(D3DRS_AMBIENT, 0xffffff);
+					d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+					d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+				}
+				break;
 			
 
 			}
@@ -275,6 +293,17 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 	{
 		MessageBox(NULL, "インスタンスが作成されていないので実行できません", TEXT("Direct3D SetRenderState"), MB_OK);
 	}
+}
+
+void  Direct3D::CreateVertexDecle(D3DVERTEXELEMENT9* elements, IDirect3DVertexDeclaration9** ppVertexDelc_Dest)
+{
+	pDevice3D->CreateVertexDeclaration(elements, ppVertexDelc_Dest);
+
+}
+
+void Direct3D::CloneMesh(LPD3DXMESH& fromMesh, LPD3DXMESH& destMesh, D3DVERTEXELEMENT9* delcArray)
+{
+	fromMesh->CloneMesh(fromMesh->GetOptions(), delcArray, pDevice3D, &destMesh);
 }
 
 bool Direct3D::LoadTexture(Texture& texture,TCHAR* FileName)
@@ -400,6 +429,11 @@ void Direct3D::SetViewMatrix(D3DXMATRIXA16& mat)
 	pDevice3D->SetTransform(D3DTS_VIEW, &mat);
 }
 
+void Direct3D::SetProjectionMatrix(D3DXMATRIXA16& mat)
+{
+	pDevice3D->SetTransform(D3DTS_PROJECTION, &mat);
+}
+
 void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 {
 	////LPSTR からLPCWSTRに変換
@@ -432,6 +466,13 @@ void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 		mesh.pMaterials = new D3DMATERIAL9[mesh.numMaterials];
 		mesh.ppTextures = new LPDIRECT3DTEXTURE9[mesh.numMaterials];
 
+		mesh.ppTextureFileNames = new TCHAR*[mesh.numMaterials];
+
+		for (unsigned int i = 0; i < mesh.numMaterials; i++)
+		{
+			mesh.ppTextureFileNames[i] = nullptr;
+		}
+
 		D3DXMATERIAL * d3dxMaterials = (D3DXMATERIAL*)pBufferMaterial->GetBufferPointer();
 
 		for (unsigned int i = 0; i < mesh.numMaterials; i++)
@@ -447,6 +488,12 @@ void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 			{			
 				//テクスチャファイルパスを作成する
 				CHAR texturefile[1024];
+
+				mesh.ppTextureFileNames[i] = new TCHAR[1 + lstrlen(d3dxMaterials[i].pTextureFilename)];
+
+				ZeroMemory(mesh.ppTextureFileNames[i], sizeof(TCHAR)* (1 + lstrlen(d3dxMaterials[i].pTextureFilename)));
+				lstrcat(mesh.ppTextureFileNames[i], d3dxMaterials[i].pTextureFilename);
+
 				ZeroMemory(texturefile, sizeof(texturefile));
 				lstrcat(texturefile, dir);
 				lstrcat(texturefile, d3dxMaterials[i].pTextureFilename);
@@ -482,27 +529,34 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat)
 		{
 			for (unsigned int i = 0; i < mesh.numMaterials; i++)
 			{
+				if (useMeshMaterial)
+				{
+					pDevice3D->SetMaterial(&mesh.pMaterials[i]);
+					pDevice3D->SetTexture(0, mesh.ppTextures[i]);
+				}
 
-				pDevice3D->SetMaterial(&mesh.pMaterials[i]);
-				pDevice3D->SetTexture(0, mesh.ppTextures[i]);
 				mesh.pMesh->DrawSubset(i);
 			}
 		}
 		else
 		{
-			//マテリアルが無かった場合は（そんなケースまずないが）
-			//適当に作ったマテリアルで表示
-			D3DMATERIAL9 mtrl;
-			ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
-			mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
-			mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
-			mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
-			mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
-			pDevice3D->SetMaterial(&mtrl);
+			if (useMeshMaterial)
+			{
+				//マテリアルが無かった場合は（そんなケースまずないが）
+				//適当に作ったマテリアルで表示
+				D3DMATERIAL9 mtrl;
+				ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+				mtrl.Diffuse.r = mtrl.Ambient.r = 1.0f;
+				mtrl.Diffuse.g = mtrl.Ambient.g = 1.0f;
+				mtrl.Diffuse.b = mtrl.Ambient.b = 1.0f;
+				mtrl.Diffuse.a = mtrl.Ambient.a = 1.0f;
+				pDevice3D->SetMaterial(&mtrl);
+			}
 
 			mesh.pMesh->DrawSubset(0);
 		}
 	}
+	
 }
 
 void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
@@ -583,8 +637,8 @@ void Direct3D::SetupRrojectionMatrix()
 {
 	RECT client;
 	GetClientRect(hWnd, &client);
-	float w = client.right - client.left;
-	float h = client.bottom - client.top;
+	float w =static_cast<float> (client.right - client.left);
+	float h =static_cast<float> (client.bottom - client.top);
 
 	D3DXMATRIXA16 matProj;
 
@@ -657,4 +711,68 @@ HRESULT Direct3D::CreateEffectFromFile(Effect& refEffect, std::string filepath)
 	}
 
 	return hresult;
+}
+
+void Direct3D::LoadNormalTextures(LPDIRECT3DTEXTURE9& pDestTarget,TCHAR* filepath_HeightMap)
+{
+	LPDIRECT3DTEXTURE9 pHeightTexture;
+	D3DSURFACE_DESC desc;
+
+	if (SUCCEEDED(D3DXCreateTextureFromFile(pDevice3D, filepath_HeightMap, &pHeightTexture)))
+	{
+		pHeightTexture->GetLevelDesc(0, &desc);
+
+		//テクスチャ生成
+		HRESULT hr = D3DXCreateTexture(pDevice3D, desc.Width, desc.Height, 0, 0, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &pDestTarget);
+		if (SUCCEEDED(hr))
+		{
+			D3DXComputeNormalMap(pDestTarget, pHeightTexture, NULL, 0, D3DX_CHANNEL_RED, 3.0f);			
+		}
+		pHeightTexture->Release();
+		
+	}
+}
+
+HRESULT Direct3D::CallCreateShadowMap(ShadowMapTexture& tex)
+{ 
+	return ShadowMapTexture::Create(pDevice3D, tex);
+}
+
+void  Direct3D::Clear(DWORD count, const D3DRECT* pRect, DWORD Flag, D3DCOLOR clearColor, float z, DWORD stencil)
+{
+	pDevice3D->Clear(count, pRect, Flag, clearColor, z, stencil);
+}
+
+void Direct3D::ChangeRenderTarget_Default()
+{
+	pDevice3D->SetRenderTarget(0,pDefaultBackBuffer);
+}
+void Direct3D::ChangeDepthStencilSurfac_Default()
+{
+	pDevice3D->SetDepthStencilSurface(pDefaultZBuffer);
+}
+void Direct3D::ChangeViewPort_Default()
+{
+	pDevice3D->SetViewport(&DefaultViewPort);
+}
+void Direct3D::ChangeRenderTarget(LPDIRECT3DSURFACE9 pTarget)
+{
+	pDevice3D->SetRenderTarget(0, pTarget);
+}
+void Direct3D::ChangeDepthStencilSurface(LPDIRECT3DSURFACE9 pZbuffer)
+{
+	pDevice3D->SetDepthStencilSurface(pZbuffer);
+}
+void Direct3D::ChangeViewPort(D3DVIEWPORT9& ViewPort)
+{
+	pDevice3D->SetViewport(&ViewPort);
+}
+
+void  Direct3D::SetLight(DWORD index, D3DLIGHT9& light)
+{
+	pDevice3D->SetLight(index, &light);
+}
+void  Direct3D::LightEnable(DWORD index, BOOL enable)
+{
+	pDevice3D->LightEnable(index, enable);
 }

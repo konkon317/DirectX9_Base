@@ -32,7 +32,7 @@ public :
 	HRESULT SetTechnique(EffectParamSetter& setter, int tecniqueNum);
 
 	//エフェクト使用の開始
-	HRESULT Begine(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum);
+	HRESULT Begine(EffectParamSetter& setter, UINT*pPasses, DWORD Flag,unsigned int subsetNum);
 
 
 	//パスの開始
@@ -52,7 +52,7 @@ protected:
 	//テクニックのセット　派生後のクラスでは必ずテクニックのセットまで行うこと
 	virtual HRESULT SetupParameter_OnSetTechnique(EffectParamSetter& setter, int tecniqueNum,D3DXHANDLE& handle) = 0;
 	//Begineに際してのパラメータの設定
-	virtual HRESULT SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag,int subsetNum) = 0;
+	virtual HRESULT SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag,unsigned int subsetNum) = 0;
 	//Begineに際してのパラメータの設定
 	virtual HRESULT SetupParameter_OnBeginPass(EffectParamSetter& setter,UINT pass) = 0;
 		

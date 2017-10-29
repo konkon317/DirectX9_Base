@@ -43,7 +43,7 @@ HRESULT EffectBasic::SetupParameter_OnSetTechnique(EffectParamSetter& setter, in
 	return setter.OnSetTechnique(this, tecniqueNum, tecHandle);
 }
 
-HRESULT EffectBasic::SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum)
+HRESULT EffectBasic::SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag,unsigned int subsetNum)
 {
 	return setter.OnBegin(this, pPasses, Flag, subsetNum);
 }
