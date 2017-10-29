@@ -48,7 +48,7 @@ HRESULT EffectPhongAndNormal::SetupParameter_OnSetTechnique(EffectParamSetter& s
 	return setter.OnSetTechnique(this, tecniqueNum, tecHandle);
 }
 
-HRESULT EffectPhongAndNormal::SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum)
+HRESULT EffectPhongAndNormal::SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag,unsigned int subsetNum)
 {
 	return setter.OnBegin(this, pPasses, Flag, subsetNum);
 }

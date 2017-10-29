@@ -77,7 +77,7 @@ HRESULT  EffectParamSetter::OnSetTechnique(EffectLambert* pEffect, int technique
 	return S_OK;
 }
 
-HRESULT  EffectParamSetter::OnBegin(EffectLambert* pEffect, UINT*pPasses, DWORD Flag,int subsetNum)
+HRESULT  EffectParamSetter::OnBegin(EffectLambert* pEffect, UINT*pPasses, DWORD Flag,unsigned int subsetNum)
 {
 	HRESULT h = S_OK;
 	switch (mode)
@@ -208,7 +208,7 @@ HRESULT  EffectParamSetter::OnSetTechnique(EffectPhong* pEffect, int techniqueNu
 	return S_OK;
 }
 
-HRESULT  EffectParamSetter::OnBegin(EffectPhong* pEffect, UINT*pPasses, DWORD Flag, int subsetNum)
+HRESULT  EffectParamSetter::OnBegin(EffectPhong* pEffect, UINT*pPasses, DWORD Flag, unsigned int subsetNum)
 {
 	HRESULT h = S_OK;
 	switch (mode)
@@ -343,7 +343,7 @@ HRESULT  EffectParamSetter::OnSetTechnique(EffectPhongAndNormal* pEffect, int te
 	return S_OK;
 }
 
-HRESULT  EffectParamSetter::OnBegin(EffectPhongAndNormal* pEffect, UINT*pPasses, DWORD Flag, int subsetNum)
+HRESULT  EffectParamSetter::OnBegin(EffectPhongAndNormal* pEffect, UINT*pPasses, DWORD Flag, unsigned int subsetNum)
 {
 	HRESULT h = S_OK;
 	switch (mode)
@@ -459,7 +459,7 @@ HRESULT  EffectParamSetter::OnSetTechnique(EffectProjectedTextureShadow* pEffect
 	return S_OK;
 }
 
-HRESULT  EffectParamSetter::OnBegin(EffectProjectedTextureShadow* pEffect, UINT*pPasses, DWORD Flag, int subsetNum)
+HRESULT  EffectParamSetter::OnBegin(EffectProjectedTextureShadow* pEffect, UINT*pPasses, DWORD Flag, unsigned int subsetNum)
 {
 	HRESULT h = S_OK;
 	switch (mode)
@@ -532,7 +532,7 @@ HRESULT  EffectParamSetter::OnSetTechnique(EffectBasic* pEffect, int techniqueNu
 	return S_OK;
 }
 
-HRESULT  EffectParamSetter::OnBegin(EffectBasic* pEffect, UINT*pPasses, DWORD Flag, int subsetNum)
+HRESULT  EffectParamSetter::OnBegin(EffectBasic* pEffect, UINT*pPasses, DWORD Flag, unsigned int subsetNum)
 {
 	HRESULT h = S_OK;
 	switch (mode)

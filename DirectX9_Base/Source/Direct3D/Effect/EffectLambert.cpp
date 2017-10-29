@@ -45,7 +45,7 @@ HRESULT EffectLambert::SetupParameter_OnSetTechnique(EffectParamSetter& setter, 
 	return setter.OnSetTechnique(this, tecniqueNum, tecHandle);
 }
 
-HRESULT EffectLambert::SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum)
+HRESULT EffectLambert::SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag,unsigned int subsetNum)
 {
 	return setter.OnBegin(this, pPasses, Flag, subsetNum);
 }
