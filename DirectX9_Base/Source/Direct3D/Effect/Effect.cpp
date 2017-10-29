@@ -68,7 +68,7 @@ HRESULT  Effect::SetTechnique(EffectParamSetter& setter, int tecniqueNum)
 
 
 //エフェクト使用の開始
-HRESULT  Effect::Begine(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum)
+HRESULT  Effect::Begine(EffectParamSetter& setter, UINT*pPasses, DWORD Flag,unsigned int subsetNum)
 {
 	if (pEffect == nullptr)return E_FAIL;
 

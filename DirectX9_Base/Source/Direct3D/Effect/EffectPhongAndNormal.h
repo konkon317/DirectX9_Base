@@ -4,12 +4,13 @@
 
 #include "Effect.h"
 
-class EffectPhong :public Effect
+class EffectPhongAndNormal :public Effect
 {
 	D3DXHANDLE H_matWorldViewProj;
 	D3DXHANDLE H_matWorldInverseTranspose;
 	D3DXHANDLE H_TecBasic;
 	D3DXHANDLE H_TexMain;
+	D3DXHANDLE H_NormalTex;
 	D3DXHANDLE H_VecLightDirection;
 	D3DXHANDLE H_VecEye;
 
@@ -36,6 +37,7 @@ public:
 
 
 	void SetTextureMain(LPDIRECT3DTEXTURE9 pTexture);
+	void SetTextureNormal(LPDIRECT3DTEXTURE9 pTexture);
 
 	void SetVectorLightDirection(const D3DXVECTOR4& v);
 	void SetVectorEye(const D3DXVECTOR4& v);
