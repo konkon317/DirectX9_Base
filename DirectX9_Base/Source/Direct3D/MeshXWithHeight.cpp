@@ -35,7 +35,7 @@ MeshXWithHeight::~MeshXWithHeight()
 {
 	if (ppNormalTextures)
 	{
-		for (int i = 0; i < numMaterials; i++)
+		for (unsigned int i = 0; i < numMaterials; i++)
 		{
 			if (ppNormalTextures[i])
 			{
@@ -55,11 +55,11 @@ void MeshXWithHeight::Load(TCHAR* path)
 		if (numMaterials > 0 && ppTextureFileNames != nullptr)
 		{
 			ppNormalTextures = new LPDIRECT3DTEXTURE9[numMaterials];
-			for (int i = 0; i < numMaterials; i++)
+			for (unsigned int i = 0; i < numMaterials; i++)
 			{
 				ppNormalTextures[i] = nullptr;
 			}
-			for (int i = 0; i < numMaterials; i++)
+			for (unsigned int i = 0; i < numMaterials; i++)
 			{
 				if (ppTextureFileNames[i] != nullptr)
 				{

@@ -21,7 +21,7 @@ public:
 	HRESULT SetupParameter_OnSetTechnique(EffectParamSetter& setter, int tecniqueNum, D3DXHANDLE& tecHandle);
 
 
-	HRESULT SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum);
+	HRESULT SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag,unsigned int subsetNum);
 
 	HRESULT SetupParameter_OnBeginPass(EffectParamSetter& setter, UINT pass);
 

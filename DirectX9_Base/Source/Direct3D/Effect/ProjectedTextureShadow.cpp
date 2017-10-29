@@ -46,7 +46,7 @@ HRESULT EffectProjectedTextureShadow::SetupParameter_OnSetTechnique(EffectParamS
 	return setter.OnSetTechnique(this, tecniqueNum, tecHandle);
 }
 
-HRESULT EffectProjectedTextureShadow::SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag, int subsetNum)
+HRESULT EffectProjectedTextureShadow::SetupParameter_OnBegin(EffectParamSetter& setter, UINT*pPasses, DWORD Flag,unsigned int subsetNum)
 {
 	return setter.OnBegin(this, pPasses, Flag, subsetNum);
 }
