@@ -468,7 +468,7 @@ void Direct3D::LoadMeshX(MeshX& mesh,TCHAR* path)
 
 		mesh.ppTextureFileNames = new TCHAR*[mesh.numMaterials];
 
-		for (int i = 0; i < mesh.numMaterials; i++)
+		for (unsigned int i = 0; i < mesh.numMaterials; i++)
 		{
 			mesh.ppTextureFileNames[i] = nullptr;
 		}
@@ -637,8 +637,8 @@ void Direct3D::SetupRrojectionMatrix()
 {
 	RECT client;
 	GetClientRect(hWnd, &client);
-	float w = client.right - client.left;
-	float h = client.bottom - client.top;
+	float w =static_cast<float> (client.right - client.left);
+	float h =static_cast<float> (client.bottom - client.top);
 
 	D3DXMATRIXA16 matProj;
 
