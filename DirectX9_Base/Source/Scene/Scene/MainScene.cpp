@@ -187,10 +187,10 @@ void MainScene::Update()
 	camera.Move(f, r);
 
 	float x = static_cast<float>(di.MousePositionDelta().X());
-	x /= 800.0f / 3.5;
+	x /= 800.0f / 3.5f;
 	x *= -1;
 	float y = static_cast<float>(di.MousePositionDelta().Y());
-	y /= 600.0f / 2;
+	y /= 600.0f / 2.0f;
 	y *= -1;
 
 	camera.Rotate(x, y);
