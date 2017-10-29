@@ -62,7 +62,7 @@ private:
 	GameObject3D* pGameObject[3];
 
 	std::vector<Effect* > EffectPointerList;
-	int currentEffectIndex;
+	unsigned int currentEffectIndex;
 
 	Light light;
 
