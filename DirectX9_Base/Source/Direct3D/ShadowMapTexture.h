@@ -11,7 +11,7 @@ private:
 	LPDIRECT3DSURFACE9 shadowSurf;
 	LPDIRECT3DSURFACE9 shadowTexZ;
 
-	int size;
+	unsigned int size;
 
 public : 
 	ShadowMapTexture();
