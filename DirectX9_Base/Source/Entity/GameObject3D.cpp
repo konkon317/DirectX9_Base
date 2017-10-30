@@ -41,7 +41,7 @@ void GameObject3D::Draw()
 
 	//DrawLine();
 
-	obb.DrawLine();
+	//obb.DrawLine();
 
 	if (pMesh != nullptr)
 	{
