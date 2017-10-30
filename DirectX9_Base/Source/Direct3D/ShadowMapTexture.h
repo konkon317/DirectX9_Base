@@ -24,6 +24,6 @@ public :
 
 	void SetRenderTarget();
 
-	LPDIRECT3DTEXTURE9& ShadowTex(){ return shadowTex; }
+	LPDIRECT3DTEXTURE9 ShadowTex(){ return shadowTex; }
 
 };
