@@ -12,8 +12,6 @@ MainScene::MainScene()
 {
 	
 
-	sp.SetSize(100, 100);
-	sp.SetPos(500, 500);
 	tex.Load("test.bmp");
 
 	tex.SetDivide(2, 2);
@@ -76,6 +74,10 @@ MainScene::MainScene()
 	light.Init(lightDir, 0);
 
 	model.Debug_TestShow();
+
+	sp.SetSize(256, 256);
+	sp.SetPos(128, 128);
+	
 }
 
 MainScene::~MainScene()
@@ -195,9 +197,9 @@ void MainScene::Update()
 
 	camera.Rotate(x, y);
 
-	spriteRotate += 3.14f * (1.0f / 60.0f);
+	/*spriteRotate += 3.14f * (1.0f / 60.0f);
 
-	sp.SetRotate(spriteRotate);
+	sp.SetRotate(spriteRotate);*/
 	for (int i = 1; i >= 0; i--)
 	{
 
@@ -222,7 +224,7 @@ void MainScene::Draw()
 
 	{
 		D3DXMATRIXA16 projmat;
-		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI / 2.5, 1, 0.1f, 1000.0f);
+		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI /1.5, 1, 0.1f, 1000.0f);
 		d3d.SetProjectionMatrix(projmat);
 		effectProjectedShadow.SetLightProj(projmat);
 	}
@@ -252,7 +254,6 @@ void MainScene::Draw()
 
 	for (int i = 2; i >= 0; i--)
 	{
-
 		pGameObject[i]->Draw();
 	}
 
@@ -293,6 +294,9 @@ void MainScene::Draw()
 
 		mapMesh.DrawMatrice(trans, scale, matidentity,&effectProjectedShadow);
 	}
+
+	d3d.SetRenderState(RENDER_DEFAULT);
+	d3d.DrawSprite(sp,shadowTexture.ShadowTex());
 }
 
 void MainScene::Init()
