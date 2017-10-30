@@ -141,8 +141,11 @@ void MainScene::Update()
 	{
 		if (EffectPointerList.size() > 0)
 		{
-			currentEffectIndex--;
-			if (currentEffectIndex <0)
+			if (currentEffectIndex != 0)//unsigned なので0の状態で減算するとプラスの最大値になってしまう
+			{
+				currentEffectIndex--;
+			}
+			else
 			{
 				currentEffectIndex = EffectPointerList.size()-1;
 			}
