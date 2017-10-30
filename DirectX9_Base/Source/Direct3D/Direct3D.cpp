@@ -424,6 +424,81 @@ void Direct3D::DrawSprite(Sprite& sprite, Texture& texture, bool isTurn)
 	}
 }
 
+//スプライトの表示
+void Direct3D::DrawSprite(Sprite& sprite, LPDIRECT3DTEXTURE9 texture, bool isTurn)
+{
+	Direct3D& d3d = Direct3D::GetInstance();
+
+	//頂点の位置
+	SpriteVertex vtx[4]
+	{
+		//{x,y,z, 2D変換済みフラグ , u,v}
+		//uv座標はテクスチャのどの角を表示するか (0,0)左上	(1,0)右上	(0,1)左下	(1,1)右下	(0.5,0.5 )テクスチャの中心
+		//その角にテクスチャの何パーセントの位置が来るかを指定
+
+		//
+		//右上
+		{ (float)sprite.width / 2, -(float)sprite.height / 2, 0.0f, 1.0f,0x00ffffff,
+		(isTurn ? 1: 0),0
+		},
+		//右下
+		{ (float)sprite.width / 2, (float)sprite.height / 2, 0.0f, 1.0f,0x00ffffff,
+		(isTurn ? 1 :0), 1
+		},
+		//左上
+		{ -(float)sprite.width / 2, -(float)sprite.height / 2, 0.0f, 1.0f,0x00ffffff,
+		(isTurn ?0 : 1), 0
+		},
+		//左下
+		{ -(float)sprite.width / 2, (float)sprite.height / 2, 0.0f, 1.0f,0x00ffffff,
+		(isTurn ?0 : 0), 1
+		},
+
+	};
+
+	for (int i = 0; i < 4; i++)
+	{
+		//回転
+		float x = vtx[i].x*cosf(sprite.rotate) - vtx[i].y*sinf(sprite.rotate);
+		float y = vtx[i].x*sinf(sprite.rotate) + vtx[i].y*cosf(sprite.rotate);
+
+		//平行移動
+		vtx[i].x = x + sprite.pos.x;
+		vtx[i].y = y + sprite.pos.y;
+
+
+		vtx[i].colorDefuse += static_cast<int>(((float)0x000000ff)*sprite.alpha) << (8 * 3);
+	}
+
+	//d3d.pDevice3D->SetMaterial(&sprite.mat);
+	//テクスチャのセット
+	d3d.pDevice3D->SetTexture(0, texture);
+
+	if (currentState == RENDERSTATE::RENDER_ALPHABLEND)
+	{
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+		d3d.pDevice3D->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+	}
+
+	//頂点構造体宣言をセット
+	d3d.pDevice3D->SetFVF(Sprite::SPRITE_FVF);
+	//スプライト描画
+	//TRIANGLESTRIPで頂点を描画する 2はprimitiveCountポリゴン数
+	if (SUCCEEDED(d3d.pDevice3D->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vtx, sizeof(SpriteVertex))))
+	{
+		int a = 0;
+	}
+	else
+
+	{
+		int a = 0;
+	}
+}
+
 void Direct3D::SetDrawFunc(FuncPointer pointer)
 {
 	DrawFunc = pointer;

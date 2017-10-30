@@ -88,7 +88,8 @@ public:
 
 	//スプライトの表示
 	static void DrawSprite(Sprite& sprite, Texture& texture , bool isTurn = false);
-	static void DrawSprite(Sprite& sprite, bool isTurn = false);
+	static void DrawSprite(Sprite& sprite, LPDIRECT3DTEXTURE9 texture, bool isTurn = false);
+
 	void SetDrawFunc(FuncPointer pointer);
 
 	void DrawLine(LINE_VERTEX* pVertex, int count);
