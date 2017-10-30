@@ -224,7 +224,7 @@ void MainScene::Draw()
 
 	{
 		D3DXMATRIXA16 projmat;
-		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI / 2.5, 1, 0.1f, 1000.0f);
+		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI /1.5, 1, 0.1f, 1000.0f);
 		d3d.SetProjectionMatrix(projmat);
 		effectProjectedShadow.SetLightProj(projmat);
 	}
