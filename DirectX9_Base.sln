@@ -9,8 +9,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestProject_FBX_1", "TestPr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestSkinMeshAnimation", "TestSkinMeshAnimation\TestSkinMeshAnimation.vcxproj", "{17ECFFD5-2813-44D6-B2F6-5461FB20FCCE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shader1", "Shader1\Shader1.vcxproj", "{12437135-3F0B-45BF-BDD8-833929D74489}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -41,14 +39,6 @@ Global
 		{17ECFFD5-2813-44D6-B2F6-5461FB20FCCE}.Release|Win32.Build.0 = Release|Win32
 		{17ECFFD5-2813-44D6-B2F6-5461FB20FCCE}.Release|x64.ActiveCfg = Release|x64
 		{17ECFFD5-2813-44D6-B2F6-5461FB20FCCE}.Release|x64.Build.0 = Release|x64
-		{12437135-3F0B-45BF-BDD8-833929D74489}.Debug|Win32.ActiveCfg = Debug|Win32
-		{12437135-3F0B-45BF-BDD8-833929D74489}.Debug|Win32.Build.0 = Debug|Win32
-		{12437135-3F0B-45BF-BDD8-833929D74489}.Debug|x64.ActiveCfg = Debug|x64
-		{12437135-3F0B-45BF-BDD8-833929D74489}.Debug|x64.Build.0 = Debug|x64
-		{12437135-3F0B-45BF-BDD8-833929D74489}.Release|Win32.ActiveCfg = Release|Win32
-		{12437135-3F0B-45BF-BDD8-833929D74489}.Release|Win32.Build.0 = Release|Win32
-		{12437135-3F0B-45BF-BDD8-833929D74489}.Release|x64.ActiveCfg = Release|x64
-		{12437135-3F0B-45BF-BDD8-833929D74489}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
