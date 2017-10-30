@@ -188,6 +188,9 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 			{
 				d3d.pDevice3D->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 				d3d.pDevice3D->SetRenderState(D3DRS_ALPHABLENDENABLE, false);	//αブレンドの無効化
+
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 			}
 			break;
 
@@ -199,6 +202,9 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);	//αテスト合格基準
 
 				d3d.pDevice3D->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);			//αブレンドの無効化
+
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 			}
 			break;
 
@@ -208,6 +214,9 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 				d3d.pDevice3D->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 				d3d.pDevice3D->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 			}
 				break;
 
@@ -225,6 +234,9 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);	//SRCの設定
 				d3d.pDevice3D->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);		//DESTの設定
 
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+
 			}
 			break;
 
@@ -237,6 +249,8 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 				d3d.pDevice3D->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);	//DESTの設定
 				d3d.pDevice3D->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);	//αテストの無効化
 
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 			}
 			break;
 
@@ -250,7 +264,8 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 
 				d3d.useMeshMaterial = true;
 
-
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+				d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 				
 				d3d.pDevice3D->SetRenderState(D3DRS_AMBIENT, 0x00444444);
 		
@@ -276,6 +291,11 @@ void Direct3D::SetRenderState(RENDERSTATE RenderState)
 					d3d.pDevice3D->SetMaterial(&mtrl);					
 
 					d3d.pDevice3D->SetRenderState(D3DRS_AMBIENT, 0xffffff);
+
+					DWORD d,d2;
+					d3d.pDevice3D->GetTextureStageState(0, D3DTSS_COLOROP, &d);
+					d3d.pDevice3D->GetTextureStageState(0, D3DTSS_COLORARG1, &d2);
+					
 					d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 					d3d.pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 				}
