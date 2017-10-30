@@ -37,7 +37,7 @@ MainScene::MainScene()
 	testMesh.Load(_T("Mesh/pumpkin/pumpkin.x"));
 	mapMesh.Load(_T("Mesh/map/map.x"));
 
-	if (SUCCEEDED(shadowTexture.Create(2048)))
+	if (SUCCEEDED(shadowTexture.Create(4096)))
 	{
 		int a = 0;
 	}
@@ -224,7 +224,7 @@ void MainScene::Draw()
 
 	{
 		D3DXMATRIXA16 projmat;
-		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI /1.5, 1, 0.1f, 1000.0f);
+		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI *(3.0f/5.0f), 1, 0.1f, 1000.0f);
 		d3d.SetProjectionMatrix(projmat);
 		effectProjectedShadow.SetLightProj(projmat);
 	}
