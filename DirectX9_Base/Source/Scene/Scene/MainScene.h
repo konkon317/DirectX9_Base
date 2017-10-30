@@ -59,6 +59,7 @@ private:
 
 	ShadowMapTexture shadowTexture;
 
+
 	GameObject3D* pGameObject[3];
 
 	std::vector<Effect* > EffectPointerList;
