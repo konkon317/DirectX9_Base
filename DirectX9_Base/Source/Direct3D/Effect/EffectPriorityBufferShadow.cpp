@@ -30,6 +30,8 @@ HRESULT EffectPriorityBufferShadow::CreateFromFile(std::string filePath)
 	H_vCol = pEffect->GetParameterByName(NULL, "vCol");
 	H_vId = pEffect->GetParameterByName(NULL, "vId");
 
+
+
 	return S_OK;
 }
 
@@ -86,6 +88,7 @@ void EffectPriorityBufferShadow::SetMatrixWorldViewProjTex(D3DXMATRIXA16& mat)
 void EffectPriorityBufferShadow::SetTextureDecale(LPDIRECT3DTEXTURE9 pTexture)
 {
 	Effect::SetTexture(H_TexDecale, pTexture);
+
 }
 void EffectPriorityBufferShadow::SetTextureIdMap(LPDIRECT3DTEXTURE9 pTexture)
 {
@@ -128,11 +131,7 @@ void EffectPriorityBufferShadow::SetVectorColor(const D3DXVECTOR4& vec)
 
 HRESULT EffectParamSetter::OnSetTechnique(EffectPriorityBufferShadow* pEffect, int techniqueNum, D3DXHANDLE& tecHandle)
 {
-	D3DXMATRIXA16 mt = D3DXMATRIXA16
-	(0.5f, 0.0f, 0.0f, 0.0f,
-		0.0f, -0.5f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.0f, 1.0f);
+
 
 
 	HRESULT h = pEffect->GetTeqniqueHandle(techniqueNum, tecHandle);
@@ -140,35 +139,9 @@ HRESULT EffectParamSetter::OnSetTechnique(EffectPriorityBufferShadow* pEffect, i
 		return h;
 
 
-	Direct3D& d3d = Direct3D::GetInstance();
+	
 
-	D3DXMATRIXA16 view, proj, worldMat;
-
-	h = d3d.GetTransForm(D3DTS_VIEW, view);
-	if (FAILED(h))
-		return h;
-
-	h = d3d.GetTransForm(D3DTS_PROJECTION, proj);
-	if (FAILED(h))
-		return h;
-
-	h = d3d.GetTransForm(D3DTS_WORLD, worldMat);
-
-	//ワールド変換行列-----------------
-	D3DXMATRIXA16 worldViewProj;
-
-	D3DXMatrixMultiply(&worldViewProj, &worldMat, &view);
-	D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);	
-	pEffect->SetMatrixWorldViewProj(worldViewProj);
-
-	D3DXMATRIXA16 lightView = pEffect->getlightView();
-	D3DXMATRIXA16 lightProj = pEffect->getlightProj();
-
-	D3DXMATRIXA16 worldViewProjTex;
-	D3DXMatrixMultiply(&worldViewProjTex, &worldMat, &lightView);
-	D3DXMatrixMultiply(&worldViewProjTex, &worldViewProjTex, &lightProj);
-	D3DXMatrixMultiply(&worldViewProjTex, &worldViewProjTex, &mt);
-	pEffect->SetMatrixWorldViewProjTex(worldViewProjTex);
+	
 
 	return S_OK;
 }
@@ -176,25 +149,28 @@ HRESULT EffectParamSetter::OnSetTechnique(EffectPriorityBufferShadow* pEffect, i
 
 HRESULT EffectParamSetter::OnBegin(EffectPriorityBufferShadow* pEffect, UINT*pPasses, DWORD Flag, unsigned int subsetNum)
 {
+	
+
+
 	HRESULT h = S_OK;
 	switch (mode)
 	{
 		case EffectParamSetter::NONE:
 			break;
 		case EffectParamSetter::MESH_X:
-			if (pMesh != nullptr)
 			{
+				if (pMesh == nullptr)
+				{
+					h = E_FAIL;
+					break;
+				}
 
 				if (subsetNum >= 0 && subsetNum < pMesh->GetNumMaterials())
 				{
 					pEffect->SetTextureDecale(pMesh->Get_ppTextures()[subsetNum]);
 				}
-			}
-			else
-			{
-				h = E_FAIL;
-			}
 
+			}
 			break;
 		default:
 			h = E_FAIL;
@@ -205,5 +181,76 @@ HRESULT EffectParamSetter::OnBegin(EffectPriorityBufferShadow* pEffect, UINT*pPa
 
 HRESULT EffectParamSetter::OnBeginPass(EffectPriorityBufferShadow* pEffect, UINT pass)
 {
+	D3DXMATRIXA16 mt = D3DXMATRIXA16
+	(0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, -0.5f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.0f, 1.0f);
+
+	Direct3D& d3d = Direct3D::GetInstance();
+
+	D3DXMATRIXA16 view, proj, worldMat;
+
+	HRESULT h = d3d.GetTransForm(D3DTS_VIEW, view);
+	if (FAILED(h))
+		return h;
+
+	h = d3d.GetTransForm(D3DTS_PROJECTION, proj);
+	if (FAILED(h))
+		return h;
+
+	h = d3d.GetTransForm(D3DTS_WORLD, worldMat);
+
+	//ワールド変換行列-----------------
+
+
+	D3DXMATRIXA16 lightView = pEffect->getlightView();
+	D3DXMATRIXA16 lightProj = pEffect->getlightProj();
+
+
+	switch (pass)
+	{
+		case 0:
+			{
+				D3DXMATRIXA16 worldViewProj_L;
+				D3DXMatrixMultiply(&worldViewProj_L, &worldMat, &lightView);
+				D3DXMatrixMultiply(&worldViewProj_L, &worldViewProj_L, &lightProj);
+				pEffect->SetMatrixWorldViewProj_L(worldViewProj_L);
+
+			}
+			break;
+		case 1:
+			{
+				D3DXMATRIXA16 worldViewProj;
+				D3DXMatrixMultiply(&worldViewProj, &worldMat, &view);
+				D3DXMatrixMultiply(&worldViewProj, &worldViewProj, &proj);
+				pEffect->SetMatrixWorldViewProj(worldViewProj);
+
+				D3DXMATRIXA16 worldViewProj_L;
+				D3DXMatrixMultiply(&worldViewProj_L, &worldMat, &lightView);
+				D3DXMatrixMultiply(&worldViewProj_L, &worldViewProj_L, &lightProj);
+				pEffect->SetMatrixWorldViewProj_L(worldViewProj_L);
+
+				D3DXMATRIXA16 worldViewProjTex;
+				D3DXMatrixMultiply(&worldViewProjTex, &worldMat, &lightView);
+				D3DXMatrixMultiply(&worldViewProjTex, &worldViewProjTex, &lightProj);
+				D3DXMatrixMultiply(&worldViewProjTex, &worldViewProjTex, &mt);
+				pEffect->SetMatrixWorldViewProjTex(worldViewProjTex);
+
+				D3DXVECTOR4 lightDir = pEffect->GetWorldLightDir();
+				lightDir *= -1;
+				lightDir.w *= -1;
+
+
+				D3DXMATRIXA16 mat;
+				D3DXMatrixInverse(&mat, NULL, &worldMat);
+				D3DXVec4Transform(&lightDir, &lightDir, &mat);
+				D3DXVec4Normalize(&lightDir, &lightDir);
+				lightDir.w = 0;
+				pEffect->SetVectorLightDirection(lightDir);
+
+
+			}
+	}
 	return S_OK;
 }

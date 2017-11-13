@@ -24,6 +24,9 @@ class EffectPriorityBufferShadow:public Effect
 	D3DXMATRIX lightView;
 	D3DXMATRIX lightProj;
 
+	D3DXVECTOR4 lightDir;
+
+	
 
 public:
 
@@ -46,7 +49,7 @@ public:
 	void SetVectorLightDirection(const D3DXVECTOR4& vec);
 	void SetVectorColor(const D3DXVECTOR4& vec);
 
-	HRESULT GetTeqniqueHandle(int n, D3DXHANDLE&handle);
+	HRESULT GetTeqniqueHandle(int n, D3DXHANDLE&handle);	
 
 
 	void SetLightView(D3DXMATRIXA16& mat) { lightView = mat; }
@@ -54,7 +57,11 @@ public:
 	void SetLightProj(D3DXMATRIXA16& mat) { lightProj = mat; }
 	D3DXMATRIX& getlightProj() { return lightProj; };
 
+	
 
+	void SetWorldLightDir(D3DXVECTOR4 lightDir) { this->lightDir = lightDir; }
+
+	D3DXVECTOR4 GetWorldLightDir() { return lightDir; }
 
 
 };
