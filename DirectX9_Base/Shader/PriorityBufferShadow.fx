@@ -39,7 +39,7 @@ sampler IdMapSamp = sampler_state
 texture DecaleMap;
 sampler DecaleMapSamp = sampler_state
 {
-	Texture = <IdMap>;
+	Texture = <DecaleMap>;
 	MinFilter = LINEAR;
 	MagFilter = LINEAR;
 	MipFilter = NONE;
@@ -146,7 +146,8 @@ float4 PS_pass1(VS_OUTPUT In):Color
 
 	Color += (id_map.x<In.ID.x + ofset && id_map.x>In.ID.x - ofset) ? In.Diffuse : zero;
 
-	return Color;
+
+	return decale*Color;
 
 }
 
