@@ -24,6 +24,7 @@ MainScene::MainScene()
 	effectCookTorrance.CreateFromFile("Shader/CookTorrance.fx");
 	effectPhongAndNormal.CreateFromFile("Shader/bumpmap.fx");
 	effectProjectedShadow.CreateFromFile("Shader/ProjectedTextureShadow.fx");
+	effectPriorityBufferShadow.CreateFromFile("Shader/PriorityBufferShadow.fx");
 
 	EffectPointerList.push_back(&effectLambert);
 	EffectPointerList.push_back(&effectBasic);
@@ -59,10 +60,13 @@ MainScene::MainScene()
 			if (EffectPointerList.size() >= 0)
 			{
 				Effect* pEffect = EffectPointerList[currentEffectIndex];
-				pGameObject[i]->SetEffectFile(pEffect);
+				//pGameObject[i]->SetEffectFile(pEffect);
+				pGameObject[i]->SetEffectFile(&effectPriorityBufferShadow);
 			}
 		}
 	}
+
+
 
 	pGameObject[0]->rotateF = false;
 	pGameObject[1]->moveF = false;
@@ -70,7 +74,7 @@ MainScene::MainScene()
 
 	FbxUtil::ReadModelFromFbx(model, "FBX_FILES/cube4.fbx");
 
-	D3DXVECTOR4 lightDir(-15,- 45, -30, 1);
+	D3DXVECTOR4 lightDir(-30,- 20, -45, 1);
 	light.Init(lightDir, 0);
 
 	model.Debug_TestShow();
@@ -220,7 +224,7 @@ void MainScene::Update()
 void MainScene::Draw()
 {
 	Direct3D& d3d = Direct3D::GetInstance();
-	d3d.SetRenderState(RENDER_SHADOW_MAP);
+	//d3d.SetRenderState(RENDER_SHADOW_MAP);
 	//d3d.SetupRrojectionMatrix();
 
 	shadowTexture.SetRenderTarget();
@@ -230,6 +234,8 @@ void MainScene::Draw()
 		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI *(3.0f/5.0f), 1, 0.1f, 1000.0f);
 		d3d.SetProjectionMatrix(projmat);
 		effectProjectedShadow.SetLightProj(projmat);
+
+		effectPriorityBufferShadow.SetLightProj(projmat);
 	}
 
 
@@ -244,22 +250,44 @@ void MainScene::Draw()
 		d3d.SetViewMatrix(view);
 
 		effectProjectedShadow.SetLightView(view);
+
+		effectPriorityBufferShadow.SetLightView(view);
+		effectPriorityBufferShadow.SetWorldLightDir(lightDir);
 	}
 	
+	D3DXVECTOR4 id;
+	id = D3DXVECTOR4(0, 0, 0, 0);
 
-	//{
-	//	D3DXMATRIXA16 trans, scale, matidentity;
-	//	D3DXMatrixIdentity(&matidentity);
-	//	D3DXMatrixTranslation(&trans, 0, -10, 0);
-	//	D3DXMatrixScaling(&scale, 5, 5, 5);
-	//	mapMesh.DrawMatrice(trans, scale, matidentity);
-	//}
+
 
 	for (int i = 2; i >= 0; i--)
 	{
-		pGameObject[i]->Draw();
+		id.x += 0.1f;
+		effectPriorityBufferShadow.SetVectorId(id);
+		
+
+		pGameObject[i]->Draw(0);
 	}
 
+	{
+
+		D3DXMATRIXA16 trans, scale, matidentity;
+		D3DXMatrixIdentity(&matidentity);
+		D3DXMatrixTranslation(&trans, 10, -10, 10);
+		D3DXMatrixScaling(&scale, 10, 10, 10);
+		D3DXVECTOR4 lightPos = -light.GetDir();
+		lightPos.w = lightPos.w*-1;
+		effectProjectedShadow.SetVectorLightPos(lightPos);
+		effectProjectedShadow.SetShadowMap(shadowTexture.ShadowTex());
+
+		id.x = 0.5f;
+		id.y = 0.5;
+		id.y = 0.5;
+		id.w = 1.0;
+		effectPriorityBufferShadow.SetVectorId(id);
+
+		mapMesh.DrawMatrice(trans, scale, matidentity, &effectPriorityBufferShadow,0);
+	}
 	
 
 	//通常の描画
@@ -274,18 +302,24 @@ void MainScene::Draw()
 	d3d.SetupRrojectionMatrix();
 	camera.SetViewMatrix();
 
+	id = D3DXVECTOR4(0, 0, 0, 0);
 
+
+	D3DXVECTOR4 color = D3DXVECTOR4(1, 1, 1, 1);
+	effectPriorityBufferShadow.SetVectorColor(color);
+
+	effectPriorityBufferShadow.SetTextureIdMap(shadowTexture.ShadowTex());
 
 	for (int i = 2; i >= 0; i--)
 	{
-		pGameObject[i]->Draw();
+		id.x += 0.1f;
+		effectPriorityBufferShadow.SetVectorId(id);
+
+		pGameObject[i]->Draw(1);
 	}
 
 	{
 		
-
-
-		//d3d.Test();
 		D3DXMATRIXA16 trans, scale, matidentity;
 		D3DXMatrixIdentity(&matidentity);
 		D3DXMatrixTranslation(&trans, 10,-10,10);
@@ -295,7 +329,13 @@ void MainScene::Draw()
 		effectProjectedShadow.SetVectorLightPos(lightPos);
 		effectProjectedShadow.SetShadowMap(shadowTexture.ShadowTex());
 
-		mapMesh.DrawMatrice(trans, scale, matidentity,&effectProjectedShadow);
+		id.x = 0.5f;
+		id.y = 0.5;
+		id.y = 0.5;
+		id.w = 1.0;
+		effectPriorityBufferShadow.SetVectorId(id);
+
+		mapMesh.DrawMatrice(trans, scale, matidentity,&effectPriorityBufferShadow,1);
 	}
 
 	d3d.SetRenderState(RENDER_DEFAULT);
