@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#pragma once
-
 #include "Effect.h"
 
 class EffectPhongAndNormal :public Effect
