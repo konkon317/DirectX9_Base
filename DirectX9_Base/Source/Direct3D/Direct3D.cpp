@@ -654,7 +654,7 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat)
 	
 }
 
-void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
+void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect, UINT pass)
 {
 	if (mesh.pMesh == nullptr)return;
 	if (pEffect == nullptr || pEffect->pEffect == nullptr) return;
@@ -678,7 +678,7 @@ void Direct3D::DrawMeshX(MeshX& mesh, D3DXMATRIXA16& worldMat, Effect* pEffect)
 		{		
 			
 			pEffect->Begine(effectParamSetter, &numPass, 0, i);
-			pEffect->BeginePass(effectParamSetter, 0);			
+			pEffect->BeginePass(effectParamSetter, pass);			
 								   //指定したテクニックの0番目のパスで
 								   //描画
 			mesh.pMesh->DrawSubset(i);

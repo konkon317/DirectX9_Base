@@ -41,7 +41,7 @@ public :
 
 	virtual void Update();
 
-	virtual void Draw();
+	virtual void Draw(UINT pass=0);
 
 	void DrawLine();
 

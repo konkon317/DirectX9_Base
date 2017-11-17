@@ -45,7 +45,7 @@ MeshX::~MeshX()
 	
 }
 
-void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate ,Effect*pEffect)
+void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, D3DXMATRIXA16& mat_rotate ,Effect*pEffect,  UINT pass)
 {
 	D3DXMATRIXA16 matWorld;
 
@@ -72,7 +72,7 @@ void MeshX::DrawMatrice(D3DXMATRIXA16& mat_transform, D3DXMATRIXA16& mat_scale, 
 	
 	if (pEffect)
 	{
-		Direct3D::GetInstance().DrawMeshX(*this, matWorld, pEffect);
+		Direct3D::GetInstance().DrawMeshX(*this, matWorld, pEffect,pass);
 	}
 	else
 	{

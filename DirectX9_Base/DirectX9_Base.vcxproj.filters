@@ -150,6 +150,9 @@
     <ClCompile Include="Source\Direct3D\Effect\ProjectedTextureShadow.cpp">
       <Filter>Source\Direct3D\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Direct3D\Effect\EffectPriorityBufferShadow.cpp">
+      <Filter>Source\Direct3D\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application\Application.h">
@@ -252,6 +255,9 @@
       <Filter>Source\Direct3D</Filter>
     </ClInclude>
     <ClInclude Include="Source\Direct3D\Effect\ProjectedTextureShadow.h">
+      <Filter>Source\Direct3D\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Effect\EffectPriorityBufferShadow.h">
       <Filter>Source\Direct3D\Effect</Filter>
     </ClInclude>
   </ItemGroup>

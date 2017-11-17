@@ -8,6 +8,8 @@ class EffectBasic;
 class EffectPhong;
 class EffectPhongAndNormal;
 class EffectProjectedTextureShadow;
+class EffectPriorityBufferShadow;
+
 class MeshX;
 
 class EffectParamSetter
@@ -47,6 +49,10 @@ public :
 	HRESULT OnBegin(EffectProjectedTextureShadow* pEffect, UINT*pPasses, DWORD Flag, unsigned int subsetNum);
 	HRESULT OnBeginPass(EffectProjectedTextureShadow* pEffect, UINT pass);
 
+	//EffectPriorityBufferShadow用
+	HRESULT OnSetTechnique(EffectPriorityBufferShadow* pEffect, int techniqueNum, D3DXHANDLE& tecHandle);
+	HRESULT OnBegin(EffectPriorityBufferShadow* pEffect, UINT*pPasses, DWORD Flag, unsigned int subsetNum);
+	HRESULT OnBeginPass(EffectPriorityBufferShadow* pEffect, UINT pass);
 
 	//EffectBasic用
 	HRESULT OnSetTechnique(EffectBasic* pEffect, int techniqueNum, D3DXHANDLE& tecHandle);

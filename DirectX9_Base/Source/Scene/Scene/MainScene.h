@@ -27,13 +27,12 @@
 #include "../../Direct3D//Effect/EffectPhong.h"
 #include "../../Direct3D//Effect/EffectPhongAndNormal.h"
 #include "../../Direct3D/Effect/ProjectedTextureShadow.h"
+#include "../../Direct3D/Effect/EffectPriorityBufferShadow.h"
 
 class MainScene :public Scene
 {
 private:
-
-
-
+	
 	Texture tex;
 	Sprite sp;
 
@@ -56,6 +55,7 @@ private:
 	EffectPhong effectCookTorrance;
 	EffectPhongAndNormal  effectPhongAndNormal;
 	EffectProjectedTextureShadow effectProjectedShadow;
+	EffectPriorityBufferShadow effectPriorityBufferShadow;
 
 	ShadowMapTexture shadowTexture;
 
