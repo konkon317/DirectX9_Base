@@ -36,12 +36,12 @@ void GameObject3D::Update()
 	obb.UpdateInfo(position, forwardVector, rightVector, upVector);
 }
 
-void GameObject3D::Draw()
+void GameObject3D::Draw(UINT pass)
 {
 
 	//DrawLine();
 
-	obb.DrawLine();
+	//obb.DrawLine();
 
 	if (pMesh != nullptr)
 	{
@@ -54,7 +54,7 @@ void GameObject3D::Draw()
 
 		if (Direct3D::GetInstance().UseMeshMaterial())
 		{
-			pMesh->DrawMatrice(mat_transform, mat_scale, mat_rotate, pEffect);
+			pMesh->DrawMatrice(mat_transform, mat_scale, mat_rotate, pEffect,pass);
 		}
 		else
 		{
