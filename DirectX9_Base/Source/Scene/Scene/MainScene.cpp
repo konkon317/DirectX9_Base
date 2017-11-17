@@ -282,7 +282,7 @@ void MainScene::Draw()
 
 		id.x = 0.5f;
 		id.y = 0.5;
-		id.y = 0.5;
+		id.z = 0.5;
 		id.w = 1.0;
 		effectPriorityBufferShadow.SetVectorId(id);
 
