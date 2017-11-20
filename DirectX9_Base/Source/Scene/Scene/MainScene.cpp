@@ -56,7 +56,7 @@ MainScene::MainScene()
 		{
 			pGameObject[i]->SetMesh(&testMesh);
 
-			pGameObject[i]->SetPosition(i * 0.5f, i * 0.1f+1, i*0.03f);
+			pGameObject[i]->SetPosition(i * 0.5f, i * 0.1f+1,2.0f+ i*0.03f);
 			pGameObject[i]->SetSize(0.1,0.1,0.1);
 			if (EffectPointerList.size() >= 0)
 			{

@@ -56,7 +56,7 @@ public :
 	void SetRotateYaw(float yawRad){ rotateYaw_Rad = yawRad; UpdateVectors(); };
 
 	//座標を設定
-	void SetPosition(float x, float y, float z){ position.x = x; position.y = y; position.z = 0; }
+	void SetPosition(float x, float y, float z){ position.x = x; position.y = y; position.z = z; }
 
 	void SetSize(float x, float y, float z) { size.x = x; size.y = y; size.z = z; }
 

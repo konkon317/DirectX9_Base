@@ -95,7 +95,7 @@ float4 PS_pass1 (VS_OUTPUT In):COLOR
 	float4 Color;
 	float4 decale=tex2D(DecaleMapSamp,In.DecaleTex);
 	float shadow =tex2Dproj(ShadowMapSamp,In.ShadowMapUV).x;
-	Color = In.Ambient + ((shadow* In.Depth.w<In.Depth.z-0.003f)? 0 : In.Diffuse);
+	Color = In.Ambient + ((shadow* In.Depth.w<In.Depth.z-0.03f)? 0 : In.Diffuse);
 	return Color*decale;
 }
 
