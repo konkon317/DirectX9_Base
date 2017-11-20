@@ -451,7 +451,7 @@ void Direct3D::DrawSprite(Sprite& sprite, LPDIRECT3DTEXTURE9 texture, bool isTur
 		},
 		//左下
 		{ -(float)sprite.width / 2, (float)sprite.height / 2, 0.0f, 1.0f,0x00ffffff,
-		(isTurn ?0 : 0), 1
+		(isTurn ?0 : 1), 1
 		},
 
 	};
