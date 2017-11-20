@@ -2,13 +2,13 @@ float4x4 matWorldViewProj;
 float4x4 matWorldViewProj_L;
 float4x4 matWorldViewProjTex;
 
-float vCol;
-float vLightDir;
+float4 vCol;
+float4 vLightDir;
 
-texture ShadowMap;
+texture IdMap;
 sampler ShadowMapSamp=sampler_state
 {
-	Texture =<ShadowMap>;
+	Texture =<IdMap>;
 	MinFilter = LINEAR;
 	MagFilter = LINEAR;
 	MipFilter = NONE;
@@ -47,7 +47,7 @@ VS_OUTPUT VS_pass0
 )
 {
 	VS_OUTPUT Out = (VS_OUTPUT)0;
-	
+Pos.w=1.0f;
 	float4 pos =mul (Pos,matWorldViewProj_L);
 	
 	Out.Pos=pos;
@@ -58,9 +58,12 @@ VS_OUTPUT VS_pass0
 
 float4 PS_pass0 (VS_OUTPUT In):COLOR
 {
-	float4 Out;
-	Out  = In.ShadowMapUV.z/In.ShadowMapUV.w;
+float a=( In.ShadowMapUV.z)/(In.ShadowMapUV.w);
+
+	float4 Out={a,a,a,1};
 	
+
+
 	return Out;	
 }
 

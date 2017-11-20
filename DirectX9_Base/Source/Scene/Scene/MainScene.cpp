@@ -24,7 +24,8 @@ MainScene::MainScene()
 	effectCookTorrance.CreateFromFile("Shader/CookTorrance.fx");
 	effectPhongAndNormal.CreateFromFile("Shader/bumpmap.fx");
 	effectProjectedShadow.CreateFromFile("Shader/ProjectedTextureShadow.fx");
-	effectPriorityBufferShadow.CreateFromFile("Shader/PriorityBufferShadow.fx");
+	effectPriorityBufferShadow.CreateFromFile("Shader/DepthBufferShadow.fx");
+	//effectPriorityBufferShadow.CreateFromFile("Shader/PriorityBufferShadow.fx");
 
 	EffectPointerList.push_back(&effectLambert);
 	EffectPointerList.push_back(&effectBasic);
@@ -74,7 +75,9 @@ MainScene::MainScene()
 
 	FbxUtil::ReadModelFromFbx(model, "FBX_FILES/cube4.fbx");
 
-	D3DXVECTOR4 lightDir(-30,- 20, -45, 1);
+	D3DXVECTOR4 lightDir(-60,- 100,-40, 1);
+	/*lightDir *= 0.5;
+	lightDir.w = 1;*/
 	light.Init(lightDir, 0);
 
 	model.Debug_TestShow();
@@ -231,7 +234,7 @@ void MainScene::Draw()
 
 	{
 		D3DXMATRIXA16 projmat;
-		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI *(3.0f/5.0f), 1, 0.1f, 1000.0f);
+		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI *(0.3), 1, 50.0f, 500.0f);
 		d3d.SetProjectionMatrix(projmat);
 		effectProjectedShadow.SetLightProj(projmat);
 

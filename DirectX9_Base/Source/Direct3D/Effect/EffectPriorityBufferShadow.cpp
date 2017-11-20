@@ -77,7 +77,12 @@ void EffectPriorityBufferShadow::SetMatrixWorldViewProj(D3DXMATRIXA16& mat)
 }
 void EffectPriorityBufferShadow::SetMatrixWorldViewProj_L(D3DXMATRIXA16& mat)
 {
-	Effect::SetMatrix(H_matWorldViewProj_L, mat);
+	
+	HRESULT h=Effect::SetMatrix(H_matWorldViewProj_L, mat);
+	if (FAILED(h)) 
+	{
+		int a = 0;
+	}
 }
 void EffectPriorityBufferShadow::SetMatrixWorldViewProjTex(D3DXMATRIXA16& mat)
 {
@@ -200,6 +205,8 @@ HRESULT EffectParamSetter::OnBeginPass(EffectPriorityBufferShadow* pEffect, UINT
 		return h;
 
 	h = d3d.GetTransForm(D3DTS_WORLD, worldMat);
+	if (FAILED(h))
+		return h;
 
 	//ワールド変換行列-----------------
 
@@ -216,6 +223,7 @@ HRESULT EffectParamSetter::OnBeginPass(EffectPriorityBufferShadow* pEffect, UINT
 				D3DXMatrixMultiply(&worldViewProj_L, &worldMat, &lightView);
 				D3DXMatrixMultiply(&worldViewProj_L, &worldViewProj_L, &lightProj);
 				pEffect->SetMatrixWorldViewProj_L(worldViewProj_L);
+	
 
 			}
 			break;
