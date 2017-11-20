@@ -98,7 +98,7 @@ void ShadowMapTexture::SetRenderTarget()
 
 		d3d.ChangeViewPort(viewport);
 
-		d3d.Clear(0L, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0L);
+		d3d.Clear(0L, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, /*0x00000000*/0xffffffff, 1.0f, 0L);
 			
 	}
 }

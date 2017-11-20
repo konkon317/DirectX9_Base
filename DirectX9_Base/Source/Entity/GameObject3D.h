@@ -11,6 +11,8 @@ protected:
 
 	//座標
 	D3DXVECTOR3 position;
+	//サイズ
+	D3DXVECTOR3 size;
 
 	//各方向のベクトル
 	D3DXVECTOR3 forwardVector;
@@ -54,7 +56,9 @@ public :
 	void SetRotateYaw(float yawRad){ rotateYaw_Rad = yawRad; UpdateVectors(); };
 
 	//座標を設定
-	void SetPosition(float x, float y, float z){ position.x = x; position.y = y; position.z = 0; }
+	void SetPosition(float x, float y, float z){ position.x = x; position.y = y; position.z = z; }
+
+	void SetSize(float x, float y, float z) { size.x = x; size.y = y; size.z = z; }
 
 	//回転度取得
 	float GetRotateYaw_rad(){ return rotateYaw_Rad; }
