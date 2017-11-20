@@ -5,7 +5,8 @@ GameObject3D::GameObject3D()
 	moveF=true;
 	rotateF=true;
 
-	position.x = position.y = position.z;
+	position.x = position.y = position.z=0;
+	size.x=size.y=size.z=1.0f;
 
 	rotateYaw_Rad = 0;
 
@@ -48,7 +49,7 @@ void GameObject3D::Draw(UINT pass)
 		D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
 
 		D3DXMatrixTranslation(&mat_transform,position.x,position.y,position.z);	//座標
-		D3DXMatrixScaling(&mat_scale, 1.0f, 1.0f, 1.0f);		//拡大
+		D3DXMatrixScaling(&mat_scale, size.x,size.y,size.z);		//拡大
 
 		D3DXMatrixRotationY(&mat_rotate, -rotateYaw_Rad + D3DX_PI);	//回転　（y軸中心）		
 
