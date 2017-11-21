@@ -75,7 +75,7 @@ MainScene::MainScene()
 
 	FbxUtil::ReadModelFromFbx(model, "FBX_FILES/cube4.fbx");
 
-	D3DXVECTOR4 lightDir(-60,- 100,-40, 1);
+	D3DXVECTOR4 lightDir(-120,- 60,-40, 1);
 	/*lightDir *= 0.5;
 	lightDir.w = 1;*/
 	light.Init(lightDir, 0);
@@ -234,7 +234,7 @@ void MainScene::Draw()
 
 	{
 		D3DXMATRIXA16 projmat;
-		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI *(0.3), 1, 50.0f, 500.0f);
+		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI *(0.3), 1, 80.0f, 200.0f);
 		d3d.SetProjectionMatrix(projmat);
 		effectProjectedShadow.SetLightProj(projmat);
 
