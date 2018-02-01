@@ -44,7 +44,7 @@ MainScene::MainScene()
 		int a = 0;
 	}
 
-	camera.SetEyePoint(0.0f, 1.5f, -5);
+	camera.SetEyePoint(0.0f, 5.0f, -5);
 	camera.SetRelLookAtPoint(0.0f, 0, 1.0f);
 
 	for (int i = 0; i < 3; i++)
@@ -56,8 +56,8 @@ MainScene::MainScene()
 		{
 			pGameObject[i]->SetMesh(&testMesh);
 
-			pGameObject[i]->SetPosition(i * 0.5f, i * 0.1f+1,2.0f+ i*0.03f);
-			pGameObject[i]->SetSize(0.1,0.1,0.1);
+			pGameObject[i]->SetPosition(i * 5.0f, i * 1.0f, i*0.3f);
+
 			if (EffectPointerList.size() >= 0)
 			{
 				Effect* pEffect = EffectPointerList[currentEffectIndex];
@@ -75,9 +75,11 @@ MainScene::MainScene()
 
 	FbxUtil::ReadModelFromFbx(model, "FBX_FILES/cube4.fbx");
 
-	D3DXVECTOR4 lightDir(-9,- 5,0, 1);
-	/*lightDir *= 5;
+	D3DXVECTOR4 lightDir(-2,- 1,-2, 1);
+	/*lightDir *= 0.5;
 	lightDir.w = 1;*/
+	lightDir *= 50;
+	lightDir.w = 1.0f;
 	light.Init(lightDir, 0);
 
 	model.Debug_TestShow();
@@ -196,7 +198,7 @@ void MainScene::Update()
 	{
 		r -= 1;
 	}
-	camera.Move(f*0.1, r*0.1);
+	camera.Move(f, r);
 
 	float x = static_cast<float>(di.MousePositionDelta().X());
 	x /= 800.0f / 3.5f;
@@ -234,7 +236,8 @@ void MainScene::Draw()
 
 	{
 		D3DXMATRIXA16 projmat;
-		D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI *(0.3), 1, 5.0f, 15.0f);
+		//D3DXMatrixPerspectiveFovLH(&projmat, D3DX_PI *(0.3), 1, 80.0f, 200.0f);
+		D3DXMatrixOrthoLH(&projmat, 150, 150, 50, 500);
 		d3d.SetProjectionMatrix(projmat);
 		effectProjectedShadow.SetLightProj(projmat);
 
@@ -245,7 +248,7 @@ void MainScene::Draw()
 	{
 		D3DXVECTOR4 lightDir = light.GetDir();
 		D3DXVECTOR3  eye = D3DXVECTOR3(-lightDir.x, -lightDir.y, -lightDir.z);
-		D3DXVECTOR3 lookat = D3DXVECTOR3(0, 0, 0);
+		D3DXVECTOR3 lookat = D3DXVECTOR3(0, -10, 0);
 		D3DXVECTOR3 up = D3DXVECTOR3(0, 1, 0);
 
 		D3DXMATRIXA16 view;
@@ -289,7 +292,7 @@ void MainScene::Draw()
 		id.w = 1.0;
 		effectPriorityBufferShadow.SetVectorId(id);
 
-		mapMesh.DrawMatrice(matidentity, matidentity, matidentity, &effectPriorityBufferShadow,0);
+		mapMesh.DrawMatrice(trans, scale, matidentity, &effectPriorityBufferShadow,0);
 	}
 	
 
@@ -338,7 +341,7 @@ void MainScene::Draw()
 		id.w = 1.0;
 		effectPriorityBufferShadow.SetVectorId(id);
 
-		mapMesh.DrawMatrice(matidentity, matidentity, matidentity,&effectPriorityBufferShadow,1);
+		mapMesh.DrawMatrice(trans, scale, matidentity,&effectPriorityBufferShadow,1);
 	}
 
 	d3d.SetRenderState(RENDER_DEFAULT);

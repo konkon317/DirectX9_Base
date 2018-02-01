@@ -58,13 +58,17 @@ Pos.w=1.0f;
 
 float4 PS_pass0 (VS_OUTPUT In):COLOR
 {
-float a=( In.ShadowMapUV.z)/(In.ShadowMapUV.w);
+	double z = In.ShadowMapUV.z;
+	double w = In.ShadowMapUV.w;
+	//float a=( In.ShadowMapUV.z)/(In.ShadowMapUV.w);
+	double a = z / w;
+	float2 b = a;
 
-	float4 Out={a,a,a,1};
+	float4 Out={b,1,1};
 	
 
 
-	return Out;	
+	return a;	
 }
 
 VS_OUTPUT VS 
@@ -94,8 +98,9 @@ float4 PS_pass1 (VS_OUTPUT In):COLOR
 {
 	float4 Color;
 	float4 decale=tex2D(DecaleMapSamp,In.DecaleTex);
-	float shadow =tex2Dproj(ShadowMapSamp,In.ShadowMapUV).x;
-	Color = In.Ambient + ((shadow* In.Depth.w<In.Depth.z-0.03f)? 0 : In.Diffuse);
+	double shadow =tex2Dproj(ShadowMapSamp,In.ShadowMapUV).xy;
+	shadow *= In.Depth.w;
+	Color = In.Ambient + ((shadow<In.Depth.z-0.0015)? 0 : In.Diffuse);
 	return Color*decale;
 }
 
