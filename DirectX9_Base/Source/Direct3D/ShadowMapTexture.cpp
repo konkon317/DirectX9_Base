@@ -10,7 +10,7 @@ HRESULT ShadowMapTexture::Create(IDirect3DDevice9* pDevice, ShadowMapTexture& te
 
 	HRESULT hr;
 	hr = pDevice->CreateTexture(texture.size, texture.size, 1
-		, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
+		, D3DUSAGE_RENDERTARGET, D3DFMT_R32F/*D3DFMT_A8R8G8B8*/,
 		D3DPOOL_DEFAULT, &texture.shadowTex, NULL);
 	if (FAILED(hr))return hr;
 
